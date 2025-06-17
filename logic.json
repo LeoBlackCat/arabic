@@ -1,0 +1,77 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "initial": true,
+      "ar": "صباح الخير",
+      "chat": "sabaa7 el khair",
+      "eng": "Good morning"
+    },
+    {
+      "id": 1,
+      "replyTo": "0",
+      "ar": "صباح النور ",
+      "chat": "sabaa7 el noor",
+      "eng": "Good morning"
+    },
+    {
+      "id": 2,
+      "initial": true,
+      "ar": "مسا الخير ",
+      "chat": "masa el khair",
+      "eng": "Good evening"
+    },
+    {
+      "id": 3,
+      "replyTo": "2",
+      "ar": "مسا النور ",
+      "chat": "masa el noor",
+      "eng": "Good evening"
+    },
+    {
+      "id": 4,
+      "initial": true,
+      "ar": "مرحبا الساع ",
+      "chat": "mar7aba essaa3",
+      "eng": "Hello"
+    },
+    {
+      "id": 5,
+      "replyTo": "4",
+      "ar": "مرحبا مليون ",
+      "chat": "mar7aba milyoon",
+      "eng": "Hello to you"
+    },
+    {
+      "id": 6,
+      "initial": true,
+      "ar": "مشكور ",
+      "chat": "mashkoor",
+      "eng": "Thank you",
+      "modifier": "m"
+    },
+    {
+      "id": 7,
+      "initial": true,
+      "ar": "مشكورة ",
+      "chat": "mashkoorah",
+      "eng": "Thank you",
+      "modifier": "f"
+    },
+    {
+      "id": 8,
+      "initial": true,
+      "ar": "شكرا",
+      "chat": "Shukran",
+      "eng": "Thanks",
+      "modifier": "pl"
+    },
+    {
+      "id": 9,
+      "replyTo": "6,7,8",
+      "ar": "عفواً",
+      "chat": "3afwan",
+      "eng": "You are welcome"
+    }
+  ]
+}
