@@ -1,11 +1,20 @@
 {
   "items": [
     {
+      "id": -2,
+      "initial": true,
+      "ar": "السلام عليكم",
+      "chat": "salam 3alikum",
+      "eng": "Peace be upon you"
+    },
+    {
+    },
+    {
       "id": 0,
       "initial": true,
-      "ar": "صباح الخير",
-      "chat": "sabaa7 el khair",
-      "eng": "Good morning (greeting)"
+      "ar": "وعليكم السلام",
+      "chat": "wo 3alikum essalam",
+      "eng": "and peace be upon you"
     },
     {
       "id": 1,
@@ -62,7 +71,7 @@
       "id": 8,
       "initial": true,
       "ar": "شكرا",
-      "chat": "Shukran",
+      "chat": "shukran",
       "eng": "Thanks",
       "modifier": "pl"
     },

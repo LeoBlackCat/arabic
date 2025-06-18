@@ -4,6 +4,7 @@ const say = require('say');
 const inquirer = require('inquirer');
 const { nodewhisper } = require('nodejs-whisper');
 const mic = require('mic');
+const { exec } = require('child_process');
 
 // Constants
 const MODEL_PATH = path.join(__dirname, 'models', 'ggml-base.bin');
@@ -37,6 +38,115 @@ try {
 }
 
 // --- Helper Functions ---
+
+// Record and transcribe speech
+const recordAndTranscribe = async () => {
+    return new Promise((resolve, reject) => {
+        const micInstance = mic({ 
+            rate: '16000', 
+            channels: '1', 
+            debug: false, 
+            exitOnSilence: 6 
+        });
+
+        const micInputStream = micInstance.getAudioStream();
+        const outputStream = fs.createWriteStream(TEMP_RAW);
+        micInputStream.pipe(outputStream);
+
+        console.log('Ready to record? Press Enter to start...');
+        
+        // Wait for user to press Enter before starting
+        process.stdin.resume();
+        process.stdin.once('data', () => {
+            console.log('Recording... Press Enter when done speaking.');
+            micInstance.start();
+
+            // Handle Enter key press to stop recording
+            process.stdin.once('data', async () => {
+                micInstance.stop();
+                process.stdin.pause();
+                console.log('\nProcessing...');
+
+                // Wait for file to be written
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Convert raw audio to WAV using SoX (same as main game)
+                await new Promise((resolve, reject) => {
+                    const cmd = `sox -t raw -r 16000 -b 16 -c 1 -L -e signed-integer ${TEMP_RAW} ${WHISPER_WAV}`;
+                    exec(cmd, (error) => {
+                        if (error) {
+                            console.log('Debug - sox error:', error.message);
+                            reject(error);
+                        } else {
+                            resolve();
+                        }
+                    });
+                });
+
+                console.log('Transcribing...');
+
+                try {
+                    // Try using raw Whisper CLI command to force Arabic
+                    const whisperCmd = `"${path.join(__dirname, 'node_modules/nodejs-whisper/cpp/whisper.cpp/build/bin/whisper-cli')}" -l ar -m "${MODEL_PATH}" -f "${WHISPER_WAV}"`;
+                    
+                    const result = await new Promise((resolve, reject) => {
+                        exec(whisperCmd, (error, stdout, stderr) => {
+                            if (error) {
+                                console.log('Debug - Whisper CLI error:', error.message);
+                                reject(error);
+                            } else {
+                                resolve({ stdout, stderr });
+                            }
+                        });
+                    });
+
+                    let transcription = '';
+                    if (result && result.stdout) {
+                        transcription = result.stdout;
+                    } else if (result && result.stderr) {
+                        transcription = result.stderr;
+                    } else if (result && typeof result === 'string') {
+                        transcription = result;
+                    } else if (result && result.text) {
+                        transcription = result.text;
+                    }
+                    
+                    // Parse the transcription properly
+                    let transcribedText = '';
+                    if (transcription) {
+                        const lines = transcription.trim().split('\n');
+                        
+                        for (const line of lines) {
+                            // Look for lines with timestamps and Arabic text
+                            if (line.includes('[') && line.includes(']') && /[\u0600-\u06FF]/.test(line)) {
+                                const textMatch = line.match(/\]\s*(.+?)\s*$/);
+                                if (textMatch && textMatch[1]) {
+                                    transcribedText = textMatch[1].replace(/[.،؟!]$/, '').trim();
+                                    break;
+                                }
+                            }
+                            // Also check for lines that just contain Arabic text without timestamps
+                            else if (/[\u0600-\u06FF]/.test(line)) {
+                                transcribedText = line.trim();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Clean up temporary files
+                    fs.unlinkSync(TEMP_RAW);
+                    fs.unlinkSync(WHISPER_WAV);
+     
+                    resolve(transcribedText);
+                } catch (error) {
+                    console.log('Debug - Error during transcription:', error.message);
+                    reject(error);
+                }
+            });
+        });
+    });
+};
+
 
 // Get a random item from the list
 const getRandomItem = () => {
@@ -200,8 +310,16 @@ const speakThePhraseGame = async () => {
         fs.copyFileSync(OUTPUT_WAV, WHISPER_WAV);
         console.log('\nTranscribing...');
         
+        // Debug: Check if WAV file exists and has content
+        console.log('Debug - WAV file exists:', fs.existsSync(WHISPER_WAV));
+        if (fs.existsSync(WHISPER_WAV)) {
+            console.log('Debug - WAV file size:', fs.statSync(WHISPER_WAV).size, 'bytes');
+        }
+        
         // Transcribe with debug logging
         try {
+            console.log('Debug - About to call nodewhisper...');
+            
             // Suppress Whisper's verbose output
             const originalStdout = process.stdout.write;
             const originalStderr = process.stderr.write;
@@ -213,12 +331,19 @@ const speakThePhraseGame = async () => {
             const result = await nodewhisper(WHISPER_WAV, {
                 modelName: 'base',
                 modelPath: MODEL_PATH,
-                language: 'ar'
+                language: 'ar',
+                task: 'transcribe',
+                verbose: false,
+                prompt: 'This is Arabic speech. Transcribe in Arabic script: واحد اثنان ثلاثة أربعة خمسة ستة سبعة ثمانية تسعة عشرة'
             });
             
             // Restore output
             process.stdout.write = originalStdout;
             process.stderr.write = originalStderr;
+            
+            console.log('Debug - nodewhisper completed, result:', result);
+            console.log('Debug - result type:', typeof result);
+            console.log('Debug - result keys:', result ? Object.keys(result) : 'null');
             
             console.clear();
             console.log('--- 🎯 Results ---');
@@ -243,6 +368,9 @@ const speakThePhraseGame = async () => {
                 throw new Error('No transcription output received');
             }
             
+            // Debug: Show what we received
+            console.log('Debug - Raw transcription output:', transcriptionOutput);
+            
             // Parse the transcription from stdout
             const lines = transcriptionOutput.trim().split('\n');
             let transcribedText = '';
@@ -259,7 +387,14 @@ const speakThePhraseGame = async () => {
                         break;
                     }
                 }
+                // Also check for lines that just contain Arabic text without timestamps
+                else if (/[\u0600-\u06FF]/.test(line)) {
+                    transcribedText = line.trim();
+                    break;
+                }
             }
+            
+            console.log('Debug - Extracted text:', transcribedText);
             
             if (!transcribedText) {
                 throw new Error('No Arabic text found in transcription');
@@ -390,6 +525,7 @@ const mainMenu = async () => {
                 { name: '2. Guess the Meaning', value: guessTheMeaningGame },
                 { name: '3. Speak the Phrase', value: speakThePhraseGame },
                 { name: '4. Phone Number Game', value: phoneNumberGame },
+                { name: '5. Number Pronunciation Game', value: numberPronunciationGame },
                 { name: 'Exit', value: 'exit' }
             ]
         }
@@ -444,6 +580,80 @@ const phoneNumberGame = async () => {
 
     console.log('\nThe correct number was:', correctNumbers.join(' '));
     promptForNextAction(phoneNumberGame);
+};
+
+// 5. Number Pronunciation Game
+const numberPronunciationGame = async () => {
+    console.clear();
+    console.log('--- 💹 Number Pronunciation Game ---');
+    console.log('Try to pronounce the number in Arabic!');
+
+    const number = generateRandomPhoneNumber(1)[0];
+    console.log('\nNumber to pronounce:', number.value);
+    console.log('(In Arabic it\'s written as:', number.ar, ')');
+    
+    try {
+        const transcription = await recordAndTranscribe();
+        console.log('--- 🎙️ Results ---');
+        console.log('\nYou said:', transcription);
+        console.log('Expected:', number.ar);
+        
+        // Clean up text for comparison
+        const cleanText = text => text
+            .replace(/[\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652]/g, '') // Remove diacritics
+            .replace(/\s+/g, ' ')      // Normalize whitespace
+            .replace(/[.،؟!]/g, '')    // Remove punctuation
+            .trim();
+        
+        const normalizedTranscription = cleanText(transcription);
+        const normalizedExpected = cleanText(number.ar);
+        
+        // Calculate similarity score using Levenshtein distance
+        const calculateSimilarity = (str1, str2) => {
+            const matrix = [];
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            const distance = matrix[str2.length][str1.length];
+            const maxLength = Math.max(str1.length, str2.length);
+            return maxLength === 0 ? 1 : (maxLength - distance) / maxLength;
+        };
+        
+        const similarity = calculateSimilarity(normalizedTranscription, normalizedExpected);
+        
+        if (normalizedTranscription === normalizedExpected) {
+            console.log('\n✅ Excellent! Your pronunciation was perfect!');
+        } else if (similarity >= 0.7) {
+            console.log('\n👍 Almost correct! Your pronunciation was very close.');
+            console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+        } else if (similarity >= 0.4) {
+            console.log('\n🤔 Close! Keep practicing to improve your pronunciation.');
+            console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+        } else {
+            console.log('\n❌ Try again! Focus on the pronunciation.');
+            console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+        }
+    } catch (error) {
+        console.error('Error during speech recognition:', error);
+    }
+
+    promptForNextAction(numberPronunciationGame);
 };
 
 // Start the application
