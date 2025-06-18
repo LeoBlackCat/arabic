@@ -11,7 +11,8 @@ const USE_WAV_FILES = true; // Set to false to use say.js instead
 const SOUNDS_DIR = path.join(__dirname, 'sounds');
 
 // Constants
-const MODEL_PATH = path.join(__dirname, 'models', 'ggml-base.bin');
+const MODEL_PATH = path.join(__dirname, 'models', 'ggml-medium.bin');
+const BASE_MODEL_PATH = path.join(__dirname, 'models', 'ggml-base.bin');
 const OUTPUT_WAV = path.join(__dirname, 'output.wav');
 const TEMP_RAW = path.join(__dirname, 'temp.raw');
 const WHISPER_WAV = path.join(__dirname, 'whisper_input.wav');
@@ -22,9 +23,19 @@ if (!fs.existsSync(modelsDir)) {
     fs.mkdirSync(modelsDir);
 }
 
-// Copy model if it's in root but not in models/
-if (fs.existsSync(path.join(__dirname, 'ggml-base.bin')) && !fs.existsSync(MODEL_PATH)) {
-    fs.copyFileSync(path.join(__dirname, 'ggml-base.bin'), MODEL_PATH);
+// Check which model to use
+let currentModelPath = MODEL_PATH;
+let currentModelName = 'medium';
+
+if (!fs.existsSync(MODEL_PATH)) {
+    console.log('Medium model not found, falling back to base model...');
+    currentModelPath = BASE_MODEL_PATH;
+    currentModelName = 'base';
+    
+    // Copy base model if it's in root but not in models/
+    if (fs.existsSync(path.join(__dirname, 'ggml-base.bin')) && !fs.existsSync(BASE_MODEL_PATH)) {
+        fs.copyFileSync(path.join(__dirname, 'ggml-base.bin'), BASE_MODEL_PATH);
+    }
 }
 
 // Load and parse the logic.json file
@@ -91,7 +102,7 @@ const recordAndTranscribe = async () => {
 
                 try {
                     // Try using raw Whisper CLI command to force Arabic
-                    const whisperCmd = `"${path.join(__dirname, 'node_modules/nodejs-whisper/cpp/whisper.cpp/build/bin/whisper-cli')}" -l ar -m "${MODEL_PATH}" -f "${WHISPER_WAV}"`;
+                    const whisperCmd = `"${path.join(__dirname, 'node_modules/nodejs-whisper/cpp/whisper.cpp/build/bin/whisper-cli')}" -l ar -m "${currentModelPath}" -f "${WHISPER_WAV}"`;
                     
                     const result = await new Promise((resolve, reject) => {
                         exec(whisperCmd, (error, stdout, stderr) => {
@@ -277,8 +288,8 @@ const speakThePhraseGame = async () => {
         currentPhrase = phrases[Math.floor(Math.random() * phrases.length)];
 
         // Verify model exists first
-        if (!fs.existsSync(MODEL_PATH)) {
-            console.error('Error: Whisper model not found at', MODEL_PATH);
+        if (!fs.existsSync(currentModelPath)) {
+            console.error('Error: Whisper model not found at', currentModelPath);
             console.log('Please download the model first.');
             return promptForNextAction(speakThePhraseGame);
         }
@@ -347,23 +358,34 @@ const speakThePhraseGame = async () => {
         console.log('\nTranscribing...');
         
         // Transcribe with debug logging
+        let result;
+        let originalStdout, originalStderr;
         try {
+            console.log(`Using model: ${currentModelName} at ${currentModelPath}`);
+            
             // Suppress Whisper's verbose output
-            const originalStdout = process.stdout.write;
-            const originalStderr = process.stderr.write;
+            originalStdout = process.stdout.write;
+            originalStderr = process.stderr.write;
             
             // Temporarily suppress all output during transcription
             process.stdout.write = () => true;
             process.stderr.write = () => true;
             
-            const result = await nodewhisper(WHISPER_WAV, {
-                modelName: 'base',
-                modelPath: MODEL_PATH,
-                language: 'ar',
-                task: 'transcribe',
-                verbose: false,
-                prompt: 'This is Arabic speech. Transcribe in Arabic script: واحد اثنان ثلاثة أربعة خمسة ستة سبعة ثمانية تسعة عشرة'
-            });
+            console.log('Starting transcription...');
+            result = await Promise.race([
+                nodewhisper(WHISPER_WAV, {
+                    modelName: currentModelName,
+                    modelPath: currentModelPath,
+                    language: 'ar',
+                    task: 'transcribe',
+                    verbose: false,
+                    prompt: 'This is Arabic speech. Transcribe in Arabic script: واحد اثنان ثلاثة أربعة خمسة ستة سبعة ثمانية تسعة عشرة'
+                }),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Transcription timeout after 30 seconds')), 30000)
+                )
+            ]);
+            console.log('Transcription completed');
             
             // Restore output
             process.stdout.write = originalStdout;
@@ -502,8 +524,71 @@ const speakThePhraseGame = async () => {
                 different();
             }
         } catch (error) {
-            console.log('❌ An error occurred');
-            console.log(error.message);
+            // Restore output first
+            process.stdout.write = originalStdout;
+            process.stderr.write = originalStderr;
+            
+            console.error('Transcription error:', error.message);
+            console.log('Trying fallback transcription method...');
+            
+            // Try fallback method using raw Whisper CLI
+            try {
+                const whisperCmd = `"${path.join(__dirname, 'node_modules/nodejs-whisper/cpp/whisper.cpp/build/bin/whisper-cli')}" -l ar -m "${currentModelPath}" -f "${WHISPER_WAV}"`;
+                
+                const fallbackResult = await new Promise((resolve, reject) => {
+                    exec(whisperCmd, (error, stdout, stderr) => {
+                        if (error) {
+                            console.log('Debug - Whisper CLI error:', error.message);
+                            reject(error);
+                        } else {
+                            resolve({ stdout, stderr });
+                        }
+                    });
+                });
+
+                let transcription = '';
+                if (fallbackResult && fallbackResult.stdout) {
+                    transcription = fallbackResult.stdout;
+                } else if (fallbackResult && fallbackResult.stderr) {
+                    transcription = fallbackResult.stderr;
+                } else if (fallbackResult && typeof fallbackResult === 'string') {
+                    transcription = fallbackResult;
+                } else if (fallbackResult && fallbackResult.text) {
+                    transcription = fallbackResult.text;
+                }
+                
+                // Parse the transcription properly
+                let transcribedText = '';
+                if (transcription) {
+                    const lines = transcription.trim().split('\n');
+                    
+                    for (const line of lines) {
+                        // Look for lines with timestamps and Arabic text
+                        if (line.includes('[') && line.includes(']') && /[\u0600-\u06FF]/.test(line)) {
+                            const textMatch = line.match(/\]\s*(.+?)\s*$/);
+                            if (textMatch && textMatch[1]) {
+                                transcribedText = textMatch[1].replace(/[.،؟!]$/, '').trim();
+                                break;
+                            }
+                        }
+                        // Also check for lines that just contain Arabic text without timestamps
+                        else if (/[\u0600-\u06FF]/.test(line)) {
+                            transcribedText = line.trim();
+                            break;
+                        }
+                    }
+                }
+                
+                if (!transcribedText) {
+                    throw new Error('No transcription output received from fallback method');
+                }
+                
+                // Continue with the transcribed text
+                result = { text: transcribedText };
+            } catch (fallbackError) {
+                console.error('Fallback transcription also failed:', fallbackError.message);
+                throw new Error('All transcription methods failed');
+            }
         }
         
     } finally {

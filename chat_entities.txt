@@ -1,0 +1,68 @@
+# Arabic Chat Entities from logic.json
+# Items (ID -2 to 48)
+
+salam 3alikum
+wo 3alikum essalam
+sabaa7 el khair
+sabaa7 el noor
+masa el khair
+masa el noor
+mar7aba essaa3
+mar7aba milyoon
+mashkoor
+mashkoorah
+shukran
+3afwan
+aasif
+aasfa
+essumoo7ah
+ma 3laih
+3ady
+esh7alek
+esh7alech
+esh7alkum
+el 7amdellah bkhair
+shakhbarek
+shakhbarech
+shakhbarkum
+el 7amdellah tamam
+ma3a essalama
+tsharrafna
+el sharaf lena
+ismee
+ana min
+ashteghel fee
+a3ref 3arabi eshway
+sakin fee
+saknah fee
+sayyaarah
+motar
+bent
+7ermah
+walad
+rayyaal
+kitaab
+sheqqah
+baab
+kirsee
+burj
+bait
+baizaat
+floos
+ism
+sheghel
+dawaam
+
+# Numerals (0-10)
+
+sifer
+wa7ed
+ethnain
+thalatha
+arb3a
+khamsa
+sitta
+sab3a
+themanya
+tes3a
+3ashra 
