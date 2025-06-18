@@ -64,6 +64,16 @@ const speak = (text) => {
     });
 };
 
+// Generate random phone number from numerals
+const generateRandomPhoneNumber = (length = 4) => {
+    const numbers = [];
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * logic.numerals.length);
+        numbers.push(logic.numerals[randomIndex]);
+    }
+    return numbers;
+};
+
 // --- Game Modes ---
 
 // 1. Flash Cards Game
@@ -376,28 +386,64 @@ const mainMenu = async () => {
             name: 'game',
             message: 'Choose a game:',
             choices: [
-                '🃏 Flash Cards',
-                '🤔 Guess the Meaning',
-                '🗣️ Speak the Phrase',
-                '❌ Exit'
+                { name: '1. Flash Cards', value: flashCardsGame },
+                { name: '2. Guess the Meaning', value: guessTheMeaningGame },
+                { name: '3. Speak the Phrase', value: speakThePhraseGame },
+                { name: '4. Phone Number Game', value: phoneNumberGame },
+                { name: 'Exit', value: 'exit' }
             ]
         }
     ]);
 
-    switch (game) {
-        case '🃏 Flash Cards':
-            flashCardsGame();
-            break;
-        case '🤔 Guess the Meaning':
-            guessTheMeaningGame();
-            break;
-        case '🗣️ Speak the Phrase':
-            speakThePhraseGame();
-            break;
-        case '❌ Exit':
-            console.log('\nGoodbye! 👋\n');
-            process.exit(0);
+    if (game === 'exit') {
+        console.log('\nGoodbye! 👋\n');
+        process.exit(0);
+    } else {
+        game();
     }
+};
+
+// 4. Phone Number Game
+const phoneNumberGame = async () => {
+    console.clear();
+    console.log('--- 📱 Phone Number Game ---');
+    console.log('Listen to the phone number and type it correctly!');
+
+    const phoneNumber = generateRandomPhoneNumber();
+    console.log('\nListening to the number...');
+
+    // Speak each digit with a small pause
+    for (const digit of phoneNumber) {
+        await new Promise(resolve => {
+            speak(digit.ar);
+            setTimeout(resolve, 1000);
+        });
+    }
+
+    const { answer } = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'answer',
+            message: 'Type the phone number (use spaces between digits):'
+        }
+    ]);
+
+    const userNumbers = answer.trim().split(' ');
+    const correctNumbers = phoneNumber.map(n => n.value.toString());
+
+    if (userNumbers.length !== correctNumbers.length) {
+        console.log('\n❌ Incorrect! The number had a different length.');
+    } else {
+        const isCorrect = userNumbers.every((num, idx) => num === correctNumbers[idx]);
+        if (isCorrect) {
+            console.log('\n✅ Correct! Well done!');
+        } else {
+            console.log('\n❌ Incorrect! Try again.');
+        }
+    }
+
+    console.log('\nThe correct number was:', correctNumbers.join(' '));
+    promptForNextAction(phoneNumberGame);
 };
 
 // Start the application
