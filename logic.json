@@ -86,6 +86,267 @@
       "ar": "عفواً",
       "chat": "3afwan",
       "eng": "You are welcome (response)"
+    },
+    {
+      "id": 10,
+      "initial": true,
+      "ar": "آسف",
+      "chat": "aasif",
+      "eng": "Sorry (m, major)",
+      "modifier": "m"
+    },
+    {
+      "id": 11,
+      "initial": true,
+      "ar": "آسفة",
+      "chat": "aasfa",
+      "eng": "Sorry (f, major)",
+      "modifier": "f"
+    },
+    {
+      "id": 12,
+      "initial": true,
+      "ar": "السموحة",
+      "chat": "essumoo7ah",
+      "eng": "Sorry (minor)"
+    },
+    {
+      "id": 13,
+      "replyTo": "10,11,12",
+      "ar": "ما عليه",
+      "chat": "ma 3laih",
+      "eng": "It's alright"
+    },
+    {
+      "id": 14,
+      "replyTo": "10,11,12",
+      "ar": "عادي",
+      "chat": "3ady",
+      "eng": "It's alright"
+    },
+    {
+      "id": 15,
+      "initial": true,
+      "ar": "اشحالك؟",
+      "chat": "esh7alek",
+      "eng": "How are you? (m)",
+      "modifier": "m"
+    },
+    {
+      "id": 16,
+      "initial": true,
+      "ar": "اشحالج؟",
+      "chat": "esh7alech",
+      "eng": "How are you? (f)",
+      "modifier": "f"
+    },
+    {
+      "id": 17,
+      "initial": true,
+      "ar": "اشحالكم؟",
+      "chat": "esh7alkum",
+      "eng": "How are you? (pl)",
+      "modifier": "pl"
+    },
+    {
+      "id": 18,
+      "replyTo": "15,16,17",
+      "ar": "الحمد لله بخير",
+      "chat": "el 7amdellah bkhair",
+      "eng": "Fine, thank God"
+    },
+    {
+      "id": 19,
+      "initial": true,
+      "ar": "شخبارك؟",
+      "chat": "shakhbarek",
+      "eng": "What's new? (m)",
+      "modifier": "m"
+    },
+    {
+      "id": 20,
+      "initial": true,
+      "ar": "شخبارج؟",
+      "chat": "shakhbarech",
+      "eng": "What's new? (f)",
+      "modifier": "f"
+    },
+    {
+      "id": 21,
+      "initial": true,
+      "ar": "شخباركم؟",
+      "chat": "shakhbarkum",
+      "eng": "What's new? (pl)",
+      "modifier": "pl"
+    },
+    {
+      "id": 22,
+      "replyTo": "19,20,21",
+      "ar": "الحمدلله تمام",
+      "chat": "el 7amdellah tamam",
+      "eng": "Thank God, I'm good"
+    },
+    {
+      "id": 23,
+      "initial": true,
+      "replyTo": "23",
+      "ar": "مع السلامة",
+      "chat": "ma3a essalama",
+      "eng": "Good bye"
+    },
+    {
+      "id": 24,
+      "initial": true,
+      "ar": "تشرفنا",
+      "chat": "tsharrafna",
+      "eng": "Nice to meet you"
+    },
+    {
+      "id": 25,
+      "replyTo": "24",
+      "ar": "الشرف لنا",
+      "chat": "el sharaf lena",
+      "eng": "Nice to meet you too"
+    },
+    {
+      "id": 26,
+      "ar": "اسمي",
+      "chat": "ismee",
+      "eng": "My name is"
+    },
+    {
+      "id": 27,
+      "ar": "أنا من",
+      "chat": "ana min",
+      "eng": "I'm from"
+    },
+    {
+      "id": 28,
+      "ar": "أشتغل في",
+      "chat": "ashteghel fee",
+      "eng": "I work at"
+    },
+    {
+      "id": 29,
+      "ar": "أعرف عربي اشوي",
+      "chat": "a3ref 3arabi eshway",
+      "eng": "I know a little bit of Arabic"
+    },
+    {
+      "id": 30,
+      "ar": "ساكن في",
+      "chat": "sakin fee",
+      "eng": "I live in (m)",
+      "modifier": "m"
+    },
+    {
+      "id": 31,
+      "ar": "ساكنة في",
+      "chat": "saknah fee",
+      "eng": "I live in (f)",
+      "modifier": "f"
+    },
+    {
+      "id": 32,
+      "ar": "سيارة",
+      "chat": "sayyaarah",
+      "eng": "Car"
+    },
+    {
+      "id": 33,
+      "ar": "موتر",
+      "chat": "motar",
+      "eng": "Car"
+    },
+    {
+      "id": 34,
+      "ar": "بنت",
+      "chat": "bent",
+      "eng": "Girl/Daughter"
+    },
+    {
+      "id": 35,
+      "ar": "حرمة",
+      "chat": "7ermah",
+      "eng": "Woman"
+    },
+    {
+      "id": 36,
+      "ar": "ولد",
+      "chat": "walad",
+      "eng": "Boy/Son"
+    },
+    {
+      "id": 37,
+      "ar": "ريال",
+      "chat": "rayyaal",
+      "eng": "Man"
+    },
+    {
+      "id": 38,
+      "ar": "كتاب",
+      "chat": "kitaab",
+      "eng": "Book"
+    },
+    {
+      "id": 39,
+      "ar": "شقة",
+      "chat": "sheqqah",
+      "eng": "Flat"
+    },
+    {
+      "id": 40,
+      "ar": "باب",
+      "chat": "baab",
+      "eng": "Door"
+    },
+    {
+      "id": 41,
+      "ar": "كرسي",
+      "chat": "kirsee",
+      "eng": "Chair"
+    },
+    {
+      "id": 42,
+      "ar": "برج",
+      "chat": "burj",
+      "eng": "Tower"
+    },
+    {
+      "id": 43,
+      "ar": "بيت",
+      "chat": "bait",
+      "eng": "House"
+    },
+    {
+      "id": 44,
+      "ar": "بيزات",
+      "chat": "baizaat",
+      "eng": "Money"
+    },
+    {
+      "id": 45,
+      "ar": "فلوس",
+      "chat": "floos",
+      "eng": "Money"
+    },
+    {
+      "id": 46,
+      "ar": "اسم",
+      "chat": "ism",
+      "eng": "Name"
+    },
+    {
+      "id": 47,
+      "ar": "شغل",
+      "chat": "sheghel",
+      "eng": "Work"
+    },
+    {
+      "id": 48,
+      "ar": "دوام",
+      "chat": "dawaam",
+      "eng": "Workplace"
     }
   ],
   "numerals":
