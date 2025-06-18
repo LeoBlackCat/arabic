@@ -6,6 +6,10 @@ const { nodewhisper } = require('nodejs-whisper');
 const mic = require('mic');
 const { exec } = require('child_process');
 
+// Configuration
+const USE_WAV_FILES = true; // Set to false to use say.js instead
+const SOUNDS_DIR = path.join(__dirname, 'sounds');
+
 // Constants
 const MODEL_PATH = path.join(__dirname, 'models', 'ggml-base.bin');
 const OUTPUT_WAV = path.join(__dirname, 'output.wav');
@@ -165,6 +169,41 @@ const shuffleArray = (array) => {
 
 // Pronounce text in Arabic
 const speak = (text) => {
+    if (USE_WAV_FILES) {
+        // Try to find a matching .wav file in the sounds directory
+        const wavFile = path.join(SOUNDS_DIR, `${text}.wav`);
+        if (fs.existsSync(wavFile)) {
+            // Play the .wav file using system audio player
+            const playerCmd = process.platform === 'darwin' ? 'afplay' : 
+                             process.platform === 'win32' ? 'start' : 'aplay';
+            
+            if (process.platform === 'win32') {
+                exec(`start "" "${wavFile}"`, (error) => {
+                    if (error) {
+                        console.log('Error playing .wav file, falling back to say.js');
+                        fallbackToSay(text);
+                    }
+                });
+            } else {
+                exec(`${playerCmd} "${wavFile}"`, (error) => {
+                    if (error) {
+                        console.log('Error playing .wav file, falling back to say.js');
+                        fallbackToSay(text);
+                    }
+                });
+            }
+        } else {
+            // No .wav file found, fall back to say.js
+            fallbackToSay(text);
+        }
+    } else {
+        // Use say.js directly
+        fallbackToSay(text);
+    }
+};
+
+// Fallback function using say.js
+const fallbackToSay = (text) => {
     say.speak(text, 'Majed', 1.0, (err) => {
         if (err) {
             console.error('Error trying to use Arabic voice:', err);
@@ -192,7 +231,7 @@ const flashCardsGame = async () => {
     console.log('--- 🃏 Flash Cards ---');
     const item = getRandomItem();
     console.log(`\nArabic: ${item.ar} (${item.chat})`);
-    speak(item.ar);
+    speak(USE_WAV_FILES ? item.chat : item.ar);
 
     await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to reveal the meaning...' }]);
     console.log(`English: ${item.eng}\n`);
@@ -205,7 +244,7 @@ const guessTheMeaningGame = async () => {
     console.clear();
     console.log('--- 🤔 Guess the Meaning ---');
     const correctAnswer = getRandomItem();
-    speak(correctAnswer.ar);
+    speak(USE_WAV_FILES ? correctAnswer.chat : correctAnswer.ar);
     console.log(`\nListen...`);
 
     const incorrectOptions = [];
@@ -248,7 +287,6 @@ const speakThePhraseGame = async () => {
         console.log('--- 🗣️ Speak the Phrase ---');
         console.log(`Arabic:          ${currentPhrase.ar}`);
         console.log(`English:         ${currentPhrase.eng}`);
-        console.log(`Transliteration: ${currentPhrase.chat}`);
         console.log();
         console.log('Press Enter to start recording, then Enter again to stop.');
         
@@ -271,9 +309,7 @@ const speakThePhraseGame = async () => {
 
         // Start recording
         micInstance.start();
-        console.clear();
         console.log('Recording... Press Enter when done.');
-        console.log(`Say this phrase: ${currentPhrase.ar}`);
 
         await new Promise(resolve => {
             process.stdin.resume();
@@ -310,16 +346,8 @@ const speakThePhraseGame = async () => {
         fs.copyFileSync(OUTPUT_WAV, WHISPER_WAV);
         console.log('\nTranscribing...');
         
-        // Debug: Check if WAV file exists and has content
-        console.log('Debug - WAV file exists:', fs.existsSync(WHISPER_WAV));
-        if (fs.existsSync(WHISPER_WAV)) {
-            console.log('Debug - WAV file size:', fs.statSync(WHISPER_WAV).size, 'bytes');
-        }
-        
         // Transcribe with debug logging
         try {
-            console.log('Debug - About to call nodewhisper...');
-            
             // Suppress Whisper's verbose output
             const originalStdout = process.stdout.write;
             const originalStderr = process.stderr.write;
@@ -341,11 +369,6 @@ const speakThePhraseGame = async () => {
             process.stdout.write = originalStdout;
             process.stderr.write = originalStderr;
             
-            console.log('Debug - nodewhisper completed, result:', result);
-            console.log('Debug - result type:', typeof result);
-            console.log('Debug - result keys:', result ? Object.keys(result) : 'null');
-            
-            console.clear();
             console.log('--- 🎯 Results ---');
             
             // Try different ways to get the transcription
@@ -413,19 +436,22 @@ const speakThePhraseGame = async () => {
             const normalizedTranscription = cleanText(transcribedText);
             const normalizedExpected = cleanText(expected);
             
-            console.log(`Expected: ${expected}`);
-            console.log(`You said: ${transcribedText}`);
-            console.log();
+            const different = async () => {
+                console.log(`Expected: ${expected}`);
+                console.log(`You said: ${transcribedText}`);
+                console.log();
+                
+                // Play both phrases for comparison
+                console.log('Playing expected pronunciation...');
+                speak(expected);
+                
+                // Wait a moment before playing the user's pronunciation
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                console.log('Playing your pronunciation...');
+                speak(transcribedText);
+            }
             
-            // Play both phrases for comparison
-            console.log('Playing expected pronunciation...');
-            speak(expected);
-            
-            // Wait a moment before playing the user's pronunciation
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            console.log('Playing your pronunciation...');
-            speak(transcribedText);
             
             // Wait a moment before showing results
             await new Promise(resolve => setTimeout(resolve, 2000));
@@ -461,15 +487,19 @@ const speakThePhraseGame = async () => {
             
             if (normalizedTranscription === normalizedExpected) {
                 console.log('✅ Excellent! Your pronunciation was perfect!');
+                speak(expected);
             } else if (similarity >= 0.7) {
                 console.log('👍 Almost correct! Your pronunciation was very close.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+                different();
             } else if (similarity >= 0.4) {
                 console.log('🤔 Close! Keep practicing to improve your pronunciation.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+                different();
             } else {
                 console.log('❌ Try again! Focus on the pronunciation.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+                different();
             }
         } catch (error) {
             console.clear();
@@ -551,7 +581,7 @@ const phoneNumberGame = async () => {
     // Speak each digit with a small pause
     for (const digit of phoneNumber) {
         await new Promise(resolve => {
-            speak(digit.ar);
+            speak(USE_WAV_FILES ? digit.chat : digit.ar);
             setTimeout(resolve, 1000);
         });
     }
@@ -591,13 +621,30 @@ const numberPronunciationGame = async () => {
     const number = generateRandomPhoneNumber(1)[0];
     console.log('\nNumber to pronounce:', number.value);
     console.log('(In Arabic it\'s written as:', number.ar, ')');
+    //console.log('(Transliteration:', number.chat, ')');
     
     try {
         const transcription = await recordAndTranscribe();
         console.log('--- 🎙️ Results ---');
-        console.log('\nYou said:', transcription);
-        console.log('Expected:', number.ar);
+        //console.log('\nYou said:', transcription);
+        //console.log('Expected:', number.ar);
         
+        const different = async () => {
+            console.log(`Expected: ${number.ar}`);
+            console.log(`You said: ${transcription}`);
+            console.log();
+            
+            // Play both phrases for comparison
+            console.log('Playing expected pronunciation...');
+            speak(number.ar);
+            
+            // Wait a moment before playing the user's pronunciation
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            console.log('Playing your pronunciation...');
+            speak(transcription);
+        }
+
         // Clean up text for comparison
         const cleanText = text => text
             .replace(/[\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652]/g, '') // Remove diacritics
@@ -639,15 +686,19 @@ const numberPronunciationGame = async () => {
         
         if (normalizedTranscription === normalizedExpected) {
             console.log('\n✅ Excellent! Your pronunciation was perfect!');
+            speak(number.ar);
         } else if (similarity >= 0.7) {
             console.log('\n👍 Almost correct! Your pronunciation was very close.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+            different();
         } else if (similarity >= 0.4) {
             console.log('\n🤔 Close! Keep practicing to improve your pronunciation.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+            different();
         } else {
             console.log('\n❌ Try again! Focus on the pronunciation.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
+            different();
         }
     } catch (error) {
         console.error('Error during speech recognition:', error);
