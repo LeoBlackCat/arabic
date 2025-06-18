@@ -5,42 +5,42 @@
       "initial": true,
       "ar": "صباح الخير",
       "chat": "sabaa7 el khair",
-      "eng": "Good morning"
+      "eng": "Good morning (greeting)"
     },
     {
       "id": 1,
       "replyTo": "0",
       "ar": "صباح النور ",
       "chat": "sabaa7 el noor",
-      "eng": "Good morning"
+      "eng": "Good morning (response)"
     },
     {
       "id": 2,
       "initial": true,
       "ar": "مسا الخير ",
       "chat": "masa el khair",
-      "eng": "Good evening"
+      "eng": "Good evening (greeting)"
     },
     {
       "id": 3,
       "replyTo": "2",
       "ar": "مسا النور ",
       "chat": "masa el noor",
-      "eng": "Good evening"
+      "eng": "Good evening (response)"
     },
     {
       "id": 4,
       "initial": true,
       "ar": "مرحبا الساع ",
       "chat": "mar7aba essaa3",
-      "eng": "Hello"
+      "eng": "Hello (greeting)"
     },
     {
       "id": 5,
       "replyTo": "4",
       "ar": "مرحبا مليون ",
       "chat": "mar7aba milyoon",
-      "eng": "Hello to you"
+      "eng": "Hello to you (response)"
     },
     {
       "id": 6,
@@ -71,7 +71,65 @@
       "replyTo": "6,7,8",
       "ar": "عفواً",
       "chat": "3afwan",
-      "eng": "You are welcome"
+      "eng": "You are welcome (response)"
+    }
+  ],
+  "numerals":
+  [
+    {
+      "value": 0,
+      "ar": "صفر",
+      "chat": "sifer"
+    },
+    {
+      "value": 1,
+      "ar": "واحد",
+      "chat": "wa7ed"
+    },
+    {
+      "value": 2,
+      "ar": "اثنين",
+      "chat": "ethnain"
+    },
+    {
+      "value": 3,
+      "ar": "ثلاثة",
+      "chat": "thalatha"
+    },
+    {
+      "value": 4,
+      "ar": "أربعة",
+      "chat": "arb3a"
+    },
+    {
+      "value": 5,
+      "ar": "خمسة",
+      "chat": "khamsa"
+    },
+    {
+      "value": 6,
+      "ar": "ستة",
+      "chat": "sitta"
+    },
+    {
+      "value": 7,
+      "ar": "سبعة",
+      "chat": "sab3a"
+    },
+    {
+      "value": 8,
+      "ar": "ثمانية",
+      "chat": "themanya"
+    },
+    {
+      "value": 9,
+      "ar": "تسعة",
+      "chat": "tes3a"
+    },
+    {
+      "value": 10,
+      "ar": "عشرة",
+      "chat": "3ashra"
     }
   ]
 }

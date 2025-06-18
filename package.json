@@ -11,6 +11,9 @@
   "description": "",
   "dependencies": {
     "say": "^0.16.0",
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.4",
+    "nodejs-whisper": "^0.2.9",
+    "mic": "^2.1.2"
+    
   }
 }
