@@ -502,7 +502,6 @@ const speakThePhraseGame = async () => {
                 different();
             }
         } catch (error) {
-            console.clear();
             console.log('❌ An error occurred');
             console.log(error.message);
         }
@@ -556,6 +555,7 @@ const mainMenu = async () => {
                 { name: '3. Speak the Phrase', value: speakThePhraseGame },
                 { name: '4. Phone Number Game', value: phoneNumberGame },
                 { name: '5. Number Pronunciation Game', value: numberPronunciationGame },
+                { name: '6. Listen & Respond Game', value: listenAndRespondGame },
                 { name: 'Exit', value: 'exit' }
             ]
         }
@@ -705,6 +705,150 @@ const numberPronunciationGame = async () => {
     }
 
     promptForNextAction(numberPronunciationGame);
+};
+
+// 6. Listen & Respond Game
+const listenAndRespondGame = async () => {
+    console.clear();
+    console.log('--- 🎧 Listen & Respond Game ---');
+    console.log('Listen to a phrase and respond with the appropriate reply!');
+    
+    // Get all initial phrases (those that can be replied to)
+    const initialPhrases = logic.items.filter(item => item.initial);
+    if (initialPhrases.length === 0) {
+        console.log('No initial phrases found in the data.');
+        return promptForNextAction(listenAndRespondGame);
+    }
+    
+    // Get all phrases that have replyTo (possible responses)
+    const responsePhrases = logic.items.filter(item => item.replyTo);
+    if (responsePhrases.length === 0) {
+        console.log('No response phrases found in the data.');
+        return promptForNextAction(listenAndRespondGame);
+    }
+    
+    // Select a random initial phrase
+    const initialPhrase = initialPhrases[Math.floor(Math.random() * initialPhrases.length)];
+    
+    console.log('\nListen to this phrase:');
+    console.log(`Arabic: ${initialPhrase.ar}`);
+    console.log(`English: ${initialPhrase.eng}`);
+    //console.log(`Transliteration: ${initialPhrase.chat}`);
+    
+    // Play the initial phrase
+    speak(USE_WAV_FILES ? initialPhrase.chat : initialPhrase.ar);
+    
+    try {
+        const transcription = await recordAndTranscribe();
+        console.log('--- 🎯 Results ---');
+        
+        // Find all valid responses for this initial phrase
+        const validResponses = responsePhrases.filter(response => {
+            if (!response.replyTo) return false;
+            
+            // Handle both single ID and multiple IDs (comma-separated)
+            const replyToIds = response.replyTo.toString().split(',').map(id => id.trim());
+            return replyToIds.includes(initialPhrase.id.toString());
+        });
+        
+        if (validResponses.length === 0) {
+            console.log('No valid responses found for this phrase.');
+            console.log('You said:', transcription);
+            return promptForNextAction(listenAndRespondGame);
+        }
+        
+        // Clean up text for comparison
+        const cleanText = text => text
+            .replace(/[\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652]/g, '') // Remove diacritics
+            .replace(/\s+/g, ' ')      // Normalize whitespace
+            .replace(/[.،؟!]/g, '')    // Remove punctuation
+            .trim();
+        
+        const normalizedTranscription = cleanText(transcription);
+        
+        // Check if the transcription matches any valid response
+        let bestMatch = null;
+        let bestSimilarity = 0;
+        
+        for (const response of validResponses) {
+            const normalizedResponse = cleanText(response.ar);
+            const similarity = calculateSimilarity(normalizedTranscription, normalizedResponse);
+            
+            if (similarity > bestSimilarity) {
+                bestSimilarity = similarity;
+                bestMatch = response;
+            }
+        }
+        
+        console.log(`You said: ${transcription}`);
+        console.log();
+        
+        // Show all valid responses
+        console.log('Valid responses were:');
+        validResponses.forEach((response, index) => {
+            console.log(`${index + 1}. ${response.ar} (${response.eng})`);
+        });
+        console.log();
+        
+        if (bestMatch && bestSimilarity >= 0.7) {
+            console.log(`✅ Excellent! Your response was correct!`);
+            console.log(`You matched: ${bestMatch.ar} (${bestMatch.eng})`);
+            console.log(`Similarity: ${Math.round(bestSimilarity * 100)}%`);
+            
+            // Play the correct response
+            speak(USE_WAV_FILES ? bestMatch.chat : bestMatch.ar);
+        } else if (bestMatch && bestSimilarity >= 0.4) {
+            console.log(`👍 Close! Your response was almost correct.`);
+            console.log(`Best match: ${bestMatch.ar} (${bestMatch.eng})`);
+            console.log(`Similarity: ${Math.round(bestSimilarity * 100)}%`);
+            
+            // Play the best match
+            speak(USE_WAV_FILES ? bestMatch.chat : bestMatch.ar);
+        } else {
+            console.log(`❌ Try again! Focus on the pronunciation.`);
+            if (bestMatch) {
+                console.log(`Best match: ${bestMatch.ar} (${bestMatch.eng})`);
+                console.log(`Similarity: ${Math.round(bestSimilarity * 100)}%`);
+            }
+            
+            // Play one of the correct responses
+            const correctResponse = validResponses[0];
+            speak(USE_WAV_FILES ? correctResponse.chat : correctResponse.ar);
+        }
+        
+    } catch (error) {
+        console.log('❌ An error occurred during transcription');
+        console.log(error.message);
+    }
+    
+    promptForNextAction(listenAndRespondGame);
+};
+
+// Helper function to calculate similarity (reuse from other games)
+const calculateSimilarity = (str1, str2) => {
+    const matrix = [];
+    for (let i = 0; i <= str2.length; i++) {
+        matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+        matrix[0][j] = j;
+    }
+    for (let i = 1; i <= str2.length; i++) {
+        for (let j = 1; j <= str1.length; j++) {
+            if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
+        }
+    }
+    const distance = matrix[str2.length][str1.length];
+    const maxLength = Math.max(str1.length, str2.length);
+    return maxLength === 0 ? 1 : (maxLength - distance) / maxLength;
 };
 
 // Start the application
