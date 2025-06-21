@@ -38,9 +38,23 @@ if (!fs.existsSync(MODEL_PATH)) {
     }
 }
 
+// --- Helper Functions ---
+
+// Shuffle an array
+const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+};
+
 // Load and parse the logic.json file
 let logic;
 let currentPhrase;
+let phraseQueue = [];
+let currentSetStats = { total: 0, correct: 0 };
 try {
     const logicContent = fs.readFileSync(path.join(__dirname, 'logic.json'), 'utf8');
     logic = JSON.parse(logicContent);
@@ -52,7 +66,17 @@ try {
     process.exit(1);
 }
 
-// --- Helper Functions ---
+// add logic.numerals to items (initial = false, replyTo = nil)
+logic.numerals.forEach((numeral) => {
+    logic.items.push({
+        ar: numeral.ar,
+        chat: numeral.chat,
+        eng: String(numeral.value)
+    });
+});
+
+// shuffle logic.items
+logic.items = shuffleArray(logic.items);
 
 // Record and transcribe speech
 const recordAndTranscribe = async () => {
@@ -98,7 +122,7 @@ const recordAndTranscribe = async () => {
                     });
                 });
 
-                console.log('Transcribing...');
+                console.log('Transcribing (using Whisper CLI)...');
 
                 try {
                     // Try using raw Whisper CLI command to force Arabic
@@ -167,15 +191,6 @@ const recordAndTranscribe = async () => {
 const getRandomItem = () => {
     const items = logic.items;
     return items[Math.floor(Math.random() * items.length)];
-};
-
-// Shuffle an array
-const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
 };
 
 // Pronounce text in Arabic
@@ -280,12 +295,46 @@ const guessTheMeaningGame = async () => {
     promptForNextAction(guessTheMeaningGame);
 };
 
+// Get next phrase from the queue, reshuffle if needed
+const getNextPhrase = () => {
+    // If queue is empty, refill it with shuffled phrases
+    if (phraseQueue.length === 0) {
+        // Show stats from previous set if it's not the first run
+        if (currentSetStats.total > 0) {
+            const percentage = Math.round((currentSetStats.correct / currentSetStats.total) * 100);
+            console.log('\n📊 Set completed! Stats:');
+            console.log(`Correct answers: ${currentSetStats.correct}/${currentSetStats.total} (${percentage}%)\n`);
+        }
+
+        // Reset stats for new set
+        currentSetStats = { total: 0, correct: 0 };
+
+        const phrases = logic.items;
+        phraseQueue = [...phrases]; // Create a copy of the array
+        
+        // Shuffle the queue
+        for (let i = phraseQueue.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [phraseQueue[i], phraseQueue[j]] = [phraseQueue[j], phraseQueue[i]];
+        }
+        
+        console.log(`🔄 Starting a new shuffled set...\n`);
+    }
+    
+    // Return and remove the first phrase from the queue
+    return phraseQueue.shift();
+};
+
 // 3. Speak the Phrase Game
 const speakThePhraseGame = async () => {
     try {
-        // Select a random phrase for practice
-        const phrases = logic.items.filter(p => p.initial);
-        currentPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+        // Get next phrase from our queue
+        currentPhrase = getNextPhrase();
+        
+        // Show progress
+        const totalPhrases = logic.items.length;
+        const remaining = phraseQueue.length;
+        console.log(`Progress: ${totalPhrases - remaining}/${totalPhrases} phrases in current set`);
 
         // Verify model exists first
         if (!fs.existsSync(currentModelPath)) {
@@ -294,156 +343,26 @@ const speakThePhraseGame = async () => {
             return promptForNextAction(speakThePhraseGame);
         }
 
-        console.clear();
         console.log('--- 🗣️ Speak the Phrase ---');
         console.log(`Arabic:          ${currentPhrase.ar}`);
         console.log(`English:         ${currentPhrase.eng}`);
         console.log();
-        console.log('Press Enter to start recording, then Enter again to stop.');
+        // console.log('Press Enter to start recording, then Enter again to stop.');
         
-        await inquirer.prompt([{ 
-            type: 'input', 
-            name: 'ready', 
-            message: 'Ready to record? Press Enter to start...'
-        }]);
+        // await inquirer.prompt([{ 
+        //     type: 'input', 
+        //     name: 'ready', 
+        //     message: 'Ready to record? Press Enter to start...'
+        // }]);
 
         // Clean up any existing files silently
         [TEMP_RAW, OUTPUT_WAV, WHISPER_WAV].forEach(file => {
             if (fs.existsSync(file)) fs.unlinkSync(file);
         });
 
-        // Set up microphone
-        const micInstance = mic({ rate: '16000', channels: '1', debug: false, exitOnSilence: 6 });
-        const micInputStream = micInstance.getAudioStream();
-        const outputStream = fs.createWriteStream(TEMP_RAW);
-        micInputStream.pipe(outputStream);
-
-        // Start recording
-        micInstance.start();
-        console.log('Recording... Press Enter when done.');
-
-        await new Promise(resolve => {
-            process.stdin.resume();
-            process.stdin.once('data', () => {
-                micInstance.stop();
-                process.stdin.pause();
-                resolve();
-            });
-        });
-
-        // Wait for file to be written
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Verify recording
-        if (!fs.existsSync(TEMP_RAW) || fs.statSync(TEMP_RAW).size === 0) {
-            throw new Error('No audio was recorded');
-        }
-
-        // Convert to WAV
-        const { exec } = require('child_process');
-        await new Promise((resolve, reject) => {
-            exec(`sox -t raw -r 16000 -b 16 -c 1 -L -e signed-integer ${TEMP_RAW} ${OUTPUT_WAV}`, (error) => {
-                if (error) reject(new Error('Failed to convert audio'));
-                else resolve();
-            });
-        });
-
-        // Verify WAV file
-        if (!fs.existsSync(OUTPUT_WAV) || fs.statSync(OUTPUT_WAV).size === 0) {
-            throw new Error('Failed to create WAV file');
-        }
-
-        // Prepare for transcription
-        fs.copyFileSync(OUTPUT_WAV, WHISPER_WAV);
-        console.log('\nTranscribing...');
-        
-        // Transcribe with debug logging
-        let result;
-        let originalStdout, originalStderr;
         try {
-            console.log(`Using model: ${currentModelName} at ${currentModelPath}`);
-            
-            // Suppress Whisper's verbose output
-            originalStdout = process.stdout.write;
-            originalStderr = process.stderr.write;
-            
-            // Temporarily suppress all output during transcription
-            process.stdout.write = () => true;
-            process.stderr.write = () => true;
-            
-            console.log('Starting transcription...');
-            result = await Promise.race([
-                nodewhisper(WHISPER_WAV, {
-                    modelName: currentModelName,
-                    modelPath: currentModelPath,
-                    language: 'ar',
-                    task: 'transcribe',
-                    verbose: false,
-                    prompt: 'This is Arabic speech. Transcribe in Arabic script: واحد اثنان ثلاثة أربعة خمسة ستة سبعة ثمانية تسعة عشرة'
-                }),
-                new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Transcription timeout after 30 seconds')), 30000)
-                )
-            ]);
-            console.log('Transcription completed');
-            
-            // Restore output
-            process.stdout.write = originalStdout;
-            process.stderr.write = originalStderr;
-            
+            const transcribedText = await recordAndTranscribe();
             console.log('--- 🎯 Results ---');
-            
-            // Try different ways to get the transcription
-            let transcriptionOutput = '';
-            
-            if (result && result.stdout) {
-                transcriptionOutput = result.stdout;
-            } else if (result && result.stderr) {
-                // Sometimes the transcription is in stderr
-                transcriptionOutput = result.stderr;
-            } else if (result && typeof result === 'string') {
-                // Sometimes the result is just a string
-                transcriptionOutput = result;
-            } else if (result && result.text) {
-                // Sometimes it's in a text property
-                transcriptionOutput = result.text;
-            }
-            
-            if (!transcriptionOutput) {
-                throw new Error('No transcription output received');
-            }
-            
-            // Debug: Show what we received
-            console.log('Debug - Raw transcription output:', transcriptionOutput);
-            
-            // Parse the transcription from stdout
-            const lines = transcriptionOutput.trim().split('\n');
-            let transcribedText = '';
-            
-            for (const line of lines) {
-                // Look for lines with timestamps and Arabic text
-                // Handle both formats: [00:00:00.000] text and [00:00:00.000 --> 00:00:02.000] text
-                if (line.includes('[') && line.includes(']') && /[\u0600-\u06FF]/.test(line)) {
-                    // Match text after the timestamp(s) - handle both single and range timestamps
-                    // This regex looks for text after the closing bracket, handling any whitespace
-                    const textMatch = line.match(/\]\s*(.+?)\s*$/);
-                    if (textMatch && textMatch[1]) {
-                        transcribedText = textMatch[1].replace(/[.،؟!]$/, '').trim();
-                        break;
-                    }
-                }
-                // Also check for lines that just contain Arabic text without timestamps
-                else if (/[\u0600-\u06FF]/.test(line)) {
-                    transcribedText = line.trim();
-                    break;
-                }
-            }
-            
-            console.log('Debug - Extracted text:', transcribedText);
-            
-            if (!transcribedText) {
-                throw new Error('No Arabic text found in transcription');
-            }
             
             // Compare the transcription with expected phrase
             const expected = currentPhrase.ar;
@@ -465,7 +384,7 @@ const speakThePhraseGame = async () => {
                 
                 // Play both phrases for comparison
                 console.log('Playing expected pronunciation...');
-                speak(expected);
+                speak(USE_WAV_FILES ? currentPhrase.chat : currentPhrase.ar);
                 
                 // Wait a moment before playing the user's pronunciation
                 await new Promise(resolve => setTimeout(resolve, 2000));
@@ -507,15 +426,20 @@ const speakThePhraseGame = async () => {
             
             const similarity = calculateSimilarity(normalizedTranscription, normalizedExpected);
             
+            // Update stats
+            currentSetStats.total++;
+            const isCorrect = similarity >= 0.4;
+            if (isCorrect) currentSetStats.correct++;
+
             if (normalizedTranscription === normalizedExpected) {
                 console.log('✅ Excellent! Your pronunciation was perfect!');
-                speak(expected);
+                speak(USE_WAV_FILES ? currentPhrase.chat : currentPhrase.ar);
             } else if (similarity >= 0.7) {
                 console.log('👍 Almost correct! Your pronunciation was very close.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
                 different();
             } else if (similarity >= 0.4) {
-                console.log('🤔 Close! Keep practicing to improve your pronunciation.');
+                console.log('🤔 Close enough! Keep practicing to improve your pronunciation.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
                 different();
             } else {
@@ -523,6 +447,10 @@ const speakThePhraseGame = async () => {
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
                 different();
             }
+
+            // Show current progress including correctness rate
+            const currentPercentage = Math.round((currentSetStats.correct / currentSetStats.total) * 100);
+            console.log(`\nCurrent set progress: ${currentSetStats.correct}/${currentSetStats.total} correct (${currentPercentage}%)`);
         } catch (error) {
             // Restore output first
             process.stdout.write = originalStdout;
@@ -721,7 +649,7 @@ const numberPronunciationGame = async () => {
             
             // Play both phrases for comparison
             console.log('Playing expected pronunciation...');
-            speak(number.ar);
+            speak(USE_WAV_FILES ? number.chat : number.ar);
             
             // Wait a moment before playing the user's pronunciation
             await new Promise(resolve => setTimeout(resolve, 2000));
@@ -771,7 +699,7 @@ const numberPronunciationGame = async () => {
         
         if (normalizedTranscription === normalizedExpected) {
             console.log('\n✅ Excellent! Your pronunciation was perfect!');
-            speak(number.ar);
+            speak(USE_WAV_FILES ? number.chat : number.ar);
         } else if (similarity >= 0.7) {
             console.log('\n👍 Almost correct! Your pronunciation was very close.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);

@@ -406,5 +406,47 @@
       "ar": "عشرة",
       "chat": "3ashra"
     }
+  ],
+  "possessives": [
+    {
+      "eng": "My",
+      "ar": "ي",
+      "chat": "y"
+    },
+    {
+      "eng": "Your (m)",
+      "ar": "ك",
+      "chat": "ik"
+    },
+    {
+      "eng": "Your (f)",
+      "ar": "كِ",
+      "chat": "ich"
+    },
+    {
+      "eng": "Your (pl)",
+      "ar": "كم",
+      "chat": "kum"
+    },
+    {
+      "eng": "Our",
+      "ar": "نا",
+      "chat": "na"
+    },
+    {
+      "eng": "His",
+      "ar": "ه",
+      "chat": "ah"
+    },
+    {
+      "eng": "Her",
+      "ar": "ها",
+      "chat": "ha"
+    },
+    {
+      "eng": "Their",
+      "ar": "هم",
+      "chat": "hum"
+    }
   ]
 }
