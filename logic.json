@@ -405,6 +405,56 @@
       "value": 10,
       "ar": "عشرة",
       "chat": "3ashra"
+    },
+    {
+      "value": 11,
+      "ar": "احدعش",
+      "chat": "e7da3sh"
+    },
+    {
+      "value": 12,
+      "ar": "اثنعش",
+      "chat": "ethna3sh"
+    },
+    {
+      "value": 13,
+      "ar": "ثلاث طعش",
+      "chat": "thalata3sh"
+    },
+    {
+      "value": 14,
+      "ar": "أربع طعش",
+      "chat": "arba3ta3sh"
+    },
+    {
+      "value": 15,
+      "ar": "خمس طعش",
+      "chat": "khamsta3sh"
+    },
+    {
+      "value": 16,
+      "ar": "ست طعش",
+      "chat": "sitta3sh"
+    },
+    {
+      "value": 17,
+      "ar": "سبع طعش",
+      "chat": "sab3ta3sh"
+    },
+    {
+      "value": 18,
+      "ar": "ثمان طعش",
+      "chat": "thamanta3sh"
+    },
+    {
+      "value": 19,
+      "ar": "تسع طعش",
+      "chat": "tesa3ta3sh"
+    },
+    {
+      "value": 20,
+      "ar": "عشرين",
+      "chat": "eshreen"
     }
   ],
   "possessives": [
