@@ -50,6 +50,14 @@ const shuffleArray = (array) => {
     return newArray;
 };
 
+const arrayWithIdGreaterThan = (array, value) => {
+    const newArray = [];
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].id > value) newArray.push(array[i]);
+    }
+    return newArray;
+}
+
 // Load and parse the logic.json file
 let logic;
 let currentPhrase;
@@ -67,16 +75,17 @@ try {
 }
 
 // add logic.numerals to items (initial = false, replyTo = nil)
-logic.numerals.forEach((numeral) => {
-    logic.items.push({
-        ar: numeral.ar,
-        chat: numeral.chat,
-        eng: String(numeral.value)
-    });
-});
+// logic.numerals.forEach((numeral) => {
+//     logic.items.push({
+//         ar: numeral.ar,
+//         chat: numeral.chat,
+//         eng: String(numeral.value)
+//     });
+// });
 
 // shuffle logic.items
 logic.items = shuffleArray(logic.items);
+logic.items = arrayWithIdGreaterThan(logic.items, 48);
 
 // Record and transcribe speech
 const recordAndTranscribe = async () => {
@@ -195,47 +204,60 @@ const getRandomItem = () => {
 
 // Pronounce text in Arabic
 const speak = (text) => {
-    if (USE_WAV_FILES) {
-        // Try to find a matching .wav file in the sounds directory
-        const wavFile = path.join(SOUNDS_DIR, `${text}.wav`);
-        if (fs.existsSync(wavFile)) {
-            // Play the .wav file using system audio player
-            const playerCmd = process.platform === 'darwin' ? 'afplay' : 
-                             process.platform === 'win32' ? 'start' : 'aplay';
-            
-            if (process.platform === 'win32') {
-                exec(`start "" "${wavFile}"`, (error) => {
-                    if (error) {
-                        console.log('Error playing .wav file, falling back to say.js');
-                        fallbackToSay(text);
-                    }
-                });
+    return new Promise((resolve) => {
+        if (USE_WAV_FILES) {
+            // Try to find a matching .wav file in the sounds directory
+            const wavFile = path.join(SOUNDS_DIR, `${text}.wav`);
+            if (fs.existsSync(wavFile)) {
+                // Play the .wav file using system audio player
+                const playerCmd = process.platform === 'darwin' ? 'afplay' : 
+                                 process.platform === 'win32' ? 'start' : 'aplay';
+                
+                if (process.platform === 'win32') {
+                    exec(`start "" "${wavFile}"`, (error) => {
+                        if (error) {
+                            console.log('Error playing .wav file, falling back to say.js');
+                            fallbackToSay(text).then(resolve);
+                        } else {
+                            // For Windows, we need to estimate the duration
+                            // Most audio files are around 1-3 seconds, so we'll wait 2 seconds
+                            setTimeout(resolve, 2000);
+                        }
+                    });
+                } else {
+                    exec(`${playerCmd} "${wavFile}"`, (error) => {
+                        if (error) {
+                            console.log('Error playing .wav file, falling back to say.js');
+                            fallbackToSay(text).then(resolve);
+                        } else {
+                            // For macOS/Linux, afplay/aplay blocks until finished
+                            resolve();
+                        }
+                    });
+                }
             } else {
-                exec(`${playerCmd} "${wavFile}"`, (error) => {
-                    if (error) {
-                        console.log('Error playing .wav file, falling back to say.js');
-                        fallbackToSay(text);
-                    }
-                });
+                // No .wav file found, fall back to say.js
+                fallbackToSay(text).then(resolve);
             }
         } else {
-            // No .wav file found, fall back to say.js
-            fallbackToSay(text);
+            // Use say.js directly
+            fallbackToSay(text).then(resolve);
         }
-    } else {
-        // Use say.js directly
-        fallbackToSay(text);
-    }
+    });
 };
 
 // Fallback function using say.js
 const fallbackToSay = (text) => {
-    say.speak(text, 'Majed', 1.0, (err) => {
-        if (err) {
-            console.error('Error trying to use Arabic voice:', err);
-            console.log('Falling back to default system voice.');
-            say.speak(text, null, 1.0);
-        }
+    return new Promise((resolve) => {
+        say.speak(text, 'Majed', 1.0, (err) => {
+            if (err) {
+                console.error('Error trying to use Arabic voice:', err);
+                console.log('Falling back to default system voice.');
+                say.speak(text, null, 1.0, resolve);
+            } else {
+                resolve();
+            }
+        });
     });
 };
 
@@ -257,7 +279,7 @@ const flashCardsGame = async () => {
     console.log('--- 🃏 Flash Cards ---');
     const item = getRandomItem();
     console.log(`\nArabic: ${item.ar} (${item.chat})`);
-    speak(USE_WAV_FILES ? item.chat : item.ar);
+    await speak(USE_WAV_FILES ? item.chat : item.ar);
 
     await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to reveal the meaning...' }]);
     console.log(`English: ${item.eng}\n`);
@@ -270,7 +292,7 @@ const guessTheMeaningGame = async () => {
     console.clear();
     console.log('--- 🤔 Guess the Meaning ---');
     const correctAnswer = getRandomItem();
-    speak(USE_WAV_FILES ? correctAnswer.chat : correctAnswer.ar);
+    await speak(USE_WAV_FILES ? correctAnswer.chat : correctAnswer.ar);
     console.log(`\nListen...`);
 
     const incorrectOptions = [];
@@ -384,13 +406,13 @@ const speakThePhraseGame = async () => {
                 
                 // Play both phrases for comparison
                 console.log('Playing expected pronunciation...');
-                speak(USE_WAV_FILES ? currentPhrase.chat : currentPhrase.ar);
+                await speak(USE_WAV_FILES ? currentPhrase.chat : currentPhrase.ar);
                 
                 // Wait a moment before playing the user's pronunciation
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 
                 console.log('Playing your pronunciation...');
-                speak(transcribedText);
+                await speak(transcribedText);
             }
             
             
@@ -433,19 +455,19 @@ const speakThePhraseGame = async () => {
 
             if (normalizedTranscription === normalizedExpected) {
                 console.log('✅ Excellent! Your pronunciation was perfect!');
-                speak(USE_WAV_FILES ? currentPhrase.chat : currentPhrase.ar);
+                await speak(USE_WAV_FILES ? currentPhrase.chat : currentPhrase.ar);
             } else if (similarity >= 0.7) {
                 console.log('👍 Almost correct! Your pronunciation was very close.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
-                different();
+                await different();
             } else if (similarity >= 0.4) {
                 console.log('🤔 Close enough! Keep practicing to improve your pronunciation.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
-                different();
+                await different();
             } else {
                 console.log('❌ Try again! Focus on the pronunciation.');
                 console.log(`Similarity: ${Math.round(similarity * 100)}%`);
-                different();
+                await different();
             }
 
             // Show current progress including correctness rate
@@ -593,21 +615,34 @@ const phoneNumberGame = async () => {
 
     // Speak each digit with a small pause
     for (const digit of phoneNumber) {
-        await new Promise(resolve => {
-            speak(USE_WAV_FILES ? digit.chat : digit.ar);
-            setTimeout(resolve, 1000);
-        });
+        await speak(USE_WAV_FILES ? digit.chat : digit.ar);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Small pause between digits
     }
 
-    const { answer } = await inquirer.prompt([
-        {
-            type: 'input',
-            name: 'answer',
-            message: 'Type the phone number (use spaces between digits):'
+    // Keep asking until user enters a non-empty response
+    let userAnswer = '';
+    while (userAnswer.trim() === '') {
+        const { answer } = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: 'Type the phone number (use spaces between digits):'
+            }
+        ]);
+        
+        userAnswer = answer;
+        
+        // If empty string is entered, repeat the numbers
+        if (userAnswer.trim() === '') {
+            console.log('\nRepeating the number...');
+            for (const digit of phoneNumber) {
+                await speak(USE_WAV_FILES ? digit.chat : digit.ar);
+                await new Promise(resolve => setTimeout(resolve, 500)); // Small pause between digits
+            }
         }
-    ]);
+    }
 
-    const userNumbers = answer.trim().split(' ');
+    const userNumbers = userAnswer.trim().split(' ');
     const correctNumbers = phoneNumber.map(n => n.value.toString());
 
     if (userNumbers.length !== correctNumbers.length) {
@@ -649,13 +684,13 @@ const numberPronunciationGame = async () => {
             
             // Play both phrases for comparison
             console.log('Playing expected pronunciation...');
-            speak(USE_WAV_FILES ? number.chat : number.ar);
+            await speak(USE_WAV_FILES ? number.chat : number.ar);
             
             // Wait a moment before playing the user's pronunciation
             await new Promise(resolve => setTimeout(resolve, 2000));
             
             console.log('Playing your pronunciation...');
-            speak(transcription);
+            await speak(transcription);
         }
 
         // Clean up text for comparison
@@ -699,19 +734,19 @@ const numberPronunciationGame = async () => {
         
         if (normalizedTranscription === normalizedExpected) {
             console.log('\n✅ Excellent! Your pronunciation was perfect!');
-            speak(USE_WAV_FILES ? number.chat : number.ar);
+            await speak(USE_WAV_FILES ? number.chat : number.ar);
         } else if (similarity >= 0.7) {
             console.log('\n👍 Almost correct! Your pronunciation was very close.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
-            different();
+            await different();
         } else if (similarity >= 0.4) {
             console.log('\n🤔 Close! Keep practicing to improve your pronunciation.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
-            different();
+            await different();
         } else {
             console.log('\n❌ Try again! Focus on the pronunciation.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
-            different();
+            await different();
         }
     } catch (error) {
         console.error('Error during speech recognition:', error);
@@ -749,7 +784,7 @@ const listenAndRespondGame = async () => {
     //console.log(`Transliteration: ${initialPhrase.chat}`);
     
     // Play the initial phrase
-    speak(USE_WAV_FILES ? initialPhrase.chat : initialPhrase.ar);
+    await speak(USE_WAV_FILES ? initialPhrase.chat : initialPhrase.ar);
     
     try {
         const transcription = await recordAndTranscribe();
@@ -809,14 +844,14 @@ const listenAndRespondGame = async () => {
             console.log(`Similarity: ${Math.round(bestSimilarity * 100)}%`);
             
             // Play the correct response
-            speak(USE_WAV_FILES ? bestMatch.chat : bestMatch.ar);
+            await speak(USE_WAV_FILES ? bestMatch.chat : bestMatch.ar);
         } else if (bestMatch && bestSimilarity >= 0.4) {
             console.log(`👍 Close! Your response was almost correct.`);
             console.log(`Best match: ${bestMatch.ar} (${bestMatch.eng})`);
             console.log(`Similarity: ${Math.round(bestSimilarity * 100)}%`);
             
             // Play the best match
-            speak(USE_WAV_FILES ? bestMatch.chat : bestMatch.ar);
+            await speak(USE_WAV_FILES ? bestMatch.chat : bestMatch.ar);
         } else {
             console.log(`❌ Try again! Focus on the pronunciation.`);
             if (bestMatch) {
@@ -826,7 +861,7 @@ const listenAndRespondGame = async () => {
             
             // Play one of the correct responses
             const correctResponse = validResponses[0];
-            speak(USE_WAV_FILES ? correctResponse.chat : correctResponse.ar);
+            await speak(USE_WAV_FILES ? correctResponse.chat : correctResponse.ar);
         }
         
     } catch (error) {

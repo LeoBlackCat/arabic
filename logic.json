@@ -347,6 +347,144 @@
       "ar": "دوام",
       "chat": "dawaam",
       "eng": "Workplace"
+    },
+    {
+      "id": 49,
+      "ar": "هيه",
+      "chat": "haih",
+      "eng": "Yes"
+    },
+    {
+      "id": 50,
+      "ar": "لا",
+      "chat": "la",
+      "eng": "No"
+    },
+    {
+      "id": 51,
+      "ar": "أبا",
+      "chat": "aba",
+      "eng": "I want"
+    },
+    {
+      "id": 52,
+      "ar": "ما أبا ",
+      "chat": "ma aba",
+      "eng": "I don't want"
+    },
+    {
+      "id": 53,
+      "ar": "عندي",
+      "chat": "3endee",
+      "eng": "I have"
+    },
+    {
+      "id": 54,
+      "ar": "ما عندي ",
+      "chat": "ma 3endee",
+      "eng": "I don't have"
+    },
+    {
+      "id": 55,
+      "ar": "أعرف",
+      "chat": "a3arf",
+      "eng": "I know"
+    },
+    {
+      "id": 56,
+      "ar": "ما أعرف ",
+      "chat": "ma a3arf",
+      "eng": "I don't know"
+    },
+    {
+      "id": 57,
+      "ar": "أدري",
+      "chat": "adree",
+      "eng": "I am aware"
+    },
+    {
+      "id": 58,
+      "ar": "ما أدري ",
+      "chat": "ma adree",
+      "eng": "I am not aware"
+    },
+    {
+      "id": 59,
+      "ar": "في",
+      "chat": "fee",
+      "eng": "There is"
+    },
+    {
+      "id": 60,
+      "ar": "ما في ",
+      "chat": "ma fee",
+      "eng": "There is no"
+    },
+    {
+      "id": 61,
+      "ar": "كل ",
+      "chat": "kil",
+      "eng": "Every"
+    },
+    {
+      "id": 62,
+      "ar": "شي ",
+      "chat": "shai",
+      "eng": "Thing"
+    },
+    {
+      "id": 63,
+      "ar": "أنا",
+      "chat": "ana",
+      "eng": "I / I'm"
+    },
+    {
+      "id": 64,
+      "ar": "إنت",
+      "chat": "enta",
+      "eng": "You (m)",
+      "modifier": "m"
+    },
+    {
+      "id": 65,
+      "ar": "إنتي",
+      "chat": "entee",
+      "eng": "You (f)",
+      "modifier": "f"
+    },
+    {
+      "id": 66,
+      "ar": "إنتوا",
+      "chat": "entoo",
+      "eng": "You (pl)",
+      "modifier": "pl"
+    },
+    {
+      "id": 67,
+      "ar": "نحن",
+      "chat": "ne7an",
+      "eng": "We"
+    },
+    {
+      "id": 68,
+      "ar": "هو",
+      "chat": "hu",
+      "eng": "He",
+      "modifier": "m"
+    },
+    {
+      "id": 69,
+      "ar": "هي",
+      "chat": "he",
+      "eng": "She",
+      "modifier": "f"
+    },
+    {
+      "id": 70,
+      "ar": "هم",
+      "chat": "hum",
+      "eng": "They",
+      "modifier": "pl"
     }
   ],
   "numerals":
