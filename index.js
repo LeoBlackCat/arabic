@@ -75,17 +75,17 @@ try {
 }
 
 // add logic.numerals to items (initial = false, replyTo = nil)
-// logic.numerals.forEach((numeral) => {
-//     logic.items.push({
-//         ar: numeral.ar,
-//         chat: numeral.chat,
-//         eng: String(numeral.value)
-//     });
-// });
+logic.numerals.forEach((numeral) => {
+    logic.items.push({
+        ar: numeral.ar,
+        chat: numeral.chat,
+        eng: String(numeral.value)
+    });
+});
 
 // shuffle logic.items
 logic.items = shuffleArray(logic.items);
-logic.items = arrayWithIdGreaterThan(logic.items, 48);
+//logic.items = arrayWithIdGreaterThan(logic.items, 48);
 
 // Record and transcribe speech
 const recordAndTranscribe = async () => {
@@ -113,7 +113,7 @@ const recordAndTranscribe = async () => {
             process.stdin.once('data', async () => {
                 micInstance.stop();
                 process.stdin.pause();
-                console.log('\nProcessing...');
+                console.log('Processing...');
 
                 // Wait for file to be written
                 await new Promise(resolve => setTimeout(resolve, 1000));
@@ -162,7 +162,7 @@ const recordAndTranscribe = async () => {
                     // Parse the transcription properly
                     let transcribedText = '';
                     if (transcription) {
-                        const lines = transcription.trim().split('\n');
+                        const lines = transcription.trim().split('');
                         
                         for (const line of lines) {
                             // Look for lines with timestamps and Arabic text
@@ -278,11 +278,11 @@ const flashCardsGame = async () => {
     console.clear();
     console.log('--- 🃏 Flash Cards ---');
     const item = getRandomItem();
-    console.log(`\nArabic: ${item.ar} (${item.chat})`);
+    console.log(`Arabic: ${item.ar} (${item.chat})`);
     await speak(USE_WAV_FILES ? item.chat : item.ar);
 
     await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to reveal the meaning...' }]);
-    console.log(`English: ${item.eng}\n`);
+    console.log(`English: ${item.eng}`);
 
     promptForNextAction(flashCardsGame);
 };
@@ -293,7 +293,7 @@ const guessTheMeaningGame = async () => {
     console.log('--- 🤔 Guess the Meaning ---');
     const correctAnswer = getRandomItem();
     await speak(USE_WAV_FILES ? correctAnswer.chat : correctAnswer.ar);
-    console.log(`\nListen...`);
+    console.log(`Listen...`);
 
     const incorrectOptions = [];
     while (incorrectOptions.length < 3) {
@@ -308,9 +308,9 @@ const guessTheMeaningGame = async () => {
     const { guess } = await inquirer.prompt([{ type: 'list', name: 'guess', message: 'What is the meaning?', choices: choices }]);
 
     if (guess === correctAnswer.eng) {
-        console.log(`\nCorrect! ✅ ${correctAnswer.ar} = ${correctAnswer.eng}`);
+        console.log(`Correct! ✅ ${correctAnswer.ar} = ${correctAnswer.eng}`);
     } else {
-        console.log(`\nIncorrect. ❌ The correct answer was: \"${correctAnswer.eng}\"`);
+        console.log(`Incorrect. ❌ The correct answer was: \"${correctAnswer.eng}\"`);
     }
     
     await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to continue...' }]);
@@ -324,8 +324,8 @@ const getNextPhrase = () => {
         // Show stats from previous set if it's not the first run
         if (currentSetStats.total > 0) {
             const percentage = Math.round((currentSetStats.correct / currentSetStats.total) * 100);
-            console.log('\n📊 Set completed! Stats:');
-            console.log(`Correct answers: ${currentSetStats.correct}/${currentSetStats.total} (${percentage}%)\n`);
+            console.log('📊 Set completed! Stats:');
+            console.log(`Correct answers: ${currentSetStats.correct}/${currentSetStats.total} (${percentage}%)`);
         }
 
         // Reset stats for new set
@@ -340,7 +340,7 @@ const getNextPhrase = () => {
             [phraseQueue[i], phraseQueue[j]] = [phraseQueue[j], phraseQueue[i]];
         }
         
-        console.log(`🔄 Starting a new shuffled set...\n`);
+        console.log(`🔄 Starting a new shuffled set...`);
     }
     
     // Return and remove the first phrase from the queue
@@ -472,7 +472,7 @@ const speakThePhraseGame = async () => {
 
             // Show current progress including correctness rate
             const currentPercentage = Math.round((currentSetStats.correct / currentSetStats.total) * 100);
-            console.log(`\nCurrent set progress: ${currentSetStats.correct}/${currentSetStats.total} correct (${currentPercentage}%)`);
+            console.log(`Current set progress: ${currentSetStats.correct}/${currentSetStats.total} correct (${currentPercentage}%)`);
         } catch (error) {
             // Restore output first
             process.stdout.write = originalStdout;
@@ -510,7 +510,7 @@ const speakThePhraseGame = async () => {
                 // Parse the transcription properly
                 let transcribedText = '';
                 if (transcription) {
-                    const lines = transcription.trim().split('\n');
+                    const lines = transcription.trim().split('');
                     
                     for (const line of lines) {
                         // Look for lines with timestamps and Arabic text
@@ -577,7 +577,7 @@ const promptForNextAction = async (currentGame) => {
 // --- Main Menu ---
 const mainMenu = async () => {
     console.clear();
-    console.log('=== 🎯 Arabic Learning Games ===\n');
+    console.log('=== 🎯 Arabic Learning Games ===');
 
     const { game } = await inquirer.prompt([
         {
@@ -597,7 +597,7 @@ const mainMenu = async () => {
     ]);
 
     if (game === 'exit') {
-        console.log('\nGoodbye! 👋\n');
+        console.log('Goodbye! 👋');
         process.exit(0);
     } else {
         game();
@@ -611,7 +611,7 @@ const phoneNumberGame = async () => {
     console.log('Listen to the phone number and type it correctly!');
 
     const phoneNumber = generateRandomPhoneNumber();
-    console.log('\nListening to the number...');
+    console.log('Listening to the number...');
 
     // Speak each digit with a small pause
     for (const digit of phoneNumber) {
@@ -634,7 +634,7 @@ const phoneNumberGame = async () => {
         
         // If empty string is entered, repeat the numbers
         if (userAnswer.trim() === '') {
-            console.log('\nRepeating the number...');
+            console.log('Repeating the number...');
             for (const digit of phoneNumber) {
                 await speak(USE_WAV_FILES ? digit.chat : digit.ar);
                 await new Promise(resolve => setTimeout(resolve, 500)); // Small pause between digits
@@ -646,17 +646,17 @@ const phoneNumberGame = async () => {
     const correctNumbers = phoneNumber.map(n => n.value.toString());
 
     if (userNumbers.length !== correctNumbers.length) {
-        console.log('\n❌ Incorrect! The number had a different length.');
+        console.log('❌ Incorrect! The number had a different length.');
     } else {
         const isCorrect = userNumbers.every((num, idx) => num === correctNumbers[idx]);
         if (isCorrect) {
-            console.log('\n✅ Correct! Well done!');
+            console.log('✅ Correct! Well done!');
         } else {
-            console.log('\n❌ Incorrect! Try again.');
+            console.log('❌ Incorrect! Try again.');
         }
     }
 
-    console.log('\nThe correct number was:', correctNumbers.join(' '));
+    console.log('The correct number was:', correctNumbers.join(' '));
     promptForNextAction(phoneNumberGame);
 };
 
@@ -667,14 +667,14 @@ const numberPronunciationGame = async () => {
     console.log('Try to pronounce the number in Arabic!');
 
     const number = generateRandomPhoneNumber(1)[0];
-    console.log('\nNumber to pronounce:', number.value);
+    console.log('Number to pronounce:', number.value);
     console.log('(In Arabic it\'s written as:', number.ar, ')');
     //console.log('(Transliteration:', number.chat, ')');
     
     try {
         const transcription = await recordAndTranscribe();
         console.log('--- 🎙️ Results ---');
-        //console.log('\nYou said:', transcription);
+        //console.log('You said:', transcription);
         //console.log('Expected:', number.ar);
         
         const different = async () => {
@@ -733,18 +733,18 @@ const numberPronunciationGame = async () => {
         const similarity = calculateSimilarity(normalizedTranscription, normalizedExpected);
         
         if (normalizedTranscription === normalizedExpected) {
-            console.log('\n✅ Excellent! Your pronunciation was perfect!');
+            console.log('✅ Excellent! Your pronunciation was perfect!');
             await speak(USE_WAV_FILES ? number.chat : number.ar);
         } else if (similarity >= 0.7) {
-            console.log('\n👍 Almost correct! Your pronunciation was very close.');
+            console.log('👍 Almost correct! Your pronunciation was very close.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
             await different();
         } else if (similarity >= 0.4) {
-            console.log('\n🤔 Close! Keep practicing to improve your pronunciation.');
+            console.log('🤔 Close! Keep practicing to improve your pronunciation.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
             await different();
         } else {
-            console.log('\n❌ Try again! Focus on the pronunciation.');
+            console.log('❌ Try again! Focus on the pronunciation.');
             console.log(`Similarity: ${Math.round(similarity * 100)}%`);
             await different();
         }
@@ -778,7 +778,7 @@ const listenAndRespondGame = async () => {
     // Select a random initial phrase
     const initialPhrase = initialPhrases[Math.floor(Math.random() * initialPhrases.length)];
     
-    console.log('\nListen to this phrase:');
+    console.log('Listen to this phrase:');
     console.log(`Arabic: ${initialPhrase.ar}`);
     console.log(`English: ${initialPhrase.eng}`);
     //console.log(`Transliteration: ${initialPhrase.chat}`);
