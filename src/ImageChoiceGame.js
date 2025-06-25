@@ -49,8 +49,17 @@ const speakWord = useCallback((text, chatOverride) => {
       if (PLAY_AUDIO_FILES) {
       const map = buildMap();
       const chat = chatOverride || map[text] || text;
-      const audio = new Audio(`/sounds/${encodeURIComponent(chat)}.wav`);
-      audio.play().catch(e => console.error('Audio play error:', e));
+      const audio = new Audio('.' + `/sounds/${encodeURIComponent(chat)}.wav`);
+      audio.play().catch(e => {
+        console.error('Audio play error:', e);
+        // fallback to TTS
+        speechSynthesisRef.current.cancel();
+        const utt = new SpeechSynthesisUtterance(text);
+        if (arabicVoice) utt.voice = arabicVoice;
+        utt.lang = 'ar-SA';
+        utt.rate = 0.8;
+        speechSynthesisRef.current.speak(utt);
+      });
       return;
     }
     speechSynthesisRef.current.cancel();
@@ -101,7 +110,7 @@ const speakWord = useCallback((text, chatOverride) => {
             className="cursor-pointer border rounded-lg p-2 hover:shadow-lg"
             onClick={() => handleSelect(img)}
           >
-            <img src={img.url} alt={img.eng} className="w-full h-auto rounded" />
+            <img src={'.' + img.url} alt={img.eng} className="w-full h-auto rounded" />
           </div>
         ))}
       </div>

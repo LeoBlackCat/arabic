@@ -67,8 +67,17 @@ const speakWord = useCallback((text, chatOverride) => {
     const map = buildArMap();
     const chat = chatOverride || map[text] || text;
     const fileName = `${chat}.wav`;
-    const audio = new Audio(`/sounds/${encodeURIComponent(fileName)}`);
-    audio.play().catch((e) => console.error('Audio play error:', e));
+    const audio = new Audio('.' + `/sounds/${encodeURIComponent(fileName)}`);
+    audio.play().catch((e) => {
+      console.error('Audio play error:', e);
+      // Fallback to browser TTS
+      speechSynthesis.current.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (arabicVoice) utterance.voice = arabicVoice;
+      utterance.lang = 'ar-SA';
+      utterance.rate = 0.8;
+      speechSynthesis.current.speak(utterance);
+    });
     return;
   }
 
@@ -442,7 +451,7 @@ const speakWord = useCallback((text, chatOverride) => {
         <div className="mb-6 flex flex-col items-center px-2 sm:px-4">
           <div className="w-full flex justify-center">
             <img 
-              src={currentImage.url} 
+              src={'.' + currentImage.url} 
               alt={currentImage.eng}
               className="max-w-[90vw] w-full h-auto rounded-lg shadow mb-3 cursor-pointer"
               onClick={() => speakWord(currentImage.ar, currentImage.chat)}
