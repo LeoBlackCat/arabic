@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+
+// Toggle: if true, play pre-generated WAV files located in /sounds; otherwise use browser TTS
+const PLAY_AUDIO_FILES = true;
 import { verbs, getShuffledVerbs } from './verbs-data';
 import { normalizeArabic } from './arabicUtils';
 
@@ -42,8 +45,34 @@ const App = () => {
     };
   }, []);
 
-  const speakWord = useCallback((text) => {
-    try {
+  // Map Arabic -> chat for filename lookup (lazy-loaded on first use)
+let arToChatMap = null;
+const buildArMap = () => {
+  if (arToChatMap) return arToChatMap;
+  try {
+    const logic = require('../logic.json');
+    arToChatMap = {};
+    [...logic.items, ...(logic.numerals || [])].forEach((it) => {
+      if (it.ar && it.chat) arToChatMap[it.ar] = it.chat;
+    });
+  } catch (e) {
+    console.warn('Unable to load logic.json for map:', e);
+    arToChatMap = {};
+  }
+  return arToChatMap;
+};
+
+const speakWord = useCallback((text, chatOverride) => {
+      if (PLAY_AUDIO_FILES) {
+    const map = buildArMap();
+    const chat = chatOverride || map[text] || text;
+    const fileName = `${chat}.wav`;
+    const audio = new Audio(`/sounds/${encodeURIComponent(fileName)}`);
+    audio.play().catch((e) => console.error('Audio play error:', e));
+    return;
+  }
+
+  try {
       // Cancel any ongoing speech
       speechSynthesis.current.cancel();
 
@@ -289,7 +318,7 @@ const App = () => {
           // Pronounce the correct word after a short delay
           setTimeout(() => {
             if (currentImage && currentImage.ar) {
-              speakWord(currentImage.ar);
+              speakWord(currentImage.ar, currentImage.chat);
             }
           }, 1000); // Wait 1 second after showing the result
 
@@ -415,18 +444,27 @@ const App = () => {
             <img 
               src={currentImage.url} 
               alt={currentImage.eng}
-              className="max-w-[90vw] w-full h-auto rounded-lg shadow mb-3"
+              className="max-w-[90vw] w-full h-auto rounded-lg shadow mb-3 cursor-pointer"
+              onClick={() => speakWord(currentImage.ar, currentImage.chat)}
             />
           </div>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-800 my-2 font-bold">{currentImage.eng}</p>
-          <p className="text-2xl sm:text-3xl md:text-4xl text-blue-900 font-bold mb-1 cursor-pointer rtl font-sans" style={{direction: 'rtl'}} onClick={() => speakWord(currentImage.ar)}>{currentImage.ar}</p>
-          <p className="text-base sm:text-lg text-gray-500 italic mb-4">({currentImage.chat})</p>
-          <button
-            onClick={() => speakWord(currentImage.ar)}
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-green-600 text-white rounded mb-4 inline-flex items-center gap-2 hover:bg-green-700 transition text-sm sm:text-base"
-          >
-            <span role="img" aria-label="pronounce">🔊</span> Pronounce
-          </button>
+          {result && (
+            <>
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-800 my-2 font-bold">{currentImage.eng}</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl text-blue-900 font-bold mb-1 cursor-pointer rtl font-sans" style={{direction: 'rtl'}} onClick={() => speakWord(currentImage.ar, currentImage.chat)}>{currentImage.ar}</p>
+              <p className="text-base sm:text-lg text-gray-500 italic mb-4">({currentImage.chat})</p>
+            </>
+          )}
+          {result ? (
+            <button
+              onClick={() => speakWord(currentImage.ar, currentImage.chat)}
+              className="px-3 py-1.5 sm:px-4 sm:py-2 bg-green-600 text-white rounded mb-4 inline-flex items-center gap-2 hover:bg-green-700 transition text-sm sm:text-base"
+            >
+              <span role="img" aria-label="pronounce">🔊</span> Pronounce
+            </button>
+          ) : (
+            <p className="text-sm text-gray-500 italic mb-4">Tap the picture to hear pronunciation</p>
+          )}
           {result && (
             <div className="mt-6 p-4 rounded-lg bg-gray-50">
               <p>You said: <span className="font-bold text-gray-800 rtl inline-block" style={{direction: 'rtl'}}>{result.transcript}</span></p>
@@ -451,18 +489,6 @@ const App = () => {
           className={`w-full sm:w-auto px-4 py-2 text-base sm:text-lg rounded font-semibold transition-all duration-300 focus:outline-none ${isRecording ? 'bg-red-600 animate-pulse' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
         >
           {isRecording ? '🎤 Recording...' : 'Start Recording'}
-        </button>
-        <button 
-          onClick={nextImage}
-          className="w-full sm:w-auto px-4 py-2 text-base sm:text-lg rounded font-semibold bg-gray-700 text-white hover:bg-gray-800 transition-all duration-300"
-        >
-          Next Image
-        </button>
-        <button
-          onClick={shuffleImages}
-          className="w-full sm:w-auto px-4 py-2 text-base sm:text-lg rounded font-semibold bg-yellow-500 text-white hover:bg-yellow-600 transition-all duration-300"
-        >
-          🔄 Shuffle
         </button>
       </div>
     </div>

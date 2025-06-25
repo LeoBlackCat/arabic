@@ -18,7 +18,7 @@ const findVerbByChat = (chat) => {
 // List of verbs we want to use (with correct capitalization)
 const targetVerbs = [
   'A7eb', 'Aakel', 'Adfa3', 'Afta7', 'Agdar', 'Agoum', 'Agra', 'Akteb',
-  'Al3ab', 'Anaam', 'Ashoof', 'Ashrab', 'Ashtegil', 'Asma3', 'Asoog',
+  'Al3ab', 'Anaam', 'Ashoof', 'Ashrab', 'Ashteghil', 'Asma3', 'Asoog',
   'Atbakh', 'Attesel'
 ];
 

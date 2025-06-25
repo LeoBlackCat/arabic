@@ -87,9 +87,9 @@ const verbsData = [
     eng: "I drink"
   },
   {
-    path: "ashtegil.png",
-    url: "/pictures/ashtegil.png",
-    chat: "Ashtegil",
+    path: "ashteghil.png",
+    url: "/pictures/ashteghil.png",
+    chat: "Ashteghil",
     ar: "أشتغل",
     eng: "I work"
   },
