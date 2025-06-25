@@ -1,3 +1,5 @@
 node_modules/
 ggml-base.bin
 output.wav
+dist/
+.env
