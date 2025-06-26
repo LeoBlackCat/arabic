@@ -43,6 +43,8 @@ module.exports = {
       patterns: [
         { from: path.resolve(__dirname, 'sounds'), to: 'sounds' },
         { from: path.resolve(__dirname, 'pictures'), to: 'pictures' },
+        { from: path.resolve(__dirname, 'public/characters'), to: 'characters' },
+        { from: path.resolve(__dirname, 'public/backgrounds'), to: 'backgrounds' },
       ]
     }),
     new webpack.DefinePlugin({
@@ -53,7 +55,9 @@ module.exports = {
     static: [
       { directory: path.join(__dirname, 'dist') },
       { directory: path.join(__dirname, 'pictures'), publicPath: '/pictures' },
-      { directory: path.join(__dirname, 'sounds'), publicPath: '/sounds' }
+      { directory: path.join(__dirname, 'sounds'), publicPath: '/sounds' },
+      { directory: path.join(__dirname, 'public/characters'), publicPath: '/characters' },
+      { directory: path.join(__dirname, 'public/backgrounds'), publicPath: '/backgrounds' }
     ],
     hot: true,
   },

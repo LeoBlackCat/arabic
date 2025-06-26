@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import ImageChoiceGame from './ImageChoiceGame';
 import PuzzleGame from './PuzzleGame';
+import ConversationGame from './ConversationGame';
 import './index.css';
 
 const container = document.getElementById('root');
@@ -31,8 +32,14 @@ function Root() {
         >
           🔲 Game 3: Puzzle
         </button>
+        <button
+          onClick={() => setGame('conversation')}
+          className={`px-4 py-2 rounded text-white font-semibold transition ${game === 'conversation' ? 'bg-orange-700' : 'bg-orange-600 hover:bg-orange-700'}`}
+        >
+          💬 Game 4: Conversation
+        </button>
       </div>
-      {game === 'speak' ? <App /> : game === 'choose' ? <ImageChoiceGame /> : <PuzzleGame /> }
+      {game === 'speak' ? <App /> : game === 'choose' ? <ImageChoiceGame /> : game === 'puzzle' ? <PuzzleGame /> : <ConversationGame /> }
     </>
   );
 }
