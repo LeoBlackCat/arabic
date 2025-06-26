@@ -5,6 +5,17 @@ const PLAY_AUDIO_FILES = true;
 import { verbs, getShuffledVerbs } from './verbs-data';
 import { normalizeArabic } from './arabicUtils';
 
+// Audio priming to unlock playback after first user gesture
+const primeAudio = () => {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const source = ctx.createBufferSource();
+  source.buffer = ctx.createBuffer(1, 1, 22050);
+  source.connect(ctx.destination);
+  source.start(0);
+  setTimeout(() => ctx.close(), 100);
+  window.__audioPrimed = true;
+};
+
 const App = () => {
   console.log('App component rendering');
   const [isRecording, setIsRecording] = useState(false);
@@ -313,6 +324,13 @@ const speakWord = useCallback((text, chatOverride) => {
              normalizedExpected.includes(normalizedTranscript));
           console.log('Is correct?', isCorrect);
 
+          // Play feedback sound
+          if (isCorrect) {
+            new Audio('./sounds/success.wav').play().catch(() => {});
+          } else if (!isPartialMatch) {
+            new Audio('./sounds/error.wav').play().catch(() => {});
+          }
+
           setResult({
             transcript,
             expected,
@@ -410,6 +428,15 @@ const speakWord = useCallback((text, chatOverride) => {
   }, []);
 
   console.log('Rendering with currentImage:', currentImage);
+
+  // Audio priming effect (must be inside component)
+  useEffect(() => {
+    const handler = () => {
+      if (!window.__audioPrimed) primeAudio();
+    };
+    window.addEventListener('pointerdown', handler, { once: true });
+    return () => window.removeEventListener('pointerdown', handler);
+  }, []);
 
   // Show loading state
   if (loadingState.isLoading || !currentImage) {

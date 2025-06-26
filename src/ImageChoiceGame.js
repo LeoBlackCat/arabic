@@ -95,8 +95,11 @@ const speakWord = useCallback((text, chatOverride) => {
     const isCorrect = img === correct;
     setResult(isCorrect ? 'correct' : 'wrong');
     if (isCorrect) {
+      new Audio('./sounds/success.wav').play().catch(() => {});
       // Proceed to next round after a short pause
       setTimeout(generateRound, 2000);
+    } else {
+      new Audio('./sounds/error.wav').play().catch(() => {});
     }
   };
 

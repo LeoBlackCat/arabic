@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import ImageChoiceGame from './ImageChoiceGame';
+import PuzzleGame from './PuzzleGame';
 import './index.css';
 
 const container = document.getElementById('root');
@@ -24,8 +25,14 @@ function Root() {
         >
           🖼️ Game 2: Choose Image
         </button>
+        <button
+          onClick={() => setGame('puzzle')}
+          className={`px-4 py-2 rounded text-white font-semibold transition ${game === 'puzzle' ? 'bg-purple-700' : 'bg-purple-600 hover:bg-purple-700'}`}
+        >
+          🔲 Game 3: Puzzle
+        </button>
       </div>
-      {game === 'speak' ? <App /> : <ImageChoiceGame />}
+      {game === 'speak' ? <App /> : game === 'choose' ? <ImageChoiceGame /> : <PuzzleGame /> }
     </>
   );
 }
