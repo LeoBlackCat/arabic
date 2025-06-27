@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 const PLAY_AUDIO_FILES = true;
 import { verbs, getShuffledVerbs } from './verbs-data';
 import { normalizeArabic } from './arabicUtils';
+import MediaDisplay from './MediaDisplay';
 
 // Audio priming to unlock playback after first user gesture
 const primeAudio = () => {
@@ -16,8 +17,8 @@ const primeAudio = () => {
   window.__audioPrimed = true;
 };
 
-const App = () => {
-  console.log('App component rendering');
+const App = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
+  console.log('App component rendering with:', { contentData, contentType });
   const [isRecording, setIsRecording] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
   const [images, setImages] = useState([]);
@@ -27,7 +28,7 @@ const App = () => {
     stage: 'initializing',
     progress: 0,
     error: null,
-    verbsFound: 0
+    itemsFound: 0
   });
 
   const [recognition, setRecognition] = useState(null);
@@ -116,26 +117,22 @@ const speakWord = useCallback((text, chatOverride) => {
     }
   }, [arabicVoice]);
 
-  // Initialize images first
+  // Initialize content data
   useEffect(() => {
-    console.log('Loading images, direct access verbs:', verbs);
-    setLoadingState(prev => ({ ...prev, stage: 'loading verbs data', progress: 10 }));
+    console.log('Loading content data:', contentData);
+    setLoadingState(prev => ({ ...prev, stage: `loading ${contentType} data`, progress: 10 }));
     
     try {
-      // Log direct verbs access
-      console.log('Direct verb access length:', verbs?.length);
-      
-      // Try using the verbs data directly first
-      if (Array.isArray(verbs) && verbs.length > 0) {
-        console.log('Using direct verbs array');
+      if (Array.isArray(contentData) && contentData.length > 0) {
+        console.log(`Using ${contentType} data:`, contentData);
         setLoadingState(prev => ({ 
           ...prev, 
-          stage: 'using direct verbs', 
+          stage: `using ${contentType} data`, 
           progress: 40,
-          verbsFound: verbs.length
+          itemsFound: contentData.length
         }));
         
-        const shuffled = [...verbs].sort(() => Math.random() - 0.5);
+        const shuffled = [...contentData].sort(() => Math.random() - 0.5);
         setImages(shuffled);
         setCurrentImage(shuffled[0]);
         setLoadingState(prev => ({ 
@@ -147,63 +144,40 @@ const speakWord = useCallback((text, chatOverride) => {
         return;
       }
       
-      setLoadingState(prev => ({ ...prev, stage: 'getting shuffled verbs', progress: 30 }));
-      
-      // Fallback to getShuffledVerbs
-      console.log('Calling getShuffledVerbs()');
-      const imageList = getShuffledVerbs();
-      console.log('Got image list:', imageList);
-      setLoadingState(prev => ({ ...prev, stage: 'validating verbs', progress: 50 }));
-      
-      if (!Array.isArray(imageList)) {
-        const error = 'Image list is not an array';
-        console.error(error, imageList);
-        setLoadingState(prev => ({ ...prev, error, stage: 'error' }));
-        return;
+      // If no contentData provided, fallback to legacy verbs
+      if (contentType === 'verbs') {
+        setLoadingState(prev => ({ ...prev, stage: 'getting shuffled verbs', progress: 30 }));
+        
+        console.log('Calling getShuffledVerbs()');
+        const imageList = getShuffledVerbs();
+        console.log('Got image list:', imageList);
+        
+        if (Array.isArray(imageList) && imageList.length > 0) {
+          setImages(imageList);
+          setCurrentImage(imageList[0]);
+          setLoadingState(prev => ({ 
+            ...prev, 
+            isLoading: false, 
+            stage: 'complete', 
+            progress: 100,
+            itemsFound: imageList.length
+          }));
+          return;
+        }
       }
       
-      if (imageList.length === 0) {
-        const error = 'Image list is empty';
-        console.error(error);
-        setLoadingState(prev => ({ ...prev, error, stage: 'error' }));
-        return;
-      }
-      
-      setLoadingState(prev => ({ 
-        ...prev, 
-        stage: 'processing images', 
-        progress: 70,
-        verbsFound: imageList.length
-      }));
-      
-      // Validate first image
-      const firstImage = imageList[0];
-      if (!firstImage || !firstImage.ar || !firstImage.chat) {
-        const error = 'Invalid first image';
-        console.error(error, firstImage);
-        setLoadingState(prev => ({ ...prev, error, stage: 'error' }));
-        return;
-      }
-      
-      setLoadingState(prev => ({ ...prev, stage: 'setting state', progress: 90 }));
-      setImages(imageList);
-      setCurrentImage(firstImage);
-      console.log('Successfully set current image to:', firstImage);
-      setLoadingState(prev => ({ 
-        ...prev, 
-        isLoading: false, 
-        stage: 'complete', 
-        progress: 100 
-      }));
+      const error = `No ${contentType} data available`;
+      console.error(error);
+      setLoadingState(prev => ({ ...prev, error, stage: 'error' }));
     } catch (error) {
-      console.error('Error loading images:', error);
+      console.error('Error loading content:', error);
       setLoadingState(prev => ({ 
         ...prev, 
-        error: error.message || 'Unknown error loading images', 
+        error: error.message || 'Unknown error loading content', 
         stage: 'error' 
       }));
     }
-  }, []);
+  }, [contentData, contentType]);
 
   // Initialize speech recognition after images are loaded
   useEffect(() => {
@@ -421,11 +395,19 @@ const speakWord = useCallback((text, chatOverride) => {
     console.log('Shuffle images called');
     // Cancel any ongoing speech when shuffling
     speechSynthesis.current.cancel();
-    const shuffledImages = getShuffledVerbs();
-    setImages(shuffledImages);
-    setCurrentImage(shuffledImages[0]);
+    
+    if (contentData.length > 0) {
+      const shuffled = [...contentData].sort(() => Math.random() - 0.5);
+      setImages(shuffled);
+      setCurrentImage(shuffled[0]);
+    } else {
+      // Fallback for verbs
+      const shuffledImages = getShuffledVerbs();
+      setImages(shuffledImages);
+      setCurrentImage(shuffledImages[0]);
+    }
     setResult(null);
-  }, []);
+  }, [contentData]);
 
   console.log('Rendering with currentImage:', currentImage);
 
@@ -446,7 +428,7 @@ const speakWord = useCallback((text, chatOverride) => {
           <div className="text-2xl text-gray-600 text-center my-2 font-bold">
             {loadingState.error ? 
               `Error: ${loadingState.error}` : 
-              `Loading verbs... (${loadingState.stage})`}
+              `Loading ${contentType}... (${loadingState.stage})`}
           </div>
           <div className="w-4/5 h-2 bg-gray-300 rounded my-2 overflow-hidden">
             <div 
@@ -454,9 +436,9 @@ const speakWord = useCallback((text, chatOverride) => {
               style={{ width: `${loadingState.progress}%` }}
             />
           </div>
-          {loadingState.verbsFound > 0 && (
+          {loadingState.itemsFound > 0 && (
             <div className="text-base text-gray-500 my-2">
-              Found {loadingState.verbsFound} verbs
+              Found {loadingState.itemsFound} {contentType}
             </div>
           )}
           {loadingState.error && (
@@ -477,11 +459,14 @@ const speakWord = useCallback((text, chatOverride) => {
       {currentImage && (
         <div className="mb-6 flex flex-col items-center px-2 sm:px-4">
           <div className="w-full flex justify-center">
-            <img 
-              src={'.' + currentImage.url} 
-              alt={currentImage.eng}
-              className="max-w-[90vw] w-full h-auto rounded-lg shadow mb-3 cursor-pointer"
+            <MediaDisplay
+              item={currentImage}
+              contentType={contentType}
+              className="max-w-[90vw] w-full h-auto mb-3"
               onClick={() => speakWord(currentImage.ar, currentImage.chat)}
+              autoPlay={true}
+              loop={true}
+              muted={true}
             />
           </div>
           {result && (

@@ -5,17 +5,18 @@ const PLAY_AUDIO_FILES = true;
 
 import { verbs, getShuffledVerbs } from './verbs-data';
 import { normalizeArabic } from './arabicUtils';
+import MediaDisplay from './MediaDisplay';
 
 /**
- * Mini Game 3 – 3×3 Picture Puzzle + Speech
+ * Mini Game 3 – 3×3 Picture/Color Puzzle + Speech
  * -------------------------------------------------
- * 1. Nine random verb images are shown in a 3×3 grid.
- * 2. The user taps an image → the tile is highlighted & the correct Arabic is pronounced.
- * 3. Speech-recognition starts automatically. If the user pronounces the verb correctly
+ * 1. Nine random items are shown in a 3×3 grid.
+ * 2. The user taps an item → the tile is highlighted & the correct Arabic is pronounced.
+ * 3. Speech-recognition starts automatically. If the user pronounces correctly
  *    (exact or partial match) the tile disappears. Otherwise it stays.
  * 4. When all tiles are removed the round ends & the user can play again.
  */
-const PuzzleGame = () => {
+const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
   /** ----------------------------------
    * State
    * --------------------------------*/
@@ -90,15 +91,20 @@ const PuzzleGame = () => {
   }, [arabicVoice]);
 
   /** ----------------------------------
-   * Initialise first round (nine random verbs)
+   * Initialise first round (nine random items)
    * --------------------------------*/
   const initRound = useCallback(() => {
-    const source = Array.isArray(verbs) && verbs.length ? [...verbs] : getShuffledVerbs();
+    let source;
+    if (contentData && contentData.length > 0) {
+      source = [...contentData];
+    } else {
+      source = Array.isArray(verbs) && verbs.length ? [...verbs] : getShuffledVerbs();
+    }
     const shuffled = source.sort(() => Math.random() - 0.5).slice(0, 9);
     setTiles(shuffled.map(v => ({ verb: v, removed: false })));
     setActiveIdx(null);
     setStatusMsg(null);
-  }, []);
+  }, [contentData]);
 
   useEffect(() => {
     initRound();
@@ -200,7 +206,15 @@ const PuzzleGame = () => {
         onClick={() => handleTileClick(idx)}
         className={`relative cursor-pointer border rounded-lg overflow-hidden transition-shadow ${idx === activeIdx ? 'ring-4 ring-blue-500' : 'hover:shadow-lg'}`}
       >
-        <img src={'.' + tile.verb.url} alt={tile.verb.eng} className="w-full h-auto" />
+        <MediaDisplay
+          item={tile.verb}
+          contentType={contentType}
+          className="w-full h-auto"
+          style={contentType === 'colors' ? { width: '120px', height: '120px' } : {}}
+          autoPlay={false}
+          loop={true}
+          muted={true}
+        />
       </div>
     );
   };
@@ -210,7 +224,9 @@ const PuzzleGame = () => {
    * --------------------------------*/
   return (
     <div className="max-w-3xl mx-auto p-4 text-center font-sans">
-      <h2 className="text-2xl font-bold mb-4">Game 3: 3×3 Speak & Remove</h2>
+      <h2 className="text-2xl font-bold mb-4">
+        Game 3: 3×3 Speak & Remove ({contentType})
+      </h2>
 
       {allGone ? (
         <div className="my-6">

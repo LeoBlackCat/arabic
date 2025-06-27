@@ -19,7 +19,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif|mp4|webm|ogg)$/i,
         type: 'asset/resource',
       },
       {

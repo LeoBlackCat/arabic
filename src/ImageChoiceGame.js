@@ -3,9 +3,10 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 // Toggle: if true, play pre-generated WAV files instead of browser TTS
 const PLAY_AUDIO_FILES = true;
 import { verbs, getShuffledVerbs } from './verbs-data';
+import MediaDisplay from './MediaDisplay';
 
-// Game 2: The app speaks an Arabic verb, user selects the matching image
-const ImageChoiceGame = () => {
+// Game 2: The app speaks an Arabic word, user selects the matching image/color
+const ImageChoiceGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
   const [options, setOptions] = useState([]);
   const [correct, setCorrect] = useState(null);
   const [result, setResult] = useState(null);
@@ -75,7 +76,13 @@ const speakWord = useCallback((text, chatOverride) => {
 
   // Generate a new round with 4 random options
   const generateRound = useCallback(() => {
-    const source = Array.isArray(verbs) && verbs.length ? [...verbs] : getShuffledVerbs();
+    let source;
+    if (contentData && contentData.length > 0) {
+      source = [...contentData];
+    } else {
+      source = Array.isArray(verbs) && verbs.length ? [...verbs] : getShuffledVerbs();
+    }
+    
     const shuffled = source.sort(() => Math.random() - 0.5);
     const opts = shuffled.slice(0, 4);
     const corr = opts[Math.floor(Math.random() * opts.length)];
@@ -84,7 +91,7 @@ const speakWord = useCallback((text, chatOverride) => {
     setResult(null);
     // Speak after short delay for better UX
     setTimeout(() => speakWord(corr.ar, corr.chat), 300);
-  }, [speakWord]);
+  }, [speakWord, contentData]);
 
   // Setup first round
   useEffect(() => {
@@ -105,15 +112,25 @@ const speakWord = useCallback((text, chatOverride) => {
 
   return (
     <div className="max-w-3xl mx-auto p-8 text-center font-sans">
-      <h2 className="text-2xl font-bold mb-4">Choose the picture that matches the spoken word</h2>
+      <h2 className="text-2xl font-bold mb-4">
+        Choose the {contentType === 'colors' ? 'color' : 'picture'} that matches the spoken word
+      </h2>
       <div className="grid grid-cols-2 gap-4">
-        {options.map(img => (
+        {options.map(item => (
           <div
-            key={img.path}
-            className="cursor-pointer border rounded-lg p-2 hover:shadow-lg"
-            onClick={() => handleSelect(img)}
+            key={item.path || item.chat}
+            className="cursor-pointer border rounded-lg p-2 hover:shadow-lg transition-shadow"
+            onClick={() => handleSelect(item)}
           >
-            <img src={'.' + img.url} alt={img.eng} className="w-full h-auto rounded" />
+            <MediaDisplay
+              item={item}
+              contentType={contentType}
+              className="w-full h-auto rounded"
+              style={contentType === 'colors' ? { width: '200px', height: '200px' } : {}}
+              autoPlay={false}
+              loop={true}
+              muted={true}
+            />
           </div>
         ))}
       </div>
