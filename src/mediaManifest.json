@@ -1,0 +1,796 @@
+{
+  "generatedAt": "2025-06-29T08:01:24.651Z",
+  "totalMediaFiles": 24,
+  "itemsChecked": 66,
+  "items": {
+    "Aba": {
+      "id": 71,
+      "chat": "Aba",
+      "ar": "أبا",
+      "eng": "I want",
+      "type": "verb",
+      "hasVideo": true,
+      "hasImage": false,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4"
+      ]
+    },
+    "Aakel": {
+      "id": 72,
+      "chat": "Aakel",
+      "ar": "آكل",
+      "eng": "I eat",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Asawee": {
+      "id": 73,
+      "chat": "Asawee",
+      "ar": "أسوي",
+      "eng": "I make/do",
+      "type": "verb",
+      "hasVideo": true,
+      "hasImage": false,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4"
+      ]
+    },
+    "A7eb": {
+      "id": 74,
+      "chat": "A7eb",
+      "ar": "أحب",
+      "eng": "I like/love",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Aakheth": {
+      "id": 75,
+      "chat": "Aakheth",
+      "ar": "آخذ",
+      "eng": "I take",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Atkallam": {
+      "id": 76,
+      "chat": "Atkallam",
+      "ar": "أتكلم",
+      "eng": "I speak",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "armis": {
+      "id": 77,
+      "chat": "armis",
+      "ar": "أرمس",
+      "eng": "I speak",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "A3arf": {
+      "id": 78,
+      "chat": "A3arf",
+      "ar": "أعرف",
+      "eng": "I know",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Adres": {
+      "id": 79,
+      "chat": "Adres",
+      "ar": "أدرس",
+      "eng": "I study",
+      "type": "verb",
+      "hasVideo": true,
+      "hasImage": false,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4"
+      ]
+    },
+    "Agra": {
+      "id": 80,
+      "chat": "Agra",
+      "ar": "أقرأ",
+      "eng": "I read",
+      "type": "verb",
+      "hasVideo": true,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4",
+        "png"
+      ]
+    },
+    "Ashteree": {
+      "id": 81,
+      "chat": "Ashteree",
+      "ar": "أشتري",
+      "eng": "I buy",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Aseer": {
+      "id": 82,
+      "chat": "Aseer",
+      "ar": "أسير",
+      "eng": "I go",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "aroo7": {
+      "id": 83,
+      "chat": "aroo7",
+      "ar": "أروح",
+      "eng": "I go",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Asma3": {
+      "id": 84,
+      "chat": "Asma3",
+      "ar": "أسمع",
+      "eng": "I listen/hear",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Amsek": {
+      "id": 85,
+      "chat": "Amsek",
+      "ar": "أمسك",
+      "eng": "I hold",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Asakker": {
+      "id": 86,
+      "chat": "Asakker",
+      "ar": "أسكر",
+      "eng": "I close",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Ashteghil": {
+      "id": 87,
+      "chat": "Ashteghil",
+      "ar": "أشتغل",
+      "eng": "I work",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Atarresh": {
+      "id": 88,
+      "chat": "Atarresh",
+      "ar": "أطرش",
+      "eng": "I send",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Anaam": {
+      "id": 89,
+      "chat": "Anaam",
+      "ar": "أنام",
+      "eng": "I sleep",
+      "type": "verb",
+      "hasVideo": true,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4",
+        "png"
+      ]
+    },
+    "arged": {
+      "id": 90,
+      "chat": "arged",
+      "ar": "أرقد",
+      "eng": "I sleep",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Ayeeb": {
+      "id": 91,
+      "chat": "Ayeeb",
+      "ar": "أجيب",
+      "eng": "I bring",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Akallem": {
+      "id": 92,
+      "chat": "Akallem",
+      "ar": "أكلم",
+      "eng": "I talk to",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Agdar": {
+      "id": 93,
+      "chat": "Agdar",
+      "ar": "أقدر",
+      "eng": "I can",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Ajarreb": {
+      "id": 94,
+      "chat": "Ajarreb",
+      "ar": "أجرب",
+      "eng": "I try out",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "As'al": {
+      "id": 95,
+      "chat": "As'al",
+      "ar": "أسأل",
+      "eng": "I ask",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Al3ab": {
+      "id": 96,
+      "chat": "Al3ab",
+      "ar": "ألعب",
+      "eng": "I play",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Astakhdem": {
+      "id": 97,
+      "chat": "Astakhdem",
+      "ar": "أستخدم",
+      "eng": "I use",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "3endy": {
+      "id": 98,
+      "chat": "3endy",
+      "ar": "عندي",
+      "eng": "I have",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Ashrab": {
+      "id": 99,
+      "chat": "Ashrab",
+      "ar": "أشرب",
+      "eng": "I drink",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Atbakh": {
+      "id": 100,
+      "chat": "Atbakh",
+      "ar": "أطبخ",
+      "eng": "I cook",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Akrah": {
+      "id": 101,
+      "chat": "Akrah",
+      "ar": "أكره",
+      "eng": "I hate",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "A3tee": {
+      "id": 102,
+      "chat": "A3tee",
+      "ar": "أعطي",
+      "eng": "I give",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Afham": {
+      "id": 103,
+      "chat": "Afham",
+      "ar": "أفهم",
+      "eng": "I understand",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "At3allam": {
+      "id": 104,
+      "chat": "At3allam",
+      "ar": "أتعلم",
+      "eng": "I learn",
+      "type": "verb",
+      "hasVideo": true,
+      "hasImage": false,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4"
+      ]
+    },
+    "Akteb": {
+      "id": 105,
+      "chat": "Akteb",
+      "ar": "أكتب",
+      "eng": "I write",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Adfa3": {
+      "id": 106,
+      "chat": "Adfa3",
+      "ar": "أدفع",
+      "eng": "I pay",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Asoog": {
+      "id": 107,
+      "chat": "Asoog",
+      "ar": "أسوق",
+      "eng": "I drive",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Amshee": {
+      "id": 108,
+      "chat": "Amshee",
+      "ar": "أمشي",
+      "eng": "I walk",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Ashoof": {
+      "id": 109,
+      "chat": "Ashoof",
+      "ar": "أشوف",
+      "eng": "I see/watch",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Asaa3ed": {
+      "id": 110,
+      "chat": "Asaa3ed",
+      "ar": "أساعد",
+      "eng": "I help",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Afta7": {
+      "id": 111,
+      "chat": "Afta7",
+      "ar": "أفتح",
+      "eng": "I open",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Attesel": {
+      "id": 112,
+      "chat": "Attesel",
+      "ar": "أتصل",
+      "eng": "I call",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "Ansa": {
+      "id": 113,
+      "chat": "Ansa",
+      "ar": "أنسى",
+      "eng": "I forget",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Agoum": {
+      "id": 114,
+      "chat": "Agoum",
+      "ar": "أقوم",
+      "eng": "I get up",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "anesh": {
+      "id": 115,
+      "chat": "anesh",
+      "ar": "أنش",
+      "eng": "I get up",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Ashell": {
+      "id": 116,
+      "chat": "Ashell",
+      "ar": "أشيل",
+      "eng": "I carry",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Agoul": {
+      "id": 117,
+      "chat": "Agoul",
+      "ar": "أقول",
+      "eng": "I say",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "A7aawil": {
+      "id": 118,
+      "chat": "A7aawil",
+      "ar": "أحاول",
+      "eng": "I try",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Atla3": {
+      "id": 119,
+      "chat": "Atla3",
+      "ar": "أطلع",
+      "eng": "I go out",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Ajaaweb": {
+      "id": 120,
+      "chat": "Ajaaweb",
+      "ar": "أجاوب",
+      "eng": "I answer",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Asaafer": {
+      "id": 121,
+      "chat": "Asaafer",
+      "ar": "أسافر",
+      "eng": "I travel",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "A7assel": {
+      "id": 122,
+      "chat": "A7assel",
+      "ar": "أحصل",
+      "eng": "I get/receive",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "Azoor": {
+      "id": 123,
+      "chat": "Azoor",
+      "ar": "أزور",
+      "eng": "I visit",
+      "type": "verb",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "a7mar": {
+      "id": 124,
+      "chat": "a7mar",
+      "ar": "أحمر",
+      "eng": "Red",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "asfar": {
+      "id": 125,
+      "chat": "asfar",
+      "ar": "أصفر",
+      "eng": "Yellow",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "azrag": {
+      "id": 126,
+      "chat": "azrag",
+      "ar": "أزرق",
+      "eng": "Blue",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "abyadh": {
+      "id": 127,
+      "chat": "abyadh",
+      "ar": "أبيض",
+      "eng": "White",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "aswad": {
+      "id": 128,
+      "chat": "aswad",
+      "ar": "أسود",
+      "eng": "Black",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "akhdhar": {
+      "id": 129,
+      "chat": "akhdhar",
+      "ar": "أخضر",
+      "eng": "Green",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "rusasee": {
+      "id": 130,
+      "chat": "rusasee",
+      "ar": "رصاصي",
+      "eng": "Gray",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "wardee": {
+      "id": 131,
+      "chat": "wardee",
+      "ar": "وردي",
+      "eng": "Pink",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "banafsajee": {
+      "id": 132,
+      "chat": "banafsajee",
+      "ar": "بنفسجي",
+      "eng": "Purple",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "bonnee": {
+      "id": 133,
+      "chat": "bonnee",
+      "ar": "بني",
+      "eng": "Brown",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "burtuqalee": {
+      "id": 134,
+      "chat": "burtuqalee",
+      "ar": "برتقالي",
+      "eng": "Orange",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "fedhee": {
+      "id": 135,
+      "chat": "fedhee",
+      "ar": "فضي",
+      "eng": "Silver",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "thahabee": {
+      "id": 136,
+      "chat": "thahabee",
+      "ar": "ذهبي",
+      "eng": "Golden",
+      "type": "color",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    }
+  },
+  "stats": {
+    "hasVideo": 4,
+    "hasImage": 18,
+    "hasBoth": 2,
+    "hasNeither": 29,
+    "colorsTotal": 13
+  },
+  "summary": {
+    "verbsWithMedia": 24,
+    "verbsWithoutMedia": 29,
+    "colorsTotal": 13,
+    "recommendedForGames": 37
+  }
+}

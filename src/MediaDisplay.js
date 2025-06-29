@@ -22,36 +22,47 @@ const MediaDisplay = ({
   const [mediaType, setMediaType] = useState('loading'); // 'loading', 'video', 'image', 'color', 'text'
   const [hasError, setHasError] = useState(false);
 
-  // For colors, always show color square
+  // Determine media type based on available data
   useEffect(() => {
     if (contentType === 'colors') {
       setMediaType('color');
       return;
     }
 
-    // For verbs, check if video exists
-    setMediaType('loading');
-    setHasError(false);
-    
-    // Try to load video first
-    const videoPath = `./pictures/${item.chat.toLowerCase()}.mp4`;
-    const video = document.createElement('video');
-    
-    video.onloadeddata = () => {
+    // Use manifest data if available, otherwise try detection
+    if (item.hasVideo) {
       setMediaType('video');
-    };
-    
-    video.onerror = () => {
-      // Video failed, fall back to image
+    } else if (item.hasImage || item.url) {
       setMediaType('image');
-    };
-    
-    video.src = videoPath;
+    } else {
+      // Fallback: Try to detect video first
+      setMediaType('loading');
+      setHasError(false);
+      
+      const videoPath = `./pictures/${item.chat.toLowerCase()}.mp4`;
+      const video = document.createElement('video');
+      
+      video.onloadeddata = () => {
+        setMediaType('video');
+      };
+      
+      video.onerror = () => {
+        // Video failed, fall back to image
+        setMediaType('image');
+      };
+      
+      video.src = videoPath;
+    }
   }, [item, contentType]);
 
   const handleVideoError = () => {
     console.log(`Video failed for ${item.chat}, falling back to image`);
-    setMediaType('image');
+    // Only fallback to image if we know it exists
+    if (item.hasImage) {
+      setMediaType('image');
+    } else {
+      setMediaType('text');
+    }
     setHasError(true);
   };
 
@@ -125,15 +136,8 @@ const MediaDisplay = ({
         controls={false}
       >
         <source src={`./pictures/${item.chat.toLowerCase()}.mp4`} type="video/mp4" />
-        {/* Fallback if video element isn't supported */}
-        <img 
-          src={`./pictures/${item.chat.toLowerCase()}.png`}
-          alt={item.eng}
-          className={className}
-          style={style}
-          onClick={onClick}
-          onError={handleImageError}
-        />
+        {/* Text fallback for unsupported browsers */}
+        Your browser does not support the video tag.
       </video>
     );
   }

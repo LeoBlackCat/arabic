@@ -3,6 +3,7 @@ import App from './App';
 import ImageChoiceGame from './ImageChoiceGame';
 import PuzzleGame from './PuzzleGame';
 import logicData from '../logic.json';
+import mediaManifest from './mediaManifest.json';
 
 // Content types
 const CONTENT_TYPES = {
@@ -45,27 +46,39 @@ const GameHub = () => {
       let data = [];
       
       if (selectedContent === CONTENT_TYPES.VERBS) {
-        // Get verbs from logic.json (items with pos="verb")
+        // Get verbs from logic.json that have media files available
         data = logicData.items
           .filter(item => item.pos === 'verb')
-          .map(item => ({
-            ...item,
-            url: `/pictures/${item.chat.toLowerCase()}.png`,
-            path: `${item.chat.toLowerCase()}.png`,
-            hasImage: true
-          }));
+          .filter(item => {
+            // Check if this verb has media files available
+            const manifestItem = mediaManifest.items[item.chat];
+            return manifestItem && manifestItem.hasAnyMedia;
+          })
+          .map(item => {
+            const manifestItem = mediaManifest.items[item.chat];
+            return {
+              ...item,
+              url: `/pictures/${item.chat.toLowerCase()}.png`,
+              path: `${item.chat.toLowerCase()}.png`,
+              hasImage: manifestItem.hasImage,
+              hasVideo: manifestItem.hasVideo,
+              availableFormats: manifestItem.availableFormats
+            };
+          });
       } else if (selectedContent === CONTENT_TYPES.COLORS) {
-        // Get colors from logic.json (items with type="colors")
+        // Get colors from logic.json (always available via HTML colors)
         data = logicData.items
           .filter(item => item.type === 'colors')
           .map(item => ({
             ...item,
             color: COLOR_MAP[item.chat] || '#CCCCCC',
-            hasImage: false
+            hasImage: false,
+            hasVideo: false,
+            availableFormats: ['color']
           }));
       }
       
-      console.log(`Loaded ${data.length} ${selectedContent} items:`, data);
+      console.log(`Loaded ${data.length} ${selectedContent} items (filtered by media availability):`, data);
       setContentData(data);
     };
 
@@ -140,8 +153,13 @@ const GameHub = () => {
           <div className="mt-2 text-sm text-gray-600">
             {contentData.length > 0 && (
               <span>
-                {contentData.length} {selectedContent} loaded • 
+                {contentData.length} {selectedContent} with media files • 
                 Playing: {selectedGame.replace('_', ' ')}
+                {selectedContent === CONTENT_TYPES.VERBS && (
+                  <span className="ml-2 text-blue-600">
+                    ({contentData.filter(item => item.hasVideo).length} with video)
+                  </span>
+                )}
               </span>
             )}
           </div>
