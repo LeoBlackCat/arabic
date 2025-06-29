@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2025-06-29T08:01:24.651Z",
-  "totalMediaFiles": 24,
+  "generatedAt": "2025-06-29T10:04:33.761Z",
+  "totalMediaFiles": 27,
   "itemsChecked": 66,
   "items": {
     "Aba": {
@@ -61,10 +61,12 @@
       "ar": "آخذ",
       "eng": "I take",
       "type": "verb",
-      "hasVideo": false,
+      "hasVideo": true,
       "hasImage": false,
-      "hasAnyMedia": false,
-      "availableFormats": []
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4"
+      ]
     },
     "Atkallam": {
       "id": 76,
@@ -73,9 +75,11 @@
       "eng": "I speak",
       "type": "verb",
       "hasVideo": false,
-      "hasImage": false,
-      "hasAnyMedia": false,
-      "availableFormats": []
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
     },
     "armis": {
       "id": 77,
@@ -262,10 +266,12 @@
       "ar": "أكلم",
       "eng": "I talk to",
       "type": "verb",
-      "hasVideo": false,
+      "hasVideo": true,
       "hasImage": false,
-      "hasAnyMedia": false,
-      "availableFormats": []
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "mp4"
+      ]
     },
     "Agdar": {
       "id": 93,
@@ -781,16 +787,16 @@
     }
   },
   "stats": {
-    "hasVideo": 4,
-    "hasImage": 18,
+    "hasVideo": 6,
+    "hasImage": 19,
     "hasBoth": 2,
-    "hasNeither": 29,
+    "hasNeither": 26,
     "colorsTotal": 13
   },
   "summary": {
-    "verbsWithMedia": 24,
-    "verbsWithoutMedia": 29,
+    "verbsWithMedia": 27,
+    "verbsWithoutMedia": 26,
     "colorsTotal": 13,
-    "recommendedForGames": 37
+    "recommendedForGames": 40
   }
 }

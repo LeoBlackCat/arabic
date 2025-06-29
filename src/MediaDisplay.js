@@ -106,16 +106,13 @@ const MediaDisplay = ({
   if (mediaType === 'text') {
     return (
       <div 
-        className={`flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg border-2 border-blue-300 cursor-pointer ${className}`}
+        className={`flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg border-2 border-gray-300 cursor-pointer ${className}`}
         style={{ minHeight: '120px', ...style }}
         onClick={onClick}
       >
         <div className="text-center p-4">
-          <div className="text-lg font-bold text-blue-900 mb-2">
+          <div className="text-xl font-bold text-gray-800">
             {item.eng}
-          </div>
-          <div className="text-sm text-blue-700 font-medium" style={{direction: 'rtl'}}>
-            {item.ar}
           </div>
         </div>
       </div>
