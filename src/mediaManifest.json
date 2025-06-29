@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2025-06-29T10:04:33.761Z",
+  "generatedAt": "2025-06-29T10:39:41.621Z",
   "totalMediaFiles": 27,
   "itemsChecked": 66,
   "items": {
-    "Aba": {
+    "aba": {
       "id": 71,
-      "chat": "Aba",
+      "chat": "aba",
       "ar": "أبا",
       "eng": "I want",
       "type": "verb",
@@ -16,9 +16,9 @@
         "mp4"
       ]
     },
-    "Aakel": {
+    "aakel": {
       "id": 72,
-      "chat": "Aakel",
+      "chat": "aakel",
       "ar": "آكل",
       "eng": "I eat",
       "type": "verb",
@@ -29,9 +29,9 @@
         "png"
       ]
     },
-    "Asawee": {
+    "asawee": {
       "id": 73,
-      "chat": "Asawee",
+      "chat": "asawee",
       "ar": "أسوي",
       "eng": "I make/do",
       "type": "verb",
@@ -42,9 +42,9 @@
         "mp4"
       ]
     },
-    "A7eb": {
+    "a7eb": {
       "id": 74,
-      "chat": "A7eb",
+      "chat": "a7eb",
       "ar": "أحب",
       "eng": "I like/love",
       "type": "verb",
@@ -55,9 +55,9 @@
         "png"
       ]
     },
-    "Aakheth": {
+    "aakheth": {
       "id": 75,
-      "chat": "Aakheth",
+      "chat": "aakheth",
       "ar": "آخذ",
       "eng": "I take",
       "type": "verb",
@@ -68,9 +68,9 @@
         "mp4"
       ]
     },
-    "Atkallam": {
+    "atkallam": {
       "id": 76,
-      "chat": "Atkallam",
+      "chat": "atkallam",
       "ar": "أتكلم",
       "eng": "I speak",
       "type": "verb",
@@ -92,9 +92,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "A3arf": {
+    "a3arf": {
       "id": 78,
-      "chat": "A3arf",
+      "chat": "a3arf",
       "ar": "أعرف",
       "eng": "I know",
       "type": "verb",
@@ -103,9 +103,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Adres": {
+    "adres": {
       "id": 79,
-      "chat": "Adres",
+      "chat": "adres",
       "ar": "أدرس",
       "eng": "I study",
       "type": "verb",
@@ -116,9 +116,9 @@
         "mp4"
       ]
     },
-    "Agra": {
+    "agra": {
       "id": 80,
-      "chat": "Agra",
+      "chat": "agra",
       "ar": "أقرأ",
       "eng": "I read",
       "type": "verb",
@@ -130,9 +130,9 @@
         "png"
       ]
     },
-    "Ashteree": {
+    "ashteree": {
       "id": 81,
-      "chat": "Ashteree",
+      "chat": "ashteree",
       "ar": "أشتري",
       "eng": "I buy",
       "type": "verb",
@@ -141,9 +141,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Aseer": {
+    "aseer": {
       "id": 82,
-      "chat": "Aseer",
+      "chat": "aseer",
       "ar": "أسير",
       "eng": "I go",
       "type": "verb",
@@ -163,9 +163,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Asma3": {
+    "asma3": {
       "id": 84,
-      "chat": "Asma3",
+      "chat": "asma3",
       "ar": "أسمع",
       "eng": "I listen/hear",
       "type": "verb",
@@ -176,9 +176,9 @@
         "png"
       ]
     },
-    "Amsek": {
+    "amsek": {
       "id": 85,
-      "chat": "Amsek",
+      "chat": "amsek",
       "ar": "أمسك",
       "eng": "I hold",
       "type": "verb",
@@ -187,9 +187,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Asakker": {
+    "asakker": {
       "id": 86,
-      "chat": "Asakker",
+      "chat": "asakker",
       "ar": "أسكر",
       "eng": "I close",
       "type": "verb",
@@ -198,9 +198,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Ashteghil": {
+    "ashteghil": {
       "id": 87,
-      "chat": "Ashteghil",
+      "chat": "ashteghil",
       "ar": "أشتغل",
       "eng": "I work",
       "type": "verb",
@@ -211,9 +211,9 @@
         "png"
       ]
     },
-    "Atarresh": {
+    "atarresh": {
       "id": 88,
-      "chat": "Atarresh",
+      "chat": "atarresh",
       "ar": "أطرش",
       "eng": "I send",
       "type": "verb",
@@ -224,9 +224,9 @@
         "png"
       ]
     },
-    "Anaam": {
+    "anaam": {
       "id": 89,
-      "chat": "Anaam",
+      "chat": "anaam",
       "ar": "أنام",
       "eng": "I sleep",
       "type": "verb",
@@ -249,9 +249,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Ayeeb": {
+    "ayeeb": {
       "id": 91,
-      "chat": "Ayeeb",
+      "chat": "ayeeb",
       "ar": "أجيب",
       "eng": "I bring",
       "type": "verb",
@@ -260,9 +260,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Akallem": {
+    "akallem": {
       "id": 92,
-      "chat": "Akallem",
+      "chat": "akallem",
       "ar": "أكلم",
       "eng": "I talk to",
       "type": "verb",
@@ -273,9 +273,9 @@
         "mp4"
       ]
     },
-    "Agdar": {
+    "agdar": {
       "id": 93,
-      "chat": "Agdar",
+      "chat": "agdar",
       "ar": "أقدر",
       "eng": "I can",
       "type": "verb",
@@ -286,9 +286,9 @@
         "png"
       ]
     },
-    "Ajarreb": {
+    "ajarreb": {
       "id": 94,
-      "chat": "Ajarreb",
+      "chat": "ajarreb",
       "ar": "أجرب",
       "eng": "I try out",
       "type": "verb",
@@ -297,9 +297,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "As'al": {
+    "as'al": {
       "id": 95,
-      "chat": "As'al",
+      "chat": "as'al",
       "ar": "أسأل",
       "eng": "I ask",
       "type": "verb",
@@ -310,9 +310,9 @@
         "png"
       ]
     },
-    "Al3ab": {
+    "al3ab": {
       "id": 96,
-      "chat": "Al3ab",
+      "chat": "al3ab",
       "ar": "ألعب",
       "eng": "I play",
       "type": "verb",
@@ -323,9 +323,9 @@
         "png"
       ]
     },
-    "Astakhdem": {
+    "astakhdem": {
       "id": 97,
-      "chat": "Astakhdem",
+      "chat": "astakhdem",
       "ar": "أستخدم",
       "eng": "I use",
       "type": "verb",
@@ -345,9 +345,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Ashrab": {
+    "ashrab": {
       "id": 99,
-      "chat": "Ashrab",
+      "chat": "ashrab",
       "ar": "أشرب",
       "eng": "I drink",
       "type": "verb",
@@ -358,9 +358,9 @@
         "png"
       ]
     },
-    "Atbakh": {
+    "atbakh": {
       "id": 100,
-      "chat": "Atbakh",
+      "chat": "atbakh",
       "ar": "أطبخ",
       "eng": "I cook",
       "type": "verb",
@@ -371,9 +371,9 @@
         "png"
       ]
     },
-    "Akrah": {
+    "akrah": {
       "id": 101,
-      "chat": "Akrah",
+      "chat": "akrah",
       "ar": "أكره",
       "eng": "I hate",
       "type": "verb",
@@ -382,9 +382,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "A3tee": {
+    "a3tee": {
       "id": 102,
-      "chat": "A3tee",
+      "chat": "a3tee",
       "ar": "أعطي",
       "eng": "I give",
       "type": "verb",
@@ -393,9 +393,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Afham": {
+    "afham": {
       "id": 103,
-      "chat": "Afham",
+      "chat": "afham",
       "ar": "أفهم",
       "eng": "I understand",
       "type": "verb",
@@ -404,9 +404,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "At3allam": {
+    "at3allam": {
       "id": 104,
-      "chat": "At3allam",
+      "chat": "at3allam",
       "ar": "أتعلم",
       "eng": "I learn",
       "type": "verb",
@@ -417,9 +417,9 @@
         "mp4"
       ]
     },
-    "Akteb": {
+    "akteb": {
       "id": 105,
-      "chat": "Akteb",
+      "chat": "akteb",
       "ar": "أكتب",
       "eng": "I write",
       "type": "verb",
@@ -430,9 +430,9 @@
         "png"
       ]
     },
-    "Adfa3": {
+    "adfa3": {
       "id": 106,
-      "chat": "Adfa3",
+      "chat": "adfa3",
       "ar": "أدفع",
       "eng": "I pay",
       "type": "verb",
@@ -443,9 +443,9 @@
         "png"
       ]
     },
-    "Asoog": {
+    "asoog": {
       "id": 107,
-      "chat": "Asoog",
+      "chat": "asoog",
       "ar": "أسوق",
       "eng": "I drive",
       "type": "verb",
@@ -456,9 +456,9 @@
         "png"
       ]
     },
-    "Amshee": {
+    "amshee": {
       "id": 108,
-      "chat": "Amshee",
+      "chat": "amshee",
       "ar": "أمشي",
       "eng": "I walk",
       "type": "verb",
@@ -467,9 +467,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Ashoof": {
+    "ashoof": {
       "id": 109,
-      "chat": "Ashoof",
+      "chat": "ashoof",
       "ar": "أشوف",
       "eng": "I see/watch",
       "type": "verb",
@@ -480,9 +480,9 @@
         "png"
       ]
     },
-    "Asaa3ed": {
+    "asaa3ed": {
       "id": 110,
-      "chat": "Asaa3ed",
+      "chat": "asaa3ed",
       "ar": "أساعد",
       "eng": "I help",
       "type": "verb",
@@ -491,9 +491,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Afta7": {
+    "afta7": {
       "id": 111,
-      "chat": "Afta7",
+      "chat": "afta7",
       "ar": "أفتح",
       "eng": "I open",
       "type": "verb",
@@ -504,9 +504,9 @@
         "png"
       ]
     },
-    "Attesel": {
+    "attesel": {
       "id": 112,
-      "chat": "Attesel",
+      "chat": "attesel",
       "ar": "أتصل",
       "eng": "I call",
       "type": "verb",
@@ -517,9 +517,9 @@
         "png"
       ]
     },
-    "Ansa": {
+    "ansa": {
       "id": 113,
-      "chat": "Ansa",
+      "chat": "ansa",
       "ar": "أنسى",
       "eng": "I forget",
       "type": "verb",
@@ -528,9 +528,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Agoum": {
+    "agoum": {
       "id": 114,
-      "chat": "Agoum",
+      "chat": "agoum",
       "ar": "أقوم",
       "eng": "I get up",
       "type": "verb",
@@ -552,9 +552,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Ashell": {
+    "ashell": {
       "id": 116,
-      "chat": "Ashell",
+      "chat": "ashell",
       "ar": "أشيل",
       "eng": "I carry",
       "type": "verb",
@@ -563,9 +563,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Agoul": {
+    "agoul": {
       "id": 117,
-      "chat": "Agoul",
+      "chat": "agoul",
       "ar": "أقول",
       "eng": "I say",
       "type": "verb",
@@ -574,9 +574,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "A7aawil": {
+    "a7aawil": {
       "id": 118,
-      "chat": "A7aawil",
+      "chat": "a7aawil",
       "ar": "أحاول",
       "eng": "I try",
       "type": "verb",
@@ -585,9 +585,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Atla3": {
+    "atla3": {
       "id": 119,
-      "chat": "Atla3",
+      "chat": "atla3",
       "ar": "أطلع",
       "eng": "I go out",
       "type": "verb",
@@ -596,9 +596,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Ajaaweb": {
+    "ajaaweb": {
       "id": 120,
-      "chat": "Ajaaweb",
+      "chat": "ajaaweb",
       "ar": "أجاوب",
       "eng": "I answer",
       "type": "verb",
@@ -607,9 +607,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Asaafer": {
+    "asaafer": {
       "id": 121,
-      "chat": "Asaafer",
+      "chat": "asaafer",
       "ar": "أسافر",
       "eng": "I travel",
       "type": "verb",
@@ -620,9 +620,9 @@
         "png"
       ]
     },
-    "A7assel": {
+    "a7assel": {
       "id": 122,
-      "chat": "A7assel",
+      "chat": "a7assel",
       "ar": "أحصل",
       "eng": "I get/receive",
       "type": "verb",
@@ -631,9 +631,9 @@
       "hasAnyMedia": false,
       "availableFormats": []
     },
-    "Azoor": {
+    "azoor": {
       "id": 123,
-      "chat": "Azoor",
+      "chat": "azoor",
       "ar": "أزور",
       "eng": "I visit",
       "type": "verb",

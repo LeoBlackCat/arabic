@@ -5,119 +5,119 @@ const verbsData = [
   {
     path: "a7eb.png",
     url: "/pictures/a7eb.png",
-    chat: "A7eb",
+    chat: "a7eb",
     ar: "أحب",
     eng: "I like/love"
   },
   {
     path: "aakel.png",
     url: "/pictures/aakel.png",
-    chat: "Aakel",
+    chat: "aakel",
     ar: "آكل",
     eng: "I eat"
   },
   {
     path: "adfa3.png",
     url: "/pictures/adfa3.png",
-    chat: "Adfa3",
+    chat: "adfa3",
     ar: "أدفع",
     eng: "I pay"
   },
   {
     path: "afta7.png",
     url: "/pictures/afta7.png",
-    chat: "Afta7",
+    chat: "afta7",
     ar: "أفتح",
     eng: "I open"
   },
   {
     path: "agdar.png",
     url: "/pictures/agdar.png",
-    chat: "Agdar",
+    chat: "agdar",
     ar: "أقدر",
     eng: "I can"
   },
   {
     path: "agoum.png",
     url: "/pictures/agoum.png",
-    chat: "Agoum",
+    chat: "agoum",
     ar: "أقوم",
     eng: "I stand"
   },
   {
     path: "agra.png",
     url: "/pictures/agra.png",
-    chat: "Agra",
+    chat: "agra",
     ar: "أقرأ", 
     eng: "I read"
   },
   {
     path: "akteb.png",
     url: "/pictures/akteb.png",
-    chat: "Akteb",
+    chat: "akteb",
     ar: "أكتب",
     eng: "I write"
   },
   {
     path: "al3ab.png",
     url: "/pictures/al3ab.png",
-    chat: "Al3ab",
+    chat: "al3ab",
     ar: "ألعب",
     eng: "I play"
   },
   {
     path: "anaam.png", 
     url: "/pictures/anaam.png",
-    chat: "Anaam",
+    chat: "anaam",
     ar: "أنام",
     eng: "I sleep"
   },
   {
     path: "ashoof.png",
     url: "/pictures/ashoof.png",
-    chat: "Ashoof",
+    chat: "ashoof",
     ar: "أشوف",
     eng: "I see"
   },
   {
     path: "ashrab.png",
     url: "/pictures/ashrab.png",
-    chat: "Ashrab",
+    chat: "ashrab",
     ar: "أشرب",
     eng: "I drink"
   },
   {
     path: "ashteghil.png",
     url: "/pictures/ashteghil.png",
-    chat: "Ashteghil",
+    chat: "ashteghil",
     ar: "أشتغل",
     eng: "I work"
   },
   {
     path: "asma3.png",
     url: "/pictures/asma3.png",
-    chat: "Asma3",
+    chat: "asma3",
     ar: "أسمع",
     eng: "I hear/listen"
   },
   {
     path: "asoog.png",
     url: "/pictures/asoog.png",
-    chat: "Asoog",
+    chat: "asoog",
     ar: "أسوق",
     eng: "I drive"
   },
   {
     path: "atbakh.png",
     url: "/pictures/atbakh.png",
-    chat: "Atbakh",
+    chat: "atbakh",
     ar: "أطبخ",
     eng: "I cook"
   },
   {
     path: "attesel.png",
     url: "/pictures/attesel.png",
-    chat: "Attesel",
+    chat: "attesel",
     ar: "أتصل",
     eng: "I call"
   }
