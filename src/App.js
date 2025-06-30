@@ -3,7 +3,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 // Toggle: if true, play pre-generated WAV files located in /sounds; otherwise use browser TTS
 const PLAY_AUDIO_FILES = true;
 import { verbs, getShuffledVerbs } from './verbs-data';
-import { normalizeArabic } from './arabicUtils';
+import { normalizeArabic, checkPronunciation } from './arabicUtils';
+import logicData from '../logic.json';
 import MediaDisplay from './MediaDisplay';
 
 // Audio priming to unlock playback after first user gesture
@@ -279,24 +280,24 @@ const speakWord = useCallback((text, chatOverride) => {
           console.log('Best transcription:', transcript);
           console.log('Confidence:', result[0].confidence);
 
-          // Compare with the current image's Arabic text using normalization
-          const expected = currentImage.ar;
-          console.log('Expected Arabic:', expected);
+          // Find the current item in logic data to check for alternates
+          const currentLogicItem = logicData.find(item => 
+            item.ar === currentImage.ar && item.chat === currentImage.chat
+          );
+          
+          console.log('Current logic item:', currentLogicItem);
+          console.log('Expected Arabic:', currentImage.ar);
 
-          // Normalize both the transcript and expected text
-          const normalizedTranscript = normalizeArabic(transcript);
-          const normalizedExpected = normalizeArabic(expected);
-
-          console.log('Normalized transcript:', normalizedTranscript);
-          console.log('Normalized expected:', normalizedExpected);
-
-          const isCorrect = normalizedTranscript === normalizedExpected;
-
-          // If not exact match but roots are similar, show as partially correct
-          const isPartialMatch = !isCorrect && 
-            (normalizedTranscript.includes(normalizedExpected) || 
-             normalizedExpected.includes(normalizedTranscript));
-          console.log('Is correct?', isCorrect);
+          // Use the new pronunciation checking function
+          const pronunciationResult = checkPronunciation(transcript, currentLogicItem || currentImage, logicData);
+          
+          console.log('Pronunciation check result:', pronunciationResult);
+          
+          const isCorrect = pronunciationResult.isCorrect;
+          const isPartialMatch = pronunciationResult.matchType === 'partial';
+          const matchType = pronunciationResult.matchType;
+          
+          console.log('Is correct?', isCorrect, 'Match type:', matchType);
 
           // Play feedback sound
           if (isCorrect) {
@@ -307,9 +308,11 @@ const speakWord = useCallback((text, chatOverride) => {
 
           setResult({
             transcript,
-            expected,
+            expected: currentImage.ar,
             isCorrect,
-            isPartialMatch
+            isPartialMatch,
+            matchType,
+            matchedItem: pronunciationResult.matchedItem
           });
 
           // Stop recording after getting final result
@@ -496,10 +499,18 @@ const speakWord = useCallback((text, chatOverride) => {
                   ? "text-blue-500 font-bold text-xl my-2"
                   : "text-red-600 font-bold text-xl my-2"
               }>
-                {result.isCorrect ? '✅ Correct!' : 
+                {result.isCorrect ? 
+                  (result.matchType === 'alternate' ? 
+                    '✅ Correct! (Alternate pronunciation)' : 
+                    '✅ Correct!') : 
                  result.isPartialMatch ? '🔵 Close! Different form of the same word' : 
                  '❌ Try again'}
               </p>
+              {result.isCorrect && result.matchType === 'alternate' && result.matchedItem && (
+                <p className="text-sm text-gray-600 mt-2">
+                  You said: <span className="font-semibold rtl" style={{direction: 'rtl'}}>{result.matchedItem.ar}</span> ({result.matchedItem.eng})
+                </p>
+              )}
             </div>
           )}
         </div>

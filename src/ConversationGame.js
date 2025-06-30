@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { normalizeArabic } from './arabicUtils';
+import { normalizeArabic, checkPronunciation } from './arabicUtils';
 import logicData from '../logic.json';
 
 // Game modes
@@ -146,16 +146,25 @@ const ConversationGame = () => {
   const handleSpeechResult = (transcript) => {
     if (!expectedResponse) return;
     
-    const normalizedTranscript = normalizeArabic(transcript);
-    const normalizedExpected = normalizeArabic(expectedResponse.ar);
-    const isCorrect = normalizedTranscript === normalizedExpected;
+    // Find the current item in logic data to check for alternates
+    const currentLogicItem = logicData.find(item => 
+      item.ar === expectedResponse.ar && item.chat === expectedResponse.chat
+    );
+    
+    // Use the new pronunciation checking function
+    const pronunciationResult = checkPronunciation(transcript, currentLogicItem || expectedResponse, logicData);
     
     setAttempts(prev => prev + 1);
     
-    if (isCorrect) {
+    if (pronunciationResult.isCorrect) {
       setScore(prev => prev + 1);
       setCharacterExpression(EXPRESSIONS.HAPPY);
-      setResult({ transcript, isCorrect: true });
+      setResult({ 
+        transcript, 
+        isCorrect: true, 
+        matchType: pronunciationResult.matchType,
+        matchedItem: pronunciationResult.matchedItem
+      });
       
       // Progress to next pair after success
       setTimeout(() => {
@@ -351,8 +360,17 @@ const ConversationGame = () => {
               You said: <span className="font-bold" style={{direction: 'rtl'}}>{result.transcript}</span>
             </p>
             <p className={`text-xl font-bold ${result.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
-              {result.isCorrect ? '✅ Perfect!' : '❌ Try again!'}
+              {result.isCorrect ? 
+                (result.matchType === 'alternate' ? 
+                  '✅ Perfect! (Alternate pronunciation)' : 
+                  '✅ Perfect!') : 
+                '❌ Try again!'}
             </p>
+            {result.isCorrect && result.matchType === 'alternate' && result.matchedItem && (
+              <p className="mt-2 text-sm text-gray-700">
+                You said: <span className="font-bold" style={{direction: 'rtl'}}>{result.matchedItem.ar}</span> ({result.matchedItem.eng})
+              </p>
+            )}
             {!result.isCorrect && (
               <p className="mt-2 text-sm text-gray-700">
                 Correct answer: <span className="font-bold" style={{direction: 'rtl'}}>{expectedResponse.ar}</span>

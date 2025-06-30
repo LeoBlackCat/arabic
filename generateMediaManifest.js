@@ -48,13 +48,27 @@ function getItemsNeedingMedia() {
   // Get verbs (items with pos="verb")
   if (logicData.items) {
     const verbs = logicData.items.filter(item => item.pos === 'verb');
+    
+    // Create lookup map for base verbs that have alternates
+    const baseVerbsWithAlternates = new Map();
     verbs.forEach(verb => {
+      if (verb.alternate) {
+        baseVerbsWithAlternates.set(verb.alternate, verb);
+      }
+    });
+    
+    verbs.forEach(verb => {
+      const isAlternate = baseVerbsWithAlternates.has(verb.id);
+      const baseVerb = isAlternate ? baseVerbsWithAlternates.get(verb.id) : null;
+      
       items.push({
         id: verb.id,
         chat: verb.chat,
         ar: verb.ar,
         eng: verb.eng,
-        type: 'verb'
+        type: 'verb',
+        isAlternate,
+        baseVerbChat: baseVerb ? baseVerb.chat : null
       });
     });
   }
@@ -104,9 +118,10 @@ function generateManifest() {
   console.log(`📝 Checking ${manifest.itemsChecked} items from logic.json`);
 
   items.forEach(item => {
-    const chatLower = item.chat.toLowerCase();
-    const hasVideo = mediaFiles[chatLower]?.mp4 === true;
-    const hasImage = mediaFiles[chatLower]?.png === true;
+    // For alternate verbs, check media availability using base verb's chat
+    const chatForMedia = item.isAlternate && item.baseVerbChat ? item.baseVerbChat.toLowerCase() : item.chat.toLowerCase();
+    const hasVideo = mediaFiles[chatForMedia]?.mp4 === true;
+    const hasImage = mediaFiles[chatForMedia]?.png === true;
     
     manifest.items[item.chat] = {
       id: item.id,
@@ -114,6 +129,9 @@ function generateManifest() {
       ar: item.ar,
       eng: item.eng,
       type: item.type,
+      isAlternate: item.isAlternate || false,
+      baseVerbChat: item.baseVerbChat || null,
+      mediaBasedOn: item.isAlternate && item.baseVerbChat ? item.baseVerbChat : item.chat,
       hasVideo,
       hasImage,
       hasAnyMedia: hasVideo || hasImage,
@@ -196,8 +214,19 @@ function printReport(manifest) {
   Object.values(manifest.items)
     .filter(item => item.type === 'verb' && item.hasVideo)
     .forEach(item => {
-      console.log(`     • ${item.chat} (${item.eng})`);
+      const altInfo = item.isAlternate ? ` [uses ${item.baseVerbChat}'s media]` : '';
+      console.log(`     • ${item.chat} (${item.eng})${altInfo}`);
     });
+
+  const alternateVerbs = Object.values(manifest.items)
+    .filter(item => item.type === 'verb' && item.isAlternate);
+  
+  if (alternateVerbs.length > 0) {
+    console.log(`\n🔄 ALTERNATE VERBS (using base verb media):`);
+    alternateVerbs.forEach(item => {
+      console.log(`     • ${item.chat} → uses ${item.baseVerbChat} media (${item.eng})`);
+    });
+  }
 }
 
 /**

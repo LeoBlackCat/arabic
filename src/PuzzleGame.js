@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 const PLAY_AUDIO_FILES = true;
 
 import { verbs, getShuffledVerbs } from './verbs-data';
-import { normalizeArabic } from './arabicUtils';
+import { normalizeArabic, checkPronunciation } from './arabicUtils';
+import logicData from '../logic.json';
 import MediaDisplay from './MediaDisplay';
 
 /**
@@ -140,17 +141,25 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
     rec.onresult = (event) => {
       const res = event.results[0][0].transcript.trim();
       console.log('[PuzzleGame] Heard:', res);
-      const normRes = normalizeArabic(res);
-      const normExp = normalizeArabic(expectedVerb.ar);
-
-      const exact = normRes === normExp;
-      const partial = !exact && (normRes.includes(normExp) || normExp.includes(normRes));
-
-      console.log('[PuzzleGame] Exact match:', exact, ' Partial match:', partial);
-      if (exact || partial) {
+      
+      // Find the current item in logic data to check for alternates
+      const currentLogicItem = logicData.find(item => 
+        item.ar === expectedVerb.ar && item.chat === expectedVerb.chat
+      );
+      
+      // Use the new pronunciation checking function
+      const pronunciationResult = checkPronunciation(res, currentLogicItem || expectedVerb, logicData);
+      
+      console.log('[PuzzleGame] Pronunciation result:', pronunciationResult);
+      
+      if (pronunciationResult.isCorrect || pronunciationResult.matchType === 'partial') {
         // Mark tile removed
         setTiles(prev => prev.map(t => t.verb === expectedVerb ? { ...t, removed: true } : t));
-        setStatusMsg('✅ Good job!');
+        if (pronunciationResult.matchType === 'alternate') {
+          setStatusMsg('✅ Good job! (Alternate pronunciation)');
+        } else {
+          setStatusMsg('✅ Good job!');
+        }
         speakWord(expectedVerb.ar, expectedVerb.chat);
       } else {
         setStatusMsg('❌ Try again');

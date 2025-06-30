@@ -520,7 +520,8 @@
       "ar": "أتكلم",
       "chat": "atkallam",
       "eng": "I speak",
-      "pos": "verb"
+      "pos": "verb",
+      "alternate": 77
     },
     {
       "id": 77,
@@ -562,7 +563,8 @@
       "ar": "أسير",
       "chat": "aseer",
       "eng": "I go",
-      "pos": "verb"
+      "pos": "verb",
+      "alternate": 83
     },
     {
       "id": 83,
@@ -611,7 +613,8 @@
       "ar": "أنام",
       "chat": "anaam",
       "eng": "I sleep",
-      "pos": "verb"
+      "pos": "verb",
+      "alternate": 90
     },
     {
       "id": 90,
@@ -786,7 +789,8 @@
       "ar": "أقوم",
       "chat": "agoum",
       "eng": "I get up",
-      "pos": "verb"
+      "pos": "verb",
+      "alternate": 115
     },
     {
       "id": 115,
