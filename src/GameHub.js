@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import App from './App';
 import ImageChoiceGame from './ImageChoiceGame';
 import PuzzleGame from './PuzzleGame';
+import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
+import { getAzureSpeechConfig } from './azureSpeechHelper';
 
 // Content types
 const CONTENT_TYPES = {
@@ -39,6 +41,14 @@ const GameHub = () => {
   const [selectedContent, setSelectedContent] = useState(CONTENT_TYPES.VERBS);
   const [selectedGame, setSelectedGame] = useState(GAME_TYPES.SPEECH);
   const [contentData, setContentData] = useState([]);
+  const [showAzureConfig, setShowAzureConfig] = useState(false);
+  const [azureConfig, setAzureConfig] = useState({ isEnabled: false, apiKey: '', region: 'eastus' });
+
+  // Load Azure Speech configuration on mount
+  useEffect(() => {
+    const config = getAzureSpeechConfig();
+    setAzureConfig(config);
+  }, []);
 
   // Load content data based on selection
   useEffect(() => {
@@ -47,8 +57,20 @@ const GameHub = () => {
       
       if (selectedContent === CONTENT_TYPES.VERBS) {
         // Get verbs from logic.json that have media files available
-        data = logicData.items
-          .filter(item => item.pos === 'verb')
+        const allVerbs = logicData.items.filter(item => item.pos === 'verb');
+        
+        // Filter out alternate verbs - only keep verbs that don't have an 'alternate' field pointing TO them
+        const alternateVerbIds = new Set();
+        allVerbs.forEach(verb => {
+          if (verb.alternate) {
+            // This verb points to an alternate, so mark the alternate for removal
+            alternateVerbIds.add(verb.alternate);
+          }
+        });
+        
+        // Show: only verbs that are not alternates and have media files
+        data = allVerbs
+          .filter(verb => !alternateVerbIds.has(verb.id)) // Don't show alternate verbs
           .filter(item => {
             // Check if this verb has media files available
             const manifestItem = mediaManifest.items[item.chat];
@@ -65,6 +87,8 @@ const GameHub = () => {
               availableFormats: manifestItem.availableFormats
             };
           });
+          
+        console.log(`[GameHub] Filtered ${allVerbs.length} verbs to ${data.length} (removed ${alternateVerbIds.size} alternates)`);
       } else if (selectedContent === CONTENT_TYPES.COLORS) {
         // Get colors from logic.json (always available via HTML colors)
         data = logicData.items
@@ -146,6 +170,20 @@ const GameHub = () => {
                   <option value={GAME_TYPES.PUZZLE}>Puzzle Game</option>
                 </select>
               </div>
+
+              {/* Azure Speech Configuration Button */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowAzureConfig(true)}
+                  className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
+                    azureConfig.isEnabled 
+                      ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' 
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  🎤 {azureConfig.isEnabled ? 'Azure Speech' : 'Speech Config'}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -155,6 +193,11 @@ const GameHub = () => {
               <span>
                 {contentData.length} {selectedContent} with media files • 
                 Playing: {selectedGame.replace('_', ' ')}
+                {azureConfig.isEnabled && (
+                  <span className="ml-2 text-green-600">
+                    • Azure Speech enabled
+                  </span>
+                )}
                 {selectedContent === CONTENT_TYPES.VERBS && (
                   <span className="ml-2 text-blue-600">
                     ({contentData.filter(item => item.hasVideo).length} with video)
@@ -181,6 +224,16 @@ const GameHub = () => {
           </div>
         )}
       </div>
+
+      {/* Azure Speech Configuration Modal */}
+      <AzureSpeechConfig
+        isOpen={showAzureConfig}
+        onClose={() => setShowAzureConfig(false)}
+        onConfigChange={(config) => {
+          setAzureConfig(config);
+          console.log('Azure Speech config updated:', config);
+        }}
+      />
     </div>
   );
 };

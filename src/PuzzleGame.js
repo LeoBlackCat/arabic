@@ -3,10 +3,19 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 // Toggle: if true, play pre-generated WAV files located in /sounds; otherwise use browser TTS
 const PLAY_AUDIO_FILES = true;
 
+// Toggle: if true, show all available verbs in a large grid; if false, show 3x3 grid
+// Change this to false to return to 3x3 mode
+const SHOW_ALL_VERBS = false;
+
+// Similarity threshold for pronunciation acceptance (0.5 = 50% similar)
+// Lower values are more lenient, higher values are stricter
+const SIMILARITY_THRESHOLD = 0.5;
+
 import { verbs, getShuffledVerbs } from './verbs-data';
 import { normalizeArabic, checkPronunciation } from './arabicUtils';
 import logicData from '../logic.json';
 import MediaDisplay from './MediaDisplay';
+import { isAzureSpeechAvailable, startAzureSpeechRecognition } from './azureSpeechHelper';
 
 /**
  * Mini Game 3 – 3×3 Picture/Color Puzzle + Speech
@@ -92,17 +101,45 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
   }, [arabicVoice]);
 
   /** ----------------------------------
-   * Initialise first round (nine random items)
+   * Initialise first round (configurable grid size)
    * --------------------------------*/
   const initRound = useCallback(() => {
     let source;
-    if (contentData && contentData.length > 0) {
-      source = [...contentData];
+    
+    // Always filter out alternates, whether using contentData or logic.json
+    const allVerbs = (contentData && contentData.length > 0) ? 
+      contentData : 
+      logicData.items.filter(item => item.pos === 'verb');
+    
+    // Filter out alternate verbs - only keep verbs that don't have an 'alternate' field pointing TO them
+    // In other words, if verb A has alternate: B, then we show A but not B
+    const alternateVerbIds = new Set();
+    
+    allVerbs.forEach(verb => {
+      if (verb.alternate) {
+        // This verb points to an alternate, so mark the alternate for removal
+        alternateVerbIds.add(verb.alternate);
+      }
+    });
+    
+    // Show: only verbs that are not alternates
+    source = allVerbs.filter(verb => 
+      !alternateVerbIds.has(verb.id) // Don't show alternate verbs
+    );
+    
+    console.log(`[PuzzleGame] Filtered ${allVerbs.length} verbs to ${source.length} (removed ${alternateVerbIds.size} alternates)`);
+    console.log('[PuzzleGame] Alternate verb IDs removed:', Array.from(alternateVerbIds));
+    
+    let selectedItems;
+    if (SHOW_ALL_VERBS) {
+      // Show all available verbs/items (excluding alternates)
+      selectedItems = source;
     } else {
-      source = Array.isArray(verbs) && verbs.length ? [...verbs] : getShuffledVerbs();
+      // Traditional 3x3 grid with 9 random items
+      selectedItems = source.sort(() => Math.random() - 0.5).slice(0, 9);
     }
-    const shuffled = source.sort(() => Math.random() - 0.5).slice(0, 9);
-    setTiles(shuffled.map(v => ({ verb: v, removed: false })));
+    
+    setTiles(selectedItems.map(v => ({ verb: v, removed: false })));
     setActiveIdx(null);
     setStatusMsg(null);
   }, [contentData]);
@@ -114,7 +151,126 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
   /** ----------------------------------
    * Helper: start speech-recognition for active tile
    * --------------------------------*/
-  const startRecognition = useCallback((expectedVerb) => {
+  const startRecognition = useCallback((expectedVerb, pronunciationVerb = null) => {
+    // Don't pronounce - just start listening
+    const verbToPronounce = pronunciationVerb || expectedVerb;
+    
+    // Check if Azure Speech is available and enabled
+    const useAzureSpeech = isAzureSpeechAvailable();
+    
+    if (useAzureSpeech) {
+      startAzureRecognition(expectedVerb, verbToPronounce);
+    } else {
+      startWebKitRecognition(expectedVerb, verbToPronounce);
+    }
+  }, [recognition]);
+
+  /** ----------------------------------
+   * Process recognition result (shared by both Azure and WebKit)
+   * --------------------------------*/
+  const processRecognitionResult = useCallback((recognizedText, expectedVerb, verbToPronounce) => {
+    // Find the current item in logic data to check for alternates
+    const currentLogicItem = logicData.items.find(item => 
+      item.ar === expectedVerb.ar && item.chat === expectedVerb.chat
+    );
+    
+    // Use the new pronunciation checking function with configurable similarity threshold
+    const pronunciationResult = checkPronunciation(recognizedText, currentLogicItem || expectedVerb, logicData.items, SIMILARITY_THRESHOLD);
+    
+    console.log('[PuzzleGame] Pronunciation result:', pronunciationResult);
+    
+    if (pronunciationResult.isCorrect || pronunciationResult.matchType === 'partial') {
+      // Mark tile removed
+      setTiles(prev => prev.map(t => t.verb === expectedVerb ? { ...t, removed: true } : t));
+      
+      // Provide feedback based on match type
+      if (pronunciationResult.matchType === 'exact') {
+        setStatusMsg('✅ Perfect!');
+      } else if (pronunciationResult.matchType === 'alternate') {
+        setStatusMsg('✅ Good job! (Alternate pronunciation)');
+      } else if (pronunciationResult.matchType === 'similarity') {
+        const percentage = Math.round(pronunciationResult.similarity * 100);
+        setStatusMsg(`✅ Good enough! (${percentage}% similar)`);
+      } else {
+        setStatusMsg('✅ Good job!');
+      }
+      
+      // For verbs with alternates, pronounce both versions
+      const allVerbs = logicData.items.filter(item => item.pos === 'verb');
+      const baseVerb = expectedVerb;
+      const alternateVerb = baseVerb.alternate ? 
+        allVerbs.find(verb => verb.id === baseVerb.alternate) : 
+        null;
+      
+      if (alternateVerb) {
+        // Pronounce both: base first, then alternate after a delay
+        speakWord(baseVerb.ar, baseVerb.chat);
+        setTimeout(() => {
+          speakWord(alternateVerb.ar, alternateVerb.chat);
+        }, 1500); // 1.5 second delay between pronunciations
+      } else {
+        // Single pronunciation for verbs without alternates
+        speakWord(baseVerb.ar, baseVerb.chat);
+      }
+    } else {
+      // Show similarity feedback even for incorrect answers
+      if (pronunciationResult.similarity && pronunciationResult.similarity > 0.2) {
+        const percentage = Math.round(pronunciationResult.similarity * 100);
+        setStatusMsg(`❌ Close (${percentage}% similar) - try again`);
+      } else {
+        setStatusMsg('❌ Try again');
+      }
+      
+      // For incorrect answers, also pronounce both if alternate exists
+      const allVerbs = logicData.items.filter(item => item.pos === 'verb');
+      const baseVerb = expectedVerb;
+      const alternateVerb = baseVerb.alternate ? 
+        allVerbs.find(verb => verb.id === baseVerb.alternate) : 
+        null;
+      
+      if (alternateVerb) {
+        speakWord(baseVerb.ar, baseVerb.chat);
+        setTimeout(() => {
+          speakWord(alternateVerb.ar, alternateVerb.chat);
+        }, 1500);
+      } else {
+        speakWord(baseVerb.ar, baseVerb.chat);
+      }
+    }
+  }, []);
+
+  /** ----------------------------------
+   * Azure Speech Recognition
+   * --------------------------------*/
+  const startAzureRecognition = useCallback(async (expectedVerb, verbToPronounce) => {
+    setIsRecording(true);
+    
+    try {
+      const result = await startAzureSpeechRecognition();
+      
+      if (result.success && result.text) {
+        processRecognitionResult(result.text, expectedVerb, verbToPronounce);
+      } else {
+        console.log('[Azure Speech] Recognition failed:', result.error);
+        if (result.error === 'No Arabic speech detected') {
+          setStatusMsg('❌ Please speak in Arabic. Try again.');
+        } else {
+          setStatusMsg('❌ No speech detected. Try again.');
+        }
+      }
+    } catch (error) {
+      console.error('[Azure Speech] Recognition failed:', error);
+      setStatusMsg('❌ Speech recognition failed. Try again.');
+    } finally {
+      setIsRecording(false);
+      setTimeout(() => setActiveIdx(null), 500);
+    }
+  }, []);
+
+  /** ----------------------------------
+   * WebKit Speech Recognition (fallback)
+   * --------------------------------*/
+  const startWebKitRecognition = useCallback((expectedVerb, verbToPronounce) => {
     if (!('webkitSpeechRecognition' in window)) {
       alert('Speech recognition not supported in this browser.');
       return;
@@ -134,38 +290,15 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
     rec.onend   = () => setIsRecording(false);
 
     rec.onerror = (e) => {
-      console.error('Speech recognition error', e);
+      console.error('WebKit Speech recognition error', e);
       setIsRecording(false);
     };
 
     rec.onresult = (event) => {
       const res = event.results[0][0].transcript.trim();
-      console.log('[PuzzleGame] Heard:', res);
+      console.log('[WebKit Speech] Heard:', res);
+      processRecognitionResult(res, expectedVerb, verbToPronounce);
       
-      // Find the current item in logic data to check for alternates
-      const currentLogicItem = logicData.find(item => 
-        item.ar === expectedVerb.ar && item.chat === expectedVerb.chat
-      );
-      
-      // Use the new pronunciation checking function
-      const pronunciationResult = checkPronunciation(res, currentLogicItem || expectedVerb, logicData);
-      
-      console.log('[PuzzleGame] Pronunciation result:', pronunciationResult);
-      
-      if (pronunciationResult.isCorrect || pronunciationResult.matchType === 'partial') {
-        // Mark tile removed
-        setTiles(prev => prev.map(t => t.verb === expectedVerb ? { ...t, removed: true } : t));
-        if (pronunciationResult.matchType === 'alternate') {
-          setStatusMsg('✅ Good job! (Alternate pronunciation)');
-        } else {
-          setStatusMsg('✅ Good job!');
-        }
-        speakWord(expectedVerb.ar, expectedVerb.chat);
-      } else {
-        setStatusMsg('❌ Try again');
-        speakWord(expectedVerb.ar, expectedVerb.chat);
-      }
-
       // Clean up state after answer
       setTimeout(() => {
         setIsRecording(false);
@@ -196,8 +329,23 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
     setActiveIdx(idx);
     setStatusMsg(null);
 
-    // Start listening immediately without pronouncing first
-    startRecognition(tile.verb);
+    // Find if this verb has an alternate version
+    const allVerbs = logicData.items.filter(item => item.pos === 'verb');
+    const baseVerb = tile.verb;
+    
+    // If this base verb has an alternate field, find the alternate verb
+    const alternateVerb = baseVerb.alternate ? 
+      allVerbs.find(verb => verb.id === baseVerb.alternate) : 
+      null;
+
+    // Randomly choose between base and alternate for pronunciation (50/50 chance)
+    const useAlternate = alternateVerb && Math.random() < 0.5;
+    const verbToPronounce = useAlternate ? alternateVerb : baseVerb;
+
+    console.log(`[PuzzleGame] Clicked ${baseVerb.chat}, will pronounce: ${verbToPronounce.chat} (${useAlternate ? 'alternate' : 'base'})`);
+
+    // Start listening immediately after choosing pronunciation variant
+    startRecognition(baseVerb, verbToPronounce);
   };
 
   /** ----------------------------------
@@ -223,6 +371,7 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
           autoPlay={false}
           loop={true}
           muted={true}
+          enableHoverPlay={true}
         />
       </div>
     );
@@ -232,9 +381,9 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
    * UI
    * --------------------------------*/
   return (
-    <div className="max-w-3xl mx-auto p-4 text-center font-sans">
+    <div className={`${SHOW_ALL_VERBS ? 'max-w-6xl' : 'max-w-3xl'} mx-auto p-4 text-center font-sans`}>
       <h2 className="text-2xl font-bold mb-4">
-        Game 3: 3×3 Speak & Remove ({contentType})
+        Game 3: {SHOW_ALL_VERBS ? 'All Verbs' : '3×3'} Speak & Remove ({contentType})
       </h2>
 
       {allGone ? (
@@ -249,7 +398,7 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-3">
+          <div className={`grid gap-3 ${SHOW_ALL_VERBS ? 'grid-cols-7 lg:grid-cols-8 xl:grid-cols-10' : 'grid-cols-3'}`}>
             {tiles.map((tile, idx) => renderTile(tile, idx))}
           </div>
           <div className="mt-4 min-h-[32px]">

@@ -147,12 +147,12 @@ const ConversationGame = () => {
     if (!expectedResponse) return;
     
     // Find the current item in logic data to check for alternates
-    const currentLogicItem = logicData.find(item => 
+    const currentLogicItem = logicData.items.find(item => 
       item.ar === expectedResponse.ar && item.chat === expectedResponse.chat
     );
     
     // Use the new pronunciation checking function
-    const pronunciationResult = checkPronunciation(transcript, currentLogicItem || expectedResponse, logicData);
+    const pronunciationResult = checkPronunciation(transcript, currentLogicItem || expectedResponse, logicData.items);
     
     setAttempts(prev => prev + 1);
     

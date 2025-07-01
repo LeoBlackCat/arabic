@@ -35,6 +35,7 @@ const App = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
   const [recognition, setRecognition] = useState(null);
   const speechSynthesis = useRef(window.speechSynthesis);
   const [arabicVoice, setArabicVoice] = useState(null);
+  const nextImageTimeoutRef = useRef(null);
 
   // Initialize voices
   useEffect(() => {
@@ -55,6 +56,10 @@ const App = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
 
     return () => {
       speechSynthesis.current.onvoiceschanged = null;
+      // Cleanup timeout on unmount
+      if (nextImageTimeoutRef.current) {
+        clearTimeout(nextImageTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -135,7 +140,17 @@ const speakWord = useCallback((text, chatOverride) => {
         
         const shuffled = [...contentData].sort(() => Math.random() - 0.5);
         setImages(shuffled);
-        setCurrentImage(shuffled[0]);
+        
+        // Only reset currentImage if we don't have one, or if the current one is not in the new data
+        if (!currentImage || !shuffled.some(item => 
+          item.id === currentImage.id && item.chat === currentImage.chat
+        )) {
+          console.log('Setting currentImage to first item because no current image or not found in new data');
+          setCurrentImage(shuffled[0]);
+        } else {
+          console.log('Keeping existing currentImage as it exists in new data');
+        }
+        
         setLoadingState(prev => ({ 
           ...prev, 
           isLoading: false, 
@@ -281,7 +296,7 @@ const speakWord = useCallback((text, chatOverride) => {
           console.log('Confidence:', result[0].confidence);
 
           // Find the current item in logic data to check for alternates
-          const currentLogicItem = logicData.find(item => 
+          const currentLogicItem = logicData.items.find(item => 
             item.ar === currentImage.ar && item.chat === currentImage.chat
           );
           
@@ -289,7 +304,7 @@ const speakWord = useCallback((text, chatOverride) => {
           console.log('Expected Arabic:', currentImage.ar);
 
           // Use the new pronunciation checking function
-          const pronunciationResult = checkPronunciation(transcript, currentLogicItem || currentImage, logicData);
+          const pronunciationResult = checkPronunciation(transcript, currentLogicItem || currentImage, logicData.items);
           
           console.log('Pronunciation check result:', pronunciationResult);
           
@@ -326,11 +341,15 @@ const speakWord = useCallback((text, chatOverride) => {
             }
           }, 1000); // Wait 1 second after showing the result
 
+          // Clear any existing timeout
+          if (nextImageTimeoutRef.current) {
+            clearTimeout(nextImageTimeoutRef.current);
+          }
+          
           // Switch to the next image after 3 seconds
-          setTimeout(() => {
-            if (typeof nextImage === 'function') {
-              nextImage();
-            }
+          nextImageTimeoutRef.current = setTimeout(() => {
+            console.log('Timeout triggered, calling nextImage...');
+            nextImage();
           }, 3000);
         }
       };
@@ -375,6 +394,12 @@ const speakWord = useCallback((text, chatOverride) => {
   }, [recognition, isRecording, currentImage]);
 
   const stopRecording = useCallback(() => {
+    // Clear any pending next image timeout
+    if (nextImageTimeoutRef.current) {
+      clearTimeout(nextImageTimeoutRef.current);
+      nextImageTimeoutRef.current = null;
+    }
+    
     if (recognition) {
       console.log('Stopping recording...');
       recognition.stop();
@@ -386,10 +411,35 @@ const speakWord = useCallback((text, chatOverride) => {
 
   const nextImage = useCallback(() => {
     console.log('Next image called. Current images:', images);
+    console.log('Current image:', currentImage);
+    
     // Cancel any ongoing speech when changing images
     speechSynthesis.current.cancel();
-    const currentIndex = images.findIndex(img => img === currentImage);
+    
+    if (!currentImage || !images.length) {
+      console.log('No current image or no images available');
+      return;
+    }
+    
+    // Find current index by comparing unique properties instead of object reference
+    const currentIndex = images.findIndex(img => 
+      img && currentImage && 
+      img.id === currentImage.id && 
+      img.chat === currentImage.chat
+    );
+    
+    console.log('Current index found:', currentIndex);
+    
+    if (currentIndex === -1) {
+      console.log('Current image not found in images array, using first image');
+      setCurrentImage(images[0]);
+      setResult(null);
+      return;
+    }
+    
     const nextIndex = (currentIndex + 1) % images.length;
+    console.log('Next index:', nextIndex, 'Next image:', images[nextIndex]);
+    
     setCurrentImage(images[nextIndex]);
     setResult(null); // Clear previous result
   }, [images, currentImage]);
@@ -413,6 +463,11 @@ const speakWord = useCallback((text, chatOverride) => {
   }, [contentData]);
 
   console.log('Rendering with currentImage:', currentImage);
+
+  // Debug effect to track currentImage changes
+  useEffect(() => {
+    console.log('🖼️ currentImage changed to:', currentImage?.chat || 'null');
+  }, [currentImage]);
 
   // Audio priming effect (must be inside component)
   useEffect(() => {
@@ -463,6 +518,7 @@ const speakWord = useCallback((text, chatOverride) => {
         <div className="mb-6 flex flex-col items-center px-2 sm:px-4">
           <div className="w-full flex justify-center">
             <MediaDisplay
+              key={`${currentImage.id}-${currentImage.chat}`}
               item={currentImage}
               contentType={contentType}
               className="max-w-[90vw] w-full h-auto mb-3"

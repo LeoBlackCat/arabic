@@ -17,10 +17,21 @@ const MediaDisplay = ({
   autoPlay = true,
   loop = true,
   muted = true,
-  style = {}
+  style = {},
+  enableHoverPlay = false
 }) => {
   const [mediaType, setMediaType] = useState('loading'); // 'loading', 'video', 'image', 'color', 'text'
   const [hasError, setHasError] = useState(false);
+  const [videoRef, setVideoRef] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Reset state when item changes
+  useEffect(() => {
+    console.log('🖼️ MediaDisplay: Item changed to:', item?.chat || 'null');
+    setHasError(false);
+    setVideoRef(null);
+    setIsHovered(false);
+  }, [item]);
 
   // Determine media type based on available data
   useEffect(() => {
@@ -31,8 +42,10 @@ const MediaDisplay = ({
 
     // Use manifest data if available, otherwise try detection
     if (item.hasVideo) {
+      console.log('📹 MediaDisplay: Setting media type to video for:', item.chat);
       setMediaType('video');
     } else if (item.hasImage || item.url) {
+      console.log('🖼️ MediaDisplay: Setting media type to image for:', item.chat);
       setMediaType('image');
     } else {
       // Fallback: Try to detect video first
@@ -70,6 +83,22 @@ const MediaDisplay = ({
     console.log(`Image failed for ${item.chat}, falling back to text:`, e);
     setMediaType('text');
     setHasError(true);
+  };
+
+  // Hover handlers for video and subtitle
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (enableHoverPlay && videoRef && mediaType === 'video') {
+      videoRef.play().catch(e => console.log('Video play failed:', e));
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (enableHoverPlay && videoRef && mediaType === 'video') {
+      videoRef.pause();
+      videoRef.currentTime = 0; // Reset to beginning
+    }
   };
 
   // Render based on media type
@@ -121,34 +150,59 @@ const MediaDisplay = ({
 
   if (mediaType === 'video') {
     return (
-      <video
-        className={`rounded-lg shadow-lg cursor-pointer ${className}`}
-        style={style}
-        onClick={onClick}
-        onError={handleVideoError}
-        autoPlay={autoPlay}
-        loop={loop}
-        muted={muted}
-        playsInline
-        controls={false}
+      <div 
+        className="relative"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <source src={`./pictures/${item.chat.toLowerCase()}.mp4`} type="video/mp4" />
-        {/* Text fallback for unsupported browsers */}
-        Your browser does not support the video tag.
-      </video>
+        <video
+          ref={setVideoRef}
+          className={`rounded-lg shadow-lg cursor-pointer ${className}`}
+          style={style}
+          onClick={onClick}
+          onError={handleVideoError}
+          autoPlay={enableHoverPlay ? false : autoPlay}
+          loop={loop}
+          muted={muted}
+          playsInline
+          controls={false}
+        >
+          <source src={`./pictures/${item.chat.toLowerCase()}.mp4?v=${item.id}`} type="video/mp4" />
+          {/* Text fallback for unsupported browsers */}
+          Your browser does not support the video tag.
+        </video>
+        {/* Subtitle overlay */}
+        {isHovered && (
+          <div className="absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-80 text-white text-center py-2 px-3 rounded-b-lg">
+            <span className="text-sm font-medium">{item.eng}</span>
+          </div>
+        )}
+      </div>
     );
   }
 
   // Default to image
   return (
-    <img 
-      src={`./pictures/${item.chat.toLowerCase()}.png`}
-      alt={item.eng}
-      className={`rounded-lg shadow-lg cursor-pointer ${className}`}
-      style={style}
-      onClick={onClick}
-      onError={handleImageError}
-    />
+    <div 
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <img 
+        src={`./pictures/${item.chat.toLowerCase()}.png?v=${item.id}`}
+        alt={item.eng}
+        className={`rounded-lg shadow-lg cursor-pointer ${className}`}
+        style={style}
+        onClick={onClick}
+        onError={handleImageError}
+      />
+      {/* Subtitle overlay */}
+      {isHovered && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-80 text-white text-center py-2 px-3 rounded-b-lg">
+          <span className="text-sm font-medium">{item.eng}</span>
+        </div>
+      )}
+    </div>
   );
 };
 
