@@ -3,6 +3,7 @@ import App from './App';
 import ImageChoiceGame from './ImageChoiceGame';
 import PuzzleGame from './PuzzleGame';
 import ConjugationGame from './ConjugationGame';
+import PossessiveGame from './PossessiveGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -19,7 +20,8 @@ const GAME_TYPES = {
   SPEECH: 'speech',
   IMAGE_CHOICE: 'image_choice', 
   PUZZLE: 'puzzle',
-  CONJUGATION: 'conjugation'
+  CONJUGATION: 'conjugation',
+  POSSESSIVE: 'possessive'
 };
 
 // Color mapping for HTML colors
@@ -128,6 +130,8 @@ const GameHub = () => {
         return <PuzzleGame {...commonProps} />;
       case GAME_TYPES.CONJUGATION:
         return <ConjugationGame {...commonProps} />;
+      case GAME_TYPES.POSSESSIVE:
+        return <PossessiveGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }
@@ -173,6 +177,7 @@ const GameHub = () => {
                   <option value={GAME_TYPES.IMAGE_CHOICE}>Image Choice</option>
                   <option value={GAME_TYPES.PUZZLE}>Puzzle Game</option>
                   <option value={GAME_TYPES.CONJUGATION}>Conjugation Practice</option>
+                  <option value={GAME_TYPES.POSSESSIVE}>Possessive Practice</option>
                 </select>
               </div>
 
