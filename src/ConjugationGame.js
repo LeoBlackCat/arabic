@@ -25,6 +25,7 @@ const ConjugationGame = () => {
   const [recognition, setRecognition] = useState(null);
   const [isAutoMode, setIsAutoMode] = useState(false); // Auto mode for all 8 forms
   const [autoModeResults, setAutoModeResults] = useState([]); // Track results in auto mode
+  const [shouldStartNextRecognition, setShouldStartNextRecognition] = useState(false); // Trigger for next recognition
 
   /** Speech-synthesis helpers */
   const speechSynthRef = useRef(window.speechSynthesis);
@@ -86,6 +87,25 @@ const ConjugationGame = () => {
       setCompletedConjugations({});
     }
   }, []);
+
+  /* -------------------- Auto mode progression ------------------- */
+  useEffect(() => {
+    if (shouldStartNextRecognition && isAutoMode) {
+      console.log('[ConjugationGame] Auto mode: triggering next recognition');
+      setShouldStartNextRecognition(false);
+      
+      if (currentConjugationIndex >= conjugationForms.length) {
+        // All done
+        setIsAutoMode(false);
+        showAutoModeResults();
+      } else {
+        // Start recognition for current conjugation
+        setTimeout(() => {
+          startRecognition();
+        }, 1000);
+      }
+    }
+  }, [shouldStartNextRecognition, isAutoMode, currentConjugationIndex, startRecognition, showAutoModeResults]);
 
   /** ----------------------------------
    * Helper: speakWord (re-uses sound files when possible)
@@ -268,12 +288,25 @@ const ConjugationGame = () => {
         
         // Move to next conjugation after pronunciation
         setTimeout(() => {
-          moveToNextConjugation();
+          if (currentConjugationIndex < conjugationForms.length - 1) {
+            setCurrentConjugationIndex(prev => prev + 1);
+            setStatusMsg(null);
+            // Trigger next recognition
+            setShouldStartNextRecognition(true);
+          } else {
+            setIsAutoMode(false);
+            showAutoModeResults();
+          }
         }, 2000);
       } else {
         // Normal mode - move to next after delay
         setTimeout(() => {
-          moveToNextConjugation();
+          if (currentConjugationIndex < conjugationForms.length - 1) {
+            setCurrentConjugationIndex(prev => prev + 1);
+            setStatusMsg(null);
+          } else {
+            setStatusMsg('🎉 All conjugations completed! Choose next verb.');
+          }
         }, 2000);
       }
       
@@ -300,11 +333,19 @@ const ConjugationGame = () => {
         
         // Wait for pronunciation to finish, then continue to next
         setTimeout(() => {
-          moveToNextConjugation();
+          if (currentConjugationIndex < conjugationForms.length - 1) {
+            setCurrentConjugationIndex(prev => prev + 1);
+            setStatusMsg(null);
+            // Trigger next recognition
+            setShouldStartNextRecognition(true);
+          } else {
+            setIsAutoMode(false);
+            showAutoModeResults();
+          }
         }, 2500);
       }
     }
-  }, [currentVerb, currentConjugationIndex, isAutoMode, autoModeResults, moveToNextConjugation]);
+  }, [currentVerb, currentConjugationIndex, isAutoMode, autoModeResults]);
 
   /** ----------------------------------
    * Azure Speech Recognition
@@ -446,6 +487,7 @@ const ConjugationGame = () => {
     setStatusMsg(null);
     setIsAutoMode(false);
     setAutoModeResults([]);
+    setShouldStartNextRecognition(false);
   };
   
   const startAutoMode = () => {
@@ -455,6 +497,7 @@ const ConjugationGame = () => {
     setCurrentConjugationIndex(0);
     setCompletedConjugations({});
     setAutoModeResults([]);
+    setShouldStartNextRecognition(false);
     setIsAutoMode(true);
     setStatusMsg('🚀 Auto mode started! Speak each conjugation when prompted.');
     
