@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import App from './App';
 import ImageChoiceGame from './ImageChoiceGame';
 import PuzzleGame from './PuzzleGame';
+import ConjugationGame from './ConjugationGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -17,7 +18,8 @@ const CONTENT_TYPES = {
 const GAME_TYPES = {
   SPEECH: 'speech',
   IMAGE_CHOICE: 'image_choice', 
-  PUZZLE: 'puzzle'
+  PUZZLE: 'puzzle',
+  CONJUGATION: 'conjugation'
 };
 
 // Color mapping for HTML colors
@@ -124,6 +126,8 @@ const GameHub = () => {
         return <ImageChoiceGame {...commonProps} />;
       case GAME_TYPES.PUZZLE:
         return <PuzzleGame {...commonProps} />;
+      case GAME_TYPES.CONJUGATION:
+        return <ConjugationGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }
@@ -168,6 +172,7 @@ const GameHub = () => {
                   <option value={GAME_TYPES.SPEECH}>Speech Recognition</option>
                   <option value={GAME_TYPES.IMAGE_CHOICE}>Image Choice</option>
                   <option value={GAME_TYPES.PUZZLE}>Puzzle Game</option>
+                  <option value={GAME_TYPES.CONJUGATION}>Conjugation Practice</option>
                 </select>
               </div>
 
