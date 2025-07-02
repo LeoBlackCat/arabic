@@ -23,6 +23,8 @@ const ConjugationGame = () => {
   const [statusMsg, setStatusMsg] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [recognition, setRecognition] = useState(null);
+  const [isAutoMode, setIsAutoMode] = useState(false); // Auto mode for all 8 forms
+  const [autoModeResults, setAutoModeResults] = useState([]); // Track results in auto mode
 
   /** Speech-synthesis helpers */
   const speechSynthRef = useRef(window.speechSynthesis);
@@ -160,9 +162,14 @@ const ConjugationGame = () => {
    * --------------------------------*/
   const startRecognition = useCallback(() => {
     const currentConjugation = getCurrentConjugation();
-    if (!currentConjugation) return;
+    if (!currentConjugation) {
+      console.error('[ConjugationGame] No current conjugation available');
+      return;
+    }
 
-    console.log(`[ConjugationGame] Expecting: "${currentConjugation.expectedPhrase}"`);
+    console.log(`[ConjugationGame] Starting recognition for conjugation ${currentConjugationIndex + 1}/8`);
+    console.log(`[ConjugationGame] Expecting Arabic: "${currentConjugation.expectedArabic}" (${currentConjugation.expectedPhrase})`);
+    console.log(`[ConjugationGame] Auto mode: ${isAutoMode}`);
     
     // Check if Azure Speech is available and enabled
     const useAzureSpeech = isAzureSpeechAvailable();
@@ -172,13 +179,18 @@ const ConjugationGame = () => {
     } else {
       startWebKitRecognition(currentConjugation);
     }
-  }, [currentVerb, currentConjugationIndex]);
+  }, [currentVerb, currentConjugationIndex, isAutoMode]);
 
   /** ----------------------------------
    * Process recognition result (shared by both Azure and WebKit)
    * --------------------------------*/
   const processRecognitionResult = useCallback((recognizedText, expectedConjugation) => {
-    console.log(`[ConjugationGame] Heard: "${recognizedText}", Expected: "${expectedConjugation.expectedPhrase}"`);
+    if (!currentVerb) {
+      console.error('[ConjugationGame] No current verb set');
+      return;
+    }
+    
+    console.log(`[ConjugationGame] Heard: "${recognizedText}", Expected Arabic: "${expectedConjugation.expectedArabic}" (${expectedConjugation.expectedPhrase})`);
     
     // Create a mock object for pronunciation checking
     const mockVerb = {
@@ -187,9 +199,45 @@ const ConjugationGame = () => {
       eng: `${expectedConjugation.pronounEng} ${currentVerb.eng}`
     };
     
-    const pronunciationResult = checkPronunciation(recognizedText, mockVerb, [], SIMILARITY_THRESHOLD);
+    // Also check against just the verb part (without pronoun) for more flexible matching
+    const verbOnlyMock = {
+      ar: expectedConjugation.arabicText,
+      chat: expectedConjugation.chatText,
+      eng: currentVerb.eng
+    };
+    
+    // Try matching the full phrase first, then just the verb part
+    let pronunciationResult = checkPronunciation(recognizedText, mockVerb, [], SIMILARITY_THRESHOLD);
+    
+    // If full phrase didn't match well enough, try just the verb conjugation
+    if (!pronunciationResult.isCorrect && pronunciationResult.similarity < SIMILARITY_THRESHOLD) {
+      const verbOnlyResult = checkPronunciation(recognizedText, verbOnlyMock, [], SIMILARITY_THRESHOLD);
+      if (verbOnlyResult.similarity > pronunciationResult.similarity) {
+        pronunciationResult = verbOnlyResult;
+      }
+    }
+    
+    // Additional check: extract just the verb part from recognized text if it contains pronoun + verb
+    if (!pronunciationResult.isCorrect && pronunciationResult.similarity < SIMILARITY_THRESHOLD) {
+      const recognizedWords = recognizedText.trim().split(/\s+/);
+      if (recognizedWords.length >= 2) {
+        // Try matching just the last word (the verb part)
+        const verbPart = recognizedWords[recognizedWords.length - 1];
+        const verbPartResult = checkPronunciation(verbPart, verbOnlyMock, [], SIMILARITY_THRESHOLD);
+        if (verbPartResult.similarity > pronunciationResult.similarity) {
+          pronunciationResult = verbPartResult;
+        }
+      }
+    }
     
     console.log('[ConjugationGame] Pronunciation result:', pronunciationResult);
+    console.log('[ConjugationGame] Comparison details:', {
+      heard: recognizedText,
+      expectedArabic: expectedConjugation.expectedArabic,
+      expectedChat: expectedConjugation.expectedPhrase,
+      verbOnly: expectedConjugation.arabicText,
+      verbOnlyChat: expectedConjugation.chatText
+    });
     
     if (pronunciationResult.isCorrect || pronunciationResult.matchType === 'partial') {
       // Mark this conjugation as completed
@@ -209,10 +257,25 @@ const ConjugationGame = () => {
       // Play the correct pronunciation
       speakWord(expectedConjugation.expectedArabic);
       
-      // Move to next conjugation after a delay
-      setTimeout(() => {
-        moveToNextConjugation();
-      }, 2000);
+      if (isAutoMode) {
+        // In auto mode, record result and move to next automatically
+        setAutoModeResults(prev => [...prev, {
+          conjugationIndex: currentConjugationIndex,
+          success: true,
+          similarity: pronunciationResult.similarity || 1,
+          matchType: pronunciationResult.matchType
+        }]);
+        
+        // Move to next conjugation after pronunciation
+        setTimeout(() => {
+          moveToNextConjugation();
+        }, 2000);
+      } else {
+        // Normal mode - move to next after delay
+        setTimeout(() => {
+          moveToNextConjugation();
+        }, 2000);
+      }
       
     } else {
       // Show similarity feedback for incorrect answers
@@ -225,13 +288,33 @@ const ConjugationGame = () => {
       
       // Play the correct pronunciation
       speakWord(expectedConjugation.expectedArabic);
+      
+      if (isAutoMode) {
+        // In auto mode, record failed result but continue
+        setAutoModeResults(prev => [...prev, {
+          conjugationIndex: currentConjugationIndex,
+          success: false,
+          similarity: pronunciationResult.similarity || 0,
+          matchType: 'failed'
+        }]);
+        
+        // Wait for pronunciation to finish, then continue to next
+        setTimeout(() => {
+          moveToNextConjugation();
+        }, 2500);
+      }
     }
-  }, [currentVerb, currentConjugationIndex]);
+  }, [currentVerb, currentConjugationIndex, isAutoMode, autoModeResults, moveToNextConjugation]);
 
   /** ----------------------------------
    * Azure Speech Recognition
    * --------------------------------*/
   const startAzureRecognition = useCallback(async (expectedConjugation) => {
+    if (!currentVerb) {
+      console.error('[ConjugationGame] No current verb for Azure recognition');
+      return;
+    }
+    
     setIsRecording(true);
     
     try {
@@ -253,7 +336,7 @@ const ConjugationGame = () => {
     } finally {
       setIsRecording(false);
     }
-  }, []);
+  }, [currentVerb, processRecognitionResult]);
 
   /** ----------------------------------
    * WebKit Speech Recognition (fallback)
@@ -261,6 +344,11 @@ const ConjugationGame = () => {
   const startWebKitRecognition = useCallback((expectedConjugation) => {
     if (!('webkitSpeechRecognition' in window)) {
       alert('Speech recognition not supported in this browser.');
+      return;
+    }
+    
+    if (!currentVerb) {
+      console.error('[ConjugationGame] No current verb for WebKit recognition');
       return;
     }
 
@@ -294,21 +382,40 @@ const ConjugationGame = () => {
     } catch (e) {
       console.error('Unable to start recognition', e);
     }
-  }, [recognition]);
+  }, [recognition, currentVerb, processRecognitionResult]);
+
+  /** ----------------------------------
+   * WebKit Speech Recognition (fallback)
+   * --------------------------------*/
 
   /** ----------------------------------
    * Navigation functions
    * --------------------------------*/
-  const moveToNextConjugation = () => {
+  const moveToNextConjugation = useCallback(() => {
     if (currentConjugationIndex < conjugationForms.length - 1) {
       // Move to next conjugation of same verb
       setCurrentConjugationIndex(prev => prev + 1);
       setStatusMsg(null);
+      
+      // In auto mode, automatically start recognition for next conjugation after a brief pause
+      if (isAutoMode) {
+        console.log('[ConjugationGame] Auto mode: moving to next conjugation and starting recognition');
+        setTimeout(() => {
+          console.log('[ConjugationGame] Auto mode: starting recognition for next conjugation');
+          startRecognition();
+        }, 1000);
+      }
     } else {
       // All conjugations completed for this verb
-      setStatusMsg('🎉 All conjugations completed! Choose next verb.');
+      if (isAutoMode) {
+        console.log('[ConjugationGame] Auto mode: all conjugations completed');
+        setIsAutoMode(false);
+        showAutoModeResults();
+      } else {
+        setStatusMsg('🎉 All conjugations completed! Choose next verb.');
+      }
     }
-  };
+  }, [currentConjugationIndex, isAutoMode, startRecognition, showAutoModeResults]);
 
   const selectNextVerb = () => {
     if (wellKnownVerbs.length === 0) return;
@@ -337,7 +444,35 @@ const ConjugationGame = () => {
     setCurrentConjugationIndex(0);
     setCompletedConjugations({});
     setStatusMsg(null);
+    setIsAutoMode(false);
+    setAutoModeResults([]);
   };
+  
+  const startAutoMode = () => {
+    if (!currentVerb) return;
+    
+    // Reset everything for auto mode
+    setCurrentConjugationIndex(0);
+    setCompletedConjugations({});
+    setAutoModeResults([]);
+    setIsAutoMode(true);
+    setStatusMsg('🚀 Auto mode started! Speak each conjugation when prompted.');
+    
+    // Start with first conjugation after a brief delay
+    setTimeout(() => {
+      startRecognition();
+    }, 1500);
+  };
+  
+  const showAutoModeResults = useCallback(() => {
+    const successCount = autoModeResults.filter(r => r.success).length;
+    const totalCount = autoModeResults.length;
+    const averageScore = totalCount > 0 
+      ? (autoModeResults.reduce((sum, r) => sum + r.similarity, 0) / totalCount * 100).toFixed(1)
+      : 0;
+    
+    setStatusMsg(`🎯 Auto mode complete! Score: ${successCount}/${totalCount} (${averageScore}% avg similarity)`);
+  }, [autoModeResults]);
 
   // Get current conjugation info
   const currentConjugation = getCurrentConjugation();
@@ -422,32 +557,64 @@ const ConjugationGame = () => {
                     </div>
                   </div>
                   
-                  <div className="flex gap-2 justify-center">
-                    <button
-                      onClick={startRecognition}
-                      disabled={isRecording}
-                      className={`px-4 py-2 rounded font-semibold transition ${
-                        isRecording 
-                          ? 'bg-red-500 text-white cursor-not-allowed' 
-                          : 'bg-green-500 text-white hover:bg-green-600'
-                      }`}
-                    >
-                      {isRecording ? '🎤 Listening...' : '🎤 Start Speaking'}
-                    </button>
+                  <div className="flex gap-2 justify-center flex-wrap">
+                    {!isAutoMode ? (
+                      <>
+                        <button
+                          onClick={startRecognition}
+                          disabled={isRecording}
+                          className={`px-4 py-2 rounded font-semibold transition ${
+                            isRecording 
+                              ? 'bg-red-500 text-white cursor-not-allowed' 
+                              : 'bg-green-500 text-white hover:bg-green-600'
+                          }`}
+                        >
+                          {isRecording ? '🎤 Listening...' : '🎤 Start Speaking'}
+                        </button>
+                        
+                        <button
+                          onClick={startAutoMode}
+                          disabled={isRecording}
+                          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition font-semibold"
+                        >
+                          🚀 Speak'em All
+                        </button>
+                      </>
+                    ) : (
+                      <div className="px-4 py-2 bg-purple-100 text-purple-800 rounded font-semibold">
+                        {isRecording ? '🎤 Auto Mode - Listening...' : `🚀 Auto Mode - Conjugation ${currentConjugationIndex + 1}/8`}
+                      </div>
+                    )}
                     
-                    <button
-                      onClick={playCurrentPronunciation}
-                      className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-                    >
-                      🔊 Play
-                    </button>
+                    {!isAutoMode && (
+                      <>
+                        <button
+                          onClick={playCurrentPronunciation}
+                          className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                        >
+                          🔊 Play
+                        </button>
+                        
+                        <button
+                          onClick={skipCurrentConjugation}
+                          className="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition text-sm"
+                        >
+                          ⏭️ Skip
+                        </button>
+                      </>
+                    )}
                     
-                    <button
-                      onClick={skipCurrentConjugation}
-                      className="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition text-sm"
-                    >
-                      ⏭️ Skip
-                    </button>
+                    {isAutoMode && (
+                      <button
+                        onClick={() => {
+                          setIsAutoMode(false);
+                          setStatusMsg('Auto mode cancelled.');
+                        }}
+                        className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition text-sm"
+                      >
+                        ❌ Stop Auto
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
