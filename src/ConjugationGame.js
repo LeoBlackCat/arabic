@@ -25,11 +25,11 @@ const ConjugationGame = () => {
   const [recognition, setRecognition] = useState(null);
   const [isAutoMode, setIsAutoMode] = useState(false); // Auto mode for all 8 forms
   const [autoModeResults, setAutoModeResults] = useState([]); // Track results in auto mode
-  const [shouldStartNextRecognition, setShouldStartNextRecognition] = useState(false); // Trigger for next recognition
 
   /** Speech-synthesis helpers */
   const speechSynthRef = useRef(window.speechSynthesis);
   const [arabicVoice, setArabicVoice] = useState(null);
+  const startRecognitionRef = useRef(null);
 
   // Conjugation forms in order
   const conjugationForms = [
@@ -88,24 +88,6 @@ const ConjugationGame = () => {
     }
   }, []);
 
-  /* -------------------- Auto mode progression ------------------- */
-  useEffect(() => {
-    if (shouldStartNextRecognition && isAutoMode) {
-      console.log('[ConjugationGame] Auto mode: triggering next recognition');
-      setShouldStartNextRecognition(false);
-      
-      if (currentConjugationIndex >= conjugationForms.length) {
-        // All done
-        setIsAutoMode(false);
-        showAutoModeResults();
-      } else {
-        // Start recognition for current conjugation
-        setTimeout(() => {
-          startRecognition();
-        }, 1000);
-      }
-    }
-  }, [shouldStartNextRecognition, isAutoMode, currentConjugationIndex, startRecognition, showAutoModeResults]);
 
   /** ----------------------------------
    * Helper: speakWord (re-uses sound files when possible)
@@ -200,6 +182,11 @@ const ConjugationGame = () => {
       startWebKitRecognition(currentConjugation);
     }
   }, [currentVerb, currentConjugationIndex, isAutoMode]);
+  
+  // Update the ref whenever startRecognition changes
+  useEffect(() => {
+    startRecognitionRef.current = startRecognition;
+  }, [startRecognition]);
 
   /** ----------------------------------
    * Process recognition result (shared by both Azure and WebKit)
@@ -289,13 +276,45 @@ const ConjugationGame = () => {
         // Move to next conjugation after pronunciation
         setTimeout(() => {
           if (currentConjugationIndex < conjugationForms.length - 1) {
-            setCurrentConjugationIndex(prev => prev + 1);
+            setCurrentConjugationIndex(prev => {
+              const newIndex = prev + 1;
+              console.log(`[ConjugationGame] Auto mode: moving from conjugation ${prev + 1} to ${newIndex + 1}`);
+              
+              // Start next recognition after state updates
+              setTimeout(() => {
+                console.log(`[ConjugationGame] Auto mode: starting recognition for conjugation ${newIndex + 1}`);
+                if (startRecognitionRef.current) {
+                  startRecognitionRef.current();
+                } else {
+                  console.error('[ConjugationGame] startRecognitionRef.current is null!');
+                }
+              }, 1000);
+              
+              return newIndex;
+            });
             setStatusMsg(null);
-            // Trigger next recognition
-            setShouldStartNextRecognition(true);
           } else {
-            setIsAutoMode(false);
-            showAutoModeResults();
+            setTimeout(() => {
+              setAutoModeResults(prev => {
+                const allResults = [...prev, {
+                  conjugationIndex: currentConjugationIndex,
+                  success: true,
+                  similarity: pronunciationResult.similarity || 1,
+                  matchType: pronunciationResult.matchType
+                }];
+                
+                const successCount = allResults.filter(r => r.success).length;
+                const totalCount = allResults.length;
+                const averageScore = totalCount > 0 
+                  ? (allResults.reduce((sum, r) => sum + r.similarity, 0) / totalCount * 100).toFixed(1)
+                  : 0;
+                
+                setIsAutoMode(false);
+                setStatusMsg(`🎯 Auto mode complete! Score: ${successCount}/${totalCount} (${averageScore}% avg similarity)`);
+                
+                return allResults;
+              });
+            }, 100);
           }
         }, 2000);
       } else {
@@ -334,13 +353,45 @@ const ConjugationGame = () => {
         // Wait for pronunciation to finish, then continue to next
         setTimeout(() => {
           if (currentConjugationIndex < conjugationForms.length - 1) {
-            setCurrentConjugationIndex(prev => prev + 1);
+            setCurrentConjugationIndex(prev => {
+              const newIndex = prev + 1;
+              console.log(`[ConjugationGame] Auto mode (failed): moving from conjugation ${prev + 1} to ${newIndex + 1}`);
+              
+              // Start next recognition after state updates
+              setTimeout(() => {
+                console.log(`[ConjugationGame] Auto mode (failed): starting recognition for conjugation ${newIndex + 1}`);
+                if (startRecognitionRef.current) {
+                  startRecognitionRef.current();
+                } else {
+                  console.error('[ConjugationGame] startRecognitionRef.current is null!');
+                }
+              }, 1000);
+              
+              return newIndex;
+            });
             setStatusMsg(null);
-            // Trigger next recognition
-            setShouldStartNextRecognition(true);
           } else {
-            setIsAutoMode(false);
-            showAutoModeResults();
+            setTimeout(() => {
+              setAutoModeResults(prev => {
+                const allResults = [...prev, {
+                  conjugationIndex: currentConjugationIndex,
+                  success: false,
+                  similarity: pronunciationResult.similarity || 0,
+                  matchType: 'failed'
+                }];
+                
+                const successCount = allResults.filter(r => r.success).length;
+                const totalCount = allResults.length;
+                const averageScore = totalCount > 0 
+                  ? (allResults.reduce((sum, r) => sum + r.similarity, 0) / totalCount * 100).toFixed(1)
+                  : 0;
+                
+                setIsAutoMode(false);
+                setStatusMsg(`🎯 Auto mode complete! Score: ${successCount}/${totalCount} (${averageScore}% avg similarity)`);
+                
+                return allResults;
+              });
+            }, 100);
           }
         }, 2500);
       }
@@ -442,21 +493,27 @@ const ConjugationGame = () => {
       if (isAutoMode) {
         console.log('[ConjugationGame] Auto mode: moving to next conjugation and starting recognition');
         setTimeout(() => {
-          console.log('[ConjugationGame] Auto mode: starting recognition for next conjugation');
-          startRecognition();
+          console.log('[ConjugationGame] Auto mode: triggering next recognition');
+          setShouldStartNextRecognition(true);
         }, 1000);
       }
     } else {
       // All conjugations completed for this verb
       if (isAutoMode) {
         console.log('[ConjugationGame] Auto mode: all conjugations completed');
+        const successCount = autoModeResults.filter(r => r.success).length;
+        const totalCount = autoModeResults.length;
+        const averageScore = totalCount > 0 
+          ? (autoModeResults.reduce((sum, r) => sum + r.similarity, 0) / totalCount * 100).toFixed(1)
+          : 0;
+        
         setIsAutoMode(false);
-        showAutoModeResults();
+        setStatusMsg(`🎯 Auto mode complete! Score: ${successCount}/${totalCount} (${averageScore}% avg similarity)`);
       } else {
         setStatusMsg('🎉 All conjugations completed! Choose next verb.');
       }
     }
-  }, [currentConjugationIndex, isAutoMode, startRecognition, showAutoModeResults]);
+  }, [currentConjugationIndex, isAutoMode, autoModeResults]);
 
   const selectNextVerb = () => {
     if (wellKnownVerbs.length === 0) return;
@@ -487,35 +544,31 @@ const ConjugationGame = () => {
     setStatusMsg(null);
     setIsAutoMode(false);
     setAutoModeResults([]);
-    setShouldStartNextRecognition(false);
   };
   
   const startAutoMode = () => {
     if (!currentVerb) return;
     
+    console.log('[ConjugationGame] Starting auto mode...');
+    
     // Reset everything for auto mode
     setCurrentConjugationIndex(0);
     setCompletedConjugations({});
     setAutoModeResults([]);
-    setShouldStartNextRecognition(false);
     setIsAutoMode(true);
     setStatusMsg('🚀 Auto mode started! Speak each conjugation when prompted.');
     
     // Start with first conjugation after a brief delay
     setTimeout(() => {
-      startRecognition();
+      console.log('[ConjugationGame] Auto mode: triggering first recognition');
+      if (startRecognitionRef.current) {
+        startRecognitionRef.current();
+      } else {
+        console.error('[ConjugationGame] startRecognitionRef.current is null in startAutoMode!');
+      }
     }, 1500);
   };
   
-  const showAutoModeResults = useCallback(() => {
-    const successCount = autoModeResults.filter(r => r.success).length;
-    const totalCount = autoModeResults.length;
-    const averageScore = totalCount > 0 
-      ? (autoModeResults.reduce((sum, r) => sum + r.similarity, 0) / totalCount * 100).toFixed(1)
-      : 0;
-    
-    setStatusMsg(`🎯 Auto mode complete! Score: ${successCount}/${totalCount} (${averageScore}% avg similarity)`);
-  }, [autoModeResults]);
 
   // Get current conjugation info
   const currentConjugation = getCurrentConjugation();
