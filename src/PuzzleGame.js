@@ -16,6 +16,8 @@ import { normalizeArabic, checkPronunciation } from './arabicUtils';
 import logicData from '../logic.json';
 import MediaDisplay from './MediaDisplay';
 import { isAzureSpeechAvailable, startAzureSpeechRecognition } from './azureSpeechHelper';
+import { recordCorrectAnswer, recordIncorrectAnswer } from './puzzleStats';
+import StatsDisplay from './StatsDisplay';
 
 /**
  * Mini Game 3 – 3×3 Picture/Color Puzzle + Speech
@@ -35,6 +37,8 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
   const [statusMsg, setStatusMsg] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [recognition, setRecognition] = useState(null);
+  const [tileStartTime, setTileStartTime] = useState(null); // Track when user starts attempting a tile
+  const [showStats, setShowStats] = useState(false); // Control stats modal display
 
   /** Speech-synthesis helpers */
   const speechSynthRef = useRef(window.speechSynthesis);
@@ -169,6 +173,13 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
    * Process recognition result (shared by both Azure and WebKit)
    * --------------------------------*/
   const processRecognitionResult = useCallback((recognizedText, expectedVerb, verbToPronounce) => {
+    // Calculate elapsed time if we have a start time
+    let timeSeconds = null;
+    if (tileStartTime) {
+      timeSeconds = (Date.now() - tileStartTime) / 1000;
+      console.log(`📊 Answer attempt took ${timeSeconds.toFixed(1)} seconds`);
+    }
+    
     // Find the current item in logic data to check for alternates
     const currentLogicItem = logicData.items.find(item => 
       item.ar === expectedVerb.ar && item.chat === expectedVerb.chat
@@ -180,6 +191,17 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
     console.log('[PuzzleGame] Pronunciation result:', pronunciationResult);
     
     if (pronunciationResult.isCorrect || pronunciationResult.matchType === 'partial') {
+      // Record correct answer with timing
+      if (timeSeconds !== null) {
+        recordCorrectAnswer(
+          expectedVerb.id || expectedVerb.chat, // verbId
+          expectedVerb.chat, // verbChat
+          expectedVerb.ar, // verbAr
+          expectedVerb.eng, // verbEng
+          timeSeconds // timeSeconds
+        );
+      }
+      
       // Mark tile removed
       setTiles(prev => prev.map(t => t.verb === expectedVerb ? { ...t, removed: true } : t));
       
@@ -213,6 +235,14 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
         speakWord(baseVerb.ar, baseVerb.chat);
       }
     } else {
+      // Record incorrect answer attempt
+      recordIncorrectAnswer(
+        expectedVerb.id || expectedVerb.chat, // verbId
+        expectedVerb.chat, // verbChat
+        expectedVerb.ar, // verbAr
+        expectedVerb.eng // verbEng
+      );
+      
       // Show similarity feedback even for incorrect answers
       if (pronunciationResult.similarity && pronunciationResult.similarity > 0.2) {
         const percentage = Math.round(pronunciationResult.similarity * 100);
@@ -237,7 +267,10 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
         speakWord(baseVerb.ar, baseVerb.chat);
       }
     }
-  }, []);
+    
+    // Reset timing state after processing
+    setTileStartTime(null);
+  }, [tileStartTime]);
 
   /** ----------------------------------
    * Azure Speech Recognition
@@ -328,6 +361,10 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
 
     setActiveIdx(idx);
     setStatusMsg(null);
+    
+    // Record the start time for this attempt
+    setTileStartTime(Date.now());
+    console.log(`📊 Started timing for tile: ${tile.verb.chat}`);
 
     // Find if this verb has an alternate version
     const allVerbs = logicData.items.filter(item => item.pos === 'verb');
@@ -382,9 +419,25 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
    * --------------------------------*/
   return (
     <div className={`${SHOW_ALL_VERBS ? 'max-w-6xl' : 'max-w-3xl'} mx-auto p-4 text-center font-sans`}>
-      <h2 className="text-2xl font-bold mb-4">
-        Game 3: {SHOW_ALL_VERBS ? 'All Verbs' : '3×3'} Speak & Remove ({contentType})
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">
+          Game 3: {SHOW_ALL_VERBS ? 'All Verbs' : '3×3'} Speak & Remove ({contentType})
+        </h2>
+        <div className="flex gap-2">
+          <button
+            onClick={initRound}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
+          >
+            🔄 Restart
+          </button>
+          <button
+            onClick={() => setShowStats(true)}
+            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition flex items-center gap-2"
+          >
+            📊 Stats
+          </button>
+        </div>
+      </div>
 
       {allGone ? (
         <div className="my-6">
@@ -407,6 +460,12 @@ const PuzzleGame = ({ contentData = [], contentType = 'verbs', colorMap = {} }) 
           </div>
         </>
       )}
+      
+      {/* Stats Modal */}
+      <StatsDisplay 
+        isOpen={showStats} 
+        onClose={() => setShowStats(false)} 
+      />
     </div>
   );
 };
