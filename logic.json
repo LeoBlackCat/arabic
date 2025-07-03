@@ -1918,91 +1918,117 @@
       "ar": "أحمر",
       "chat": "a7mar",
       "eng": "Red",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "حمراء",
+      "chat_f": "7amra"
     },
     {
       "id": 125,
       "ar": "أصفر",
       "chat": "asfar",
       "eng": "Yellow",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "صفراء",
+      "chat_f": "safra"
     },
     {
       "id": 126,
       "ar": "أزرق",
       "chat": "azrag",
       "eng": "Blue",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "زرقاء",
+      "chat_f": "zarga"
     },
     {
       "id": 127,
       "ar": "أبيض",
       "chat": "abyadh",
       "eng": "White",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "بيضاء",
+      "chat_f": "baidha"
     },
     {
       "id": 128,
       "ar": "أسود",
       "chat": "aswad",
       "eng": "Black",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "سوداء",
+      "chat_f": "sawda"
     },
     {
       "id": 129,
       "ar": "أخضر",
       "chat": "akhdhar",
       "eng": "Green",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "خضراء",
+      "chat_f": "khadhra"
     },
     {
       "id": 130,
       "ar": "رصاصي",
       "chat": "rusasee",
       "eng": "Gray",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "رصاصية",
+      "chat_f": "rusaseeyah"
     },
     {
       "id": 131,
       "ar": "وردي",
       "chat": "wardee",
       "eng": "Pink",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "وردية",
+      "chat_f": "wardeeyah"
     },
     {
       "id": 132,
       "ar": "بنفسجي",
       "chat": "banafsajee",
       "eng": "Purple",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "بنفسجية",
+      "chat_f": "banafsajeeyah"
     },
     {
       "id": 133,
       "ar": "بني",
       "chat": "bonnee",
       "eng": "Brown",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "بنية",
+      "chat_f": "bonneeyah"
     },
     {
       "id": 134,
       "ar": "برتقالي",
       "chat": "burtuqalee",
       "eng": "Orange",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "برتقالية",
+      "chat_f": "burtuqaleeyah"
     },
     {
       "id": 135,
       "ar": "فضي",
       "chat": "fedhee",
       "eng": "Silver",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "فضية",
+      "chat_f": "fedheeyah"
     },
     {
       "id": 136,
       "ar": "ذهبي",
       "chat": "thahabee",
       "eng": "Golden",
-      "type": "colors"
+      "type": "colors",
+      "ar_f": "ذهبية",
+      "chat_f": "thahabeeyah"
     },
     {
       "id": 137,
@@ -2060,7 +2086,6 @@
       "chat": "gahwa",
       "eng": "coffee",
       "pos": "noun",
-      "colorful": true,
       "gender": "f",
       "my": "قهوتي",
       "my_chat": "gahwty",
@@ -2109,7 +2134,6 @@
       "chat": "salata",
       "eng": "salad",
       "pos": "noun",
-      "colorful": true,
       "gender": "f",
       "my": "سلطتي",
       "my_chat": "salatty",
@@ -2735,6 +2759,30 @@
       "her_chat": "3yaalaha",
       "their": "عيالهم",
       "their_chat": "3yaalahum"
+    },
+    {
+      "id": 167,
+      "ar": "ساعة",
+      "chat": "sa3a",
+      "eng": "watch",
+      "pos": "noun",
+      "gender": "m",
+      "my": "ساعتي",
+      "my_chat": "sa3aty",
+      "your_m": "ساعتك",
+      "your_m_chat": "sa3atik",
+      "your_f": "ساعتج",
+      "your_f_chat": "sa3atich",
+      "your_pl": "ساعتكم",
+      "your_pl_chat": "sa3atkum",
+      "our": "ساعتنا",
+      "our_chat": "sa3atna",
+      "his": "ساعته",
+      "his_chat": "sa3atah",
+      "her": "ساعتها",
+      "her_chat": "sa3ataha",
+      "their": "ساعتهم",
+      "their_chat": "sa3atahum"
     }
   ],
   "numerals": [

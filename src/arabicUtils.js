@@ -61,6 +61,19 @@ const checkPronunciation = (transcript, currentItem, allItems = [], similarityTh
     };
   }
   
+  // Check feminine form if it exists (for colors)
+  if (currentItem.ar_f) {
+    const normalizedFeminine = normalizeArabic(currentItem.ar_f);
+    if (normalizedTranscript === normalizedFeminine) {
+      return { 
+        isCorrect: true, 
+        matchType: 'feminine', 
+        matchedItem: currentItem, 
+        similarity: 1.0 
+      };
+    }
+  }
+  
   // Check if current item has an alternate
   if (currentItem.alternate) {
     const alternateItem = allItems.find(item => item.id === currentItem.alternate);
@@ -101,6 +114,21 @@ const checkPronunciation = (transcript, currentItem, allItems = [], similarityTh
       matchedItem: currentItem, 
       similarity 
     };
+  }
+  
+  // Check similarity with feminine form if exists
+  if (currentItem.ar_f) {
+    const normalizedFeminine = normalizeArabic(currentItem.ar_f);
+    const feminineSimilarity = calculateSimilarity(normalizedTranscript, normalizedFeminine);
+    
+    if (feminineSimilarity >= similarityThreshold) {
+      return { 
+        isCorrect: true, 
+        matchType: 'similarity', 
+        matchedItem: currentItem, 
+        similarity: feminineSimilarity 
+      };
+    }
   }
   
   // Check similarity with alternate if exists
