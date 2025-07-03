@@ -4,6 +4,7 @@ import ImageChoiceGame from './ImageChoiceGame';
 import PuzzleGame from './PuzzleGame';
 import ConjugationGame from './ConjugationGame';
 import PossessiveGame from './PossessiveGame';
+import ColorNounGame from './ColorNounGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -22,7 +23,8 @@ const GAME_TYPES = {
   IMAGE_CHOICE: 'image_choice', 
   PUZZLE: 'puzzle',
   CONJUGATION: 'conjugation',
-  POSSESSIVE: 'possessive'
+  POSSESSIVE: 'possessive',
+  COLOR_NOUN: 'color_noun'
 };
 
 // Color mapping for HTML colors
@@ -70,7 +72,8 @@ const GameHub = () => {
           { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
           { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
           { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
-          { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' }
+          { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' },
+          { value: GAME_TYPES.COLOR_NOUN, label: 'Color + Noun Game' }
         ];
       default:
         return [
@@ -207,6 +210,8 @@ const GameHub = () => {
         return <ConjugationGame {...commonProps} />;
       case GAME_TYPES.POSSESSIVE:
         return <PossessiveGame {...commonProps} />;
+      case GAME_TYPES.COLOR_NOUN:
+        return <ColorNounGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }
@@ -278,7 +283,7 @@ const GameHub = () => {
             {contentData.length > 0 && (
               <span>
                 {contentData.length} {selectedContent} with media files • 
-                Playing: {selectedGame.replace('_', ' ')}
+                Playing: {selectedGame.replace('_', ' ').replace('color noun', 'Color+Noun')}
                 {azureConfig.isEnabled && (
                   <span className="ml-2 text-green-600">
                     • Azure Speech enabled

@@ -1,0 +1,319 @@
+{
+  "generatedAt": "2025-07-03T17:31:20.024Z",
+  "totalCombinations": 31,
+  "totalImages": 31,
+  "nounsProcessed": 15,
+  "colorsAvailable": 13,
+  "combinations": [
+    {
+      "noun": "sayyaarah",
+      "color": "thahabee",
+      "filename": "sayyaarah_thahabee.png",
+      "arabicPhrase": "سيارة ذهبية",
+      "chatPhrase": "sayyaarah thahabeeyah",
+      "englishPhrase": "Golden Car",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "sayyaarah",
+      "color": "azrag",
+      "filename": "sayyaarah_azrag.png",
+      "arabicPhrase": "سيارة زرقاء",
+      "chatPhrase": "sayyaarah zarga",
+      "englishPhrase": "Blue Car",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "sayyaarah",
+      "color": "abyadh",
+      "filename": "sayyaarah_abyadh.png",
+      "arabicPhrase": "سيارة بيضاء",
+      "chatPhrase": "sayyaarah baidha",
+      "englishPhrase": "White Car",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "sayyaarah",
+      "color": "akhdhar",
+      "filename": "sayyaarah_akhdhar.png",
+      "arabicPhrase": "سيارة خضراء",
+      "chatPhrase": "sayyaarah khadhra",
+      "englishPhrase": "Green Car",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "sayyaarah",
+      "color": "wardee",
+      "filename": "sayyaarah_wardee.png",
+      "arabicPhrase": "سيارة وردية",
+      "chatPhrase": "sayyaarah wardeeyah",
+      "englishPhrase": "Pink Car",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "motar",
+      "color": "thahabee",
+      "filename": "motar_thahabee.png",
+      "arabicPhrase": "موتر ذهبي",
+      "chatPhrase": "motar thahabee",
+      "englishPhrase": "Golden Car",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "motar",
+      "color": "akhdhar",
+      "filename": "motar_akhdhar.png",
+      "arabicPhrase": "موتر أخضر",
+      "chatPhrase": "motar akhdhar",
+      "englishPhrase": "Green Car",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "motar",
+      "color": "aswad",
+      "filename": "motar_aswad.png",
+      "arabicPhrase": "موتر أسود",
+      "chatPhrase": "motar aswad",
+      "englishPhrase": "Black Car",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "motar",
+      "color": "fedhee",
+      "filename": "motar_fedhee.png",
+      "arabicPhrase": "موتر فضي",
+      "chatPhrase": "motar fedhee",
+      "englishPhrase": "Silver Car",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "sa3a",
+      "color": "banafsajee",
+      "filename": "sa3a_banafsajee.png",
+      "arabicPhrase": "ساعة بنفسجي",
+      "chatPhrase": "sa3a banafsajee",
+      "englishPhrase": "Purple watch",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "sa3a",
+      "color": "wardee",
+      "filename": "sa3a_wardee.png",
+      "arabicPhrase": "ساعة وردي",
+      "chatPhrase": "sa3a wardee",
+      "englishPhrase": "Pink watch",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "sa3a",
+      "color": "fedhee",
+      "filename": "sa3a_fedhee.png",
+      "arabicPhrase": "ساعة فضي",
+      "chatPhrase": "sa3a fedhee",
+      "englishPhrase": "Silver watch",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "sa3a",
+      "color": "burtuqalee",
+      "filename": "sa3a_burtuqalee.png",
+      "arabicPhrase": "ساعة برتقالي",
+      "chatPhrase": "sa3a burtuqalee",
+      "englishPhrase": "Orange watch",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "sa3a",
+      "color": "a7mar",
+      "filename": "sa3a_a7mar.png",
+      "arabicPhrase": "ساعة أحمر",
+      "chatPhrase": "sa3a a7mar",
+      "englishPhrase": "Red watch",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "chai",
+      "color": "rusasee",
+      "filename": "chai_rusasee.png",
+      "arabicPhrase": "جاي رصاصي",
+      "chatPhrase": "chai rusasee",
+      "englishPhrase": "Gray tea",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "kitaab",
+      "color": "azrag",
+      "filename": "kitaab_azrag.png",
+      "arabicPhrase": "كتاب أزرق",
+      "chatPhrase": "kitaab azrag",
+      "englishPhrase": "Blue Book",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "kitaab",
+      "color": "thahabee",
+      "filename": "kitaab_thahabee.png",
+      "arabicPhrase": "كتاب ذهبي",
+      "chatPhrase": "kitaab thahabee",
+      "englishPhrase": "Golden Book",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "fawakeh",
+      "color": "fedhee",
+      "filename": "fawakeh_fedhee.png",
+      "arabicPhrase": "فواكه فضي",
+      "chatPhrase": "fawakeh fedhee",
+      "englishPhrase": "Silver fruits",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "taawlah",
+      "color": "banafsajee",
+      "filename": "taawlah_banafsajee.png",
+      "arabicPhrase": "طاولة بنفسجية",
+      "chatPhrase": "taawlah banafsajeeyah",
+      "englishPhrase": "Purple table",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "taawlah",
+      "color": "fedhee",
+      "filename": "taawlah_fedhee.png",
+      "arabicPhrase": "طاولة فضية",
+      "chatPhrase": "taawlah fedheeyah",
+      "englishPhrase": "Silver table",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "3aseer",
+      "color": "a7mar",
+      "filename": "3aseer_a7mar.png",
+      "arabicPhrase": "عصير أحمر",
+      "chatPhrase": "3aseer a7mar",
+      "englishPhrase": "Red juice",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "3aseer",
+      "color": "thahabee",
+      "filename": "3aseer_thahabee.png",
+      "arabicPhrase": "عصير ذهبي",
+      "chatPhrase": "3aseer thahabee",
+      "englishPhrase": "Golden juice",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "mai",
+      "color": "asfar",
+      "filename": "mai_asfar.png",
+      "arabicPhrase": "ماي أصفر",
+      "chatPhrase": "mai asfar",
+      "englishPhrase": "Yellow water",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "khedhrah",
+      "color": "a7mar",
+      "filename": "khedhrah_a7mar.png",
+      "arabicPhrase": "خضرة حمراء",
+      "chatPhrase": "khedhrah 7amra",
+      "englishPhrase": "Red vegetables",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "khedhrah",
+      "color": "wardee",
+      "filename": "khedhrah_wardee.png",
+      "arabicPhrase": "خضرة وردية",
+      "chatPhrase": "khedhrah wardeeyah",
+      "englishPhrase": "Pink vegetables",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "sheqqah",
+      "color": "rusasee",
+      "filename": "sheqqah_rusasee.png",
+      "arabicPhrase": "شقة رصاصية",
+      "chatPhrase": "sheqqah rusaseeyah",
+      "englishPhrase": "Gray Flat",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "baab",
+      "color": "rusasee",
+      "filename": "baab_rusasee.png",
+      "arabicPhrase": "باب رصاصي",
+      "chatPhrase": "baab rusasee",
+      "englishPhrase": "Gray Door",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "baab",
+      "color": "abyadh",
+      "filename": "baab_abyadh.png",
+      "arabicPhrase": "باب أبيض",
+      "chatPhrase": "baab abyadh",
+      "englishPhrase": "White Door",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "kirsee",
+      "color": "bonnee",
+      "filename": "kirsee_bonnee.png",
+      "arabicPhrase": "كرسي بني",
+      "chatPhrase": "kirsee bonnee",
+      "englishPhrase": "Brown Chair",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    },
+    {
+      "noun": "shorbah",
+      "color": "wardee",
+      "filename": "shorbah_wardee.png",
+      "arabicPhrase": "شوربة وردية",
+      "chatPhrase": "shorbah wardeeyah",
+      "englishPhrase": "Pink soup",
+      "nounGender": "f",
+      "colorForm": "feminine"
+    },
+    {
+      "noun": "burj",
+      "color": "wardee",
+      "filename": "burj_wardee.png",
+      "arabicPhrase": "برج وردي",
+      "chatPhrase": "burj wardee",
+      "englishPhrase": "Pink Tower",
+      "nounGender": "m",
+      "colorForm": "masculine"
+    }
+  ]
+}
