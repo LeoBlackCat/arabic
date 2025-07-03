@@ -6,6 +6,9 @@ import ConjugationGame from './ConjugationGame';
 import PossessiveGame from './PossessiveGame';
 import ColorNounGame from './ColorNounGame';
 import SentenceGame from './SentenceGame';
+import ArabicWritingGame from './ArabicWritingGame';
+import SpeedTranslationGame from './SpeedTranslationGame';
+import GrammarPatternGame from './GrammarPatternGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -26,7 +29,10 @@ const GAME_TYPES = {
   CONJUGATION: 'conjugation',
   POSSESSIVE: 'possessive',
   COLOR_NOUN: 'color_noun',
-  SENTENCE: 'sentence'
+  SENTENCE: 'sentence',
+  ARABIC_WRITING: 'arabic_writing',
+  SPEED_TRANSLATION: 'speed_translation',
+  GRAMMAR_PATTERN: 'grammar_pattern'
 };
 
 // Color mapping for HTML colors
@@ -61,13 +67,18 @@ const GameHub = () => {
           { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
           { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
           { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
-          { value: GAME_TYPES.CONJUGATION, label: 'Conjugation Practice' }
+          { value: GAME_TYPES.CONJUGATION, label: 'Conjugation Practice' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
+          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
         ];
       case CONTENT_TYPES.COLORS:
         return [
           { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
           { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
-          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' }
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
         ];
       case CONTENT_TYPES.NOUNS:
         return [
@@ -76,13 +87,18 @@ const GameHub = () => {
           { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
           { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' },
           { value: GAME_TYPES.COLOR_NOUN, label: 'Color + Noun Game' },
-          { value: GAME_TYPES.SENTENCE, label: 'Sentence Builder' }
+          { value: GAME_TYPES.SENTENCE, label: 'Sentence Builder' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
+          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
         ];
       default:
         return [
           { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
           { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
-          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' }
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
         ];
     }
   };
@@ -217,6 +233,12 @@ const GameHub = () => {
         return <ColorNounGame {...commonProps} />;
       case GAME_TYPES.SENTENCE:
         return <SentenceGame {...commonProps} />;
+      case GAME_TYPES.ARABIC_WRITING:
+        return <ArabicWritingGame {...commonProps} />;
+      case GAME_TYPES.SPEED_TRANSLATION:
+        return <SpeedTranslationGame {...commonProps} />;
+      case GAME_TYPES.GRAMMAR_PATTERN:
+        return <GrammarPatternGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }

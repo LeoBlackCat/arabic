@@ -1,0 +1,483 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { normalizeArabic } from './arabicUtils';
+
+const GrammarPatternGame = ({ contentData, contentType }) => {
+  const [currentChallenge, setCurrentChallenge] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [statusMsg, setStatusMsg] = useState(null);
+  const [score, setScore] = useState({ correct: 0, total: 0 });
+  const [gameStarted, setGameStarted] = useState(false);
+  const [patternType, setPatternType] = useState('gender_agreement');
+  const [showExplanation, setShowExplanation] = useState(false);
+
+  const speechSynthRef = useRef(window.speechSynthesis);
+  const [arabicVoice, setArabicVoice] = useState(null);
+
+  // Initialize voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = speechSynthRef.current.getVoices();
+      const arVoice = voices.find(v => v.lang.includes('ar') || v.name.toLowerCase().includes('arabic'));
+      setArabicVoice(arVoice || voices[0]);
+    };
+    speechSynthRef.current.onvoiceschanged = loadVoices;
+    loadVoices();
+    return () => {
+      speechSynthRef.current.onvoiceschanged = null;
+    };
+  }, []);
+
+  const speakWord = useCallback((text) => {
+    if (!text) return;
+    speechSynthRef.current.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    if (arabicVoice) utterance.voice = arabicVoice;
+    utterance.lang = 'ar-SA';
+    utterance.rate = 0.8;
+    speechSynthRef.current.speak(utterance);
+  }, [arabicVoice]);
+
+  // Color mapping for visual display
+  const COLOR_MAP = {
+    'a7mar': '#FF0000', 'asfar': '#FFFF00', 'azrag': '#0000FF',
+    'abyadh': '#FFFFFF', 'aswad': '#000000', 'akhdhar': '#00FF00',
+    'rusasee': '#808080', 'wardee': '#FFC0CB', 'banafsajee': '#800080',
+    'bonnee': '#8B4513', 'burtuqalee': '#FFA500', 'fedhee': '#C0C0C0',
+    'thahabee': '#FFD700'
+  };
+
+  const generateGenderAgreementChallenge = useCallback(() => {
+    if (!contentData || contentData.length === 0) return null;
+
+    // Get nouns and colors
+    const nouns = contentData.filter(item => item.pos === 'noun' && item.gender);
+    const colors = contentData.filter(item => item.type === 'colors' && item.ar_f);
+    
+    if (nouns.length === 0 || colors.length === 0) return null;
+
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    // Generate options
+    const correctFeminine = `${noun.ar} ${color.ar_f}`;
+    const correctMasculine = `${noun.ar} ${color.ar}`;
+    const incorrectFeminine = `${noun.ar} ${color.ar}`;
+    const incorrectMasculine = `${noun.ar} ${color.ar_f}`;
+
+    let correctAnswer, incorrectAnswer;
+    if (noun.gender === 'f') {
+      correctAnswer = correctFeminine;
+      incorrectAnswer = incorrectFeminine;
+    } else {
+      correctAnswer = correctMasculine;
+      incorrectAnswer = incorrectMasculine;
+    }
+
+    // Create 4 options with some additional variations
+    const options = [
+      {
+        text: correctAnswer,
+        isCorrect: true,
+        explanation: `Correct: ${noun.ar} is ${noun.gender === 'f' ? 'feminine' : 'masculine'}, so the color ${color.ar_f || color.ar} must agree.`
+      },
+      {
+        text: incorrectAnswer,
+        isCorrect: false,
+        explanation: `Incorrect: Gender disagreement - ${noun.ar} is ${noun.gender === 'f' ? 'feminine' : 'masculine'} but the color form doesn't match.`
+      }
+    ];
+
+    // Add two more options with different nouns
+    const otherNouns = nouns.filter(n => n.id !== noun.id).slice(0, 2);
+    otherNouns.forEach(otherNoun => {
+      const otherText = otherNoun.gender === 'f' ? 
+        `${otherNoun.ar} ${color.ar_f}` : 
+        `${otherNoun.ar} ${color.ar}`;
+      options.push({
+        text: otherText,
+        isCorrect: false,
+        explanation: `Incorrect: While the gender agreement is correct, this uses a different noun (${otherNoun.ar}).`
+      });
+    });
+
+    // Shuffle options
+    const shuffledOptions = options.sort(() => Math.random() - 0.5);
+
+    return {
+      type: 'gender_agreement',
+      question: `Which phrase shows correct gender agreement?`,
+      context: `The noun "${noun.ar}" (${noun.eng}) is ${noun.gender === 'f' ? 'feminine' : 'masculine'}. The color "${color.eng}" should agree with it.`,
+      options: shuffledOptions,
+      noun: noun,
+      color: color,
+      correctAnswer: correctAnswer
+    };
+  }, [contentData]);
+
+  const generateConjugationChallenge = useCallback(() => {
+    if (!contentData || contentData.length === 0) return null;
+
+    const verbs = contentData.filter(item => item.pos === 'verb' && item.you_m && item.you_f);
+    if (verbs.length === 0) return null;
+
+    const verb = verbs[Math.floor(Math.random() * verbs.length)];
+    const subjects = [
+      { pronoun: 'أنت (م)', form: 'you_m', label: 'you (masculine)' },
+      { pronoun: 'أنت (ف)', form: 'you_f', label: 'you (feminine)' },
+      { pronoun: 'أنتم', form: 'you_pl', label: 'you (plural)' },
+      { pronoun: 'هو', form: 'he', label: 'he' },
+      { pronoun: 'هي', form: 'she', label: 'she' }
+    ];
+
+    const subject = subjects[Math.floor(Math.random() * subjects.length)];
+    const correctForm = verb[subject.form];
+
+    // Generate options
+    const options = [
+      {
+        text: `${subject.pronoun} ${correctForm}`,
+        isCorrect: true,
+        explanation: `Correct: "${subject.pronoun}" (${subject.label}) takes the form "${correctForm}".`
+      }
+    ];
+
+    // Add incorrect options using other conjugations
+    const otherForms = subjects.filter(s => s.form !== subject.form).slice(0, 3);
+    otherForms.forEach(otherSubject => {
+      const incorrectForm = verb[otherSubject.form];
+      options.push({
+        text: `${subject.pronoun} ${incorrectForm}`,
+        isCorrect: false,
+        explanation: `Incorrect: "${subject.pronoun}" should not use the form "${incorrectForm}" which is for ${otherSubject.label}.`
+      });
+    });
+
+    // Shuffle options
+    const shuffledOptions = options.sort(() => Math.random() - 0.5);
+
+    return {
+      type: 'conjugation',
+      question: `Which conjugation is correct?`,
+      context: `The verb "${verb.ar}" (${verb.eng}) needs to be conjugated for the subject "${subject.pronoun}" (${subject.label}).`,
+      options: shuffledOptions,
+      verb: verb,
+      subject: subject,
+      correctAnswer: `${subject.pronoun} ${correctForm}`
+    };
+  }, [contentData]);
+
+  const generatePossessiveChallenge = useCallback(() => {
+    if (!contentData || contentData.length === 0) return null;
+
+    const nouns = contentData.filter(item => item.pos === 'noun' && item.my && item.your_m);
+    if (nouns.length === 0) return null;
+
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const possessors = [
+      { pronoun: 'كتابي', form: 'my', label: 'my' },
+      { pronoun: 'كتابك (م)', form: 'your_m', label: 'your (masculine)' },
+      { pronoun: 'كتابك (ف)', form: 'your_f', label: 'your (feminine)' },
+      { pronoun: 'كتابه', form: 'his', label: 'his' },
+      { pronoun: 'كتابها', form: 'her', label: 'her' }
+    ];
+
+    const possessor = possessors[Math.floor(Math.random() * possessors.length)];
+    const correctForm = noun[possessor.form];
+
+    // Generate options
+    const options = [
+      {
+        text: correctForm,
+        isCorrect: true,
+        explanation: `Correct: "${correctForm}" is the correct possessive form for "${possessor.label} ${noun.eng}".`
+      }
+    ];
+
+    // Add incorrect options
+    const otherForms = possessors.filter(p => p.form !== possessor.form).slice(0, 3);
+    otherForms.forEach(otherPossessor => {
+      const incorrectForm = noun[otherPossessor.form];
+      options.push({
+        text: incorrectForm,
+        isCorrect: false,
+        explanation: `Incorrect: "${incorrectForm}" is the form for "${otherPossessor.label} ${noun.eng}", not "${possessor.label} ${noun.eng}".`
+      });
+    });
+
+    // Shuffle options
+    const shuffledOptions = options.sort(() => Math.random() - 0.5);
+
+    return {
+      type: 'possessive',
+      question: `Which possessive form is correct for "${possessor.label} ${noun.eng}"?`,
+      context: `The noun "${noun.ar}" (${noun.eng}) needs the correct possessive suffix.`,
+      options: shuffledOptions,
+      noun: noun,
+      possessor: possessor,
+      correctAnswer: correctForm
+    };
+  }, [contentData]);
+
+  const generateChallenge = useCallback(() => {
+    switch (patternType) {
+      case 'gender_agreement':
+        return generateGenderAgreementChallenge();
+      case 'conjugation':
+        return generateConjugationChallenge();
+      case 'possessive':
+        return generatePossessiveChallenge();
+      default:
+        return generateGenderAgreementChallenge();
+    }
+  }, [patternType, generateGenderAgreementChallenge, generateConjugationChallenge, generatePossessiveChallenge]);
+
+  const startGame = () => {
+    setGameStarted(true);
+    setScore({ correct: 0, total: 0 });
+    setSelectedOption(null);
+    setStatusMsg(null);
+    setShowExplanation(false);
+    generateNewChallenge();
+  };
+
+  const generateNewChallenge = () => {
+    const challenge = generateChallenge();
+    setCurrentChallenge(challenge);
+    setSelectedOption(null);
+    setShowExplanation(false);
+    setStatusMsg(null);
+  };
+
+  const checkAnswer = (optionIndex) => {
+    if (!currentChallenge) return;
+
+    setSelectedOption(optionIndex);
+    const selectedAnswer = currentChallenge.options[optionIndex];
+    const newScore = { ...score, total: score.total + 1 };
+
+    if (selectedAnswer.isCorrect) {
+      newScore.correct = score.correct + 1;
+      setScore(newScore);
+      setStatusMsg('✅ Correct! Well done!');
+      
+      // Speak the correct answer
+      if (selectedAnswer.text) {
+        speakWord(selectedAnswer.text);
+      }
+    } else {
+      setScore(newScore);
+      setStatusMsg('❌ Not quite right. Check the explanation below.');
+    }
+
+    setShowExplanation(true);
+
+    // Auto-advance after delay
+    setTimeout(() => {
+      generateNewChallenge();
+    }, 4000);
+  };
+
+  const getPatternTypeLabel = () => {
+    switch (patternType) {
+      case 'gender_agreement':
+        return 'Gender Agreement';
+      case 'conjugation':
+        return 'Verb Conjugation';
+      case 'possessive':
+        return 'Possessive Forms';
+      default:
+        return 'Grammar Pattern';
+    }
+  };
+
+  const getColorForText = (text) => {
+    // Try to extract color from text for visual display
+    const colorWords = Object.keys(COLOR_MAP);
+    for (const colorWord of colorWords) {
+      if (text.includes(colorWord)) {
+        return COLOR_MAP[colorWord];
+      }
+    }
+    return null;
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-4 text-center font-sans">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">
+          Grammar Pattern Game
+        </h2>
+        {gameStarted && (
+          <div className="text-lg font-semibold">
+            Score: {score.correct}/{score.total}
+            {score.total > 0 && (
+              <span className="text-sm text-gray-600 ml-2">
+                ({Math.round((score.correct / score.total) * 100)}%)
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+
+      {!gameStarted ? (
+        /* Start Screen */
+        <div className="space-y-6">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">How to play:</h3>
+            <div className="text-left space-y-2">
+              <p>🎯 <strong>Grammar Focus:</strong> Practice Arabic grammar patterns</p>
+              <p>🔍 <strong>Pattern Recognition:</strong> Identify correct grammatical forms</p>
+              <p>📚 <strong>Multiple Choice:</strong> Choose the correct option from 4 choices</p>
+              <p>💡 <strong>Explanations:</strong> Learn why each answer is correct or incorrect</p>
+            </div>
+          </div>
+
+          {/* Pattern Type Selection */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-semibold mb-3">Choose Grammar Pattern:</h4>
+            <div className="grid md:grid-cols-3 gap-3">
+              <button
+                onClick={() => setPatternType('gender_agreement')}
+                className={`px-4 py-3 rounded-lg border-2 transition ${
+                  patternType === 'gender_agreement' 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-300 hover:border-blue-300'
+                }`}
+              >
+                <div className="font-medium">Gender Agreement</div>
+                <div className="text-sm text-gray-600">Colors matching noun gender</div>
+              </button>
+              <button
+                onClick={() => setPatternType('conjugation')}
+                className={`px-4 py-3 rounded-lg border-2 transition ${
+                  patternType === 'conjugation' 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-300 hover:border-blue-300'
+                }`}
+              >
+                <div className="font-medium">Verb Conjugation</div>
+                <div className="text-sm text-gray-600">Correct verb forms</div>
+              </button>
+              <button
+                onClick={() => setPatternType('possessive')}
+                className={`px-4 py-3 rounded-lg border-2 transition ${
+                  patternType === 'possessive' 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-300 hover:border-blue-300'
+                }`}
+              >
+                <div className="font-medium">Possessive Forms</div>
+                <div className="text-sm text-gray-600">Possessive pronouns</div>
+              </button>
+            </div>
+          </div>
+          
+          <button
+            onClick={startGame}
+            className="px-8 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-xl font-semibold"
+          >
+            🎯 Start Grammar Practice
+          </button>
+        </div>
+      ) : (
+        /* Game Screen */
+        currentChallenge && (
+          <div className="space-y-6">
+            {/* Pattern Type Display */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="text-lg font-semibold text-blue-700">
+                Pattern: {getPatternTypeLabel()}
+              </div>
+            </div>
+
+            {/* Question */}
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">{currentChallenge.question}</h3>
+              <div className="text-gray-600 mb-4">
+                {currentChallenge.context}
+              </div>
+            </div>
+
+            {/* Options */}
+            <div className="grid md:grid-cols-2 gap-4">
+              {currentChallenge.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => checkAnswer(index)}
+                  disabled={selectedOption !== null}
+                  className={`px-4 py-6 rounded-lg border-2 transition text-xl font-semibold ${
+                    selectedOption === null
+                      ? 'border-gray-300 hover:border-blue-300 hover:bg-blue-50'
+                      : selectedOption === index
+                      ? option.isCorrect 
+                        ? 'border-green-500 bg-green-50' 
+                        : 'border-red-500 bg-red-50'
+                      : option.isCorrect && showExplanation
+                      ? 'border-green-500 bg-green-100'
+                      : 'border-gray-300 bg-gray-50'
+                  }`}
+                  style={{direction: 'rtl'}}
+                >
+                  <div className="mb-2">
+                    {option.text}
+                  </div>
+                  {getColorForText(option.text) && (
+                    <div 
+                      className="w-6 h-6 rounded-full mx-auto border-2 border-gray-400"
+                      style={{backgroundColor: getColorForText(option.text)}}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Status and Explanation */}
+            {statusMsg && (
+              <div className="bg-white border rounded-lg p-4">
+                <p className="text-lg font-bold mb-2">{statusMsg}</p>
+                {showExplanation && selectedOption !== null && (
+                  <div className="text-left space-y-2">
+                    <div className="font-semibold">Explanation:</div>
+                    <div className="text-gray-700">
+                      {currentChallenge.options[selectedOption].explanation}
+                    </div>
+                    {!currentChallenge.options[selectedOption].isCorrect && (
+                      <div className="text-green-700">
+                        <strong>Correct answer:</strong> {currentChallenge.options.find(opt => opt.isCorrect).text}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Control Buttons */}
+            <div className="flex gap-2 justify-center">
+              <button
+                onClick={generateNewChallenge}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+              >
+                ⏭️ Skip
+              </button>
+              
+              <button
+                onClick={() => {
+                  setGameStarted(false);
+                  setCurrentChallenge(null);
+                  setSelectedOption(null);
+                  setStatusMsg(null);
+                }}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+              >
+                🏠 Menu
+              </button>
+            </div>
+          </div>
+        )
+      )}
+    </div>
+  );
+};
+
+export default GrammarPatternGame;
