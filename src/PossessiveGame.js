@@ -188,15 +188,18 @@ const PossessiveGame = () => {
     
     console.log(`[PossessiveGame] Heard: "${recognizedText}", Expected Arabic: "${expectedPossessive.expectedArabic}" (${expectedPossessive.expectedPhrase})`);
     
-    // Create a mock object for pronunciation checking
+    // Create a mock object for pronunciation checking with proper ID and alternate reference
     const mockNoun = {
+      id: currentNoun.id,
       ar: expectedPossessive.expectedArabic,
       chat: expectedPossessive.expectedPhrase,
-      eng: `${expectedPossessive.pronounEng} ${currentNoun.eng}`
+      eng: `${expectedPossessive.pronounEng} ${currentNoun.eng}`,
+      alternate: currentNoun.alternate // Include alternate reference if it exists
     };
     
-    // Check pronunciation
-    const pronunciationResult = checkPronunciation(recognizedText, mockNoun, [], SIMILARITY_THRESHOLD);
+    // Check pronunciation with all available nouns for alternate checking
+    const allNouns = logicData.items.filter(item => item.pos === 'noun');
+    const pronunciationResult = checkPronunciation(recognizedText, mockNoun, allNouns, SIMILARITY_THRESHOLD);
     
     console.log('[PossessiveGame] Pronunciation result:', pronunciationResult);
     console.log('[PossessiveGame] Comparison details:', {

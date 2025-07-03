@@ -12,7 +12,8 @@ import { getAzureSpeechConfig } from './azureSpeechHelper';
 // Content types
 const CONTENT_TYPES = {
   VERBS: 'verbs',
-  COLORS: 'colors'
+  COLORS: 'colors',
+  NOUNS: 'nouns'
 };
 
 // Game types (excluding anime conversation game)
@@ -47,6 +48,38 @@ const GameHub = () => {
   const [contentData, setContentData] = useState([]);
   const [showAzureConfig, setShowAzureConfig] = useState(false);
   const [azureConfig, setAzureConfig] = useState({ isEnabled: false, apiKey: '', region: 'eastus' });
+
+  // Get available games based on content type
+  const getAvailableGames = (contentType) => {
+    switch (contentType) {
+      case CONTENT_TYPES.VERBS:
+        return [
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.CONJUGATION, label: 'Conjugation Practice' }
+        ];
+      case CONTENT_TYPES.COLORS:
+        return [
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' }
+        ];
+      case CONTENT_TYPES.NOUNS:
+        return [
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' }
+        ];
+      default:
+        return [
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' }
+        ];
+    }
+  };
 
   // Load Azure Speech configuration on mount
   useEffect(() => {
@@ -104,6 +137,40 @@ const GameHub = () => {
             hasVideo: false,
             availableFormats: ['color']
           }));
+      } else if (selectedContent === CONTENT_TYPES.NOUNS) {
+        // Get nouns from logic.json that have media files available
+        const allNouns = logicData.items.filter(item => item.pos === 'noun');
+        
+        // Filter out alternate nouns - only keep nouns that don't have an 'alternate' field pointing TO them
+        const alternateNounIds = new Set();
+        allNouns.forEach(noun => {
+          if (noun.alternate) {
+            // This noun points to an alternate, so mark the alternate for removal
+            alternateNounIds.add(noun.alternate);
+          }
+        });
+        
+        // Show: only nouns that are not alternates and have media files
+        data = allNouns
+          .filter(noun => !alternateNounIds.has(noun.id)) // Don't show alternate nouns
+          .filter(item => {
+            // Check if this noun has media files available
+            const manifestItem = mediaManifest.items[item.chat];
+            return manifestItem && manifestItem.hasAnyMedia;
+          })
+          .map(item => {
+            const manifestItem = mediaManifest.items[item.chat];
+            return {
+              ...item,
+              url: `/pictures/${item.chat.toLowerCase()}.png`,
+              path: `${item.chat.toLowerCase()}.png`,
+              hasImage: manifestItem.hasImage,
+              hasVideo: manifestItem.hasVideo,
+              availableFormats: manifestItem.availableFormats
+            };
+          });
+          
+        console.log(`[GameHub] Filtered ${allNouns.length} nouns to ${data.length} (removed ${alternateNounIds.size} alternates)`);
       }
       
       console.log(`Loaded ${data.length} ${selectedContent} items (filtered by media availability):`, data);
@@ -112,6 +179,14 @@ const GameHub = () => {
 
     loadContentData();
   }, [selectedContent]);
+
+  // Reset selected game when content type changes to ensure valid combinations
+  useEffect(() => {
+    const availableGames = getAvailableGames(selectedContent);
+    if (!availableGames.find(game => game.value === selectedGame)) {
+      setSelectedGame(availableGames[0].value);
+    }
+  }, [selectedContent, selectedGame]);
 
   // Render the selected game component
   const renderGame = () => {
@@ -160,6 +235,7 @@ const GameHub = () => {
                 >
                   <option value={CONTENT_TYPES.VERBS}>Verbs</option>
                   <option value={CONTENT_TYPES.COLORS}>Colors</option>
+                  <option value={CONTENT_TYPES.NOUNS}>Nouns</option>
                 </select>
               </div>
 
@@ -173,11 +249,11 @@ const GameHub = () => {
                   onChange={(e) => setSelectedGame(e.target.value)}
                   className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value={GAME_TYPES.SPEECH}>Speech Recognition</option>
-                  <option value={GAME_TYPES.IMAGE_CHOICE}>Image Choice</option>
-                  <option value={GAME_TYPES.PUZZLE}>Puzzle Game</option>
-                  <option value={GAME_TYPES.CONJUGATION}>Conjugation Practice</option>
-                  <option value={GAME_TYPES.POSSESSIVE}>Possessive Practice</option>
+                  {getAvailableGames(selectedContent).map(game => (
+                    <option key={game.value} value={game.value}>
+                      {game.label}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -208,7 +284,7 @@ const GameHub = () => {
                     • Azure Speech enabled
                   </span>
                 )}
-                {selectedContent === CONTENT_TYPES.VERBS && (
+                {(selectedContent === CONTENT_TYPES.VERBS || selectedContent === CONTENT_TYPES.NOUNS) && (
                   <span className="ml-2 text-blue-600">
                     ({contentData.filter(item => item.hasVideo).length} with video)
                   </span>
