@@ -5,6 +5,7 @@ import PuzzleGame from './PuzzleGame';
 import ConjugationGame from './ConjugationGame';
 import PossessiveGame from './PossessiveGame';
 import ColorNounGame from './ColorNounGame';
+import SentenceGame from './SentenceGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -24,7 +25,8 @@ const GAME_TYPES = {
   PUZZLE: 'puzzle',
   CONJUGATION: 'conjugation',
   POSSESSIVE: 'possessive',
-  COLOR_NOUN: 'color_noun'
+  COLOR_NOUN: 'color_noun',
+  SENTENCE: 'sentence'
 };
 
 // Color mapping for HTML colors
@@ -73,7 +75,8 @@ const GameHub = () => {
           { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
           { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
           { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' },
-          { value: GAME_TYPES.COLOR_NOUN, label: 'Color + Noun Game' }
+          { value: GAME_TYPES.COLOR_NOUN, label: 'Color + Noun Game' },
+          { value: GAME_TYPES.SENTENCE, label: 'Sentence Builder' }
         ];
       default:
         return [
@@ -212,6 +215,8 @@ const GameHub = () => {
         return <PossessiveGame {...commonProps} />;
       case GAME_TYPES.COLOR_NOUN:
         return <ColorNounGame {...commonProps} />;
+      case GAME_TYPES.SENTENCE:
+        return <SentenceGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }
