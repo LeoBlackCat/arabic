@@ -59,6 +59,39 @@ const GameHub = () => {
   const [showAzureConfig, setShowAzureConfig] = useState(false);
   const [azureConfig, setAzureConfig] = useState({ isEnabled: false, apiKey: '', region: 'eastus' });
 
+  // Get all data types for grammar pattern game
+  const getAllGrammarData = () => {
+    const allData = [];
+    
+    // Get verbs (for conjugation patterns)
+    const verbs = logicData.items.filter(item => item.pos === 'verb');
+    const alternateVerbIds = new Set();
+    verbs.forEach(verb => {
+      if (verb.alternate) {
+        alternateVerbIds.add(verb.alternate);
+      }
+    });
+    const filteredVerbs = verbs.filter(verb => !alternateVerbIds.has(verb.id));
+    allData.push(...filteredVerbs);
+    
+    // Get nouns (for possessive patterns and gender agreement)
+    const nouns = logicData.items.filter(item => item.pos === 'noun');
+    const alternateNounIds = new Set();
+    nouns.forEach(noun => {
+      if (noun.alternate) {
+        alternateNounIds.add(noun.alternate);
+      }
+    });
+    const filteredNouns = nouns.filter(noun => !alternateNounIds.has(noun.id));
+    allData.push(...filteredNouns);
+    
+    // Get colors (for gender agreement patterns)
+    const colors = logicData.items.filter(item => item.type === 'colors');
+    allData.push(...colors);
+    
+    return allData;
+  };
+
   // Get available games based on content type
   const getAvailableGames = (contentType) => {
     switch (contentType) {
@@ -238,7 +271,7 @@ const GameHub = () => {
       case GAME_TYPES.SPEED_TRANSLATION:
         return <SpeedTranslationGame {...commonProps} />;
       case GAME_TYPES.GRAMMAR_PATTERN:
-        return <GrammarPatternGame {...commonProps} />;
+        return <GrammarPatternGame contentData={getAllGrammarData()} contentType={selectedContent} />;
       default:
         return <App {...commonProps} />;
     }

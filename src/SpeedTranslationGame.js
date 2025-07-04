@@ -122,25 +122,20 @@ const SpeedTranslationGame = ({ contentData, contentType }) => {
     if (!currentItem || !userInput.trim()) return;
 
     const normalizedInput = userInput.trim().toLowerCase();
-    let expectedAnswer = '';
+    let expectedAnswers = [];
     let isCorrect = false;
 
     switch (gameMode) {
       case 'arabic_to_english':
-        expectedAnswer = currentItem.eng.toLowerCase();
-        isCorrect = normalizedInput === expectedAnswer;
+      case 'audio_to_english':
+        // Handle multiple meanings separated by forward slashes
+        expectedAnswers = currentItem.eng.toLowerCase().split('/').map(answer => answer.trim());
+        isCorrect = expectedAnswers.includes(normalizedInput);
         break;
       case 'english_to_arabic':
-        expectedAnswer = normalizeArabic(currentItem.ar);
-        isCorrect = normalizeArabic(normalizedInput) === expectedAnswer;
-        break;
       case 'chat_to_arabic':
-        expectedAnswer = normalizeArabic(currentItem.ar);
-        isCorrect = normalizeArabic(normalizedInput) === expectedAnswer;
-        break;
-      case 'audio_to_english':
-        expectedAnswer = currentItem.eng.toLowerCase();
-        isCorrect = normalizedInput === expectedAnswer;
+        expectedAnswers = [normalizeArabic(currentItem.ar)];
+        isCorrect = expectedAnswers.includes(normalizeArabic(normalizedInput));
         break;
       default:
         break;
@@ -152,7 +147,14 @@ const SpeedTranslationGame = ({ contentData, contentType }) => {
       newScore.correct = score.correct + 1;
       setScore(newScore);
       setStreak(streak + 1);
-      setStatusMsg(`✅ Correct! +${getStreakBonus()}`);
+      
+      // Show which specific meaning was matched
+      const matchedMeaning = expectedAnswers.find(answer => 
+        gameMode.includes('english') ? answer === normalizedInput : 
+        normalizeArabic(answer) === normalizeArabic(normalizedInput)
+      );
+      
+      setStatusMsg(`✅ Correct! "${matchedMeaning}" +${getStreakBonus()}`);
       
       // Quick success feedback
       setTimeout(() => {

@@ -113,13 +113,18 @@ const ArabicWritingGame = ({ contentData, contentType }) => {
         }, 3000);
       }
     } else {
-      // Recognition mode - check if user input matches English
-      const isCorrect = userInput.toLowerCase().trim() === currentItem.eng.toLowerCase().trim();
+      // Recognition mode - check if user input matches any English meaning
+      const possibleAnswers = currentItem.eng.toLowerCase().split('/').map(answer => answer.trim());
+      const userAnswer = userInput.toLowerCase().trim();
+      const isCorrect = possibleAnswers.includes(userAnswer);
       
       if (isCorrect) {
         newScore.correct = score.correct + 1;
         setScore(newScore);
-        setStatusMsg('✅ Correct translation!');
+        
+        // Show which specific meaning was matched
+        const matchedMeaning = possibleAnswers.find(answer => answer === userAnswer);
+        setStatusMsg(`✅ Correct! "${matchedMeaning}" is right!`);
         speakWord(currentItem.ar);
         
         setTimeout(() => {
@@ -127,7 +132,7 @@ const ArabicWritingGame = ({ contentData, contentType }) => {
         }, 2000);
       } else {
         setScore(newScore);
-        setStatusMsg('❌ Try again - What does this mean in English?');
+        setStatusMsg(`❌ Try again - What does this mean in English? (${currentItem.eng})`);
         
         setTimeout(() => {
           setStatusMsg(null);

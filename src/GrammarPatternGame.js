@@ -64,26 +64,37 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     const incorrectFeminine = `${noun.ar} ${color.ar}`;
     const incorrectMasculine = `${noun.ar} ${color.ar_f}`;
 
-    let correctAnswer, incorrectAnswer;
+    const correctFeminineChat = `${noun.chat} ${color.chat_f}`;
+    const correctMasculineChat = `${noun.chat} ${color.chat}`;
+    const incorrectFeminineChat = `${noun.chat} ${color.chat}`;
+    const incorrectMasculineChat = `${noun.chat} ${color.chat_f}`;
+
+    let correctAnswer, incorrectAnswer, correctAnswerChat, incorrectAnswerChat;
     if (noun.gender === 'f') {
       correctAnswer = correctFeminine;
       incorrectAnswer = incorrectFeminine;
+      correctAnswerChat = correctFeminineChat;
+      incorrectAnswerChat = incorrectFeminineChat;
     } else {
       correctAnswer = correctMasculine;
       incorrectAnswer = incorrectMasculine;
+      correctAnswerChat = correctMasculineChat;
+      incorrectAnswerChat = incorrectMasculineChat;
     }
 
     // Create 4 options with some additional variations
     const options = [
       {
         text: correctAnswer,
+        chat: correctAnswerChat,
         isCorrect: true,
-        explanation: `Correct: ${noun.ar} is ${noun.gender === 'f' ? 'feminine' : 'masculine'}, so the color ${color.ar_f || color.ar} must agree.`
+        explanation: `Correct: ${noun.ar} (${noun.chat}) is ${noun.gender === 'f' ? 'feminine' : 'masculine'}, so the color ${color.ar_f || color.ar} must agree.`
       },
       {
         text: incorrectAnswer,
+        chat: incorrectAnswerChat,
         isCorrect: false,
-        explanation: `Incorrect: Gender disagreement - ${noun.ar} is ${noun.gender === 'f' ? 'feminine' : 'masculine'} but the color form doesn't match.`
+        explanation: `Incorrect: Gender disagreement - ${noun.ar} (${noun.chat}) is ${noun.gender === 'f' ? 'feminine' : 'masculine'} but the color form doesn't match.`
       }
     ];
 
@@ -93,8 +104,12 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
       const otherText = otherNoun.gender === 'f' ? 
         `${otherNoun.ar} ${color.ar_f}` : 
         `${otherNoun.ar} ${color.ar}`;
+      const otherTextChat = otherNoun.gender === 'f' ? 
+        `${otherNoun.chat} ${color.chat_f}` : 
+        `${otherNoun.chat} ${color.chat}`;
       options.push({
         text: otherText,
+        chat: otherTextChat,
         isCorrect: false,
         explanation: `Incorrect: While the gender agreement is correct, this uses a different noun (${otherNoun.ar}).`
       });
@@ -106,7 +121,7 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     return {
       type: 'gender_agreement',
       question: `Which phrase shows correct gender agreement?`,
-      context: `The noun "${noun.ar}" (${noun.eng}) is ${noun.gender === 'f' ? 'feminine' : 'masculine'}. The color "${color.eng}" should agree with it.`,
+      context: `The noun "${noun.ar}" (${noun.chat}) - ${noun.eng} is ${noun.gender === 'f' ? 'feminine' : 'masculine'}. The color "${color.eng}" should agree with it.`,
       options: shuffledOptions,
       noun: noun,
       color: color,
@@ -122,22 +137,24 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
 
     const verb = verbs[Math.floor(Math.random() * verbs.length)];
     const subjects = [
-      { pronoun: 'أنت (م)', form: 'you_m', label: 'you (masculine)' },
-      { pronoun: 'أنت (ف)', form: 'you_f', label: 'you (feminine)' },
-      { pronoun: 'أنتم', form: 'you_pl', label: 'you (plural)' },
-      { pronoun: 'هو', form: 'he', label: 'he' },
-      { pronoun: 'هي', form: 'she', label: 'she' }
+      { pronoun: 'inta', form: 'you_m', label: 'you (masculine)', arabicPronoun: 'أنت (م)' },
+      { pronoun: 'inti', form: 'you_f', label: 'you (feminine)', arabicPronoun: 'أنت (ف)' },
+      { pronoun: 'intum', form: 'you_pl', label: 'you (plural)', arabicPronoun: 'أنتم' },
+      { pronoun: 'huwa', form: 'he', label: 'he', arabicPronoun: 'هو' },
+      { pronoun: 'hiya', form: 'she', label: 'she', arabicPronoun: 'هي' }
     ];
 
     const subject = subjects[Math.floor(Math.random() * subjects.length)];
     const correctForm = verb[subject.form];
 
     // Generate options
+    const correctFormChat = verb[subject.form + '_chat'];
     const options = [
       {
-        text: `${subject.pronoun} ${correctForm}`,
+        text: `${subject.arabicPronoun} ${correctForm}`,
+        chat: `${subject.pronoun} ${correctFormChat}`,
         isCorrect: true,
-        explanation: `Correct: "${subject.pronoun}" (${subject.label}) takes the form "${correctForm}".`
+        explanation: `Correct: "${subject.pronoun}" (${subject.label}) takes the form "${correctForm}" (${correctFormChat}).`
       }
     ];
 
@@ -145,10 +162,12 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     const otherForms = subjects.filter(s => s.form !== subject.form).slice(0, 3);
     otherForms.forEach(otherSubject => {
       const incorrectForm = verb[otherSubject.form];
+      const incorrectFormChat = verb[otherSubject.form + '_chat'];
       options.push({
-        text: `${subject.pronoun} ${incorrectForm}`,
+        text: `${subject.arabicPronoun} ${incorrectForm}`,
+        chat: `${subject.pronoun} ${incorrectFormChat}`,
         isCorrect: false,
-        explanation: `Incorrect: "${subject.pronoun}" should not use the form "${incorrectForm}" which is for ${otherSubject.label}.`
+        explanation: `Incorrect: "${subject.pronoun}" should not use the form "${incorrectForm}" (${incorrectFormChat}) which is for ${otherSubject.label}.`
       });
     });
 
@@ -158,11 +177,11 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     return {
       type: 'conjugation',
       question: `Which conjugation is correct?`,
-      context: `The verb "${verb.ar}" (${verb.eng}) needs to be conjugated for the subject "${subject.pronoun}" (${subject.label}).`,
+      context: `The verb "${verb.ar}" (${verb.chat}) - ${verb.eng} needs to be conjugated for the subject "${subject.pronoun}" (${subject.label}).`,
       options: shuffledOptions,
       verb: verb,
       subject: subject,
-      correctAnswer: `${subject.pronoun} ${correctForm}`
+      correctAnswer: `${subject.arabicPronoun} ${correctForm}`
     };
   }, [contentData]);
 
@@ -174,22 +193,24 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
 
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
     const possessors = [
-      { pronoun: 'كتابي', form: 'my', label: 'my' },
-      { pronoun: 'كتابك (م)', form: 'your_m', label: 'your (masculine)' },
-      { pronoun: 'كتابك (ف)', form: 'your_f', label: 'your (feminine)' },
-      { pronoun: 'كتابه', form: 'his', label: 'his' },
-      { pronoun: 'كتابها', form: 'her', label: 'her' }
+      { pronoun: 'My', form: 'my', label: 'my' },
+      { pronoun: 'Your (m)', form: 'your_m', label: 'your (masculine)' },
+      { pronoun: 'Your (f)', form: 'your_f', label: 'your (feminine)' },
+      { pronoun: 'His', form: 'his', label: 'his' },
+      { pronoun: 'Her', form: 'her', label: 'her' }
     ];
 
     const possessor = possessors[Math.floor(Math.random() * possessors.length)];
     const correctForm = noun[possessor.form];
 
     // Generate options
+    const correctFormChat = noun[possessor.form + '_chat'];
     const options = [
       {
         text: correctForm,
+        chat: correctFormChat,
         isCorrect: true,
-        explanation: `Correct: "${correctForm}" is the correct possessive form for "${possessor.label} ${noun.eng}".`
+        explanation: `Correct: "${correctForm}" (${correctFormChat}) is the correct possessive form for "${possessor.label} ${noun.eng}".`
       }
     ];
 
@@ -197,10 +218,12 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     const otherForms = possessors.filter(p => p.form !== possessor.form).slice(0, 3);
     otherForms.forEach(otherPossessor => {
       const incorrectForm = noun[otherPossessor.form];
+      const incorrectFormChat = noun[otherPossessor.form + '_chat'];
       options.push({
         text: incorrectForm,
+        chat: incorrectFormChat,
         isCorrect: false,
-        explanation: `Incorrect: "${incorrectForm}" is the form for "${otherPossessor.label} ${noun.eng}", not "${possessor.label} ${noun.eng}".`
+        explanation: `Incorrect: "${incorrectForm}" (${incorrectFormChat}) is the form for "${otherPossessor.label} ${noun.eng}", not "${possessor.label} ${noun.eng}".`
       });
     });
 
@@ -210,7 +233,7 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     return {
       type: 'possessive',
       question: `Which possessive form is correct for "${possessor.label} ${noun.eng}"?`,
-      context: `The noun "${noun.ar}" (${noun.eng}) needs the correct possessive suffix.`,
+      context: `The noun "${noun.ar}" (${noun.chat}) - ${noun.eng} needs the correct possessive suffix.`,
       options: shuffledOptions,
       noun: noun,
       possessor: possessor,
@@ -422,6 +445,11 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
                   <div className="mb-2">
                     {option.text}
                   </div>
+                  {option.chat && (
+                    <div className="text-sm text-gray-600 mb-2" style={{direction: 'ltr'}}>
+                      ({option.chat})
+                    </div>
+                  )}
                   {getColorForText(option.text) && (
                     <div 
                       className="w-6 h-6 rounded-full mx-auto border-2 border-gray-400"
