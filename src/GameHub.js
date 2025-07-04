@@ -9,6 +9,7 @@ import SentenceGame from './SentenceGame';
 import ArabicWritingGame from './ArabicWritingGame';
 import SpeedTranslationGame from './SpeedTranslationGame';
 import GrammarPatternGame from './GrammarPatternGame';
+import PhraseGame from './PhraseGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -18,7 +19,8 @@ import { getAzureSpeechConfig } from './azureSpeechHelper';
 const CONTENT_TYPES = {
   VERBS: 'verbs',
   COLORS: 'colors',
-  NOUNS: 'nouns'
+  NOUNS: 'nouns',
+  PHRASES: 'phrases'
 };
 
 // Game types (excluding anime conversation game)
@@ -32,7 +34,8 @@ const GAME_TYPES = {
   SENTENCE: 'sentence',
   ARABIC_WRITING: 'arabic_writing',
   SPEED_TRANSLATION: 'speed_translation',
-  GRAMMAR_PATTERN: 'grammar_pattern'
+  GRAMMAR_PATTERN: 'grammar_pattern',
+  PHRASE: 'phrase'
 };
 
 // Color mapping for HTML colors
@@ -124,6 +127,13 @@ const GameHub = () => {
           { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
           { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
           { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
+        ];
+      case CONTENT_TYPES.PHRASES:
+        return [
+          { value: GAME_TYPES.PHRASE, label: 'Phrase Practice' },
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
         ];
       default:
         return [
@@ -226,9 +236,19 @@ const GameHub = () => {
           });
           
         console.log(`[GameHub] Filtered ${allNouns.length} nouns to ${data.length} (removed ${alternateNounIds.size} alternates)`);
+      } else if (selectedContent === CONTENT_TYPES.PHRASES) {
+        // Get phrases from logic.json
+        data = logicData.items
+          .filter(item => item.type === 'phrase')
+          .map(item => ({
+            ...item,
+            hasImage: false,
+            hasVideo: false,
+            availableFormats: ['text']
+          }));
       }
       
-      console.log(`Loaded ${data.length} ${selectedContent} items (filtered by media availability):`, data);
+      console.log(`Loaded ${data.length} ${selectedContent} items:`, data);
       setContentData(data);
     };
 
@@ -272,6 +292,8 @@ const GameHub = () => {
         return <SpeedTranslationGame {...commonProps} />;
       case GAME_TYPES.GRAMMAR_PATTERN:
         return <GrammarPatternGame contentData={getAllGrammarData()} contentType={selectedContent} />;
+      case GAME_TYPES.PHRASE:
+        return <PhraseGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }
@@ -301,6 +323,7 @@ const GameHub = () => {
                   <option value={CONTENT_TYPES.VERBS}>Verbs</option>
                   <option value={CONTENT_TYPES.COLORS}>Colors</option>
                   <option value={CONTENT_TYPES.NOUNS}>Nouns</option>
+                  <option value={CONTENT_TYPES.PHRASES}>Phrases</option>
                 </select>
               </div>
 

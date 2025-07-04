@@ -5,56 +5,64 @@
       "initial": true,
       "ar": "السلام عليكم",
       "chat": "salam 3alikum",
-      "eng": "Peace be upon you"
+      "eng": "Peace be upon you",
+      "type": "phrase"
     },
     {
       "id": -1,
       "replyTo": "-2",
       "ar": "وعليكم السلام",
       "chat": "wo 3alikum essalam",
-      "eng": "and peace be upon you"
+      "eng": "and peace be upon you",
+      "type": "phrase"
     },
     {
       "id": 0,
       "initial": true,
       "ar": "صباح الخير",
       "chat": "sabaa7 el khair",
-      "eng": "Good morning (greeting)"
+      "eng": "Good morning (greeting)",
+      "type": "phrase"
     },
     {
       "id": 1,
       "replyTo": "0",
       "ar": "صباح النور ",
       "chat": "sabaa7 el noor",
-      "eng": "Good morning (response)"
+      "eng": "Good morning (response)",
+      "type": "phrase"
     },
     {
       "id": 2,
       "initial": true,
       "ar": "مسا الخير ",
       "chat": "masa el khair",
-      "eng": "Good evening (greeting)"
+      "eng": "Good evening (greeting)",
+      "type": "phrase"
     },
     {
       "id": 3,
       "replyTo": "2",
       "ar": "مسا النور ",
       "chat": "masa el noor",
-      "eng": "Good evening (response)"
+      "eng": "Good evening (response)",
+      "type": "phrase"
     },
     {
       "id": 4,
       "initial": true,
       "ar": "مرحبا الساع ",
       "chat": "mar7aba essaa3",
-      "eng": "Hello (greeting)"
+      "eng": "Hello (greeting)",
+      "type": "phrase"
     },
     {
       "id": 5,
       "replyTo": "4",
       "ar": "مرحبا مليون ",
       "chat": "mar7aba milyoon",
-      "eng": "Hello to you (response)"
+      "eng": "Hello to you (response)",
+      "type": "phrase"
     },
     {
       "id": 6,
@@ -62,6 +70,7 @@
       "ar": "مشكور ",
       "chat": "mashkoor",
       "eng": "Thank you (m)",
+      "type": "phrase",
       "modifier": "m"
     },
     {
@@ -70,6 +79,7 @@
       "ar": "مشكورة ",
       "chat": "mashkoorah",
       "eng": "Thank you (f)",
+      "type": "phrase",
       "modifier": "f"
     },
     {
@@ -78,6 +88,7 @@
       "ar": "شكرا",
       "chat": "shukran",
       "eng": "Thanks (pl)",
+      "type": "phrase",
       "modifier": "pl"
     },
     {
@@ -85,7 +96,8 @@
       "replyTo": "6,7,8",
       "ar": "عفواً",
       "chat": "3afwan",
-      "eng": "You are welcome (response)"
+      "eng": "You are welcome (response)",
+      "type": "phrase"
     },
     {
       "id": 10,
@@ -93,6 +105,7 @@
       "ar": "آسف",
       "chat": "aasif",
       "eng": "Sorry (m, major)",
+      "type": "phrase",
       "modifier": "m"
     },
     {
@@ -101,6 +114,7 @@
       "ar": "آسفة",
       "chat": "aasfa",
       "eng": "Sorry (f, major)",
+      "type": "phrase",
       "modifier": "f"
     },
     {
@@ -108,21 +122,24 @@
       "initial": true,
       "ar": "السموحة",
       "chat": "essumoo7ah",
-      "eng": "Sorry (minor)"
+      "eng": "Sorry (minor)",
+      "type": "phrase"
     },
     {
       "id": 13,
       "replyTo": "10,11,12",
       "ar": "ما عليه",
       "chat": "ma 3laih",
-      "eng": "It's alright"
+      "eng": "It's alright",
+      "type": "phrase"
     },
     {
       "id": 14,
       "replyTo": "10,11,12",
       "ar": "عادي",
       "chat": "3ady",
-      "eng": "It's alright"
+      "eng": "It's alright",
+      "type": "phrase"
     },
     {
       "id": 15,
@@ -130,6 +147,7 @@
       "ar": "اشحالك؟",
       "chat": "esh7alek",
       "eng": "How are you? (m)",
+      "type": "phrase",
       "modifier": "m"
     },
     {
@@ -138,6 +156,7 @@
       "ar": "اشحالج؟",
       "chat": "esh7alech",
       "eng": "How are you? (f)",
+      "type": "phrase",
       "modifier": "f"
     },
     {
@@ -146,6 +165,7 @@
       "ar": "اشحالكم؟",
       "chat": "esh7alkum",
       "eng": "How are you? (pl)",
+      "type": "phrase",
       "modifier": "pl"
     },
     {
@@ -153,7 +173,8 @@
       "replyTo": "15,16,17",
       "ar": "الحمد لله بخير",
       "chat": "el 7amdellah bkhair",
-      "eng": "Fine, thank God"
+      "eng": "Fine, thank God",
+      "type": "phrase"
     },
     {
       "id": 19,
@@ -161,6 +182,7 @@
       "ar": "شخبارك؟",
       "chat": "shakhbarek",
       "eng": "What's new? (m)",
+      "type": "phrase",
       "modifier": "m"
     },
     {
@@ -169,6 +191,7 @@
       "ar": "شخبارج؟",
       "chat": "shakhbarech",
       "eng": "What's new? (f)",
+      "type": "phrase",
       "modifier": "f"
     },
     {
@@ -177,6 +200,7 @@
       "ar": "شخباركم؟",
       "chat": "shakhbarkum",
       "eng": "What's new? (pl)",
+      "type": "phrase",
       "modifier": "pl"
     },
     {
@@ -184,7 +208,8 @@
       "replyTo": "19,20,21",
       "ar": "الحمدلله تمام",
       "chat": "el 7amdellah tamam",
-      "eng": "Thank God, I'm good"
+      "eng": "Thank God, I'm good",
+      "type": "phrase"
     },
     {
       "id": 23,
@@ -192,51 +217,59 @@
       "replyTo": "23",
       "ar": "مع السلامة",
       "chat": "ma3a essalama",
-      "eng": "Good bye"
+      "eng": "Good bye",
+      "type": "phrase"
     },
     {
       "id": 24,
       "initial": true,
       "ar": "تشرفنا",
       "chat": "tsharrafna",
-      "eng": "Nice to meet you"
+      "eng": "Nice to meet you",
+      "type": "phrase"
     },
     {
       "id": 25,
       "replyTo": "24",
       "ar": "الشرف لنا",
       "chat": "el sharaf lena",
-      "eng": "Nice to meet you too"
+      "eng": "Nice to meet you too",
+      "type": "phrase"
     },
     {
       "id": 26,
       "ar": "اسمي",
       "chat": "ismee",
-      "eng": "My name is"
+      "eng": "My name is",
+      "type": "phrase"
     },
     {
       "id": 27,
       "ar": "أنا من",
       "chat": "ana min",
-      "eng": "I'm from"
+      "eng": "I'm from",
+      "type": "phrase"
     },
     {
       "id": 28,
       "ar": "أشتغل في",
       "chat": "ashteghel fee",
-      "eng": "I work at"
+      "eng": "I work at",
+      "type": "phrase"
     },
     {
       "id": 29,
       "ar": "أعرف عربي اشوي",
       "chat": "a3ref 3arabi eshway",
-      "eng": "I know a little bit of Arabic"
+      "eng": "I know a little bit of Arabic",
+      "type": "phrase"
     },
     {
       "id": 30,
       "ar": "ساكن في",
       "chat": "sakin fee",
       "eng": "I live in (m)",
+      "type": "phrase",
       "modifier": "m"
     },
     {
@@ -244,6 +277,7 @@
       "ar": "ساكنة في",
       "chat": "saknah fee",
       "eng": "I live in (f)",
+      "type": "phrase",
       "modifier": "f"
     },
     {
@@ -2784,6 +2818,90 @@
       "her_chat": "sa3ataha",
       "their": "ساعتهم",
       "their_chat": "sa3atahum"
+    },
+    {
+      "id": 168,
+      "ar": "سؤال",
+      "chat": "so'al",
+      "eng": "question",
+      "pos": "noun"
+    },
+    {
+      "id": 169,
+      "ar": "عندي سؤال",
+      "chat": "3endy so'al",
+      "eng": "I have a question",
+      "type": "phrase"
+    },
+    {
+      "id": 170,
+      "ar": "مكتب",
+      "chat": "maktab",
+      "eng": "desk/office",
+      "pos": "noun"
+    },
+    {
+      "id": 171,
+      "ar": "هوية",
+      "chat": "howiya",
+      "eng": "identity",
+      "pos": "noun"
+    },
+    {
+      "id": 172,
+      "ar": "بطاقة",
+      "chat": "betaqa",
+      "eng": "card",
+      "pos": "noun"
+    },
+    {
+      "id": 173,
+      "ar": "بناية",
+      "chat": "binaya",
+      "eng": "building",
+      "pos": "noun"
+    },
+    {
+      "id": 174,
+      "ar": "أحبك",
+      "chat": "a7ebik",
+      "eng": "I love you",
+      "type": "phrase"
+    },
+    {
+      "id": 175,
+      "ar": "شو",
+      "chat": "shu",
+      "eng": "what",
+      "type": "phrase"
+    },
+    {
+      "id": 176,
+      "ar": "حلو",
+      "chat": "7elo",
+      "eng": "nice",
+      "type": "phrase"
+    },
+    {
+      "id": 177,
+      "ar": "زين",
+      "chat": "zain",
+      "eng": "good",
+      "type": "phrase"
+    },
+    {
+      "id": 178,
+      "ar": "لذيذ",
+      "chat": "ladheedh",
+      "eng": "tasty",
+      "type": "phrase"
+    },
+    {
+      "id": 179,
+      "ar": "ممكن",
+      "chat": "mumkin",
+      "eng": "could I get",
+      "type": "phrase"
     }
   ],
   "numerals": [
