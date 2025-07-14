@@ -52,7 +52,7 @@ export const generateElevenLabsSpeech = async (text) => {
         'xi-api-key': config.apiKey
       },
       body: JSON.stringify({
-        text: text,
+        text: ` ${text}`, // Add space before text to help with initial audio cut-off
         model_id: 'eleven_multilingual_v2',
         voice_settings: {
           stability: 0.5,

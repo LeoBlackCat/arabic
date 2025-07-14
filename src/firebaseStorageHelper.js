@@ -67,40 +67,53 @@ const initializeFirebaseStorage = () => {
 /**
  * Generate file path for audio file
  */
-const getAudioFilePath = (chatName) => {
-  return `audio/${chatName}.wav`;
+const getAudioFilePath = (chatName, format = 'mp3') => {
+  return `audio/${chatName}.${format}`;
 };
 
 /**
- * Check if audio file exists in Firebase Storage
+ * Check if audio file exists in Firebase Storage (try MP3 first, then WAV)
  */
 export const checkAudioFileExists = async (chatName) => {
   try {
     const firebase = initializeFirebaseStorage();
-    const filePath = getAudioFilePath(chatName);
     
-    const url = firebase.apiKey ? 
-      `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(filePath)}?alt=media&key=${firebase.apiKey}` :
-      `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(filePath)}?alt=media`;
+    // Try MP3 first (preferred format)
+    const mp3Path = getAudioFilePath(chatName, 'mp3');
+    const mp3Url = firebase.apiKey ? 
+      `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(mp3Path)}?alt=media&key=${firebase.apiKey}` :
+      `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(mp3Path)}?alt=media`;
     
-    const response = await fetch(url, {
-      method: 'HEAD'
-    });
+    const mp3Response = await fetch(mp3Url, { method: 'HEAD' });
+    if (mp3Response.ok) {
+      return { exists: true, format: 'mp3' };
+    }
     
-    return response.ok;
+    // Try WAV as fallback
+    const wavPath = getAudioFilePath(chatName, 'wav');
+    const wavUrl = firebase.apiKey ? 
+      `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(wavPath)}?alt=media&key=${firebase.apiKey}` :
+      `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(wavPath)}?alt=media`;
+    
+    const wavResponse = await fetch(wavUrl, { method: 'HEAD' });
+    if (wavResponse.ok) {
+      return { exists: true, format: 'wav' };
+    }
+    
+    return { exists: false, format: null };
   } catch (error) {
     console.error('Error checking if file exists:', error);
-    return false;
+    return { exists: false, format: null };
   }
 };
 
 /**
  * Download audio file from Firebase Storage
  */
-export const downloadAudioFile = async (chatName) => {
+export const downloadAudioFile = async (chatName, format = 'mp3') => {
   try {
     const firebase = initializeFirebaseStorage();
-    const filePath = getAudioFilePath(chatName);
+    const filePath = getAudioFilePath(chatName, format);
     
     const url = firebase.apiKey ? 
       `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o/${encodeURIComponent(filePath)}?alt=media&key=${firebase.apiKey}` :
@@ -113,7 +126,7 @@ export const downloadAudioFile = async (chatName) => {
     }
     
     const audioBlob = await response.blob();
-    console.log(`Downloaded ${chatName}.wav from Firebase (${audioBlob.size} bytes)`);
+    console.log(`Downloaded ${chatName}.${format} from Firebase (${audioBlob.size} bytes)`);
     return audioBlob;
   } catch (error) {
     console.error('Error downloading audio file:', error);
@@ -122,27 +135,121 @@ export const downloadAudioFile = async (chatName) => {
 };
 
 /**
+ * Convert WAV blob to MP3 using MediaRecorder API (if supported)
+ */
+const convertToMp3 = async (audioBlob) => {
+  try {
+    // Check if we can use MediaRecorder for MP3 conversion
+    if (!MediaRecorder.isTypeSupported('audio/mp3') && !MediaRecorder.isTypeSupported('audio/mpeg')) {
+      console.log('MP3 encoding not supported, keeping original format');
+      return audioBlob;
+    }
+    
+    // Create audio element to play the WAV
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    
+    // Create media stream from audio
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const arrayBuffer = await audioBlob.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    
+    // Create offline context to render audio
+    const offlineContext = new OfflineAudioContext(
+      audioBuffer.numberOfChannels,
+      audioBuffer.length,
+      audioBuffer.sampleRate
+    );
+    
+    const source = offlineContext.createBufferSource();
+    source.buffer = audioBuffer;
+    
+    // Create MediaStreamDestination for recording
+    const destination = offlineContext.createMediaStreamDestination();
+    source.connect(destination);
+    
+    // Set up MediaRecorder for MP3
+    const mimeType = MediaRecorder.isTypeSupported('audio/mp3') ? 'audio/mp3' : 'audio/mpeg';
+    const mediaRecorder = new MediaRecorder(destination.stream, {
+      mimeType: mimeType,
+      audioBitsPerSecond: 128000 // 128 kbps
+    });
+    
+    const chunks = [];
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        chunks.push(event.data);
+      }
+    };
+    
+    return new Promise((resolve, reject) => {
+      mediaRecorder.onstop = () => {
+        const mp3Blob = new Blob(chunks, { type: mimeType });
+        URL.revokeObjectURL(audioUrl);
+        console.log(`Converted to MP3: ${audioBlob.size} bytes -> ${mp3Blob.size} bytes (${Math.round((1 - mp3Blob.size / audioBlob.size) * 100)}% reduction)`);
+        resolve(mp3Blob);
+      };
+      
+      mediaRecorder.onerror = (event) => {
+        URL.revokeObjectURL(audioUrl);
+        reject(new Error('MP3 conversion failed'));
+      };
+      
+      mediaRecorder.start();
+      source.start();
+      
+      // Stop recording when audio ends
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, (audioBuffer.length / audioBuffer.sampleRate) * 1000 + 100);
+    });
+    
+  } catch (error) {
+    console.warn('MP3 conversion failed, using original format:', error);
+    return audioBlob;
+  }
+};
+
+/**
  * Upload audio file to Firebase Storage
  */
-export const uploadAudioFile = async (chatName, audioBlob) => {
+export const uploadAudioFile = async (chatName, audioBlob, originalFormat = 'wav') => {
   try {
     const firebase = initializeFirebaseStorage();
-    const filePath = getAudioFilePath(chatName);
     
     // API key is required for uploads based on testing
     if (!firebase.apiKey) {
       throw new Error('API key is required for Firebase Storage uploads');
     }
     
+    // Convert to MP3 for storage optimization if it's WAV
+    let uploadBlob = audioBlob;
+    let format = originalFormat;
+    let contentType = 'audio/wav';
+    
+    if (originalFormat === 'wav') {
+      try {
+        uploadBlob = await convertToMp3(audioBlob);
+        format = 'mp3';
+        contentType = 'audio/mpeg';
+      } catch (error) {
+        console.warn('MP3 conversion failed, uploading as WAV:', error);
+      }
+    } else if (originalFormat === 'mp3' || originalFormat === 'mpeg') {
+      format = 'mp3';
+      contentType = 'audio/mpeg';
+    }
+    
+    const filePath = getAudioFilePath(chatName, format);
     const uploadUrl = `https://firebasestorage.googleapis.com/v0/b/${firebase.bucket}/o?name=${encodeURIComponent(filePath)}&key=${firebase.apiKey}`;
-    console.log(`Uploading ${chatName}.wav to Firebase Storage...`);
+    console.log(`Uploading ${chatName}.${format} to Firebase Storage (path: ${filePath})...`);
     
     const uploadResponse = await fetch(uploadUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'audio/wav'
+        'Content-Type': contentType
       },
-      body: audioBlob
+      body: uploadBlob
     });
     
     if (!uploadResponse.ok) {
@@ -150,7 +257,7 @@ export const uploadAudioFile = async (chatName, audioBlob) => {
       throw new Error(`Upload failed: ${uploadResponse.status} ${uploadResponse.statusText}. ${errorText}`);
     }
     
-    console.log(`Uploaded ${chatName}.wav to Firebase (${audioBlob.size} bytes)`);
+    console.log(`Uploaded ${chatName}.${format} to Firebase (${uploadBlob.size} bytes)`);
     return uploadResponse;
   } catch (error) {
     console.error('Error uploading audio file:', error);
@@ -164,11 +271,11 @@ export const uploadAudioFile = async (chatName, audioBlob) => {
 export const playAudioWithFirebaseCache = async (text, chatName) => {
   try {
     // First, try to get from Firebase Storage
-    const exists = await checkAudioFileExists(chatName);
+    const fileCheck = await checkAudioFileExists(chatName);
     
-    if (exists) {
-      console.log(`Playing ${chatName} from Firebase Storage`);
-      const audioBlob = await downloadAudioFile(chatName);
+    if (fileCheck.exists) {
+      console.log(`Playing ${chatName}.${fileCheck.format} from Firebase Storage`);
+      const audioBlob = await downloadAudioFile(chatName, fileCheck.format);
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
       
@@ -187,20 +294,22 @@ export const playAudioWithFirebaseCache = async (text, chatName) => {
       });
     } else {
       // File doesn't exist, generate with ElevenLabs and upload
-      console.log(`Generating ${chatName} with ElevenLabs and uploading to Firebase`);
+      console.log(`Generating ${chatName} (${text}) with ElevenLabs and uploading to Firebase`);
       
       const { generateElevenLabsSpeech } = await import('./elevenLabsHelper');
-      const audioBlob = await generateElevenLabsSpeech(text);
+      const originalBlob = await generateElevenLabsSpeech(text);
       
-      // Add silent padding
-      const paddedBlob = await addSilentPadding(audioBlob);
+      // ElevenLabs returns MP3, but we need to add silent padding which requires WAV conversion
+      console.log(`Adding silent padding to audio for ${chatName}...`);
+      const paddedBlob = await addSilentPadding(originalBlob);
       
-      // Upload to Firebase Storage (don't wait for completion)
-      uploadAudioFile(chatName, paddedBlob).catch(error => {
+      // Upload the padded WAV to Firebase Storage (convert to MP3 for storage optimization)
+      // Use chatName (arabizi) as filename, not Arabic text
+      uploadAudioFile(chatName, paddedBlob, 'wav').catch(error => {
         console.error('Background upload failed:', error);
       });
       
-      // Play immediately
+      // Play immediately from the padded blob
       const audioUrl = URL.createObjectURL(paddedBlob);
       const audio = new Audio(audioUrl);
       

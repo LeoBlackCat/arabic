@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { normalizeArabic } from './arabicUtils';
 import { isElevenLabsAvailable, playElevenLabsSpeech } from './elevenLabsHelper';
+import { isFirebaseStorageAvailable, playAudioWithFirebaseCache } from './firebaseStorageHelper';
 import logicData from '../logic.json';
 
 const GrammarPatternGame = ({ contentData, contentType }) => {
@@ -15,6 +16,7 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
   const speechSynthRef = useRef(window.speechSynthesis);
   const [arabicVoice, setArabicVoice] = useState(null);
   const [elevenLabsEnabled, setElevenLabsEnabled] = useState(false);
+  const [firebaseEnabled, setFirebaseEnabled] = useState(false);
 
   // Initialize voices and check ElevenLabs availability
   useEffect(() => {
@@ -33,7 +35,15 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
       console.log('GrammarPatternGame: ElevenLabs TTS available:', available);
     };
     
+    // Check Firebase Storage availability
+    const checkFirebase = () => {
+      const available = isFirebaseStorageAvailable();
+      setFirebaseEnabled(available);
+      console.log('GrammarPatternGame: Firebase Storage available:', available);
+    };
+    
     checkElevenLabs();
+    checkFirebase();
     
     return () => {
       speechSynthRef.current.onvoiceschanged = null;
@@ -56,8 +66,23 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     return arToChatMap;
   };
 
+
   const speakWord = useCallback(async (text, chatOverride) => {
     if (!text) return;
+    
+    // Priority 0: Firebase Storage cache (if enabled)
+    if (firebaseEnabled) {
+      const map = buildArMap();
+      const chat = chatOverride || map[text] || text;
+      
+      try {
+        console.log(`GrammarPatternGame: Using Firebase Storage cache for: "${text}" -> filename: "${chat}"`);
+        await playAudioWithFirebaseCache(text, chat);
+        return;
+      } catch (error) {
+        console.error('GrammarPatternGame: Firebase Storage failed, falling back:', error);
+      }
+    }
     
     // Priority 1: ElevenLabs TTS (if enabled)
     if (elevenLabsEnabled) {
@@ -99,7 +124,7 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     } catch (error) {
       console.error('GrammarPatternGame: Browser TTS synthesis error:', error);
     }
-  }, [arabicVoice, elevenLabsEnabled]);
+  }, [arabicVoice, elevenLabsEnabled, firebaseEnabled]);
 
   // Color mapping for visual display
   const COLOR_MAP = {
@@ -350,7 +375,7 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
       
       // Speak the correct answer
       if (selectedAnswer.text) {
-        speakWord(selectedAnswer.text);
+        speakWord(selectedAnswer.text, selectedAnswer.chat);
       }
     } else {
       setScore(newScore);
