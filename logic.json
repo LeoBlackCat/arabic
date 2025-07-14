@@ -5,7 +5,7 @@
       "initial": true,
       "ar": "السلام عليكم",
       "chat": "salam 3alikum",
-      "eng": "Peace be upon you",
+      "eng": "peace be upon you",
       "type": "phrase"
     },
     {
@@ -21,7 +21,7 @@
       "initial": true,
       "ar": "صباح الخير",
       "chat": "sabaa7 el khair",
-      "eng": "Good morning (greeting)",
+      "eng": "good morning (greeting)",
       "type": "phrase"
     },
     {
@@ -29,7 +29,7 @@
       "replyTo": "0",
       "ar": "صباح النور ",
       "chat": "sabaa7 el noor",
-      "eng": "Good morning (response)",
+      "eng": "good morning (response)",
       "type": "phrase"
     },
     {
@@ -37,7 +37,7 @@
       "initial": true,
       "ar": "مسا الخير ",
       "chat": "masa el khair",
-      "eng": "Good evening (greeting)",
+      "eng": "good evening (greeting)",
       "type": "phrase"
     },
     {
@@ -45,7 +45,7 @@
       "replyTo": "2",
       "ar": "مسا النور ",
       "chat": "masa el noor",
-      "eng": "Good evening (response)",
+      "eng": "good evening (response)",
       "type": "phrase"
     },
     {
@@ -53,7 +53,7 @@
       "initial": true,
       "ar": "مرحبا الساع ",
       "chat": "mar7aba essaa3",
-      "eng": "Hello (greeting)",
+      "eng": "hello (greeting)",
       "type": "phrase"
     },
     {
@@ -61,7 +61,7 @@
       "replyTo": "4",
       "ar": "مرحبا مليون ",
       "chat": "mar7aba milyoon",
-      "eng": "Hello to you (response)",
+      "eng": "hello to you (response)",
       "type": "phrase"
     },
     {
@@ -69,7 +69,7 @@
       "initial": true,
       "ar": "مشكور ",
       "chat": "mashkoor",
-      "eng": "Thank you (m)",
+      "eng": "thank you (m)",
       "type": "phrase",
       "modifier": "m"
     },
@@ -78,7 +78,7 @@
       "initial": true,
       "ar": "مشكورة ",
       "chat": "mashkoorah",
-      "eng": "Thank you (f)",
+      "eng": "thank you (f)",
       "type": "phrase",
       "modifier": "f"
     },
@@ -87,7 +87,7 @@
       "initial": true,
       "ar": "شكرا",
       "chat": "shukran",
-      "eng": "Thanks (pl)",
+      "eng": "thanks (pl)",
       "type": "phrase",
       "modifier": "pl"
     },
@@ -96,7 +96,7 @@
       "replyTo": "6,7,8",
       "ar": "عفواً",
       "chat": "3afwan",
-      "eng": "You are welcome (response)",
+      "eng": "you are welcome (response)",
       "type": "phrase"
     },
     {
@@ -104,7 +104,7 @@
       "initial": true,
       "ar": "آسف",
       "chat": "aasif",
-      "eng": "Sorry (m, major)",
+      "eng": "sorry (m, major)",
       "type": "phrase",
       "modifier": "m"
     },
@@ -113,7 +113,7 @@
       "initial": true,
       "ar": "آسفة",
       "chat": "aasfa",
-      "eng": "Sorry (f, major)",
+      "eng": "sorry (f, major)",
       "type": "phrase",
       "modifier": "f"
     },
@@ -122,7 +122,7 @@
       "initial": true,
       "ar": "السموحة",
       "chat": "essumoo7ah",
-      "eng": "Sorry (minor)",
+      "eng": "sorry (minor)",
       "type": "phrase"
     },
     {
@@ -130,7 +130,7 @@
       "replyTo": "10,11,12",
       "ar": "ما عليه",
       "chat": "ma 3laih",
-      "eng": "It's alright",
+      "eng": "it's alright",
       "type": "phrase"
     },
     {
@@ -138,7 +138,7 @@
       "replyTo": "10,11,12",
       "ar": "عادي",
       "chat": "3ady",
-      "eng": "It's alright",
+      "eng": "it's alright",
       "type": "phrase"
     },
     {
@@ -146,7 +146,7 @@
       "initial": true,
       "ar": "اشحالك؟",
       "chat": "esh7alek",
-      "eng": "How are you? (m)",
+      "eng": "how are you? (m)",
       "type": "phrase",
       "modifier": "m"
     },
@@ -155,7 +155,7 @@
       "initial": true,
       "ar": "اشحالج؟",
       "chat": "esh7alech",
-      "eng": "How are you? (f)",
+      "eng": "how are you? (f)",
       "type": "phrase",
       "modifier": "f"
     },
@@ -164,7 +164,7 @@
       "initial": true,
       "ar": "اشحالكم؟",
       "chat": "esh7alkum",
-      "eng": "How are you? (pl)",
+      "eng": "how are you? (pl)",
       "type": "phrase",
       "modifier": "pl"
     },
@@ -173,7 +173,7 @@
       "replyTo": "15,16,17",
       "ar": "الحمد لله بخير",
       "chat": "el 7amdellah bkhair",
-      "eng": "Fine, thank God",
+      "eng": "fine, thank god",
       "type": "phrase"
     },
     {
@@ -181,7 +181,7 @@
       "initial": true,
       "ar": "شخبارك؟",
       "chat": "shakhbarek",
-      "eng": "What's new? (m)",
+      "eng": "what's new? (m)",
       "type": "phrase",
       "modifier": "m"
     },
@@ -190,7 +190,7 @@
       "initial": true,
       "ar": "شخبارج؟",
       "chat": "shakhbarech",
-      "eng": "What's new? (f)",
+      "eng": "what's new? (f)",
       "type": "phrase",
       "modifier": "f"
     },
@@ -199,7 +199,7 @@
       "initial": true,
       "ar": "شخباركم؟",
       "chat": "shakhbarkum",
-      "eng": "What's new? (pl)",
+      "eng": "what's new? (pl)",
       "type": "phrase",
       "modifier": "pl"
     },
@@ -208,7 +208,7 @@
       "replyTo": "19,20,21",
       "ar": "الحمدلله تمام",
       "chat": "el 7amdellah tamam",
-      "eng": "Thank God, I'm good",
+      "eng": "thank god, i'm good",
       "type": "phrase"
     },
     {
@@ -217,7 +217,7 @@
       "replyTo": "23",
       "ar": "مع السلامة",
       "chat": "ma3a essalama",
-      "eng": "Good bye",
+      "eng": "good bye",
       "type": "phrase"
     },
     {
@@ -225,7 +225,7 @@
       "initial": true,
       "ar": "تشرفنا",
       "chat": "tsharrafna",
-      "eng": "Nice to meet you",
+      "eng": "nice to meet you",
       "type": "phrase"
     },
     {
@@ -233,42 +233,42 @@
       "replyTo": "24",
       "ar": "الشرف لنا",
       "chat": "el sharaf lena",
-      "eng": "Nice to meet you too",
+      "eng": "nice to meet you too",
       "type": "phrase"
     },
     {
       "id": 29,
       "ar": "اسمي",
       "chat": "ismee",
-      "eng": "My name is",
+      "eng": "my name is",
       "type": "phrase"
     },
     {
       "id": 30,
       "ar": "أنا من",
       "chat": "ana min",
-      "eng": "I'm from",
+      "eng": "i'm from",
       "type": "phrase"
     },
     {
       "id": 31,
       "ar": "أشتغل في",
       "chat": "ashteghel fee",
-      "eng": "I work at",
+      "eng": "i work at",
       "type": "phrase"
     },
     {
       "id": 32,
       "ar": "أعرف عربي اشوي",
       "chat": "a3ref 3arabi eshway",
-      "eng": "I know a little bit of Arabic",
+      "eng": "i know a little bit of arabic",
       "type": "phrase"
     },
     {
       "id": 33,
       "ar": "ساكن في",
       "chat": "sakin fee",
-      "eng": "I live in (m)",
+      "eng": "i live in (m)",
       "type": "phrase",
       "modifier": "m"
     },
@@ -276,7 +276,7 @@
       "id": 34,
       "ar": "ساكنة في",
       "chat": "saknah fee",
-      "eng": "I live in (f)",
+      "eng": "i live in (f)",
       "type": "phrase",
       "modifier": "f"
     },
@@ -284,7 +284,7 @@
       "id": 35,
       "ar": "سيارة",
       "chat": "sayyaarah",
-      "eng": "Car",
+      "eng": "car",
       "alternate": 33,
       "pos": "noun",
       "colorful": true,
@@ -310,7 +310,7 @@
       "id": 36,
       "ar": "موتر",
       "chat": "motar",
-      "eng": "Car",
+      "eng": "car",
       "pos": "noun",
       "colorful": true,
       "gender": "m",
@@ -335,7 +335,7 @@
       "id": 37,
       "ar": "بنت",
       "chat": "bent",
-      "eng": "Girl/Daughter",
+      "eng": "girl/daughter",
       "pos": "noun",
       "gender": "f",
       "my": "بنتي",
@@ -359,7 +359,7 @@
       "id": 38,
       "ar": "حرمة",
       "chat": "7ermah",
-      "eng": "Woman",
+      "eng": "woman",
       "pos": "noun",
       "gender": "f",
       "my": "حرمتي",
@@ -383,7 +383,7 @@
       "id": 39,
       "ar": "ولد",
       "chat": "walad",
-      "eng": "Boy/Son",
+      "eng": "boy/son",
       "pos": "noun",
       "gender": "m",
       "my": "ولدي",
@@ -407,7 +407,7 @@
       "id": 40,
       "ar": "ريال",
       "chat": "rayyaal",
-      "eng": "Man",
+      "eng": "man",
       "pos": "noun",
       "gender": "m",
       "my": "ريالي",
@@ -431,7 +431,7 @@
       "id": 41,
       "ar": "كتاب",
       "chat": "kitaab",
-      "eng": "Book",
+      "eng": "book",
       "pos": "noun",
       "colorful": true,
       "gender": "m",
@@ -456,7 +456,7 @@
       "id": 42,
       "ar": "شقة",
       "chat": "sheqqah",
-      "eng": "Flat",
+      "eng": "flat",
       "pos": "noun",
       "colorful": true,
       "gender": "f",
@@ -481,7 +481,7 @@
       "id": 43,
       "ar": "باب",
       "chat": "baab",
-      "eng": "Door",
+      "eng": "door",
       "pos": "noun",
       "colorful": true,
       "gender": "m",
@@ -506,7 +506,7 @@
       "id": 44,
       "ar": "كرسي",
       "chat": "kirsee",
-      "eng": "Chair",
+      "eng": "chair",
       "pos": "noun",
       "colorful": true,
       "gender": "m",
@@ -531,7 +531,7 @@
       "id": 45,
       "ar": "برج",
       "chat": "burj",
-      "eng": "Tower",
+      "eng": "tower",
       "pos": "noun",
       "colorful": true,
       "gender": "m",
@@ -556,7 +556,7 @@
       "id": 46,
       "ar": "بيت",
       "chat": "bait",
-      "eng": "House",
+      "eng": "house",
       "pos": "noun",
       "colorful": true,
       "gender": "m",
@@ -581,7 +581,7 @@
       "id": 47,
       "ar": "بيزات",
       "chat": "baizaat",
-      "eng": "Money",
+      "eng": "money",
       "alternate": 45,
       "pos": "noun",
       "gender": "f",
@@ -606,7 +606,7 @@
       "id": 48,
       "ar": "فلوس",
       "chat": "floos",
-      "eng": "Money",
+      "eng": "money",
       "pos": "noun",
       "gender": "m",
       "my": "فلوسي",
@@ -630,7 +630,7 @@
       "id": 49,
       "ar": "اسم",
       "chat": "ism",
-      "eng": "Name",
+      "eng": "name",
       "pos": "noun",
       "gender": "m",
       "my": "اسمي",
@@ -654,7 +654,7 @@
       "id": 50,
       "ar": "شغل",
       "chat": "sheghel",
-      "eng": "Work",
+      "eng": "work",
       "pos": "noun",
       "gender": "m",
       "my": "شغلي",
@@ -678,7 +678,7 @@
       "id": 51,
       "ar": "دوام",
       "chat": "dawaam",
-      "eng": "Workplace",
+      "eng": "workplace",
       "pos": "noun",
       "gender": "m",
       "my": "دوامي",
@@ -702,139 +702,139 @@
       "id": 52,
       "ar": "هيه",
       "chat": "haih",
-      "eng": "Yes"
+      "eng": "yes"
     },
     {
       "id": 53,
       "ar": "لا",
       "chat": "la",
-      "eng": "No"
+      "eng": "no"
     },
     {
       "id": 54,
       "ar": "ما أبا ",
       "chat": "ma aba",
-      "eng": "I don't want"
+      "eng": "i don't want"
     },
     {
       "id": 55,
       "ar": "عندي",
       "chat": "3endee",
-      "eng": "I have"
+      "eng": "i have"
     },
     {
       "id": 56,
       "ar": "ما عندي ",
       "chat": "ma 3endee",
-      "eng": "I don't have"
+      "eng": "i don't have"
     },
     {
       "id": 57,
       "ar": "أعرف",
       "chat": "a3arf",
-      "eng": "I know"
+      "eng": "i know"
     },
     {
       "id": 58,
       "ar": "ما أعرف ",
       "chat": "ma a3arf",
-      "eng": "I don't know"
+      "eng": "i don't know"
     },
     {
       "id": 59,
       "ar": "أدري",
       "chat": "adree",
-      "eng": "I am aware"
+      "eng": "i am aware"
     },
     {
       "id": 60,
       "ar": "ما أدري ",
       "chat": "ma adree",
-      "eng": "I am not aware"
+      "eng": "i am not aware"
     },
     {
       "id": 61,
       "ar": "في",
       "chat": "fee",
-      "eng": "There is"
+      "eng": "there is"
     },
     {
       "id": 62,
       "ar": "ما في ",
       "chat": "ma fee",
-      "eng": "There is no"
+      "eng": "there is no"
     },
     {
       "id": 63,
       "ar": "كل ",
       "chat": "kil",
-      "eng": "Every"
+      "eng": "every"
     },
     {
       "id": 64,
       "ar": "شي ",
       "chat": "shai",
-      "eng": "Thing"
+      "eng": "thing"
     },
     {
       "id": 65,
       "ar": "أنا",
       "chat": "ana",
-      "eng": "I / I'm"
+      "eng": "i / i'm"
     },
     {
       "id": 66,
       "ar": "إنت",
       "chat": "enta",
-      "eng": "You (m)",
+      "eng": "you (m)",
       "modifier": "m"
     },
     {
       "id": 67,
       "ar": "إنتي",
       "chat": "entee",
-      "eng": "You (f)",
+      "eng": "you (f)",
       "modifier": "f"
     },
     {
       "id": 68,
       "ar": "إنتوا",
       "chat": "entoo",
-      "eng": "You (pl)",
+      "eng": "you (pl)",
       "modifier": "pl"
     },
     {
       "id": 69,
       "ar": "نحن",
       "chat": "ne7an",
-      "eng": "We"
+      "eng": "we"
     },
     {
       "id": 70,
       "ar": "هو",
       "chat": "hu",
-      "eng": "He",
+      "eng": "he",
       "modifier": "m"
     },
     {
       "id": 71,
       "ar": "هي",
       "chat": "he",
-      "eng": "She",
+      "eng": "she",
       "modifier": "f"
     },
     {
       "id": 72,
       "ar": "هم",
       "chat": "hum",
-      "eng": "They",
+      "eng": "they",
       "modifier": "pl"
     },
     {
       "id": 73,
       "ar": "أبا",
       "chat": "aba",
-      "eng": "I want",
+      "eng": "i want",
       "pos": "verb",
       "you_m": "تبا",
       "you_m_chat": "taba",
@@ -855,7 +855,7 @@
       "id": 74,
       "ar": "آكل",
       "chat": "aakel",
-      "eng": "I eat",
+      "eng": "i eat",
       "pos": "verb",
       "you_m": "تآكل",
       "you_m_chat": "takel",
@@ -876,7 +876,7 @@
       "id": 75,
       "ar": "أسوي",
       "chat": "asawee",
-      "eng": "I make/do",
+      "eng": "i make/do",
       "pos": "verb",
       "you_m": "تسوي",
       "you_m_chat": "tasawee",
@@ -897,7 +897,7 @@
       "id": 76,
       "ar": "أحب",
       "chat": "a7eb",
-      "eng": "I like/love",
+      "eng": "i like/love",
       "pos": "verb",
       "you_m": "تحب",
       "you_m_chat": "ta7eb",
@@ -918,7 +918,7 @@
       "id": 77,
       "ar": "آخذ",
       "chat": "aakheth",
-      "eng": "I take",
+      "eng": "i take",
       "pos": "verb",
       "you_m": "تاخذ",
       "you_m_chat": "taakheth",
@@ -939,7 +939,7 @@
       "id": 78,
       "ar": "أتكلم",
       "chat": "atkallam",
-      "eng": "I speak",
+      "eng": "i speak",
       "pos": "verb",
       "alternate": 77,
       "you_m": "تتكلم",
@@ -961,7 +961,7 @@
       "id": 79,
       "ar": "أرمس",
       "chat": "armis",
-      "eng": "I speak",
+      "eng": "i speak",
       "pos": "verb",
       "you_m": "ترمس",
       "you_m_chat": "tarmis",
@@ -982,7 +982,7 @@
       "id": 80,
       "ar": "أعرف",
       "chat": "a3arf",
-      "eng": "I know",
+      "eng": "i know",
       "pos": "verb",
       "you_m": "تعرف",
       "you_m_chat": "ta3arf",
@@ -1003,7 +1003,7 @@
       "id": 81,
       "ar": "أدرس",
       "chat": "adres",
-      "eng": "I study",
+      "eng": "i study",
       "pos": "verb",
       "you_m": "تدرس",
       "you_m_chat": "tadres",
@@ -1024,7 +1024,7 @@
       "id": 82,
       "ar": "أقرأ",
       "chat": "agra",
-      "eng": "I read",
+      "eng": "i read",
       "pos": "verb",
       "you_m": "تقرأ",
       "you_m_chat": "tagra",
@@ -1045,7 +1045,7 @@
       "id": 83,
       "ar": "أشتري",
       "chat": "ashteree",
-      "eng": "I buy",
+      "eng": "i buy",
       "pos": "verb",
       "you_m": "تشتري",
       "you_m_chat": "tashteree",
@@ -1066,7 +1066,7 @@
       "id": 84,
       "ar": "أسير",
       "chat": "aseer",
-      "eng": "I go",
+      "eng": "i go",
       "pos": "verb",
       "alternate": 83,
       "you_m": "تسير",
@@ -1088,7 +1088,7 @@
       "id": 85,
       "ar": "أروح",
       "chat": "aroo7",
-      "eng": "I go",
+      "eng": "i go",
       "pos": "verb",
       "you_m": "تروح",
       "you_m_chat": "taroo7",
@@ -1109,7 +1109,7 @@
       "id": 86,
       "ar": "أسمع",
       "chat": "asma3",
-      "eng": "I listen/hear",
+      "eng": "i listen/hear",
       "pos": "verb",
       "you_m": "تسمع",
       "you_m_chat": "tasma3",
@@ -1130,7 +1130,7 @@
       "id": 87,
       "ar": "أمسك",
       "chat": "amsek",
-      "eng": "I hold",
+      "eng": "i hold",
       "pos": "verb",
       "you_m": "تمسك",
       "you_m_chat": "tamsek",
@@ -1151,7 +1151,7 @@
       "id": 88,
       "ar": "أسكر",
       "chat": "asakker",
-      "eng": "I close",
+      "eng": "i close",
       "pos": "verb",
       "you_m": "تسكر",
       "you_m_chat": "tasakker",
@@ -1172,7 +1172,7 @@
       "id": 89,
       "ar": "أشتغل",
       "chat": "ashteghil",
-      "eng": "I work",
+      "eng": "i work",
       "pos": "verb",
       "you_m": "تشتغل",
       "you_m_chat": "tashteghil",
@@ -1193,7 +1193,7 @@
       "id": 90,
       "ar": "أطرش",
       "chat": "atarresh",
-      "eng": "I send",
+      "eng": "i send",
       "pos": "verb",
       "you_m": "تطرش",
       "you_m_chat": "tatarresh",
@@ -1214,7 +1214,7 @@
       "id": 91,
       "ar": "أنام",
       "chat": "anaam",
-      "eng": "I sleep",
+      "eng": "i sleep",
       "pos": "verb",
       "alternate": 90,
       "you_m": "تنام",
@@ -1236,7 +1236,7 @@
       "id": 92,
       "ar": "أرقد",
       "chat": "arged",
-      "eng": "I sleep",
+      "eng": "i sleep",
       "pos": "verb",
       "you_m": "ترقد",
       "you_m_chat": "targed",
@@ -1257,7 +1257,7 @@
       "id": 93,
       "ar": "أجيب",
       "chat": "ayeeb",
-      "eng": "I bring",
+      "eng": "i bring",
       "pos": "verb",
       "you_m": "تجيب",
       "you_m_chat": "tayeeb",
@@ -1278,7 +1278,7 @@
       "id": 94,
       "ar": "أكلم",
       "chat": "akallem",
-      "eng": "I talk to",
+      "eng": "i talk to",
       "pos": "verb",
       "you_m": "تكلم",
       "you_m_chat": "takallem",
@@ -1299,7 +1299,7 @@
       "id": 95,
       "ar": "أقدر",
       "chat": "agdar",
-      "eng": "I can",
+      "eng": "i can",
       "pos": "verb",
       "you_m": "تقدر",
       "you_m_chat": "tagdar",
@@ -1320,7 +1320,7 @@
       "id": 96,
       "ar": "أجرب",
       "chat": "ajarreb",
-      "eng": "I try out",
+      "eng": "i try out",
       "pos": "verb",
       "you_m": "تجرب",
       "you_m_chat": "tajarreb",
@@ -1341,7 +1341,7 @@
       "id": 97,
       "ar": "أسأل",
       "chat": "as'al",
-      "eng": "I ask",
+      "eng": "i ask",
       "pos": "verb",
       "you_m": "تسأل",
       "you_m_chat": "tas'al",
@@ -1362,7 +1362,7 @@
       "id": 98,
       "ar": "ألعب",
       "chat": "al3ab",
-      "eng": "I play",
+      "eng": "i play",
       "pos": "verb",
       "you_m": "تلعب",
       "you_m_chat": "tal3ab",
@@ -1383,7 +1383,7 @@
       "id": 99,
       "ar": "أستخدم",
       "chat": "astakhdem",
-      "eng": "I use",
+      "eng": "i use",
       "pos": "verb",
       "you_m": "تستخدم",
       "you_m_chat": "tastakhdem",
@@ -1404,7 +1404,7 @@
       "id": 100,
       "ar": "عندي",
       "chat": "3endy",
-      "eng": "I have",
+      "eng": "i have",
       "pos": "verb",
       "you_m": "عندك",
       "you_m_chat": "3endek",
@@ -1425,7 +1425,7 @@
       "id": 101,
       "ar": "أشرب",
       "chat": "ashrab",
-      "eng": "I drink",
+      "eng": "i drink",
       "pos": "verb",
       "you_m": "تشرب",
       "you_m_chat": "tashrab",
@@ -1446,7 +1446,7 @@
       "id": 102,
       "ar": "أطبخ",
       "chat": "atbakh",
-      "eng": "I cook",
+      "eng": "i cook",
       "pos": "verb",
       "you_m": "تطبخ",
       "you_m_chat": "tatbakh",
@@ -1467,7 +1467,7 @@
       "id": 103,
       "ar": "أكره",
       "chat": "akrah",
-      "eng": "I hate",
+      "eng": "i hate",
       "pos": "verb",
       "you_m": "تكره",
       "you_m_chat": "takrah",
@@ -1488,7 +1488,7 @@
       "id": 104,
       "ar": "أعطي",
       "chat": "a3tee",
-      "eng": "I give",
+      "eng": "i give",
       "pos": "verb",
       "you_m": "تعطي",
       "you_m_chat": "ta3tee",
@@ -1509,7 +1509,7 @@
       "id": 105,
       "ar": "أفهم",
       "chat": "afham",
-      "eng": "I understand",
+      "eng": "i understand",
       "pos": "verb",
       "you_m": "تفهم",
       "you_m_chat": "tafham",
@@ -1530,7 +1530,7 @@
       "id": 106,
       "ar": "أتعلم",
       "chat": "at3allam",
-      "eng": "I learn",
+      "eng": "i learn",
       "pos": "verb",
       "you_m": "تتعلم",
       "you_m_chat": "tat3allam",
@@ -1551,7 +1551,7 @@
       "id": 107,
       "ar": "أكتب",
       "chat": "akteb",
-      "eng": "I write",
+      "eng": "i write",
       "pos": "verb",
       "you_m": "تكتب",
       "you_m_chat": "takteb",
@@ -1572,7 +1572,7 @@
       "id": 108,
       "ar": "أدفع",
       "chat": "adfa3",
-      "eng": "I pay",
+      "eng": "i pay",
       "pos": "verb",
       "you_m": "تدفع",
       "you_m_chat": "tadfa3",
@@ -1593,7 +1593,7 @@
       "id": 109,
       "ar": "أسوق",
       "chat": "asoog",
-      "eng": "I drive",
+      "eng": "i drive",
       "pos": "verb",
       "you_m": "تسوق",
       "you_m_chat": "tasoog",
@@ -1614,7 +1614,7 @@
       "id": 110,
       "ar": "أمشي",
       "chat": "amshee",
-      "eng": "I walk",
+      "eng": "i walk",
       "pos": "verb",
       "you_m": "تمشي",
       "you_m_chat": "tamshee",
@@ -1635,7 +1635,7 @@
       "id": 111,
       "ar": "أشوف",
       "chat": "ashoof",
-      "eng": "I see/watch",
+      "eng": "i see/watch",
       "pos": "verb",
       "you_m": "تشوف",
       "you_m_chat": "tashoof",
@@ -1656,7 +1656,7 @@
       "id": 112,
       "ar": "أساعد",
       "chat": "asaa3ed",
-      "eng": "I help",
+      "eng": "i help",
       "pos": "verb",
       "you_m": "تساعد",
       "you_m_chat": "tasaa3ed",
@@ -1677,7 +1677,7 @@
       "id": 113,
       "ar": "أفتح",
       "chat": "afta7",
-      "eng": "I open",
+      "eng": "i open",
       "pos": "verb",
       "you_m": "تفتح",
       "you_m_chat": "tafta7",
@@ -1698,7 +1698,7 @@
       "id": 114,
       "ar": "أتصل",
       "chat": "attesel",
-      "eng": "I call",
+      "eng": "i call",
       "pos": "verb",
       "you_m": "تتصل",
       "you_m_chat": "tattesel",
@@ -1719,7 +1719,7 @@
       "id": 115,
       "ar": "أنسى",
       "chat": "ansa",
-      "eng": "I forget",
+      "eng": "i forget",
       "pos": "verb",
       "you_m": "تنسى",
       "you_m_chat": "tansa",
@@ -1740,7 +1740,7 @@
       "id": 116,
       "ar": "أقوم",
       "chat": "agoum",
-      "eng": "I get up",
+      "eng": "i get up",
       "pos": "verb",
       "alternate": 115,
       "you_m": "تقوم",
@@ -1762,7 +1762,7 @@
       "id": 117,
       "ar": "أنش",
       "chat": "anesh",
-      "eng": "I get up",
+      "eng": "i get up",
       "pos": "verb",
       "you_m": "تنش",
       "you_m_chat": "tanesh",
@@ -1783,7 +1783,7 @@
       "id": 118,
       "ar": "أشيل",
       "chat": "ashell",
-      "eng": "I carry",
+      "eng": "i carry",
       "pos": "verb",
       "you_m": "تشيل",
       "you_m_chat": "tashell",
@@ -1804,7 +1804,7 @@
       "id": 119,
       "ar": "أقول",
       "chat": "agoul",
-      "eng": "I say",
+      "eng": "i say",
       "pos": "verb",
       "you_m": "تقول",
       "you_m_chat": "tagoul",
@@ -1825,7 +1825,7 @@
       "id": 120,
       "ar": "أحاول",
       "chat": "a7aawil",
-      "eng": "I try",
+      "eng": "i try",
       "pos": "verb",
       "you_m": "تحاول",
       "you_m_chat": "ta7aawil",
@@ -1846,7 +1846,7 @@
       "id": 121,
       "ar": "أطلع",
       "chat": "atla3",
-      "eng": "I go out",
+      "eng": "i go out",
       "pos": "verb",
       "you_m": "تطلع",
       "you_m_chat": "tatla3",
@@ -1867,7 +1867,7 @@
       "id": 122,
       "ar": "أجاوب",
       "chat": "ajaaweb",
-      "eng": "I answer",
+      "eng": "i answer",
       "pos": "verb",
       "you_m": "تجاوب",
       "you_m_chat": "tajaaweb",
@@ -1888,7 +1888,7 @@
       "id": 123,
       "ar": "أسافر",
       "chat": "asaafer",
-      "eng": "I travel",
+      "eng": "i travel",
       "pos": "verb",
       "you_m": "تسافر",
       "you_m_chat": "tasaafer",
@@ -1909,7 +1909,7 @@
       "id": 124,
       "ar": "أحصل",
       "chat": "a7assel",
-      "eng": "I get/receive",
+      "eng": "i get/receive",
       "pos": "verb",
       "you_m": "تحصل",
       "you_m_chat": "ta7assel",
@@ -1930,7 +1930,7 @@
       "id": 125,
       "ar": "أزور",
       "chat": "azoor",
-      "eng": "I visit",
+      "eng": "i visit",
       "pos": "verb",
       "you_m": "تزور",
       "you_m_chat": "tazoor",
@@ -1951,7 +1951,7 @@
       "id": 126,
       "ar": "أحمر",
       "chat": "a7mar",
-      "eng": "Red",
+      "eng": "red",
       "type": "colors",
       "ar_f": "حمراء",
       "chat_f": "7amra"
@@ -1960,7 +1960,7 @@
       "id": 127,
       "ar": "أصفر",
       "chat": "asfar",
-      "eng": "Yellow",
+      "eng": "yellow",
       "type": "colors",
       "ar_f": "صفراء",
       "chat_f": "safra"
@@ -1969,7 +1969,7 @@
       "id": 128,
       "ar": "أزرق",
       "chat": "azrag",
-      "eng": "Blue",
+      "eng": "blue",
       "type": "colors",
       "ar_f": "زرقاء",
       "chat_f": "zarga"
@@ -1978,7 +1978,7 @@
       "id": 129,
       "ar": "أبيض",
       "chat": "abyadh",
-      "eng": "White",
+      "eng": "white",
       "type": "colors",
       "ar_f": "بيضاء",
       "chat_f": "baidha"
@@ -1987,7 +1987,7 @@
       "id": 130,
       "ar": "أسود",
       "chat": "aswad",
-      "eng": "Black",
+      "eng": "black",
       "type": "colors",
       "ar_f": "سوداء",
       "chat_f": "sawda"
@@ -1996,7 +1996,7 @@
       "id": 131,
       "ar": "أخضر",
       "chat": "akhdhar",
-      "eng": "Green",
+      "eng": "green",
       "type": "colors",
       "ar_f": "خضراء",
       "chat_f": "khadhra"
@@ -2005,7 +2005,7 @@
       "id": 132,
       "ar": "رصاصي",
       "chat": "rusasee",
-      "eng": "Gray",
+      "eng": "gray",
       "type": "colors",
       "ar_f": "رصاصية",
       "chat_f": "rusaseeyah"
@@ -2014,7 +2014,7 @@
       "id": 133,
       "ar": "وردي",
       "chat": "wardee",
-      "eng": "Pink",
+      "eng": "pink",
       "type": "colors",
       "ar_f": "وردية",
       "chat_f": "wardeeyah"
@@ -2023,7 +2023,7 @@
       "id": 134,
       "ar": "بنفسجي",
       "chat": "banafsajee",
-      "eng": "Purple",
+      "eng": "purple",
       "type": "colors",
       "ar_f": "بنفسجية",
       "chat_f": "banafsajeeyah"
@@ -2032,7 +2032,7 @@
       "id": 135,
       "ar": "بني",
       "chat": "bonnee",
-      "eng": "Brown",
+      "eng": "brown",
       "type": "colors",
       "ar_f": "بنية",
       "chat_f": "bonneeyah"
@@ -2041,7 +2041,7 @@
       "id": 136,
       "ar": "برتقالي",
       "chat": "burtuqalee",
-      "eng": "Orange",
+      "eng": "orange",
       "type": "colors",
       "ar_f": "برتقالية",
       "chat_f": "burtuqaleeyah"
@@ -2050,7 +2050,7 @@
       "id": 137,
       "ar": "فضي",
       "chat": "fedhee",
-      "eng": "Silver",
+      "eng": "silver",
       "type": "colors",
       "ar_f": "فضية",
       "chat_f": "fedheeyah"
@@ -2059,7 +2059,7 @@
       "id": 138,
       "ar": "ذهبي",
       "chat": "thahabee",
-      "eng": "Golden",
+      "eng": "golden",
       "type": "colors",
       "ar_f": "ذهبية",
       "chat_f": "thahabeeyah"
@@ -2830,7 +2830,7 @@
       "id": 171,
       "ar": "عندي سؤال",
       "chat": "3endy so'al",
-      "eng": "I have a question",
+      "eng": "i have a question",
       "type": "phrase"
     },
     {
@@ -2865,7 +2865,7 @@
       "id": 176,
       "ar": "أحبك",
       "chat": "a7ebik",
-      "eng": "I love you",
+      "eng": "i love you",
       "type": "phrase"
     },
     {
@@ -2900,14 +2900,14 @@
       "id": 181,
       "ar": "ممكن",
       "chat": "mumkin",
-      "eng": "could I get",
+      "eng": "could i get",
       "type": "phrase"
     },
     {
       "id": 182,
       "ar": "طاولة",
       "chat": "taawlah",
-      "eng": "Table",
+      "eng": "table",
       "pos": "noun"
     },
     {
@@ -2928,115 +2928,121 @@
       "id": 185,
       "ar": "قصير",
       "chat": "geseer",
-      "eng": "Short",
+      "eng": "short",
       "pos": "adjective"
     },
     {
       "id": 186,
       "ar": "سريع",
       "chat": "saree3",
-      "eng": "Fast",
+      "eng": "fast",
       "pos": "adjective"
     },
     {
       "id": 187,
       "ar": "بسرعة",
       "chat": "bser3ah",
-      "eng": "Quickly",
+      "eng": "quickly",
       "pos": "adverb"
     },
     {
       "id": 188,
-      "ar": "طاولة",
-      "chat": "taawlah",
-      "eng": "Table",
-      "pos": "noun"
+      "ar": "أمي",
+      "chat": "ummee",
+      "eng": "my mother",
+      "pos": "noun",
+      "type": "family"
     },
     {
       "id": 189,
-      "ar": "أمي",
-      "chat": "ummee",
-      "eng": "My mother",
+      "ar": "أبوي",
+      "chat": "ubooy",
+      "eng": "my father",
       "pos": "noun",
       "type": "family"
     },
     {
       "id": 190,
-      "ar": "أبوي",
-      "chat": "ubooy",
-      "eng": "My father",
+      "ar": "أخوي",
+      "chat": "ukhooy",
+      "eng": "my brother",
       "pos": "noun",
       "type": "family"
     },
     {
       "id": 191,
-      "ar": "أخوي",
-      "chat": "ukhooy",
-      "eng": "My brother",
+      "ar": "أختي",
+      "chat": "ekhtee",
+      "eng": "my sister",
       "pos": "noun",
       "type": "family"
     },
     {
       "id": 192,
-      "ar": "أختي",
-      "chat": "ekhtee",
-      "eng": "My sister",
+      "ar": "ولدي",
+      "chat": "waladee",
+      "eng": "my son",
       "pos": "noun",
       "type": "family"
     },
     {
       "id": 193,
-      "ar": "ولدي",
-      "chat": "waladee",
-      "eng": "My son",
+      "ar": "بنتي",
+      "chat": "bentee",
+      "eng": "my daughter",
       "pos": "noun",
       "type": "family"
     },
     {
       "id": 194,
-      "ar": "بنتي",
-      "chat": "bentee",
-      "eng": "My daughter",
+      "ar": "زوجي",
+      "chat": "zoojee",
+      "eng": "my husband",
       "pos": "noun",
-      "type": "family"
+      "type": "family",
+      "alternate": 195
     },
     {
       "id": 195,
-      "ar": "زوجي/راجلي",
-      "chat": "zoojee/rayylee",
-      "eng": "My husband",
+      "ar": "راجلي",
+      "chat": "rayylee",
+      "eng": "my husband",
       "pos": "noun",
-      "type": "family"
+      "type": "family",
+      "alternate": 194
     },
     {
       "id": 196,
       "ar": "زوجتي",
-      "chat": "zoojtee/7ermetee",
-      "eng": "My wife",
+      "chat": "zoojtee",
+      "eng": "my wife",
       "pos": "noun",
-      "type": "family"
+      "type": "family",
+      "alternate": 197
     },
     {
       "id": 197,
+      "ar": "حرمتي",
+      "chat": "7ermetee",
+      "eng": "my wife",
+      "pos": "noun",
+      "type": "family",
+      "alternate": 196
+    },
+    {
+      "id": 198,
       "ar": "عيالي",
       "chat": "3yaalee",
-      "eng": "My kids",
+      "eng": "my kids",
       "pos": "noun",
       "type": "family"
     },
     {
-      "id": 198,
+      "id": 199,
       "ar": "صغير",
       "chat": "segheer",
       "eng": "small",
       "pos": "adjective"
-    },
-    {
-      "id": 199,
-      "ar": "بنت صغيرة",
-      "chat": "bent segheerah",
-      "eng": "small girl",
-      "pos": "noun"
     },
     {
       "id": 200,
@@ -3047,213 +3053,31 @@
     },
     {
       "id": 201,
-      "ar": "بيت كبير",
-      "chat": "bait kebeer",
-      "eng": "big house",
-      "pos": "noun"
-    },
-    {
-      "id": 202,
       "ar": "طويل",
       "chat": "taweel",
       "eng": "long tall",
       "pos": "noun"
     },
     {
+      "id": 202,
+      "ar": "قصير",
+      "chat": "geseer",
+      "eng": "short",
+      "pos": "adjective"
+    },
+    {
       "id": 203,
-      "ar": "أحمد طويل",
-      "chat": "a7mad taweel",
-      "eng": "Ahmad is tall",
-      "pos": "noun"
+      "ar": "سريع",
+      "chat": "saree3",
+      "eng": "fast",
+      "pos": "adjective"
     },
     {
       "id": 204,
-      "ar": "قصير",
-      "chat": "geseer",
-      "eng": "Short",
-      "pos": "adjective"
-    },
-    {
-      "id": 205,
-      "ar": "فيلم قصير",
-      "chat": "film geseer",
-      "eng": "Short film",
-      "pos": "noun"
-    },
-    {
-      "id": 206,
-      "ar": "سريع",
-      "chat": "saree3",
-      "eng": "Fast",
-      "pos": "adjective"
-    },
-    {
-      "id": 207,
-      "ar": "اجتماع سريع",
-      "chat": "ijtemaa3 saree3",
-      "eng": "Quick meeting",
-      "pos": "noun"
-    },
-    {
-      "id": 208,
       "ar": "بسرعة",
       "chat": "bser3ah",
-      "eng": "Quickly",
+      "eng": "quickly",
       "pos": "adverb"
-    },
-    {
-      "id": 209,
-      "ar": "أبي أتكلم عربي بسرعة",
-      "chat": "aba atkalam 3arabi bser3ah",
-      "eng": "eshway eshway",
-      "pos": "noun"
-    },
-    {
-      "id": 210,
-      "ar": "أتكلم عربي قليلاً",
-      "chat": "Slow, few, bit",
-      "eng": "atkalam 3arabi eshway",
-      "pos": "noun"
-    },
-    {
-      "id": 211,
-      "ar": "وايد",
-      "chat": "I speak a little bit of Arabic",
-      "eng": "wayed",
-      "pos": "noun"
-    },
-    {
-      "id": 212,
-      "ar": "برج خليفة وايد طويل",
-      "chat": "A lot/so much/very",
-      "eng": "burj khalifa wayed taweel",
-      "pos": "noun"
-    },
-    {
-      "id": 213,
-      "ar": "رخيص",
-      "chat": "Burj Khalifa is very tall",
-      "eng": "rekhees",
-      "pos": "noun"
-    },
-    {
-      "id": 214,
-      "ar": "الكتاب رخيص",
-      "chat": "el kitaab rekhees",
-      "eng": "cheap",
-      "pos": "adjective"
-    },
-    {
-      "id": 215,
-      "ar": "غالي",
-      "chat": "the book is cheap",
-      "eng": "ghalee",
-      "pos": "noun"
-    },
-    {
-      "id": 216,
-      "ar": "آيفون غالي",
-      "chat": "expensive",
-      "eng": "iphone ghalee",
-      "pos": "noun"
-    },
-    {
-      "id": 217,
-      "ar": "بس",
-      "chat": "expensive iPhone",
-      "eng": "bas",
-      "pos": "noun"
-    },
-    {
-      "id": 218,
-      "ar": "أبى هذا بس!",
-      "chat": "Enough, only & but",
-      "eng": "aba hadha bas!",
-      "pos": "noun"
-    },
-    {
-      "id": 219,
-      "ar": "زين",
-      "chat": "I only want this!",
-      "eng": "zain",
-      "pos": "noun"
-    },
-    {
-      "id": 220,
-      "ar": "هذا المطعم زين",
-      "chat": "Good",
-      "eng": "hadha el mat3am zain",
-      "pos": "noun"
-    },
-    {
-      "id": 221,
-      "ar": "مطعم زين",
-      "chat": "This is a good restaurant",
-      "eng": "mob zain",
-      "pos": "noun"
-    },
-    {
-      "id": 222,
-      "ar": "الكاكاو موب زين",
-      "chat": "bad",
-      "eng": "el kakaw mob zain",
-      "pos": "noun"
-    },
-    {
-      "id": 223,
-      "ar": "حلو",
-      "chat": "the chocolate is not good",
-      "eng": "7elo",
-      "pos": "noun"
-    },
-    {
-      "id": 224,
-      "ar": "الفيلم حلو",
-      "chat": "pleasant/nice",
-      "eng": "el film 7elo",
-      "pos": "noun"
-    },
-    {
-      "id": 225,
-      "ar": "الفيلم حلو",
-      "chat": "The film is nice",
-      "eng": "mob 7elo",
-      "pos": "noun"
-    },
-    {
-      "id": 226,
-      "ar": "اللون موب حلو",
-      "chat": "Unpleasant/not nice",
-      "eng": "el loan mob 7elo",
-      "pos": "noun"
-    },
-    {
-      "id": 227,
-      "ar": "اللون ليس جميل",
-      "chat": "The color is not nice",
-      "eng": "waseem/jameel",
-      "pos": "noun"
-    },
-    {
-      "id": 228,
-      "ar": "عبدالله وسيم",
-      "chat": "Handsome",
-      "eng": "3bdulla waseem",
-      "pos": "noun"
-    },
-    {
-      "id": 229,
-      "ar": "عبد الله وسيم",
-      "chat": "Abdullah is handsome",
-      "eng": "jameelah/7elwah",
-      "pos": "noun"
-    },
-    {
-      "id": 230,
-      "ar": "مريم جميلة وايد ما شاء الله",
-      "chat": "Maryam jameelah wayed ma sha Allah",
-      "eng": "Wow Maryam is very beautiful",
-      "pos": "noun"
     }
   ],
   "numerals": [
