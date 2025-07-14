@@ -2873,21 +2873,20 @@
       "ar": "شو",
       "chat": "shu",
       "eng": "what",
-      "type": "phrase"
+      "pos": "interrogative"
     },
     {
       "id": 178,
       "ar": "حلو",
       "chat": "7elo",
       "eng": "nice",
-      "type": "phrase"
+      "pos": "adjective"
     },
     {
       "id": 179,
       "ar": "زين",
       "chat": "zain",
       "eng": "good",
-      "type": "phrase",
       "pos": "adjective"
     },
     {
@@ -2895,7 +2894,7 @@
       "ar": "لذيذ",
       "chat": "ladheedh",
       "eng": "tasty",
-      "type": "phrase"
+      "pos": "adjective"
     },
     {
       "id": 181,
