@@ -261,23 +261,94 @@ const SpeechConjugationGame = ({ contentData, contentType }) => {
     const normalizedUser = normalizeArabic(userText.toLowerCase());
     const normalizedCorrect = normalizeArabic(correctText.toLowerCase());
     
-    // Simple word matching approach
+    console.log('Accuracy calculation:', { userText, correctText, normalizedUser, normalizedCorrect });
+    
+    // Split into words
     const userWords = normalizedUser.split(/\s+/).filter(w => w.length > 0);
     const correctWords = normalizedCorrect.split(/\s+/).filter(w => w.length > 0);
     
     if (correctWords.length === 0) return 0;
     
-    let matchedWords = 0;
+    let totalScore = 0;
+    
     correctWords.forEach(correctWord => {
-      if (userWords.some(userWord => 
-        userWord.includes(correctWord) || correctWord.includes(userWord) || 
-        userWord === correctWord
-      )) {
-        matchedWords++;
+      let bestWordScore = 0;
+      
+      userWords.forEach(userWord => {
+        let score = 0;
+        
+        // Exact match
+        if (userWord === correctWord) {
+          score = 100;
+        }
+        // One contains the other
+        else if (userWord.includes(correctWord) || correctWord.includes(userWord)) {
+          score = 80;
+        }
+        // Calculate character similarity for Arabic words
+        else {
+          score = calculateArabicSimilarity(userWord, correctWord);
+        }
+        
+        bestWordScore = Math.max(bestWordScore, score);
+      });
+      
+      totalScore += bestWordScore;
+    });
+    
+    const finalScore = Math.round(totalScore / correctWords.length);
+    console.log('Final accuracy score:', finalScore);
+    return finalScore;
+  };
+
+  const calculateArabicSimilarity = (word1, word2) => {
+    if (word1.length === 0 || word2.length === 0) return 0;
+    
+    // For very short words, be more lenient
+    if (word1.length <= 2 || word2.length <= 2) {
+      if (word1[0] === word2[0]) return 60; // Same first letter
+      return 20;
+    }
+    
+    // Count matching characters in same positions
+    let matches = 0;
+    const minLength = Math.min(word1.length, word2.length);
+    const maxLength = Math.max(word1.length, word2.length);
+    
+    for (let i = 0; i < minLength; i++) {
+      if (word1[i] === word2[i]) {
+        matches++;
+      }
+    }
+    
+    // Base similarity on position matches
+    let similarity = (matches / maxLength) * 100;
+    
+    // Bonus for same starting characters
+    if (word1[0] === word2[0]) {
+      similarity += 15;
+    }
+    
+    // Bonus for same ending characters
+    if (word1[word1.length - 1] === word2[word2.length - 1]) {
+      similarity += 15;
+    }
+    
+    // Count common characters (regardless of position)
+    const chars1 = word1.split('');
+    const chars2 = word2.split('');
+    let commonChars = 0;
+    
+    chars1.forEach(char => {
+      if (chars2.includes(char)) {
+        commonChars++;
       }
     });
     
-    return Math.round((matchedWords / correctWords.length) * 100);
+    const charSimilarity = (commonChars / maxLength) * 50;
+    similarity = Math.max(similarity, charSimilarity);
+    
+    return Math.min(100, Math.round(similarity));
   };
 
   const handleSpeechResult = async (recognizedText) => {
@@ -294,19 +365,23 @@ const SpeechConjugationGame = ({ contentData, contentType }) => {
     const newScore = { ...score, total: score.total + 1 };
     
     let statusMessage = '';
-    if (normalizedUserAnswer.includes(normalizedCorrectAnswer) || accuracy >= 80) {
+    if (normalizedUserAnswer.includes(normalizedCorrectAnswer) || accuracy >= 70) {
       newScore.correct = score.correct + 1;
       setScore(newScore);
       statusMessage = `✅ Excellent! ${accuracy}% accuracy`;
-    } else if (accuracy >= 60) {
+    } else if (accuracy >= 50) {
+      newScore.correct = score.correct + 1; // Still count as correct for similar words
       setScore(newScore);
-      statusMessage = `🔶 Close! ${accuracy}% accuracy - Listen to the correct pronunciation`;
+      statusMessage = `🔶 Good! ${accuracy}% accuracy - Very close pronunciation`;
     } else if (accuracy >= 30) {
       setScore(newScore);
-      statusMessage = `🔸 Partial match! ${accuracy}% accuracy - Try again next time`;
+      statusMessage = `🔸 Getting there! ${accuracy}% accuracy - Some similarity detected`;
+    } else if (accuracy >= 15) {
+      setScore(newScore);
+      statusMessage = `🔹 Keep trying! ${accuracy}% accuracy - Partial match`;
     } else {
       setScore(newScore);
-      statusMessage = `❌ ${accuracy}% accuracy - Listen carefully to the correct answer`;
+      statusMessage = `❌ ${accuracy}% accuracy - Try listening to the pronunciation again`;
     }
     
     setStatusMsg(statusMessage);
