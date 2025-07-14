@@ -2887,7 +2887,8 @@
       "ar": "زين",
       "chat": "zain",
       "eng": "good",
-      "type": "phrase"
+      "type": "phrase",
+      "pos": "adjective"
     },
     {
       "id": 180,
@@ -3078,6 +3079,94 @@
       "chat": "bser3ah",
       "eng": "quickly",
       "pos": "adverb"
+    },
+    {
+      "chat": "eshway eshway",
+      "eng": "slowly",
+      "pos": "adverb",
+      "id": 205,
+      "ar": "شوي شوي"
+    },
+    {
+      "chat": "wayed",
+      "eng": "a lot/so much/very",
+      "pos": "adverb",
+      "id": 206,
+      "ar": "وايد"
+    },
+    {
+      "chat": "rekhees",
+      "eng": "cheap",
+      "pos": "adjective",
+      "id": 207,
+      "ar": "رخيص"
+    },
+    {
+      "chat": "ghalee",
+      "eng": "expensive",
+      "pos": "adjective",
+      "id": 208,
+      "ar": "غالي"
+    },
+    {
+      "chat": "bas",
+      "eng": "enough, only & but",
+      "pos": "adverb",
+      "id": 209,
+      "ar": "بس"
+    },
+    {
+      "chat": "mob zain",
+      "eng": "bad",
+      "pos": "adjective",
+      "id": 210,
+      "ar": "موب زين"
+    },
+    {
+      "chat": "7elo",
+      "eng": "pleasant/nice",
+      "pos": "adjective",
+      "id": 211,
+      "ar": "حلو"
+    },
+    {
+      "chat": "mob 7elo",
+      "eng": "unpleasant/not nice",
+      "pos": "adjective",
+      "id": 212,
+      "ar": "موب حلو"
+    },
+    {
+      "chat": "waseem",
+      "eng": "handsome",
+      "pos": "adjective",
+      "id": 213,
+      "ar": "وسيم",
+      "alternate": 214
+    },
+    {
+      "chat": "jameel",
+      "eng": "handsome",
+      "pos": "adjective",
+      "id": 214,
+      "ar": "جميل",
+      "alternate": 213
+    },
+    {
+      "chat": "7elwah",
+      "eng": "beautiful",
+      "pos": "adjective",
+      "id": 215,
+      "ar": "حلوة",
+      "alternate": 216
+    },
+    {
+      "chat": "jameelah",
+      "eng": "beautiful",
+      "pos": "adjective",
+      "id": 216,
+      "ar": "جميلة",
+      "alternate": 215
     }
   ],
   "numerals": [
