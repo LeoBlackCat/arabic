@@ -9,6 +9,7 @@ import SentenceGame from './SentenceGame';
 import ArabicWritingGame from './ArabicWritingGame';
 import SpeedTranslationGame from './SpeedTranslationGame';
 import GrammarPatternGame from './GrammarPatternGame';
+import SpeechConjugationGame from './SpeechConjugationGame';
 import PhraseGame from './PhraseGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
@@ -29,6 +30,7 @@ const GAME_TYPES = {
   IMAGE_CHOICE: 'image_choice', 
   PUZZLE: 'puzzle',
   CONJUGATION: 'conjugation',
+  SPEECH_CONJUGATION: 'speech_conjugation',
   POSSESSIVE: 'possessive',
   COLOR_NOUN: 'color_noun',
   SENTENCE: 'sentence',
@@ -107,6 +109,7 @@ const GameHub = () => {
           { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
           { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
           { value: GAME_TYPES.CONJUGATION, label: 'Conjugation Practice' },
+          { value: GAME_TYPES.SPEECH_CONJUGATION, label: 'Speech Conjugation' },
           { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
           { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
           { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
@@ -286,6 +289,8 @@ const GameHub = () => {
         return <PuzzleGame {...commonProps} />;
       case GAME_TYPES.CONJUGATION:
         return <ConjugationGame {...commonProps} />;
+      case GAME_TYPES.SPEECH_CONJUGATION:
+        return <SpeechConjugationGame contentData={getAllGrammarData()} contentType={selectedContent} />;
       case GAME_TYPES.POSSESSIVE:
         return <PossessiveGame {...commonProps} />;
       case GAME_TYPES.COLOR_NOUN:
