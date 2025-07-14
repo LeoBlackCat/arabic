@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "id": -2,
+      "id": 1,
       "initial": true,
       "ar": "السلام عليكم",
       "chat": "salam 3alikum",
@@ -9,7 +9,7 @@
       "type": "phrase"
     },
     {
-      "id": -1,
+      "id": 2,
       "replyTo": "-2",
       "ar": "وعليكم السلام",
       "chat": "wo 3alikum essalam",
@@ -17,7 +17,7 @@
       "type": "phrase"
     },
     {
-      "id": 0,
+      "id": 3,
       "initial": true,
       "ar": "صباح الخير",
       "chat": "sabaa7 el khair",
@@ -25,7 +25,7 @@
       "type": "phrase"
     },
     {
-      "id": 1,
+      "id": 4,
       "replyTo": "0",
       "ar": "صباح النور ",
       "chat": "sabaa7 el noor",
@@ -33,7 +33,7 @@
       "type": "phrase"
     },
     {
-      "id": 2,
+      "id": 5,
       "initial": true,
       "ar": "مسا الخير ",
       "chat": "masa el khair",
@@ -41,7 +41,7 @@
       "type": "phrase"
     },
     {
-      "id": 3,
+      "id": 6,
       "replyTo": "2",
       "ar": "مسا النور ",
       "chat": "masa el noor",
@@ -49,7 +49,7 @@
       "type": "phrase"
     },
     {
-      "id": 4,
+      "id": 7,
       "initial": true,
       "ar": "مرحبا الساع ",
       "chat": "mar7aba essaa3",
@@ -57,7 +57,7 @@
       "type": "phrase"
     },
     {
-      "id": 5,
+      "id": 8,
       "replyTo": "4",
       "ar": "مرحبا مليون ",
       "chat": "mar7aba milyoon",
@@ -65,7 +65,7 @@
       "type": "phrase"
     },
     {
-      "id": 6,
+      "id": 9,
       "initial": true,
       "ar": "مشكور ",
       "chat": "mashkoor",
@@ -74,7 +74,7 @@
       "modifier": "m"
     },
     {
-      "id": 7,
+      "id": 10,
       "initial": true,
       "ar": "مشكورة ",
       "chat": "mashkoorah",
@@ -83,7 +83,7 @@
       "modifier": "f"
     },
     {
-      "id": 8,
+      "id": 11,
       "initial": true,
       "ar": "شكرا",
       "chat": "shukran",
@@ -92,7 +92,7 @@
       "modifier": "pl"
     },
     {
-      "id": 9,
+      "id": 12,
       "replyTo": "6,7,8",
       "ar": "عفواً",
       "chat": "3afwan",
@@ -100,7 +100,7 @@
       "type": "phrase"
     },
     {
-      "id": 10,
+      "id": 13,
       "initial": true,
       "ar": "آسف",
       "chat": "aasif",
@@ -109,7 +109,7 @@
       "modifier": "m"
     },
     {
-      "id": 11,
+      "id": 14,
       "initial": true,
       "ar": "آسفة",
       "chat": "aasfa",
@@ -118,7 +118,7 @@
       "modifier": "f"
     },
     {
-      "id": 12,
+      "id": 15,
       "initial": true,
       "ar": "السموحة",
       "chat": "essumoo7ah",
@@ -126,7 +126,7 @@
       "type": "phrase"
     },
     {
-      "id": 13,
+      "id": 16,
       "replyTo": "10,11,12",
       "ar": "ما عليه",
       "chat": "ma 3laih",
@@ -134,7 +134,7 @@
       "type": "phrase"
     },
     {
-      "id": 14,
+      "id": 17,
       "replyTo": "10,11,12",
       "ar": "عادي",
       "chat": "3ady",
@@ -142,7 +142,7 @@
       "type": "phrase"
     },
     {
-      "id": 15,
+      "id": 18,
       "initial": true,
       "ar": "اشحالك؟",
       "chat": "esh7alek",
@@ -151,7 +151,7 @@
       "modifier": "m"
     },
     {
-      "id": 16,
+      "id": 19,
       "initial": true,
       "ar": "اشحالج؟",
       "chat": "esh7alech",
@@ -160,7 +160,7 @@
       "modifier": "f"
     },
     {
-      "id": 17,
+      "id": 20,
       "initial": true,
       "ar": "اشحالكم؟",
       "chat": "esh7alkum",
@@ -169,7 +169,7 @@
       "modifier": "pl"
     },
     {
-      "id": 18,
+      "id": 21,
       "replyTo": "15,16,17",
       "ar": "الحمد لله بخير",
       "chat": "el 7amdellah bkhair",
@@ -177,7 +177,7 @@
       "type": "phrase"
     },
     {
-      "id": 19,
+      "id": 22,
       "initial": true,
       "ar": "شخبارك؟",
       "chat": "shakhbarek",
@@ -186,7 +186,7 @@
       "modifier": "m"
     },
     {
-      "id": 20,
+      "id": 23,
       "initial": true,
       "ar": "شخبارج؟",
       "chat": "shakhbarech",
@@ -195,7 +195,7 @@
       "modifier": "f"
     },
     {
-      "id": 21,
+      "id": 24,
       "initial": true,
       "ar": "شخباركم؟",
       "chat": "shakhbarkum",
@@ -204,7 +204,7 @@
       "modifier": "pl"
     },
     {
-      "id": 22,
+      "id": 25,
       "replyTo": "19,20,21",
       "ar": "الحمدلله تمام",
       "chat": "el 7amdellah tamam",
@@ -212,7 +212,7 @@
       "type": "phrase"
     },
     {
-      "id": 23,
+      "id": 26,
       "initial": true,
       "replyTo": "23",
       "ar": "مع السلامة",
@@ -221,7 +221,7 @@
       "type": "phrase"
     },
     {
-      "id": 24,
+      "id": 27,
       "initial": true,
       "ar": "تشرفنا",
       "chat": "tsharrafna",
@@ -229,7 +229,7 @@
       "type": "phrase"
     },
     {
-      "id": 25,
+      "id": 28,
       "replyTo": "24",
       "ar": "الشرف لنا",
       "chat": "el sharaf lena",
@@ -237,35 +237,35 @@
       "type": "phrase"
     },
     {
-      "id": 26,
+      "id": 29,
       "ar": "اسمي",
       "chat": "ismee",
       "eng": "My name is",
       "type": "phrase"
     },
     {
-      "id": 27,
+      "id": 30,
       "ar": "أنا من",
       "chat": "ana min",
       "eng": "I'm from",
       "type": "phrase"
     },
     {
-      "id": 28,
+      "id": 31,
       "ar": "أشتغل في",
       "chat": "ashteghel fee",
       "eng": "I work at",
       "type": "phrase"
     },
     {
-      "id": 29,
+      "id": 32,
       "ar": "أعرف عربي اشوي",
       "chat": "a3ref 3arabi eshway",
       "eng": "I know a little bit of Arabic",
       "type": "phrase"
     },
     {
-      "id": 30,
+      "id": 33,
       "ar": "ساكن في",
       "chat": "sakin fee",
       "eng": "I live in (m)",
@@ -273,7 +273,7 @@
       "modifier": "m"
     },
     {
-      "id": 31,
+      "id": 34,
       "ar": "ساكنة في",
       "chat": "saknah fee",
       "eng": "I live in (f)",
@@ -281,7 +281,7 @@
       "modifier": "f"
     },
     {
-      "id": 32,
+      "id": 35,
       "ar": "سيارة",
       "chat": "sayyaarah",
       "eng": "Car",
@@ -307,7 +307,7 @@
       "their_chat": "sayyaarathum"
     },
     {
-      "id": 33,
+      "id": 36,
       "ar": "موتر",
       "chat": "motar",
       "eng": "Car",
@@ -332,7 +332,7 @@
       "their_chat": "motarahum"
     },
     {
-      "id": 34,
+      "id": 37,
       "ar": "بنت",
       "chat": "bent",
       "eng": "Girl/Daughter",
@@ -356,7 +356,7 @@
       "their_chat": "bentahum"
     },
     {
-      "id": 35,
+      "id": 38,
       "ar": "حرمة",
       "chat": "7ermah",
       "eng": "Woman",
@@ -380,7 +380,7 @@
       "their_chat": "7ermtahum"
     },
     {
-      "id": 36,
+      "id": 39,
       "ar": "ولد",
       "chat": "walad",
       "eng": "Boy/Son",
@@ -404,7 +404,7 @@
       "their_chat": "waladahum"
     },
     {
-      "id": 37,
+      "id": 40,
       "ar": "ريال",
       "chat": "rayyaal",
       "eng": "Man",
@@ -428,7 +428,7 @@
       "their_chat": "rayyaalahum"
     },
     {
-      "id": 38,
+      "id": 41,
       "ar": "كتاب",
       "chat": "kitaab",
       "eng": "Book",
@@ -453,7 +453,7 @@
       "their_chat": "kitaabahum"
     },
     {
-      "id": 39,
+      "id": 42,
       "ar": "شقة",
       "chat": "sheqqah",
       "eng": "Flat",
@@ -478,7 +478,7 @@
       "their_chat": "sheqqtahum"
     },
     {
-      "id": 40,
+      "id": 43,
       "ar": "باب",
       "chat": "baab",
       "eng": "Door",
@@ -503,7 +503,7 @@
       "their_chat": "baabahum"
     },
     {
-      "id": 41,
+      "id": 44,
       "ar": "كرسي",
       "chat": "kirsee",
       "eng": "Chair",
@@ -528,7 +528,7 @@
       "their_chat": "kirseeahum"
     },
     {
-      "id": 42,
+      "id": 45,
       "ar": "برج",
       "chat": "burj",
       "eng": "Tower",
@@ -553,7 +553,7 @@
       "their_chat": "burjahum"
     },
     {
-      "id": 43,
+      "id": 46,
       "ar": "بيت",
       "chat": "bait",
       "eng": "House",
@@ -578,7 +578,7 @@
       "their_chat": "baithum"
     },
     {
-      "id": 44,
+      "id": 47,
       "ar": "بيزات",
       "chat": "baizaat",
       "eng": "Money",
@@ -603,7 +603,7 @@
       "their_chat": "baizaatahum"
     },
     {
-      "id": 45,
+      "id": 48,
       "ar": "فلوس",
       "chat": "floos",
       "eng": "Money",
@@ -627,7 +627,7 @@
       "their_chat": "floosahum"
     },
     {
-      "id": 46,
+      "id": 49,
       "ar": "اسم",
       "chat": "ism",
       "eng": "Name",
@@ -651,7 +651,7 @@
       "their_chat": "ismahum"
     },
     {
-      "id": 47,
+      "id": 50,
       "ar": "شغل",
       "chat": "sheghel",
       "eng": "Work",
@@ -675,7 +675,7 @@
       "their_chat": "sheghlahum"
     },
     {
-      "id": 48,
+      "id": 51,
       "ar": "دوام",
       "chat": "dawaam",
       "eng": "Workplace",
@@ -699,139 +699,139 @@
       "their_chat": "dawaamahum"
     },
     {
-      "id": 49,
+      "id": 52,
       "ar": "هيه",
       "chat": "haih",
       "eng": "Yes"
     },
     {
-      "id": 50,
+      "id": 53,
       "ar": "لا",
       "chat": "la",
       "eng": "No"
     },
     {
-      "id": 52,
+      "id": 54,
       "ar": "ما أبا ",
       "chat": "ma aba",
       "eng": "I don't want"
     },
     {
-      "id": 53,
+      "id": 55,
       "ar": "عندي",
       "chat": "3endee",
       "eng": "I have"
     },
     {
-      "id": 54,
+      "id": 56,
       "ar": "ما عندي ",
       "chat": "ma 3endee",
       "eng": "I don't have"
     },
     {
-      "id": 55,
+      "id": 57,
       "ar": "أعرف",
       "chat": "a3arf",
       "eng": "I know"
     },
     {
-      "id": 56,
+      "id": 58,
       "ar": "ما أعرف ",
       "chat": "ma a3arf",
       "eng": "I don't know"
     },
     {
-      "id": 57,
+      "id": 59,
       "ar": "أدري",
       "chat": "adree",
       "eng": "I am aware"
     },
     {
-      "id": 58,
+      "id": 60,
       "ar": "ما أدري ",
       "chat": "ma adree",
       "eng": "I am not aware"
     },
     {
-      "id": 59,
+      "id": 61,
       "ar": "في",
       "chat": "fee",
       "eng": "There is"
     },
     {
-      "id": 60,
+      "id": 62,
       "ar": "ما في ",
       "chat": "ma fee",
       "eng": "There is no"
     },
     {
-      "id": 61,
+      "id": 63,
       "ar": "كل ",
       "chat": "kil",
       "eng": "Every"
     },
     {
-      "id": 62,
+      "id": 64,
       "ar": "شي ",
       "chat": "shai",
       "eng": "Thing"
     },
     {
-      "id": 63,
+      "id": 65,
       "ar": "أنا",
       "chat": "ana",
       "eng": "I / I'm"
     },
     {
-      "id": 64,
+      "id": 66,
       "ar": "إنت",
       "chat": "enta",
       "eng": "You (m)",
       "modifier": "m"
     },
     {
-      "id": 65,
+      "id": 67,
       "ar": "إنتي",
       "chat": "entee",
       "eng": "You (f)",
       "modifier": "f"
     },
     {
-      "id": 66,
+      "id": 68,
       "ar": "إنتوا",
       "chat": "entoo",
       "eng": "You (pl)",
       "modifier": "pl"
     },
     {
-      "id": 67,
+      "id": 69,
       "ar": "نحن",
       "chat": "ne7an",
       "eng": "We"
     },
     {
-      "id": 68,
+      "id": 70,
       "ar": "هو",
       "chat": "hu",
       "eng": "He",
       "modifier": "m"
     },
     {
-      "id": 69,
+      "id": 71,
       "ar": "هي",
       "chat": "he",
       "eng": "She",
       "modifier": "f"
     },
     {
-      "id": 70,
+      "id": 72,
       "ar": "هم",
       "chat": "hum",
       "eng": "They",
       "modifier": "pl"
     },
     {
-      "id": 71,
+      "id": 73,
       "ar": "أبا",
       "chat": "aba",
       "eng": "I want",
@@ -852,7 +852,7 @@
       "they_chat": "yaboon"
     },
     {
-      "id": 72,
+      "id": 74,
       "ar": "آكل",
       "chat": "aakel",
       "eng": "I eat",
@@ -873,7 +873,7 @@
       "they_chat": "yakloon"
     },
     {
-      "id": 73,
+      "id": 75,
       "ar": "أسوي",
       "chat": "asawee",
       "eng": "I make/do",
@@ -894,7 +894,7 @@
       "they_chat": "ysawoon"
     },
     {
-      "id": 74,
+      "id": 76,
       "ar": "أحب",
       "chat": "a7eb",
       "eng": "I like/love",
@@ -915,7 +915,7 @@
       "they_chat": "ya7eboon"
     },
     {
-      "id": 75,
+      "id": 77,
       "ar": "آخذ",
       "chat": "aakheth",
       "eng": "I take",
@@ -936,7 +936,7 @@
       "they_chat": "yaakhthoon"
     },
     {
-      "id": 76,
+      "id": 78,
       "ar": "أتكلم",
       "chat": "atkallam",
       "eng": "I speak",
@@ -958,7 +958,7 @@
       "they_chat": "yatkallamoon"
     },
     {
-      "id": 77,
+      "id": 79,
       "ar": "أرمس",
       "chat": "armis",
       "eng": "I speak",
@@ -979,7 +979,7 @@
       "they_chat": "yarmisoon"
     },
     {
-      "id": 78,
+      "id": 80,
       "ar": "أعرف",
       "chat": "a3arf",
       "eng": "I know",
@@ -1000,7 +1000,7 @@
       "they_chat": "ya3arfoon"
     },
     {
-      "id": 79,
+      "id": 81,
       "ar": "أدرس",
       "chat": "adres",
       "eng": "I study",
@@ -1021,7 +1021,7 @@
       "they_chat": "yadresoon"
     },
     {
-      "id": 80,
+      "id": 82,
       "ar": "أقرأ",
       "chat": "agra",
       "eng": "I read",
@@ -1042,7 +1042,7 @@
       "they_chat": "yagra'oon"
     },
     {
-      "id": 81,
+      "id": 83,
       "ar": "أشتري",
       "chat": "ashteree",
       "eng": "I buy",
@@ -1063,7 +1063,7 @@
       "they_chat": "yashteroon"
     },
     {
-      "id": 82,
+      "id": 84,
       "ar": "أسير",
       "chat": "aseer",
       "eng": "I go",
@@ -1085,7 +1085,7 @@
       "they_chat": "yaseeroon"
     },
     {
-      "id": 83,
+      "id": 85,
       "ar": "أروح",
       "chat": "aroo7",
       "eng": "I go",
@@ -1106,7 +1106,7 @@
       "they_chat": "yaroo7oon"
     },
     {
-      "id": 84,
+      "id": 86,
       "ar": "أسمع",
       "chat": "asma3",
       "eng": "I listen/hear",
@@ -1127,7 +1127,7 @@
       "they_chat": "yasma3oon"
     },
     {
-      "id": 85,
+      "id": 87,
       "ar": "أمسك",
       "chat": "amsek",
       "eng": "I hold",
@@ -1148,7 +1148,7 @@
       "they_chat": "yamsekoon"
     },
     {
-      "id": 86,
+      "id": 88,
       "ar": "أسكر",
       "chat": "asakker",
       "eng": "I close",
@@ -1169,7 +1169,7 @@
       "they_chat": "yasakkeroon"
     },
     {
-      "id": 87,
+      "id": 89,
       "ar": "أشتغل",
       "chat": "ashteghil",
       "eng": "I work",
@@ -1190,7 +1190,7 @@
       "they_chat": "yashteghiloon"
     },
     {
-      "id": 88,
+      "id": 90,
       "ar": "أطرش",
       "chat": "atarresh",
       "eng": "I send",
@@ -1211,7 +1211,7 @@
       "they_chat": "yatarreshoon"
     },
     {
-      "id": 89,
+      "id": 91,
       "ar": "أنام",
       "chat": "anaam",
       "eng": "I sleep",
@@ -1233,7 +1233,7 @@
       "they_chat": "yanaamoon"
     },
     {
-      "id": 90,
+      "id": 92,
       "ar": "أرقد",
       "chat": "arged",
       "eng": "I sleep",
@@ -1254,7 +1254,7 @@
       "they_chat": "yargedoon"
     },
     {
-      "id": 91,
+      "id": 93,
       "ar": "أجيب",
       "chat": "ayeeb",
       "eng": "I bring",
@@ -1275,7 +1275,7 @@
       "they_chat": "yayeeboon"
     },
     {
-      "id": 92,
+      "id": 94,
       "ar": "أكلم",
       "chat": "akallem",
       "eng": "I talk to",
@@ -1296,7 +1296,7 @@
       "they_chat": "yakallemoon"
     },
     {
-      "id": 93,
+      "id": 95,
       "ar": "أقدر",
       "chat": "agdar",
       "eng": "I can",
@@ -1317,7 +1317,7 @@
       "they_chat": "yagdaroon"
     },
     {
-      "id": 94,
+      "id": 96,
       "ar": "أجرب",
       "chat": "ajarreb",
       "eng": "I try out",
@@ -1338,7 +1338,7 @@
       "they_chat": "yajarreboon"
     },
     {
-      "id": 95,
+      "id": 97,
       "ar": "أسأل",
       "chat": "as'al",
       "eng": "I ask",
@@ -1359,7 +1359,7 @@
       "they_chat": "yas'aloon"
     },
     {
-      "id": 96,
+      "id": 98,
       "ar": "ألعب",
       "chat": "al3ab",
       "eng": "I play",
@@ -1380,7 +1380,7 @@
       "they_chat": "yal3aboon"
     },
     {
-      "id": 97,
+      "id": 99,
       "ar": "أستخدم",
       "chat": "astakhdem",
       "eng": "I use",
@@ -1401,7 +1401,7 @@
       "they_chat": "yastakhdemoon"
     },
     {
-      "id": 98,
+      "id": 100,
       "ar": "عندي",
       "chat": "3endy",
       "eng": "I have",
@@ -1422,7 +1422,7 @@
       "they_chat": "3endhum"
     },
     {
-      "id": 99,
+      "id": 101,
       "ar": "أشرب",
       "chat": "ashrab",
       "eng": "I drink",
@@ -1443,7 +1443,7 @@
       "they_chat": "yashraboon"
     },
     {
-      "id": 100,
+      "id": 102,
       "ar": "أطبخ",
       "chat": "atbakh",
       "eng": "I cook",
@@ -1464,7 +1464,7 @@
       "they_chat": "yatbakhoon"
     },
     {
-      "id": 101,
+      "id": 103,
       "ar": "أكره",
       "chat": "akrah",
       "eng": "I hate",
@@ -1485,7 +1485,7 @@
       "they_chat": "yakrahoon"
     },
     {
-      "id": 102,
+      "id": 104,
       "ar": "أعطي",
       "chat": "a3tee",
       "eng": "I give",
@@ -1506,7 +1506,7 @@
       "they_chat": "ya3toon"
     },
     {
-      "id": 103,
+      "id": 105,
       "ar": "أفهم",
       "chat": "afham",
       "eng": "I understand",
@@ -1527,7 +1527,7 @@
       "they_chat": "yafhamoon"
     },
     {
-      "id": 104,
+      "id": 106,
       "ar": "أتعلم",
       "chat": "at3allam",
       "eng": "I learn",
@@ -1548,7 +1548,7 @@
       "they_chat": "yat3allamoon"
     },
     {
-      "id": 105,
+      "id": 107,
       "ar": "أكتب",
       "chat": "akteb",
       "eng": "I write",
@@ -1569,7 +1569,7 @@
       "they_chat": "yakteboon"
     },
     {
-      "id": 106,
+      "id": 108,
       "ar": "أدفع",
       "chat": "adfa3",
       "eng": "I pay",
@@ -1590,7 +1590,7 @@
       "they_chat": "yadfa3oon"
     },
     {
-      "id": 107,
+      "id": 109,
       "ar": "أسوق",
       "chat": "asoog",
       "eng": "I drive",
@@ -1611,7 +1611,7 @@
       "they_chat": "yasoogoon"
     },
     {
-      "id": 108,
+      "id": 110,
       "ar": "أمشي",
       "chat": "amshee",
       "eng": "I walk",
@@ -1632,7 +1632,7 @@
       "they_chat": "yamshoon"
     },
     {
-      "id": 109,
+      "id": 111,
       "ar": "أشوف",
       "chat": "ashoof",
       "eng": "I see/watch",
@@ -1653,7 +1653,7 @@
       "they_chat": "yashoofoon"
     },
     {
-      "id": 110,
+      "id": 112,
       "ar": "أساعد",
       "chat": "asaa3ed",
       "eng": "I help",
@@ -1674,7 +1674,7 @@
       "they_chat": "yasaa3edoon"
     },
     {
-      "id": 111,
+      "id": 113,
       "ar": "أفتح",
       "chat": "afta7",
       "eng": "I open",
@@ -1695,7 +1695,7 @@
       "they_chat": "yafta7oon"
     },
     {
-      "id": 112,
+      "id": 114,
       "ar": "أتصل",
       "chat": "attesel",
       "eng": "I call",
@@ -1716,7 +1716,7 @@
       "they_chat": "yattesloon"
     },
     {
-      "id": 113,
+      "id": 115,
       "ar": "أنسى",
       "chat": "ansa",
       "eng": "I forget",
@@ -1737,7 +1737,7 @@
       "they_chat": "yansoon"
     },
     {
-      "id": 114,
+      "id": 116,
       "ar": "أقوم",
       "chat": "agoum",
       "eng": "I get up",
@@ -1759,7 +1759,7 @@
       "they_chat": "yagoumoon"
     },
     {
-      "id": 115,
+      "id": 117,
       "ar": "أنش",
       "chat": "anesh",
       "eng": "I get up",
@@ -1780,7 +1780,7 @@
       "they_chat": "yaneshoon"
     },
     {
-      "id": 116,
+      "id": 118,
       "ar": "أشيل",
       "chat": "ashell",
       "eng": "I carry",
@@ -1801,7 +1801,7 @@
       "they_chat": "yashelloon"
     },
     {
-      "id": 117,
+      "id": 119,
       "ar": "أقول",
       "chat": "agoul",
       "eng": "I say",
@@ -1822,7 +1822,7 @@
       "they_chat": "yagouloon"
     },
     {
-      "id": 118,
+      "id": 120,
       "ar": "أحاول",
       "chat": "a7aawil",
       "eng": "I try",
@@ -1843,7 +1843,7 @@
       "they_chat": "ya7aawiloon"
     },
     {
-      "id": 119,
+      "id": 121,
       "ar": "أطلع",
       "chat": "atla3",
       "eng": "I go out",
@@ -1864,7 +1864,7 @@
       "they_chat": "yatla3oon"
     },
     {
-      "id": 120,
+      "id": 122,
       "ar": "أجاوب",
       "chat": "ajaaweb",
       "eng": "I answer",
@@ -1885,7 +1885,7 @@
       "they_chat": "yajaaweboon"
     },
     {
-      "id": 121,
+      "id": 123,
       "ar": "أسافر",
       "chat": "asaafer",
       "eng": "I travel",
@@ -1906,7 +1906,7 @@
       "they_chat": "yasaaferoon"
     },
     {
-      "id": 122,
+      "id": 124,
       "ar": "أحصل",
       "chat": "a7assel",
       "eng": "I get/receive",
@@ -1927,7 +1927,7 @@
       "they_chat": "ya7asseloon"
     },
     {
-      "id": 123,
+      "id": 125,
       "ar": "أزور",
       "chat": "azoor",
       "eng": "I visit",
@@ -1948,7 +1948,7 @@
       "they_chat": "yazooroon"
     },
     {
-      "id": 124,
+      "id": 126,
       "ar": "أحمر",
       "chat": "a7mar",
       "eng": "Red",
@@ -1957,7 +1957,7 @@
       "chat_f": "7amra"
     },
     {
-      "id": 125,
+      "id": 127,
       "ar": "أصفر",
       "chat": "asfar",
       "eng": "Yellow",
@@ -1966,7 +1966,7 @@
       "chat_f": "safra"
     },
     {
-      "id": 126,
+      "id": 128,
       "ar": "أزرق",
       "chat": "azrag",
       "eng": "Blue",
@@ -1975,7 +1975,7 @@
       "chat_f": "zarga"
     },
     {
-      "id": 127,
+      "id": 129,
       "ar": "أبيض",
       "chat": "abyadh",
       "eng": "White",
@@ -1984,7 +1984,7 @@
       "chat_f": "baidha"
     },
     {
-      "id": 128,
+      "id": 130,
       "ar": "أسود",
       "chat": "aswad",
       "eng": "Black",
@@ -1993,7 +1993,7 @@
       "chat_f": "sawda"
     },
     {
-      "id": 129,
+      "id": 131,
       "ar": "أخضر",
       "chat": "akhdhar",
       "eng": "Green",
@@ -2002,7 +2002,7 @@
       "chat_f": "khadhra"
     },
     {
-      "id": 130,
+      "id": 132,
       "ar": "رصاصي",
       "chat": "rusasee",
       "eng": "Gray",
@@ -2011,7 +2011,7 @@
       "chat_f": "rusaseeyah"
     },
     {
-      "id": 131,
+      "id": 133,
       "ar": "وردي",
       "chat": "wardee",
       "eng": "Pink",
@@ -2020,7 +2020,7 @@
       "chat_f": "wardeeyah"
     },
     {
-      "id": 132,
+      "id": 134,
       "ar": "بنفسجي",
       "chat": "banafsajee",
       "eng": "Purple",
@@ -2029,7 +2029,7 @@
       "chat_f": "banafsajeeyah"
     },
     {
-      "id": 133,
+      "id": 135,
       "ar": "بني",
       "chat": "bonnee",
       "eng": "Brown",
@@ -2038,7 +2038,7 @@
       "chat_f": "bonneeyah"
     },
     {
-      "id": 134,
+      "id": 136,
       "ar": "برتقالي",
       "chat": "burtuqalee",
       "eng": "Orange",
@@ -2047,7 +2047,7 @@
       "chat_f": "burtuqaleeyah"
     },
     {
-      "id": 135,
+      "id": 137,
       "ar": "فضي",
       "chat": "fedhee",
       "eng": "Silver",
@@ -2056,7 +2056,7 @@
       "chat_f": "fedheeyah"
     },
     {
-      "id": 136,
+      "id": 138,
       "ar": "ذهبي",
       "chat": "thahabee",
       "eng": "Golden",
@@ -2065,7 +2065,7 @@
       "chat_f": "thahabeeyah"
     },
     {
-      "id": 137,
+      "id": 139,
       "ar": "ماي",
       "chat": "mai",
       "eng": "water",
@@ -2090,7 +2090,7 @@
       "their_chat": "maiahum"
     },
     {
-      "id": 138,
+      "id": 140,
       "ar": "جاي",
       "chat": "chai",
       "eng": "tea",
@@ -2115,7 +2115,7 @@
       "their_chat": "chaiahum"
     },
     {
-      "id": 139,
+      "id": 141,
       "ar": "قهوة",
       "chat": "gahwa",
       "eng": "coffee",
@@ -2139,7 +2139,7 @@
       "their_chat": "gahwtahum"
     },
     {
-      "id": 140,
+      "id": 142,
       "ar": "سمج",
       "chat": "semach",
       "eng": "fish",
@@ -2163,7 +2163,7 @@
       "their_chat": "semachahum"
     },
     {
-      "id": 141,
+      "id": 143,
       "ar": "سلطة",
       "chat": "salata",
       "eng": "salad",
@@ -2187,7 +2187,7 @@
       "their_chat": "salattahum"
     },
     {
-      "id": 142,
+      "id": 144,
       "ar": "دياي",
       "chat": "deyay",
       "eng": "chicken",
@@ -2211,7 +2211,7 @@
       "their_chat": "deyayahum"
     },
     {
-      "id": 143,
+      "id": 145,
       "ar": "لحم",
       "chat": "la7am",
       "eng": "meat",
@@ -2235,7 +2235,7 @@
       "their_chat": "la7amahum"
     },
     {
-      "id": 144,
+      "id": 146,
       "ar": "عصير",
       "chat": "3aseer",
       "eng": "juice",
@@ -2260,7 +2260,7 @@
       "their_chat": "3aseerahum"
     },
     {
-      "id": 145,
+      "id": 147,
       "ar": "حليب",
       "chat": "7aleeb",
       "eng": "milk",
@@ -2284,7 +2284,7 @@
       "their_chat": "7aleebahum"
     },
     {
-      "id": 146,
+      "id": 148,
       "ar": "خبز",
       "chat": "khebz",
       "eng": "bread",
@@ -2308,7 +2308,7 @@
       "their_chat": "khebzahum"
     },
     {
-      "id": 147,
+      "id": 149,
       "ar": "عيش",
       "chat": "3aish",
       "eng": "rice",
@@ -2332,7 +2332,7 @@
       "their_chat": "3aishahum"
     },
     {
-      "id": 148,
+      "id": 150,
       "ar": "شوربة",
       "chat": "shorbah",
       "eng": "soup",
@@ -2357,7 +2357,7 @@
       "their_chat": "shorbtahum"
     },
     {
-      "id": 149,
+      "id": 151,
       "ar": "جبن",
       "chat": "jebin",
       "eng": "cheese",
@@ -2381,7 +2381,7 @@
       "their_chat": "jebinahum"
     },
     {
-      "id": 150,
+      "id": 152,
       "ar": "شكر",
       "chat": "shaker",
       "eng": "sugar",
@@ -2405,7 +2405,7 @@
       "their_chat": "shakerahum"
     },
     {
-      "id": 151,
+      "id": 153,
       "ar": "ملح",
       "chat": "mel7",
       "eng": "salt",
@@ -2429,7 +2429,7 @@
       "their_chat": "mel7ahum"
     },
     {
-      "id": 152,
+      "id": 154,
       "ar": "فواكه",
       "chat": "fawakeh",
       "eng": "fruits",
@@ -2454,7 +2454,7 @@
       "their_chat": "fawakehahum"
     },
     {
-      "id": 153,
+      "id": 155,
       "ar": "كاكاو",
       "chat": "kakaw",
       "eng": "chocolate",
@@ -2478,7 +2478,7 @@
       "their_chat": "kakawahum"
     },
     {
-      "id": 154,
+      "id": 156,
       "ar": "حلاوة",
       "chat": "7alawah",
       "eng": "sweets",
@@ -2502,7 +2502,7 @@
       "their_chat": "7alawtahum"
     },
     {
-      "id": 155,
+      "id": 157,
       "ar": "خضرة",
       "chat": "khedhrah",
       "eng": "vegetables",
@@ -2527,7 +2527,7 @@
       "their_chat": "khedhrtahum"
     },
     {
-      "id": 156,
+      "id": 158,
       "ar": "شنطة",
       "chat": "shantah",
       "eng": "bag",
@@ -2552,7 +2552,7 @@
       "their_chat": "shanttahum"
     },
     {
-      "id": 157,
+      "id": 159,
       "ar": "طاولة",
       "chat": "taawlah",
       "eng": "table",
@@ -2577,7 +2577,7 @@
       "their_chat": "taawltahum"
     },
     {
-      "id": 158,
+      "id": 160,
       "ar": "أم",
       "chat": "umm",
       "eng": "mother",
@@ -2601,7 +2601,7 @@
       "their_chat": "ummahum"
     },
     {
-      "id": 159,
+      "id": 161,
       "ar": "أبو",
       "chat": "abo",
       "eng": "father",
@@ -2625,7 +2625,7 @@
       "their_chat": "aboohum"
     },
     {
-      "id": 160,
+      "id": 162,
       "ar": "أخو",
       "chat": "ukho",
       "eng": "brother",
@@ -2649,7 +2649,7 @@
       "their_chat": "ukhoahum"
     },
     {
-      "id": 161,
+      "id": 163,
       "ar": "إخت",
       "chat": "ekht",
       "eng": "sister",
@@ -2673,7 +2673,7 @@
       "their_chat": "ekhtahum"
     },
     {
-      "id": 162,
+      "id": 164,
       "ar": "زوج",
       "chat": "zooj",
       "eng": "husband",
@@ -2698,7 +2698,7 @@
       "their_chat": "zoojahum"
     },
     {
-      "id": 163,
+      "id": 165,
       "ar": "ريل",
       "chat": "rayel",
       "eng": "husband",
@@ -2722,7 +2722,7 @@
       "their_chat": "rayelahum"
     },
     {
-      "id": 164,
+      "id": 166,
       "ar": "زوجة",
       "chat": "zoojah",
       "eng": "wife",
@@ -2747,7 +2747,7 @@
       "their_chat": "zoojtahum"
     },
     {
-      "id": 165,
+      "id": 167,
       "ar": "حرمة",
       "chat": "7erma",
       "eng": "wife",
@@ -2771,7 +2771,7 @@
       "their_chat": "7ermtahum"
     },
     {
-      "id": 166,
+      "id": 168,
       "ar": "عيال",
       "chat": "3yaal",
       "eng": "children",
@@ -2795,7 +2795,7 @@
       "their_chat": "3yaalahum"
     },
     {
-      "id": 167,
+      "id": 169,
       "ar": "ساعة",
       "chat": "sa3a",
       "eng": "watch",
@@ -2820,88 +2820,440 @@
       "their_chat": "sa3atahum"
     },
     {
-      "id": 168,
+      "id": 170,
       "ar": "سؤال",
       "chat": "so'al",
       "eng": "question",
       "pos": "noun"
     },
     {
-      "id": 169,
+      "id": 171,
       "ar": "عندي سؤال",
       "chat": "3endy so'al",
       "eng": "I have a question",
       "type": "phrase"
     },
     {
-      "id": 170,
+      "id": 172,
       "ar": "مكتب",
       "chat": "maktab",
       "eng": "desk/office",
       "pos": "noun"
     },
     {
-      "id": 171,
+      "id": 173,
       "ar": "هوية",
       "chat": "howiya",
       "eng": "identity",
       "pos": "noun"
     },
     {
-      "id": 172,
+      "id": 174,
       "ar": "بطاقة",
       "chat": "betaqa",
       "eng": "card",
       "pos": "noun"
     },
     {
-      "id": 173,
+      "id": 175,
       "ar": "بناية",
       "chat": "binaya",
       "eng": "building",
       "pos": "noun"
     },
     {
-      "id": 174,
+      "id": 176,
       "ar": "أحبك",
       "chat": "a7ebik",
       "eng": "I love you",
       "type": "phrase"
     },
     {
-      "id": 175,
+      "id": 177,
       "ar": "شو",
       "chat": "shu",
       "eng": "what",
       "type": "phrase"
     },
     {
-      "id": 176,
+      "id": 178,
       "ar": "حلو",
       "chat": "7elo",
       "eng": "nice",
       "type": "phrase"
     },
     {
-      "id": 177,
+      "id": 179,
       "ar": "زين",
       "chat": "zain",
       "eng": "good",
       "type": "phrase"
     },
     {
-      "id": 178,
+      "id": 180,
       "ar": "لذيذ",
       "chat": "ladheedh",
       "eng": "tasty",
       "type": "phrase"
     },
     {
-      "id": 179,
+      "id": 181,
       "ar": "ممكن",
       "chat": "mumkin",
       "eng": "could I get",
       "type": "phrase"
+    },
+    {
+      "id": 182,
+      "ar": "طاولة",
+      "chat": "taawlah",
+      "eng": "Table",
+      "pos": "noun"
+    },
+    {
+      "id": 183,
+      "ar": "صغير",
+      "chat": "segheer",
+      "eng": "small",
+      "pos": "adjective"
+    },
+    {
+      "id": 184,
+      "ar": "كبير",
+      "chat": "kebeer",
+      "eng": "big",
+      "pos": "adjective"
+    },
+    {
+      "id": 185,
+      "ar": "قصير",
+      "chat": "geseer",
+      "eng": "Short",
+      "pos": "adjective"
+    },
+    {
+      "id": 186,
+      "ar": "سريع",
+      "chat": "saree3",
+      "eng": "Fast",
+      "pos": "adjective"
+    },
+    {
+      "id": 187,
+      "ar": "بسرعة",
+      "chat": "bser3ah",
+      "eng": "Quickly",
+      "pos": "adverb"
+    },
+    {
+      "id": 188,
+      "ar": "طاولة",
+      "chat": "taawlah",
+      "eng": "Table",
+      "pos": "noun"
+    },
+    {
+      "id": 189,
+      "ar": "أمي",
+      "chat": "ummee",
+      "eng": "My mother",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 190,
+      "ar": "أبوي",
+      "chat": "ubooy",
+      "eng": "My father",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 191,
+      "ar": "أخوي",
+      "chat": "ukhooy",
+      "eng": "My brother",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 192,
+      "ar": "أختي",
+      "chat": "ekhtee",
+      "eng": "My sister",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 193,
+      "ar": "ولدي",
+      "chat": "waladee",
+      "eng": "My son",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 194,
+      "ar": "بنتي",
+      "chat": "bentee",
+      "eng": "My daughter",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 195,
+      "ar": "زوجي/راجلي",
+      "chat": "zoojee/rayylee",
+      "eng": "My husband",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 196,
+      "ar": "زوجتي",
+      "chat": "zoojtee/7ermetee",
+      "eng": "My wife",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 197,
+      "ar": "عيالي",
+      "chat": "3yaalee",
+      "eng": "My kids",
+      "pos": "noun",
+      "type": "family"
+    },
+    {
+      "id": 198,
+      "ar": "صغير",
+      "chat": "segheer",
+      "eng": "small",
+      "pos": "adjective"
+    },
+    {
+      "id": 199,
+      "ar": "بنت صغيرة",
+      "chat": "bent segheerah",
+      "eng": "small girl",
+      "pos": "noun"
+    },
+    {
+      "id": 200,
+      "ar": "كبير",
+      "chat": "kebeer",
+      "eng": "big",
+      "pos": "adjective"
+    },
+    {
+      "id": 201,
+      "ar": "بيت كبير",
+      "chat": "bait kebeer",
+      "eng": "big house",
+      "pos": "noun"
+    },
+    {
+      "id": 202,
+      "ar": "طويل",
+      "chat": "taweel",
+      "eng": "long tall",
+      "pos": "noun"
+    },
+    {
+      "id": 203,
+      "ar": "أحمد طويل",
+      "chat": "a7mad taweel",
+      "eng": "Ahmad is tall",
+      "pos": "noun"
+    },
+    {
+      "id": 204,
+      "ar": "قصير",
+      "chat": "geseer",
+      "eng": "Short",
+      "pos": "adjective"
+    },
+    {
+      "id": 205,
+      "ar": "فيلم قصير",
+      "chat": "film geseer",
+      "eng": "Short film",
+      "pos": "noun"
+    },
+    {
+      "id": 206,
+      "ar": "سريع",
+      "chat": "saree3",
+      "eng": "Fast",
+      "pos": "adjective"
+    },
+    {
+      "id": 207,
+      "ar": "اجتماع سريع",
+      "chat": "ijtemaa3 saree3",
+      "eng": "Quick meeting",
+      "pos": "noun"
+    },
+    {
+      "id": 208,
+      "ar": "بسرعة",
+      "chat": "bser3ah",
+      "eng": "Quickly",
+      "pos": "adverb"
+    },
+    {
+      "id": 209,
+      "ar": "أبي أتكلم عربي بسرعة",
+      "chat": "aba atkalam 3arabi bser3ah",
+      "eng": "eshway eshway",
+      "pos": "noun"
+    },
+    {
+      "id": 210,
+      "ar": "أتكلم عربي قليلاً",
+      "chat": "Slow, few, bit",
+      "eng": "atkalam 3arabi eshway",
+      "pos": "noun"
+    },
+    {
+      "id": 211,
+      "ar": "وايد",
+      "chat": "I speak a little bit of Arabic",
+      "eng": "wayed",
+      "pos": "noun"
+    },
+    {
+      "id": 212,
+      "ar": "برج خليفة وايد طويل",
+      "chat": "A lot/so much/very",
+      "eng": "burj khalifa wayed taweel",
+      "pos": "noun"
+    },
+    {
+      "id": 213,
+      "ar": "رخيص",
+      "chat": "Burj Khalifa is very tall",
+      "eng": "rekhees",
+      "pos": "noun"
+    },
+    {
+      "id": 214,
+      "ar": "الكتاب رخيص",
+      "chat": "el kitaab rekhees",
+      "eng": "cheap",
+      "pos": "adjective"
+    },
+    {
+      "id": 215,
+      "ar": "غالي",
+      "chat": "the book is cheap",
+      "eng": "ghalee",
+      "pos": "noun"
+    },
+    {
+      "id": 216,
+      "ar": "آيفون غالي",
+      "chat": "expensive",
+      "eng": "iphone ghalee",
+      "pos": "noun"
+    },
+    {
+      "id": 217,
+      "ar": "بس",
+      "chat": "expensive iPhone",
+      "eng": "bas",
+      "pos": "noun"
+    },
+    {
+      "id": 218,
+      "ar": "أبى هذا بس!",
+      "chat": "Enough, only & but",
+      "eng": "aba hadha bas!",
+      "pos": "noun"
+    },
+    {
+      "id": 219,
+      "ar": "زين",
+      "chat": "I only want this!",
+      "eng": "zain",
+      "pos": "noun"
+    },
+    {
+      "id": 220,
+      "ar": "هذا المطعم زين",
+      "chat": "Good",
+      "eng": "hadha el mat3am zain",
+      "pos": "noun"
+    },
+    {
+      "id": 221,
+      "ar": "مطعم زين",
+      "chat": "This is a good restaurant",
+      "eng": "mob zain",
+      "pos": "noun"
+    },
+    {
+      "id": 222,
+      "ar": "الكاكاو موب زين",
+      "chat": "bad",
+      "eng": "el kakaw mob zain",
+      "pos": "noun"
+    },
+    {
+      "id": 223,
+      "ar": "حلو",
+      "chat": "the chocolate is not good",
+      "eng": "7elo",
+      "pos": "noun"
+    },
+    {
+      "id": 224,
+      "ar": "الفيلم حلو",
+      "chat": "pleasant/nice",
+      "eng": "el film 7elo",
+      "pos": "noun"
+    },
+    {
+      "id": 225,
+      "ar": "الفيلم حلو",
+      "chat": "The film is nice",
+      "eng": "mob 7elo",
+      "pos": "noun"
+    },
+    {
+      "id": 226,
+      "ar": "اللون موب حلو",
+      "chat": "Unpleasant/not nice",
+      "eng": "el loan mob 7elo",
+      "pos": "noun"
+    },
+    {
+      "id": 227,
+      "ar": "اللون ليس جميل",
+      "chat": "The color is not nice",
+      "eng": "waseem/jameel",
+      "pos": "noun"
+    },
+    {
+      "id": 228,
+      "ar": "عبدالله وسيم",
+      "chat": "Handsome",
+      "eng": "3bdulla waseem",
+      "pos": "noun"
+    },
+    {
+      "id": 229,
+      "ar": "عبد الله وسيم",
+      "chat": "Abdullah is handsome",
+      "eng": "jameelah/7elwah",
+      "pos": "noun"
+    },
+    {
+      "id": 230,
+      "ar": "مريم جميلة وايد ما شاء الله",
+      "chat": "Maryam jameelah wayed ma sha Allah",
+      "eng": "Wow Maryam is very beautiful",
+      "pos": "noun"
     }
   ],
   "numerals": [
@@ -3008,7 +3360,47 @@
     {
       "value": 20,
       "ar": "عشرين",
-      "chat": "eshreen"
+      "chat": "3eshreen"
+    },
+    {
+      "value": 30,
+      "ar": "ثلاثين",
+      "chat": "thalatheen"
+    },
+    {
+      "value": 40,
+      "ar": "أربعين",
+      "chat": "arba3een"
+    },
+    {
+      "value": 50,
+      "ar": "خمسين",
+      "chat": "khamseen"
+    },
+    {
+      "value": 60,
+      "ar": "ستين",
+      "chat": "sitteen"
+    },
+    {
+      "value": 70,
+      "ar": "سبعين",
+      "chat": "sab3een"
+    },
+    {
+      "value": 80,
+      "ar": "ثمانين",
+      "chat": "thamaneen"
+    },
+    {
+      "value": 90,
+      "ar": "تسعين",
+      "chat": "tes3een"
+    },
+    {
+      "value": 100,
+      "ar": "مائة",
+      "chat": "emyah/miyyah"
     }
   ],
   "possessives": [
