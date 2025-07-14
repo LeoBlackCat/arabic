@@ -75,7 +75,8 @@ async function downloadAudio(text, outPath) {
     model_id: 'eleven_multilingual_v2',
     voice_settings: {
       stability: 0.5,
-      similarity_boost: 0.7
+      similarity_boost: 0.5,
+      speed: 0.7
     },
   };
 

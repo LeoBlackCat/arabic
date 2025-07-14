@@ -297,7 +297,7 @@ export const playAudioWithFirebaseCache = async (text, chatName) => {
       console.log(`Generating ${chatName} (${text}) with ElevenLabs and uploading to Firebase`);
       
       const { generateElevenLabsSpeech } = await import('./elevenLabsHelper');
-      const originalBlob = await generateElevenLabsSpeech(text);
+      const originalBlob = await generateElevenLabsSpeech(text, chatName, 'firebase-cache');
       
       // ElevenLabs returns MP3, but we need to add silent padding which requires WAV conversion
       console.log(`Adding silent padding to audio for ${chatName}...`);

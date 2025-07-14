@@ -147,7 +147,8 @@ const AzureSpeechConfig = ({ isOpen, onClose, onConfigChange }) => {
           model_id: 'eleven_multilingual_v2',
           voice_settings: {
             stability: 0.5,
-            similarity_boost: 0.5
+            similarity_boost: 0.5,
+            speed: 0.7
           }
         })
       });
@@ -469,7 +470,8 @@ const AzureSpeechConfig = ({ isOpen, onClose, onConfigChange }) => {
                         model_id: 'eleven_multilingual_v2',
                         voice_settings: {
                           stability: 0.5,
-                          similarity_boost: 0.5
+                          similarity_boost: 0.5,
+                          speed: 0.7
                         }
                       })
                     });
@@ -572,6 +574,8 @@ const AzureSpeechConfig = ({ isOpen, onClose, onConfigChange }) => {
               <p className="text-sm text-orange-700">
                 <strong>Note:</strong> Firebase Storage will cache generated audio files in the cloud. 
                 All users will benefit from shared cache, reducing API calls and improving performance.
+                <br /><br />
+                <strong>Logging:</strong> When configured, ElevenLabs API requests will be logged to Firebase Realtime Database for usage tracking and analytics.
               </p>
             </div>
 
@@ -589,6 +593,42 @@ const AzureSpeechConfig = ({ isOpen, onClose, onConfigChange }) => {
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 Test Upload
+              </button>
+              <button
+                onClick={async () => {
+                  if (!firebaseProjectId.trim()) {
+                    alert('Please enter Project ID first');
+                    return;
+                  }
+                  
+                  try {
+                    const { testFirebaseLogging } = await import('./firebaseLogger');
+                    
+                    // Temporarily save config for testing
+                    const originalEnabled = firebaseEnabled;
+                    setFirebaseEnabled(true);
+                    localStorage.setItem('firebase-project-id', firebaseProjectId.trim());
+                    localStorage.setItem('firebase-api-key', firebaseApiKey.trim());
+                    
+                    const result = await testFirebaseLogging();
+                    
+                    // Restore original state
+                    setFirebaseEnabled(originalEnabled);
+                    
+                    if (result.success) {
+                      alert('Firebase logging test successful!');
+                    } else {
+                      alert(`Firebase logging test failed: ${result.error}`);
+                    }
+                  } catch (error) {
+                    console.error('Firebase logging test failed:', error);
+                    alert('Failed to test Firebase logging.');
+                  }
+                }}
+                disabled={!firebaseProjectId.trim()}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Test Logging
               </button>
             </div>
           </div>

@@ -226,9 +226,10 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
 
     const verb = verbs[Math.floor(Math.random() * verbs.length)];
     const subjects = [
-      { pronoun: 'enta', form: 'you_m', label: 'you (masculine)', arabicPronoun: 'أنت (م)' },
-      { pronoun: 'entee', form: 'you_f', label: 'you (feminine)', arabicPronoun: 'أنت (ف)' },
-      { pronoun: 'entoo', form: 'you_pl', label: 'you (plural)', arabicPronoun: 'أنتم' },
+      { pronoun: 'enta', form: 'you_m', label: 'you (masculine)', arabicPronoun: 'إنت' },
+      { pronoun: 'entee', form: 'you_f', label: 'you (feminine)', arabicPronoun: 'إنتي' },
+      { pronoun: 'entoo', form: 'you_pl', label: 'you (plural)', arabicPronoun: 'إنتوا' },
+      { pronoun: 'ne7an', form: 'we', label: 'we', arabicPronoun: 'نحن' },
       { pronoun: 'hu', form: 'he', label: 'he', arabicPronoun: 'هو' },
       { pronoun: 'he', form: 'she', label: 'she', arabicPronoun: 'هي' },
       { pronoun: 'hum', form: 'they', label: 'they', arabicPronoun: 'هم' },

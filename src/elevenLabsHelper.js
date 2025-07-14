@@ -3,6 +3,8 @@
  * Provides functions to interact with ElevenLabs Text-to-Speech API
  */
 
+import { logElevenLabsRequest, logUsageStats } from './firebaseLogger';
+
 /**
  * Get ElevenLabs configuration from localStorage
  */
@@ -29,19 +31,24 @@ export const isElevenLabsAvailable = () => {
 /**
  * Generate speech using ElevenLabs API
  */
-export const generateElevenLabsSpeech = async (text) => {
+export const generateElevenLabsSpeech = async (text, filename = null, source = 'unknown') => {
   const config = getElevenLabsConfig();
   
   if (!config.isEnabled || !config.apiKey) {
     throw new Error('ElevenLabs is not configured or enabled');
   }
 
+  const startTime = Date.now();
+  let audioBlob = null;
+  let error = null;
+
   try {
     console.log('ElevenLabs API request:', {
       url: `https://api.elevenlabs.io/v1/text-to-speech/${config.voiceId}`,
       voiceId: config.voiceId,
       apiKeyLength: config.apiKey?.length,
-      text: text
+      text: text,
+      filename: filename
     });
 
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${config.voiceId}`, {
@@ -56,28 +63,62 @@ export const generateElevenLabsSpeech = async (text) => {
         model_id: 'eleven_multilingual_v2',
         voice_settings: {
           stability: 0.5,
-          similarity_boost: 0.5
+          similarity_boost: 0.5,
+          speed: 0.7
         }
       })
     });
 
     if (!response.ok) {
       const errorText = await response.text();
+      error = `${response.status} ${response.statusText} - ${errorText}`;
       console.error('ElevenLabs API error details:', {
         status: response.status,
         statusText: response.statusText,
         headers: Object.fromEntries(response.headers.entries()),
         body: errorText
       });
-      throw new Error(`ElevenLabs API error: ${response.status} ${response.statusText} - ${errorText}`);
+      throw new Error(`ElevenLabs API error: ${error}`);
     }
 
-    const audioBlob = await response.blob();
+    audioBlob = await response.blob();
     console.log('ElevenLabs TTS success:', { blobSize: audioBlob.size });
+
+    // Log successful request to Firebase
+    await logElevenLabsRequest({
+      text: text,
+      filename: filename || 'unknown',
+      audioSize: audioBlob.size,
+      success: true,
+      source: source,
+      duration: Date.now() - startTime
+    });
+
+    // Log usage stats
+    await logUsageStats({
+      requests: 1,
+      characters: text.length,
+      audioSize: audioBlob.size,
+      source: source
+    });
+
     return audioBlob;
-  } catch (error) {
-    console.error('ElevenLabs TTS error:', error);
-    throw new Error(`Failed to generate speech: ${error.message}`);
+  } catch (err) {
+    error = err.message;
+    console.error('ElevenLabs TTS error:', err);
+
+    // Log failed request to Firebase
+    await logElevenLabsRequest({
+      text: text,
+      filename: filename || 'unknown',
+      audioSize: null,
+      success: false,
+      error: error,
+      source: source,
+      duration: Date.now() - startTime
+    });
+
+    throw new Error(`Failed to generate speech: ${error}`);
   }
 };
 
@@ -183,9 +224,9 @@ const bufferToWav = (buffer) => {
 /**
  * Play ElevenLabs generated speech
  */
-export const playElevenLabsSpeech = async (text) => {
+export const playElevenLabsSpeech = async (text, filename = null, source = 'direct-play') => {
   try {
-    const audioBlob = await generateElevenLabsSpeech(text);
+    const audioBlob = await generateElevenLabsSpeech(text, filename, source);
     const paddedBlob = await addSilentPadding(audioBlob);
     const audioUrl = URL.createObjectURL(paddedBlob);
     const audio = new Audio(audioUrl);
@@ -222,7 +263,7 @@ export const testElevenLabsConfig = async () => {
 
     // Test with a simple Arabic phrase
     const testText = 'مرحبا';
-    const audioBlob = await generateElevenLabsSpeech(testText);
+    const audioBlob = await generateElevenLabsSpeech(testText, 'test_marhaba', 'config-test');
     
     if (audioBlob && audioBlob.size > 0) {
       return { success: true };
