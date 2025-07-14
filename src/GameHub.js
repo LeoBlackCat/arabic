@@ -60,7 +60,10 @@ const GameHub = () => {
   const [selectedGame, setSelectedGame] = useState(GAME_TYPES.SPEECH);
   const [contentData, setContentData] = useState([]);
   const [showAzureConfig, setShowAzureConfig] = useState(false);
-  const [azureConfig, setAzureConfig] = useState({ isEnabled: false, apiKey: '', region: 'eastus' });
+  const [speechConfig, setSpeechConfig] = useState({ 
+    azure: { isEnabled: false, apiKey: '', region: 'eastus' },
+    elevenlabs: { isEnabled: false, apiKey: '', voiceId: 'DANw8bnAVbjDEHwZIoYa' }
+  });
 
   // Get all data types for grammar pattern game
   const getAllGrammarData = () => {
@@ -146,10 +149,13 @@ const GameHub = () => {
     }
   };
 
-  // Load Azure Speech configuration on mount
+  // Load speech configuration on mount
   useEffect(() => {
-    const config = getAzureSpeechConfig();
-    setAzureConfig(config);
+    const azureConfig = getAzureSpeechConfig();
+    setSpeechConfig(prev => ({
+      ...prev,
+      azure: azureConfig
+    }));
   }, []);
 
   // Load content data based on selection
@@ -345,17 +351,17 @@ const GameHub = () => {
                 </select>
               </div>
 
-              {/* Azure Speech Configuration Button */}
+              {/* Speech Configuration Button */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setShowAzureConfig(true)}
                   className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
-                    azureConfig.isEnabled 
+                    speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled
                       ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' 
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                   }`}
                 >
-                  🎤 {azureConfig.isEnabled ? 'Azure Speech' : 'Speech Config'}
+                  🎤 {speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled ? 'Speech Active' : 'Speech Config'}
                 </button>
               </div>
             </div>
@@ -367,9 +373,14 @@ const GameHub = () => {
               <span>
                 {contentData.length} {selectedContent} with media files • 
                 Playing: {selectedGame.replace('_', ' ').replace('color noun', 'Color+Noun')}
-                {azureConfig.isEnabled && (
+                {speechConfig.azure.isEnabled && (
                   <span className="ml-2 text-green-600">
                     • Azure Speech enabled
+                  </span>
+                )}
+                {speechConfig.elevenlabs.isEnabled && (
+                  <span className="ml-2 text-green-600">
+                    • ElevenLabs TTS enabled
                   </span>
                 )}
                 {(selectedContent === CONTENT_TYPES.VERBS || selectedContent === CONTENT_TYPES.NOUNS) && (
@@ -399,13 +410,13 @@ const GameHub = () => {
         )}
       </div>
 
-      {/* Azure Speech Configuration Modal */}
+      {/* Speech Configuration Modal */}
       <AzureSpeechConfig
         isOpen={showAzureConfig}
         onClose={() => setShowAzureConfig(false)}
         onConfigChange={(config) => {
-          setAzureConfig(config);
-          console.log('Azure Speech config updated:', config);
+          setSpeechConfig(config);
+          console.log('Speech config updated:', config);
         }}
       />
     </div>

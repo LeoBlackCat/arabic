@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { normalizeArabic } from './arabicUtils';
+import { isElevenLabsAvailable, playElevenLabsSpeech } from './elevenLabsHelper';
+import logicData from '../logic.json';
 
 const GrammarPatternGame = ({ contentData, contentType }) => {
   const [currentChallenge, setCurrentChallenge] = useState(null);
@@ -12,8 +14,9 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
 
   const speechSynthRef = useRef(window.speechSynthesis);
   const [arabicVoice, setArabicVoice] = useState(null);
+  const [elevenLabsEnabled, setElevenLabsEnabled] = useState(false);
 
-  // Initialize voices
+  // Initialize voices and check ElevenLabs availability
   useEffect(() => {
     const loadVoices = () => {
       const voices = speechSynthRef.current.getVoices();
@@ -22,20 +25,81 @@ const GrammarPatternGame = ({ contentData, contentType }) => {
     };
     speechSynthRef.current.onvoiceschanged = loadVoices;
     loadVoices();
+    
+    // Check ElevenLabs availability
+    const checkElevenLabs = () => {
+      const available = isElevenLabsAvailable();
+      setElevenLabsEnabled(available);
+      console.log('GrammarPatternGame: ElevenLabs TTS available:', available);
+    };
+    
+    checkElevenLabs();
+    
     return () => {
       speechSynthRef.current.onvoiceschanged = null;
     };
   }, []);
 
-  const speakWord = useCallback((text) => {
+  // Map Arabic -> chat for filename lookup (lazy-loaded on first use)
+  let arToChatMap = null;
+  const buildArMap = () => {
+    if (arToChatMap) return arToChatMap;
+    try {
+      arToChatMap = {};
+      [...logicData.items, ...(logicData.numerals || [])].forEach((it) => {
+        if (it.ar && it.chat) arToChatMap[it.ar] = it.chat;
+      });
+    } catch (e) {
+      console.warn('Unable to load logic.json for map:', e);
+      arToChatMap = {};
+    }
+    return arToChatMap;
+  };
+
+  const speakWord = useCallback(async (text, chatOverride) => {
     if (!text) return;
-    speechSynthRef.current.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    if (arabicVoice) utterance.voice = arabicVoice;
-    utterance.lang = 'ar-SA';
-    utterance.rate = 0.8;
-    speechSynthRef.current.speak(utterance);
-  }, [arabicVoice]);
+    
+    // Priority 1: ElevenLabs TTS (if enabled)
+    if (elevenLabsEnabled) {
+      try {
+        console.log('GrammarPatternGame: Using ElevenLabs TTS for:', text);
+        await playElevenLabsSpeech(text);
+        return;
+      } catch (error) {
+        console.error('GrammarPatternGame: ElevenLabs TTS failed, falling back:', error);
+      }
+    }
+
+    // Priority 2: Pre-generated WAV files
+    const PLAY_AUDIO_FILES = true; // Match the setting from App.js
+    if (PLAY_AUDIO_FILES) {
+      const map = buildArMap();
+      const chat = chatOverride || map[text] || text;
+      const fileName = `${chat}.wav`;
+      const audio = new Audio('.' + `/sounds/${encodeURIComponent(fileName)}`);
+      
+      try {
+        await audio.play();
+        console.log('GrammarPatternGame: Played audio file:', fileName);
+        return;
+      } catch (error) {
+        console.error('GrammarPatternGame: Audio file play error:', error);
+      }
+    }
+
+    // Priority 3: Browser TTS (fallback)
+    try {
+      speechSynthRef.current.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (arabicVoice) utterance.voice = arabicVoice;
+      utterance.lang = 'ar-SA';
+      utterance.rate = 0.8;
+      speechSynthRef.current.speak(utterance);
+      console.log('GrammarPatternGame: Using browser TTS for:', text);
+    } catch (error) {
+      console.error('GrammarPatternGame: Browser TTS synthesis error:', error);
+    }
+  }, [arabicVoice, elevenLabsEnabled]);
 
   // Color mapping for visual display
   const COLOR_MAP = {

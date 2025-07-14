@@ -6,6 +6,8 @@ import { verbs, getShuffledVerbs } from './verbs-data';
 import { normalizeArabic, checkPronunciation } from './arabicUtils';
 import logicData from '../logic.json';
 import MediaDisplay from './MediaDisplay';
+import { isElevenLabsAvailable, playElevenLabsSpeech } from './elevenLabsHelper';
+import { isFirebaseStorageAvailable, playAudioWithFirebaseCache } from './firebaseStorageHelper';
 
 // Audio priming to unlock playback after first user gesture
 const primeAudio = () => {
@@ -35,9 +37,11 @@ const App = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
   const [recognition, setRecognition] = useState(null);
   const speechSynthesis = useRef(window.speechSynthesis);
   const [arabicVoice, setArabicVoice] = useState(null);
+  const [elevenLabsEnabled, setElevenLabsEnabled] = useState(false);
+  const [firebaseEnabled, setFirebaseEnabled] = useState(false);
   const nextImageTimeoutRef = useRef(null);
 
-  // Initialize voices
+  // Initialize voices and check ElevenLabs availability
   useEffect(() => {
     const loadVoices = () => {
       const voices = speechSynthesis.current.getVoices();
@@ -53,6 +57,23 @@ const App = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
     // Chrome requires this event for voices to be loaded
     speechSynthesis.current.onvoiceschanged = loadVoices;
     loadVoices(); // Initial load attempt
+
+    // Check ElevenLabs availability
+    const checkElevenLabs = () => {
+      const available = isElevenLabsAvailable();
+      setElevenLabsEnabled(available);
+      console.log('ElevenLabs TTS available:', available);
+    };
+    
+    // Check Firebase Storage availability
+    const checkFirebase = () => {
+      const available = isFirebaseStorageAvailable();
+      setFirebaseEnabled(available);
+      console.log('Firebase Storage available:', available);
+    };
+    
+    checkElevenLabs();
+    checkFirebase();
 
     return () => {
       speechSynthesis.current.onvoiceschanged = null;
@@ -80,48 +101,69 @@ const buildArMap = () => {
   return arToChatMap;
 };
 
-const speakWord = useCallback((text, chatOverride) => {
-      if (PLAY_AUDIO_FILES) {
-    const map = buildArMap();
-    const chat = chatOverride || map[text] || text;
-    const fileName = `${chat}.wav`;
-    const audio = new Audio('.' + `/sounds/${encodeURIComponent(fileName)}`);
-    audio.play().catch((e) => {
-      console.error('Audio play error:', e);
-      // Fallback to browser TTS
-      speechSynthesis.current.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      if (arabicVoice) utterance.voice = arabicVoice;
-      utterance.lang = 'ar-SA';
-      utterance.rate = 0.8;
-      speechSynthesis.current.speak(utterance);
-    });
-    return;
-  }
+const speakWord = useCallback(async (text, chatOverride) => {
+    // Priority 0: Firebase Storage cache (if enabled)
+    if (firebaseEnabled) {
+      const map = buildArMap();
+      const chat = chatOverride || map[text] || text;
+      
+      try {
+        console.log('Using Firebase Storage cache for:', text);
+        await playAudioWithFirebaseCache(text, chat);
+        return;
+      } catch (error) {
+        console.error('Firebase Storage failed, falling back:', error);
+      }
+    }
 
-  try {
-      // Cancel any ongoing speech
+    // Priority 1: ElevenLabs TTS (if enabled)
+    if (elevenLabsEnabled) {
+      try {
+        console.log('Using ElevenLabs TTS for:', text);
+        await playElevenLabsSpeech(text);
+        return;
+      } catch (error) {
+        console.error('ElevenLabs TTS failed, falling back:', error);
+      }
+    }
+
+    // Priority 2: Pre-generated WAV files (if PLAY_AUDIO_FILES is true)
+    if (PLAY_AUDIO_FILES) {
+      const map = buildArMap();
+      const chat = chatOverride || map[text] || text;
+      const fileName = `${chat}.wav`;
+      const audio = new Audio('.' + `/sounds/${encodeURIComponent(fileName)}`);
+      
+      try {
+        await audio.play();
+        console.log('Played audio file:', fileName);
+        return;
+      } catch (error) {
+        console.error('Audio file play error:', error);
+      }
+    }
+
+    // Priority 3: Browser TTS (fallback)
+    try {
       speechSynthesis.current.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
       
-      // Set voice and fallback options
       if (arabicVoice) {
         utterance.voice = arabicVoice;
       }
       utterance.lang = 'ar-SA';
-      utterance.rate = 0.8; // Slightly slower for better clarity
+      utterance.rate = 0.8;
       
-      // Add event handlers for debugging
-      utterance.onstart = () => console.log('Started speaking:', text);
-      utterance.onend = () => console.log('Finished speaking:', text);
-      utterance.onerror = (e) => console.error('Speech error:', e);
+      utterance.onstart = () => console.log('Started browser TTS:', text);
+      utterance.onend = () => console.log('Finished browser TTS:', text);
+      utterance.onerror = (e) => console.error('Browser TTS error:', e);
 
       speechSynthesis.current.speak(utterance);
     } catch (error) {
-      console.error('Speech synthesis error:', error);
+      console.error('Browser TTS synthesis error:', error);
     }
-  }, [arabicVoice]);
+  }, [arabicVoice, elevenLabsEnabled, firebaseEnabled]);
 
   // Initialize content data
   useEffect(() => {
