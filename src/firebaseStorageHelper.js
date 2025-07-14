@@ -134,101 +134,6 @@ export const downloadAudioFile = async (chatName, format = 'mp3') => {
   }
 };
 
-/**
- * Convert audio blob to compressed format (try MP3, fallback to original or compressed WAV)
- */
-const convertToCompressedAudio = async (audioBlob) => {
-  try {
-    // First check if ElevenLabs already gave us MP3 (which it does)
-    const audioType = audioBlob.type;
-    if (audioType.includes('mpeg') || audioType.includes('mp3')) {
-      console.log('Audio is already MP3, no conversion needed');
-      return { blob: audioBlob, format: 'mp3', contentType: 'audio/mpeg' };
-    }
-    
-    // Try different MediaRecorder formats for Safari/other browsers
-    const supportedFormats = [
-      { mimeType: 'audio/mp4', extension: 'mp4', contentType: 'audio/mp4' },
-      { mimeType: 'audio/webm;codecs=opus', extension: 'webm', contentType: 'audio/webm' },
-      { mimeType: 'audio/webm', extension: 'webm', contentType: 'audio/webm' },
-      { mimeType: 'audio/ogg;codecs=opus', extension: 'ogg', contentType: 'audio/ogg' },
-      { mimeType: 'audio/wav', extension: 'wav', contentType: 'audio/wav' }
-    ];
-    
-    // Find the first supported format
-    let selectedFormat = null;
-    for (const format of supportedFormats) {
-      if (MediaRecorder.isTypeSupported(format.mimeType)) {
-        selectedFormat = format;
-        console.log(`Using ${format.mimeType} for audio compression`);
-        break;
-      }
-    }
-    
-    if (!selectedFormat) {
-      console.log('No supported audio compression formats, keeping original');
-      return { blob: audioBlob, format: 'wav', contentType: 'audio/wav' };
-    }
-    
-    // Create audio context and decode the audio
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const arrayBuffer = await audioBlob.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    
-    // Create a MediaStream from the AudioBuffer
-    const mediaStreamDestination = audioContext.createMediaStreamDestination();
-    const source = audioContext.createBufferSource();
-    source.buffer = audioBuffer;
-    source.connect(mediaStreamDestination);
-    
-    // Set up MediaRecorder
-    const mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, {
-      mimeType: selectedFormat.mimeType,
-      audioBitsPerSecond: 128000 // 128 kbps
-    });
-    
-    const chunks = [];
-    mediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        chunks.push(event.data);
-      }
-    };
-    
-    return new Promise((resolve, reject) => {
-      mediaRecorder.onstop = () => {
-        const compressedBlob = new Blob(chunks, { type: selectedFormat.contentType });
-        const reduction = Math.round((1 - compressedBlob.size / audioBlob.size) * 100);
-        console.log(`Converted to ${selectedFormat.extension}: ${audioBlob.size} bytes -> ${compressedBlob.size} bytes (${reduction}% reduction)`);
-        resolve({ 
-          blob: compressedBlob, 
-          format: selectedFormat.extension, 
-          contentType: selectedFormat.contentType 
-        });
-      };
-      
-      mediaRecorder.onerror = (event) => {
-        console.warn('Audio compression failed:', event.error);
-        resolve({ blob: audioBlob, format: 'wav', contentType: 'audio/wav' });
-      };
-      
-      // Start recording
-      mediaRecorder.start();
-      source.start();
-      
-      // Stop recording after the audio duration plus a small buffer
-      const duration = audioBuffer.length / audioBuffer.sampleRate;
-      setTimeout(() => {
-        if (mediaRecorder.state === 'recording') {
-          mediaRecorder.stop();
-        }
-      }, (duration * 1000) + 500); // Add 500ms buffer
-    });
-    
-  } catch (error) {
-    console.warn('Audio conversion failed, using original format:', error);
-    return { blob: audioBlob, format: 'wav', contentType: 'audio/wav' };
-  }
-};
 
 /**
  * Upload audio file to Firebase Storage
@@ -242,21 +147,12 @@ export const uploadAudioFile = async (chatName, audioBlob, originalFormat = 'wav
       throw new Error('API key is required for Firebase Storage uploads');
     }
     
-    // Convert to compressed format for storage optimization
+    // Use the audio blob directly without conversion
     let uploadBlob = audioBlob;
     let format = originalFormat;
     let contentType = 'audio/wav';
     
-    if (originalFormat === 'wav') {
-      try {
-        const result = await convertToCompressedAudio(audioBlob);
-        uploadBlob = result.blob;
-        format = result.format;
-        contentType = result.contentType;
-      } catch (error) {
-        console.warn('Audio compression failed, uploading as WAV:', error);
-      }
-    } else if (originalFormat === 'mp3' || originalFormat === 'mpeg') {
+    if (originalFormat === 'mp3' || originalFormat === 'mpeg' || audioBlob.type.includes('mpeg')) {
       format = 'mp3';
       contentType = 'audio/mpeg';
     }
@@ -320,18 +216,17 @@ export const playAudioWithFirebaseCache = async (text, chatName) => {
       const { generateElevenLabsSpeech } = await import('./elevenLabsHelper');
       const originalBlob = await generateElevenLabsSpeech(text, chatName, 'firebase-cache');
       
-      // ElevenLabs returns MP3, but we need to add silent padding which requires WAV conversion
-      console.log(`Adding silent padding to audio for ${chatName}...`);
-      const paddedBlob = await addSilentPadding(originalBlob);
+      // ElevenLabs returns MP3 - upload and play directly without conversion
+      console.log(`Uploading and playing ${chatName} directly from ElevenLabs...`);
       
-      // Upload the padded WAV to Firebase Storage (convert to MP3 for storage optimization)
+      // Upload the original MP3 to Firebase Storage
       // Use chatName (arabizi) as filename, not Arabic text
-      uploadAudioFile(chatName, paddedBlob, 'wav').catch(error => {
+      uploadAudioFile(chatName, originalBlob, 'mp3').catch(error => {
         console.error('Background upload failed:', error);
       });
       
-      // Play immediately from the padded blob
-      const audioUrl = URL.createObjectURL(paddedBlob);
+      // Play immediately from the original blob
+      const audioUrl = URL.createObjectURL(originalBlob);
       const audio = new Audio(audioUrl);
       
       return new Promise((resolve, reject) => {
@@ -354,94 +249,7 @@ export const playAudioWithFirebaseCache = async (text, chatName) => {
   }
 };
 
-/**
- * Add silent padding to audio blob (copied from elevenLabsHelper)
- */
-const addSilentPadding = async (audioBlob) => {
-  try {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    
-    const arrayBuffer = await audioBlob.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    
-    const silenceDuration = 1.0; // 1000ms
-    const silenceSamples = Math.floor(silenceDuration * audioContext.sampleRate);
-    
-    const newBuffer = audioContext.createBuffer(
-      audioBuffer.numberOfChannels,
-      audioBuffer.length + silenceSamples,
-      audioContext.sampleRate
-    );
-    
-    for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-      const originalData = audioBuffer.getChannelData(channel);
-      const newData = newBuffer.getChannelData(channel);
-      newData.set(originalData, silenceSamples);
-    }
-    
-    const offlineContext = new OfflineAudioContext(
-      newBuffer.numberOfChannels,
-      newBuffer.length,
-      newBuffer.sampleRate
-    );
-    
-    const source = offlineContext.createBufferSource();
-    source.buffer = newBuffer;
-    source.connect(offlineContext.destination);
-    source.start();
-    
-    const renderedBuffer = await offlineContext.startRendering();
-    const wavBlob = bufferToWav(renderedBuffer);
-    
-    return wavBlob;
-  } catch (error) {
-    console.warn('Failed to add silent padding, using original audio:', error);
-    return audioBlob;
-  }
-};
 
-/**
- * Convert AudioBuffer to WAV blob
- */
-const bufferToWav = (buffer) => {
-  const length = buffer.length;
-  const numberOfChannels = buffer.numberOfChannels;
-  const sampleRate = buffer.sampleRate;
-  
-  const arrayBuffer = new ArrayBuffer(44 + length * numberOfChannels * 2);
-  const view = new DataView(arrayBuffer);
-  
-  const writeString = (offset, string) => {
-    for (let i = 0; i < string.length; i++) {
-      view.setUint8(offset + i, string.charCodeAt(i));
-    }
-  };
-  
-  writeString(0, 'RIFF');
-  view.setUint32(4, 36 + length * numberOfChannels * 2, true);
-  writeString(8, 'WAVE');
-  writeString(12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, numberOfChannels, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * numberOfChannels * 2, true);
-  view.setUint16(32, numberOfChannels * 2, true);
-  view.setUint16(34, 16, true);
-  writeString(36, 'data');
-  view.setUint32(40, length * numberOfChannels * 2, true);
-  
-  let offset = 44;
-  for (let i = 0; i < length; i++) {
-    for (let channel = 0; channel < numberOfChannels; channel++) {
-      const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]));
-      view.setInt16(offset, sample * 0x7FFF, true);
-      offset += 2;
-    }
-  }
-  
-  return new Blob([arrayBuffer], { type: 'audio/wav' });
-};
 
 /**
  * Test Firebase Storage configuration by uploading a test file
