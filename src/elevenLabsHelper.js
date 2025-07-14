@@ -60,10 +60,10 @@ export const generateElevenLabsSpeech = async (text, filename = null, source = '
       },
       body: JSON.stringify({
         text: ` ${text}`, // Add space before text to help with initial audio cut-off
-        model_id: 'eleven_multilingual_v2',
+        model_id: 'eleven_flash_v2_5',
         voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.5,
+          stability: 1,
+          similarity_boost: 1,
           speed: 0.7
         }
       })
@@ -133,8 +133,8 @@ const addSilentPadding = async (audioBlob) => {
     const arrayBuffer = await audioBlob.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     
-    // Create new buffer with 0.3 seconds of silence at the beginning
-    const silenceDuration = 0.3; // 300ms of silence
+    // Create new buffer with 1.0 seconds of silence at the beginning
+    const silenceDuration = 1.0; // 1000ms of silence
     const silenceSamples = Math.floor(silenceDuration * audioContext.sampleRate);
     
     const newBuffer = audioContext.createBuffer(

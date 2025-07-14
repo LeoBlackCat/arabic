@@ -135,43 +135,55 @@ export const downloadAudioFile = async (chatName, format = 'mp3') => {
 };
 
 /**
- * Convert WAV blob to MP3 using MediaRecorder API (if supported)
+ * Convert audio blob to compressed format (try MP3, fallback to original or compressed WAV)
  */
-const convertToMp3 = async (audioBlob) => {
+const convertToCompressedAudio = async (audioBlob) => {
   try {
-    // Check if we can use MediaRecorder for MP3 conversion
-    if (!MediaRecorder.isTypeSupported('audio/mp3') && !MediaRecorder.isTypeSupported('audio/mpeg')) {
-      console.log('MP3 encoding not supported, keeping original format');
-      return audioBlob;
+    // First check if ElevenLabs already gave us MP3 (which it does)
+    const audioType = audioBlob.type;
+    if (audioType.includes('mpeg') || audioType.includes('mp3')) {
+      console.log('Audio is already MP3, no conversion needed');
+      return { blob: audioBlob, format: 'mp3', contentType: 'audio/mpeg' };
     }
     
-    // Create audio element to play the WAV
-    const audioUrl = URL.createObjectURL(audioBlob);
-    const audio = new Audio(audioUrl);
+    // Try different MediaRecorder formats for Safari/other browsers
+    const supportedFormats = [
+      { mimeType: 'audio/mp4', extension: 'mp4', contentType: 'audio/mp4' },
+      { mimeType: 'audio/webm;codecs=opus', extension: 'webm', contentType: 'audio/webm' },
+      { mimeType: 'audio/webm', extension: 'webm', contentType: 'audio/webm' },
+      { mimeType: 'audio/ogg;codecs=opus', extension: 'ogg', contentType: 'audio/ogg' },
+      { mimeType: 'audio/wav', extension: 'wav', contentType: 'audio/wav' }
+    ];
     
-    // Create media stream from audio
+    // Find the first supported format
+    let selectedFormat = null;
+    for (const format of supportedFormats) {
+      if (MediaRecorder.isTypeSupported(format.mimeType)) {
+        selectedFormat = format;
+        console.log(`Using ${format.mimeType} for audio compression`);
+        break;
+      }
+    }
+    
+    if (!selectedFormat) {
+      console.log('No supported audio compression formats, keeping original');
+      return { blob: audioBlob, format: 'wav', contentType: 'audio/wav' };
+    }
+    
+    // Create audio context and decode the audio
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const arrayBuffer = await audioBlob.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     
-    // Create offline context to render audio
-    const offlineContext = new OfflineAudioContext(
-      audioBuffer.numberOfChannels,
-      audioBuffer.length,
-      audioBuffer.sampleRate
-    );
-    
-    const source = offlineContext.createBufferSource();
+    // Create a MediaStream from the AudioBuffer
+    const mediaStreamDestination = audioContext.createMediaStreamDestination();
+    const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
+    source.connect(mediaStreamDestination);
     
-    // Create MediaStreamDestination for recording
-    const destination = offlineContext.createMediaStreamDestination();
-    source.connect(destination);
-    
-    // Set up MediaRecorder for MP3
-    const mimeType = MediaRecorder.isTypeSupported('audio/mp3') ? 'audio/mp3' : 'audio/mpeg';
-    const mediaRecorder = new MediaRecorder(destination.stream, {
-      mimeType: mimeType,
+    // Set up MediaRecorder
+    const mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, {
+      mimeType: selectedFormat.mimeType,
       audioBitsPerSecond: 128000 // 128 kbps
     });
     
@@ -184,29 +196,37 @@ const convertToMp3 = async (audioBlob) => {
     
     return new Promise((resolve, reject) => {
       mediaRecorder.onstop = () => {
-        const mp3Blob = new Blob(chunks, { type: mimeType });
-        URL.revokeObjectURL(audioUrl);
-        console.log(`Converted to MP3: ${audioBlob.size} bytes -> ${mp3Blob.size} bytes (${Math.round((1 - mp3Blob.size / audioBlob.size) * 100)}% reduction)`);
-        resolve(mp3Blob);
+        const compressedBlob = new Blob(chunks, { type: selectedFormat.contentType });
+        const reduction = Math.round((1 - compressedBlob.size / audioBlob.size) * 100);
+        console.log(`Converted to ${selectedFormat.extension}: ${audioBlob.size} bytes -> ${compressedBlob.size} bytes (${reduction}% reduction)`);
+        resolve({ 
+          blob: compressedBlob, 
+          format: selectedFormat.extension, 
+          contentType: selectedFormat.contentType 
+        });
       };
       
       mediaRecorder.onerror = (event) => {
-        URL.revokeObjectURL(audioUrl);
-        reject(new Error('MP3 conversion failed'));
+        console.warn('Audio compression failed:', event.error);
+        resolve({ blob: audioBlob, format: 'wav', contentType: 'audio/wav' });
       };
       
+      // Start recording
       mediaRecorder.start();
       source.start();
       
-      // Stop recording when audio ends
+      // Stop recording after the audio duration plus a small buffer
+      const duration = audioBuffer.length / audioBuffer.sampleRate;
       setTimeout(() => {
-        mediaRecorder.stop();
-      }, (audioBuffer.length / audioBuffer.sampleRate) * 1000 + 100);
+        if (mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+        }
+      }, (duration * 1000) + 500); // Add 500ms buffer
     });
     
   } catch (error) {
-    console.warn('MP3 conversion failed, using original format:', error);
-    return audioBlob;
+    console.warn('Audio conversion failed, using original format:', error);
+    return { blob: audioBlob, format: 'wav', contentType: 'audio/wav' };
   }
 };
 
@@ -222,18 +242,19 @@ export const uploadAudioFile = async (chatName, audioBlob, originalFormat = 'wav
       throw new Error('API key is required for Firebase Storage uploads');
     }
     
-    // Convert to MP3 for storage optimization if it's WAV
+    // Convert to compressed format for storage optimization
     let uploadBlob = audioBlob;
     let format = originalFormat;
     let contentType = 'audio/wav';
     
     if (originalFormat === 'wav') {
       try {
-        uploadBlob = await convertToMp3(audioBlob);
-        format = 'mp3';
-        contentType = 'audio/mpeg';
+        const result = await convertToCompressedAudio(audioBlob);
+        uploadBlob = result.blob;
+        format = result.format;
+        contentType = result.contentType;
       } catch (error) {
-        console.warn('MP3 conversion failed, uploading as WAV:', error);
+        console.warn('Audio compression failed, uploading as WAV:', error);
       }
     } else if (originalFormat === 'mp3' || originalFormat === 'mpeg') {
       format = 'mp3';
@@ -343,7 +364,7 @@ const addSilentPadding = async (audioBlob) => {
     const arrayBuffer = await audioBlob.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     
-    const silenceDuration = 0.3; // 300ms
+    const silenceDuration = 1.0; // 1000ms
     const silenceSamples = Math.floor(silenceDuration * audioContext.sampleRate);
     
     const newBuffer = audioContext.createBuffer(
