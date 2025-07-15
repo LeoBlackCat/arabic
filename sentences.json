@@ -2,10 +2,10 @@
   "sentences": [
     {
       "id": "sentence_1",
-      "arabic": "Hum yakallemoon ma3 3yaalhum",
+      "arabic": "هم يتكلمون مع عيالهم",
       "chat": "Hum yakallemoon ma3 3yaalhum",
       "english": "They are talking with their children",
-      "audioPath": "sounds/sentence_1752567730738_0.mp3",
+      "audioPath": "sounds/sentence_1.mp3",
       "images": [
         "pictures/sentence_1752567730738_0_1.png",
         "pictures/sentence_1752567730738_0_2.png",
@@ -13,14 +13,15 @@
         "pictures/sentence_1752567730738_0_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T08:41:13.906Z"
+      "createdAt": "2025-07-15T08:41:13.906Z",
+      "updatedAt": "2025-07-15T16:06:20.050Z"
     },
     {
       "id": "sentence_2",
-      "arabic": "el kakaw mob zain",
+      "arabic": "الكاكاو مو زين",
       "chat": "el kakaw mob zain",
       "english": "The chocolate is not good",
-      "audioPath": "sounds/sentence_1752567822896_1.mp3",
+      "audioPath": "sounds/sentence_2.mp3",
       "images": [
         "pictures/sentence_1752567822896_1_1.png",
         "pictures/sentence_1752567822896_1_2.png",
@@ -28,11 +29,12 @@
         "pictures/sentence_1752567822896_1_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T08:41:13.907Z"
+      "createdAt": "2025-07-15T08:41:13.907Z",
+      "updatedAt": "2025-07-15T16:06:23.578Z"
     },
     {
       "id": "sentence_3",
-      "arabic": "ana 3endy sayyaarah, bas ma 3endy baizaat",
+      "arabic": "أنا عندي سيارة، بس ما عندي بيزات",
       "chat": "ana 3endy sayyaarah, bas ma 3endy baizaat",
       "english": "I have a car, but I don't have money",
       "audioPath": "sounds/sentence_3.mp3",
@@ -43,11 +45,12 @@
         "pictures/sentence_3_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T08:41:13.907Z"
+      "createdAt": "2025-07-15T08:41:13.907Z",
+      "updatedAt": "2025-07-15T16:06:26.891Z"
     },
     {
       "id": "sentence_4",
-      "arabic": "ekhtee taakel el fawakeh el 7elwah",
+      "arabic": "أختي تأكل الفواكه الحلوة",
       "chat": "ekhtee taakel el fawakeh el 7elwah",
       "english": "My sister eats the sweet fruit",
       "audioPath": "sounds/sentence_4.mp3",
@@ -58,11 +61,12 @@
         "pictures/sentence_4_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T08:41:13.907Z"
+      "createdAt": "2025-07-15T08:41:13.907Z",
+      "updatedAt": "2025-07-15T16:06:31.332Z"
     },
     {
       "id": "sentence_5",
-      "arabic": "ukhooy yaakel el semach el asfar",
+      "arabic": "أخوي يأكل السمك الأصفر",
       "chat": "ukhooy yaakel el semach el asfar",
       "english": "My brother eats the yellow fish",
       "audioPath": "sounds/sentence_5.mp3",
@@ -73,11 +77,12 @@
         "pictures/sentence_5_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T08:41:13.907Z"
+      "createdAt": "2025-07-15T08:41:13.907Z",
+      "updatedAt": "2025-07-15T16:06:34.773Z"
     },
     {
       "id": "sentence_6",
-      "arabic": "ana ashrab el chai el asfar",
+      "arabic": "أنا أشرب الشاي الأصفر",
       "chat": "ana ashrab el chai el asfar",
       "english": "I drink the yellow tea",
       "audioPath": "sounds/sentence_6.mp3",
@@ -88,11 +93,12 @@
         "pictures/sentence_6_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:00:12.511Z"
+      "createdAt": "2025-07-15T10:00:12.511Z",
+      "updatedAt": "2025-07-15T16:06:40.305Z"
     },
     {
       "id": "sentence_7",
-      "arabic": "ekhtee 3endhaa kitaab azrag",
+      "arabic": "أختي عندها كتاب أزرق",
       "chat": "ekhtee 3endhaa kitaab azrag",
       "english": "My sister has a blue book",
       "audioPath": "sounds/sentence_7.mp3",
@@ -103,11 +109,12 @@
         "pictures/sentence_7_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:00:12.519Z"
+      "createdAt": "2025-07-15T10:00:12.519Z",
+      "updatedAt": "2025-07-15T16:06:43.909Z"
     },
     {
       "id": "sentence_8",
-      "arabic": "ukhooy yasoog el sayyaarah el akhdhar",
+      "arabic": "أخوي يسوق السيارة الأخضر",
       "chat": "ukhooy yasoog el sayyaarah el akhdhar",
       "english": "My brother drives the green car",
       "audioPath": "sounds/sentence_8.mp3",
@@ -118,11 +125,12 @@
         "pictures/sentence_8_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:00:12.519Z"
+      "createdAt": "2025-07-15T10:00:12.519Z",
+      "updatedAt": "2025-07-15T16:06:47.471Z"
     },
     {
       "id": "sentence_9",
-      "arabic": "ana aroo7 el maktab bser3ah",
+      "arabic": "أنا أروح المكتب بسرعة",
       "chat": "ana aroo7 el maktab bser3ah",
       "english": "I go to the office quickly",
       "audioPath": "sounds/sentence_9.mp3",
@@ -133,11 +141,12 @@
         "pictures/sentence_9_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:30:12.519Z"
+      "createdAt": "2025-07-15T10:30:12.519Z",
+      "updatedAt": "2025-07-15T16:06:50.409Z"
     },
     {
       "id": "sentence_10",
-      "arabic": "umm tashrab el mai el bared",
+      "arabic": "أم تشرب الماء البارد",
       "chat": "umm tashrab el mai el bared",
       "english": "Mom drinks the cold water",
       "audioPath": "sounds/sentence_10.mp3",
@@ -148,11 +157,12 @@
         "pictures/sentence_10_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:30:12.519Z"
+      "createdAt": "2025-07-15T10:30:12.519Z",
+      "updatedAt": "2025-07-15T16:06:53.743Z"
     },
     {
       "id": "sentence_11",
-      "arabic": "walad yal3ab ma3 el kurah el 7amra",
+      "arabic": "الولد يلعب مع الكرة الحمراء",
       "chat": "walad yal3ab ma3 el kurah el 7amra",
       "english": "The boy plays with the red ball",
       "audioPath": "sounds/sentence_11.mp3",
@@ -163,11 +173,12 @@
         "pictures/sentence_11_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:30:12.519Z"
+      "createdAt": "2025-07-15T10:30:12.519Z",
+      "updatedAt": "2025-07-15T16:06:56.636Z"
     },
     {
       "id": "sentence_12",
-      "arabic": "abu yashteree el la7am el taazaj",
+      "arabic": "أبو يشتري اللحم الطازج",
       "chat": "abu yashteree el la7am el taazaj",
       "english": "Dad buys the fresh meat",
       "audioPath": "sounds/sentence_12.mp3",
@@ -178,11 +189,12 @@
         "pictures/sentence_12_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:30:12.519Z"
+      "createdAt": "2025-07-15T10:30:12.519Z",
+      "updatedAt": "2025-07-15T16:07:00.222Z"
     },
     {
       "id": "sentence_13",
-      "arabic": "bentee takteb el waajeb bser3ah",
+      "arabic": "بنتي تكتب الواجب بسرعة",
       "chat": "bentee takteb el waajeb bser3ah",
       "english": "My daughter writes the homework quickly",
       "audioPath": "sounds/sentence_13.mp3",
@@ -193,11 +205,12 @@
         "pictures/sentence_13_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:30:12.519Z"
+      "createdAt": "2025-07-15T10:30:12.519Z",
+      "updatedAt": "2025-07-15T16:07:04.381Z"
     },
     {
       "id": "sentence_14",
-      "arabic": "ne7an naseer el bait el kebeer",
+      "arabic": "نحن نصير البيت الكبير",
       "chat": "ne7an naseer el bait el kebeer",
       "english": "We go to the big house",
       "audioPath": "sounds/sentence_14.mp3",
@@ -208,7 +221,9 @@
         "pictures/sentence_14_4.png"
       ],
       "correctImageIndex": 0,
-      "createdAt": "2025-07-15T10:30:12.519Z"
+      "createdAt": "2025-07-15T10:30:12.519Z",
+      "updatedAt": "2025-07-15T16:07:07.062Z"
     }
-  ]
+  ],
+  "lastUpdated": "2025-07-15T16:07:08.064Z"
 }

@@ -19,7 +19,10 @@ const SentenceImageGame = ({ onGameComplete }) => {
   const loadSentencesData = async () => {
     try {
       // Load sentences from sentences.json
-      const response = await fetch('/sentences.json');
+      const response = await fetch('sentences.json');
+      if (!response.ok) {
+        throw new Error(`Failed to load sentences.json: ${response.status} ${response.statusText}`);
+      }
       const data = await response.json();
       
       // Randomize image order for each sentence
