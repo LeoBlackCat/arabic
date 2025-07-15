@@ -223,7 +223,151 @@
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z",
       "updatedAt": "2025-07-15T16:07:07.062Z"
+    },
+    {
+      "id": "sentence_15",
+      "arabic": "أنا أشتغل في المكتب الكبير",
+      "chat": "\"ana ashteghel fee el maktab el kebeer\" (I work at the big office)",
+      "english": "\"I work at the big office\"",
+      "audioPath": "sounds/sentence_15.mp3",
+      "images": [
+        "pictures/sentence_15_1.png",
+        "pictures/sentence_15_2.png",
+        "pictures/sentence_15_3.png",
+        "pictures/sentence_15_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ashteghel fee",
+      "createdAt": "2025-07-15T16:37:10.689Z"
+    },
+    {
+      "id": "sentence_16",
+      "arabic": "أنا أعرف عربي قليلاً",
+      "chat": "\"ana a3ref 3arabi eshway\" (I know a little bit of Arabic)",
+      "english": "\"I know a little bit of Arabic\"",
+      "audioPath": "sounds/sentence_16.mp3",
+      "images": [
+        "pictures/sentence_16_1.png",
+        "pictures/sentence_16_2.png",
+        "pictures/sentence_16_3.png",
+        "pictures/sentence_16_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "a3ref 3arabi eshway",
+      "createdAt": "2025-07-15T16:40:30.319Z"
+    },
+    {
+      "id": "sentence_17",
+      "arabic": "أنا ساكن في البيت الكبير",
+      "chat": "\"ana sakin fee el bait el kebeer\"",
+      "english": "\"I live in the big house\"",
+      "audioPath": "sounds/sentence_17.mp3",
+      "images": [
+        "pictures/sentence_17_1.png",
+        "pictures/sentence_17_2.png",
+        "pictures/sentence_17_3.png",
+        "pictures/sentence_17_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "sakin fee",
+      "createdAt": "2025-07-15T16:42:21.390Z"
+    },
+    {
+      "id": "sentence_18",
+      "arabic": "\"أنا ساكنة في البيت الكبير\"",
+      "chat": "\"ana saknah fee el beit el kabir\" (I live in the big house)",
+      "english": "\"I live in the big house\"",
+      "audioPath": "sounds/sentence_18.mp3",
+      "images": [
+        "pictures/sentence_18_1.png",
+        "pictures/sentence_18_2.png",
+        "pictures/sentence_18_3.png",
+        "pictures/sentence_18_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "saknah fee",
+      "createdAt": "2025-07-15T16:44:17.519Z"
+    },
+    {
+      "id": "sentence_19",
+      "arabic": "\"أنا ما أبي الكتاب الأزرق\"",
+      "chat": "\"ana ma aba el kitab el azrak\" (I don't want the blue book)",
+      "english": "\"I don't want the blue book\"",
+      "audioPath": "sounds/sentence_19.mp3",
+      "images": [
+        "pictures/sentence_19_1.png",
+        "pictures/sentence_19_2.png",
+        "pictures/sentence_19_3.png",
+        "pictures/sentence_19_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ma aba",
+      "createdAt": "2025-07-15T16:46:10.220Z"
+    },
+    {
+      "id": "sentence_20",
+      "arabic": "عندي كتاب جديد باللغة العربية",
+      "chat": "\"3endee kitab jdid b el lugha el 3arabiya\" (I have a new book in Arabic language)",
+      "english": "\"I have a new book in the Arabic language\"",
+      "audioPath": "sounds/sentence_20.mp3",
+      "images": [
+        "pictures/sentence_20_1.png",
+        "pictures/sentence_20_2.png",
+        "pictures/sentence_20_3.png",
+        "pictures/sentence_20_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "3endee",
+      "createdAt": "2025-07-15T16:48:11.430Z"
+    },
+    {
+      "id": "sentence_21",
+      "arabic": "\"ما عندي الكتاب الأزرق\"",
+      "chat": "\"ma 3endee el kitab el azraq\" (I don't have the blue book)",
+      "english": "\"I don't have the blue book\"",
+      "audioPath": "sounds/sentence_21.mp3",
+      "images": [
+        "pictures/sentence_21_1.png",
+        "pictures/sentence_21_2.png",
+        "pictures/sentence_21_3.png",
+        "pictures/sentence_21_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ma 3endee",
+      "createdAt": "2025-07-15T16:50:13.483Z"
+    },
+    {
+      "id": "sentence_22",
+      "arabic": "\"أنا أعرف أنو أبو يحب الكتاب الأسود\"",
+      "chat": "\"ana a3arf eno abu yheb el kitab el aswad\" (I know that dad likes the black book)",
+      "english": "\"I know that dad likes the black book\"",
+      "audioPath": "sounds/sentence_22.mp3",
+      "images": [
+        "pictures/sentence_22_1.png",
+        "pictures/sentence_22_2.png",
+        "pictures/sentence_22_3.png",
+        "pictures/sentence_22_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "a3arf",
+      "createdAt": "2025-07-15T16:52:13.735Z"
+    },
+    {
+      "id": "sentence_23",
+      "arabic": "\"أنا ما أعرف لون السيارة تاع أخوي\"",
+      "chat": "\"ana ma a3arf loon el sayara ta3 ukhooy\" (I don't know the color of my brother's car)",
+      "english": "\"I don't know the color of my brother's car\"",
+      "audioPath": "sounds/sentence_23.mp3",
+      "images": [
+        "pictures/sentence_23_1.png",
+        "pictures/sentence_23_2.png",
+        "pictures/sentence_23_3.png",
+        "pictures/sentence_23_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ma a3arf",
+      "createdAt": "2025-07-15T16:54:22.095Z"
     }
   ],
-  "lastUpdated": "2025-07-15T16:07:08.064Z"
+  "lastUpdated": "2025-07-15T16:54:22.108Z"
 }
