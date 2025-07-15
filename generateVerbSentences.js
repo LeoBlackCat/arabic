@@ -283,13 +283,15 @@ async function analyzeAndGenerateVerb() {
     return;
   }
   
-  console.log(`\n📋 UNCOVERED VERBS:`);
-  uncoveredVerbs.forEach((verb, index) => {
-    console.log(`   ${index + 1}. ${verb.chat} (${verb.eng}) - ${verb.ar}`);
+  console.log(`\n📋 UNCOVERED VERBS (showing last 10 - processing from end):`);
+  const lastTenVerbs = uncoveredVerbs.slice(-10);
+  lastTenVerbs.forEach((verb, index) => {
+    const actualIndex = uncoveredVerbs.length - 10 + index + 1;
+    console.log(`   ${actualIndex}. ${verb.chat} (${verb.eng}) - ${verb.ar}`);
   });
   
-  // Process the first uncovered verb
-  const verbToProcess = uncoveredVerbs[0];
+  // Process the LAST uncovered verb (most advanced/uncommon)
+  const verbToProcess = uncoveredVerbs[uncoveredVerbs.length - 1];
   console.log(`\n🎯 Processing verb: ${verbToProcess.chat} (${verbToProcess.eng})`);
   
   // Generate sentence
@@ -360,7 +362,8 @@ async function analyzeAndGenerateVerb() {
   console.log(`   • Remaining verbs: ${uncoveredVerbs.length - 1}`);
   
   if (uncoveredVerbs.length > 1) {
-    console.log(`\n💡 Run the script again to process the next verb: ${uncoveredVerbs[1].chat}`);
+    const nextVerb = uncoveredVerbs[uncoveredVerbs.length - 2];
+    console.log(`\n💡 Run the script again to process the next verb: ${nextVerb.chat} (${nextVerb.eng})`);
   }
 }
 

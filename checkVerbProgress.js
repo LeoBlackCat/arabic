@@ -62,13 +62,20 @@ function analyzeProgress() {
     }
   });
   
-  console.log('\n⏳ VERBS STILL NEEDING SENTENCES:');
-  uncoveredVerbs.forEach((verb, index) => {
-    console.log(`   ${index + 1}. ${verb.chat} (${verb.eng}) - ${verb.ar}`);
+  console.log('\n⏳ VERBS STILL NEEDING SENTENCES (showing last 15 - processing from end):');
+  const lastFifteenVerbs = uncoveredVerbs.slice(-15);
+  lastFifteenVerbs.forEach((verb, index) => {
+    const actualIndex = uncoveredVerbs.length - 15 + index + 1;
+    console.log(`   ${actualIndex}. ${verb.chat} (${verb.eng}) - ${verb.ar}`);
   });
   
+  if (uncoveredVerbs.length > 15) {
+    console.log(`   ... and ${uncoveredVerbs.length - 15} more verbs (run script to see full list)`);
+  }
+  
   if (uncoveredVerbs.length > 0) {
-    console.log(`\n💡 Next verb to process: ${uncoveredVerbs[0].chat} (${uncoveredVerbs[0].eng})`);
+    const nextVerb = uncoveredVerbs[uncoveredVerbs.length - 1];
+    console.log(`\n💡 Next verb to process: ${nextVerb.chat} (${nextVerb.eng})`);
     console.log(`💰 Cost estimate: ~$0.50-1.00 per verb (OpenAI + ElevenLabs)`);
     console.log(`📊 Total remaining cost: ~$${(uncoveredVerbs.length * 0.75).toFixed(2)}`);
   } else {

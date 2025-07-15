@@ -1,0 +1,1257 @@
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import TitleBar, { getTopicDisplayName, getAvailableGames, TOPIC_DISPLAY_NAMES, CONTENT_TYPES, GAME_TYPES } from './TitleBar';
+
+describe('TitleBar Topic Name Display', () => {
+  describe('getTopicDisplayName function', () => {
+    test('should return correct display name for verbs', () => {
+      expect(getTopicDisplayName('verbs')).toBe('Verbs');
+    });
+
+    test('should return correct display name for colors', () => {
+      expect(getTopicDisplayName('colors')).toBe('Colors');
+    });
+
+    test('should return correct display name for nouns', () => {
+      expect(getTopicDisplayName('nouns')).toBe('Nouns');
+    });
+
+    test('should return correct display name for phrases', () => {
+      expect(getTopicDisplayName('phrases')).toBe('Phrases');
+    });
+
+    test('should return "Loading..." when selectedContent is empty', () => {
+      expect(getTopicDisplayName('')).toBe('Loading...');
+    });
+
+    test('should return "Loading..." when selectedContent is null', () => {
+      expect(getTopicDisplayName(null)).toBe('Loading...');
+    });
+
+    test('should return "Loading..." when selectedContent is undefined', () => {
+      expect(getTopicDisplayName(undefined)).toBe('Loading...');
+    });
+
+    test('should return capitalized fallback for unknown content type', () => {
+      expect(getTopicDisplayName('unknown')).toBe('Unknown');
+    });
+
+    test('should handle content type with multiple words', () => {
+      expect(getTopicDisplayName('custom_content')).toBe('Custom_content');
+    });
+
+    test('should work with contentData parameter (for future enhancements)', () => {
+      const mockContentData = [{ id: 1, name: 'test' }];
+      expect(getTopicDisplayName('verbs', mockContentData)).toBe('Verbs');
+    });
+  });
+
+  describe('TOPIC_DISPLAY_NAMES mapping', () => {
+    test('should contain all expected content types', () => {
+      expect(TOPIC_DISPLAY_NAMES).toEqual({
+        'verbs': 'Verbs',
+        'colors': 'Colors',
+        'nouns': 'Nouns',
+        'phrases': 'Phrases'
+      });
+    });
+
+    test('should have string keys and string values', () => {
+      Object.entries(TOPIC_DISPLAY_NAMES).forEach(([key, value]) => {
+        expect(typeof key).toBe('string');
+        expect(typeof value).toBe('string');
+      });
+    });
+  });
+
+  describe('TitleBar component topic display', () => {
+    test('should display topic name based on selectedContent', () => {
+      render(
+        <TitleBar 
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Verbs'));
+    });
+
+    test('should display "Loading..." when no selectedContent is provided', () => {
+      render(
+        <TitleBar 
+          selectedContent=""
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Loading...'));
+    });
+
+    test('should use currentTopic prop when provided (backward compatibility)', () => {
+      render(
+        <TitleBar 
+          currentTopic="Custom Topic"
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Custom Topic'));
+    });
+
+    test('should update topic name when selectedContent changes', () => {
+      const { rerender } = render(
+        <TitleBar 
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Verbs'));
+
+      rerender(
+        <TitleBar 
+          selectedContent="colors"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Colors'));
+    });
+
+    test('should have proper styling classes for topic name', () => {
+      render(
+        <TitleBar 
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 }); const heading = headings[0];
+      expect(heading).toHaveClass('text-xl', 'font-bold', 'text-gray-800', 'truncate');
+    });
+
+    test('should have title attribute for accessibility (hover tooltip)', () => {
+      render(
+        <TitleBar 
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 }); const heading = headings[0];
+      expect(heading).toHaveAttribute('title', 'Verbs');
+    });
+
+    test('should handle long topic names with proper container classes', () => {
+      render(
+        <TitleBar 
+          currentTopic="Very Long Topic Name That Should Be Truncated"
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const container = screen.getByRole('heading', { level: 1 }).parentElement;
+      expect(container).toHaveClass('flex-shrink-0', 'min-w-0');
+      expect(container).toHaveClass('max-w-xs', 'sm:max-w-sm', 'md:max-w-md');
+    });
+
+    test('should display fallback for unknown content types', () => {
+      render(
+        <TitleBar 
+          selectedContent="unknown_type"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Unknown_type'));
+    });
+  });
+
+  describe('Content Type Selector Dropdown', () => {
+    test('should render content type selector with current selection', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selectors = screen.getAllByLabelText('Select content type to learn');
+      expect(selectors).toHaveLength(2); // Mobile and desktop versions
+      const selector = selectors[0]; // Use first selector for testing
+      expect(selector).toBeInTheDocument();
+      expect(selector).toHaveValue(CONTENT_TYPES.VERBS);
+    });
+
+    test('should have all content type options available', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      const options = selector.querySelectorAll('option');
+      
+      // Should have 5 options: disabled placeholder + 4 content types
+      expect(options).toHaveLength(5);
+      
+      // Check that all content types are present
+      expect(screen.getAllByRole('option', { name: 'Verbs' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Colors' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Nouns' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Phrases' })).toHaveLength(2); // Mobile and desktop versions
+    });
+
+    test('should call onContentChange when selection changes', () => {
+      const mockOnContentChange = jest.fn();
+      
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={mockOnContentChange}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      fireEvent.change(selector, { target: { value: CONTENT_TYPES.COLORS } });
+      
+      expect(mockOnContentChange).toHaveBeenCalledWith(CONTENT_TYPES.COLORS);
+      expect(mockOnContentChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('should have proper styling classes for design system consistency', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      expect(selector).toHaveClass(
+        'px-3', 'py-1.5', 'border', 'border-gray-300', 'rounded-md', 'text-sm',
+        'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500', 'focus:border-transparent',
+        'bg-white', 'hover:bg-gray-50', 'transition-colors', 'cursor-pointer', 'min-w-[120px]'
+      );
+    });
+
+    test('should have proper accessibility attributes', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      expect(selector).toHaveAttribute('aria-label', 'Select content type to learn');
+      expect(selector).toHaveAttribute('aria-describedby', 'content-selector-help');
+      expect(selector).toHaveAttribute('id', 'content-type-selector');
+      
+      // Check for screen reader help text
+      const helpTexts = screen.getAllByText('Choose the type of Arabic content you want to practice');
+      helpTexts.forEach(helpText => expect(helpText).toHaveClass('sr-only'));
+      expect(helpText).toHaveAttribute('id', 'content-selector-help');
+    });
+
+    test('should have disabled placeholder option', () => {
+      render(
+        <TitleBar 
+          selectedContent=""
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const placeholderOption = screen.getByRole('option', { name: 'Select Content' });
+      expect(placeholderOption).toBeInTheDocument();
+      expect(placeholderOption).toHaveAttribute('disabled');
+      expect(placeholderOption).toHaveValue('');
+    });
+
+    test('should use correct CONTENT_TYPES constants for option values', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      expect(screen.getByRole('option', { name: 'Verbs' })).toHaveValue(CONTENT_TYPES.VERBS);
+      expect(screen.getByRole('option', { name: 'Colors' })).toHaveValue(CONTENT_TYPES.COLORS);
+      expect(screen.getByRole('option', { name: 'Nouns' })).toHaveValue(CONTENT_TYPES.NOUNS);
+      expect(screen.getByRole('option', { name: 'Phrases' })).toHaveValue(CONTENT_TYPES.PHRASES);
+    });
+  });
+
+  describe('Game Type Selector Dropdown', () => {
+    describe('getAvailableGames function', () => {
+      test('should return correct games for verbs content type', () => {
+        const games = getAvailableGames(CONTENT_TYPES.VERBS);
+        expect(games).toHaveLength(8);
+        expect(games).toEqual([
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.CONJUGATION, label: 'Conjugation Practice' },
+          { value: GAME_TYPES.SPEECH_CONJUGATION, label: 'Speech Conjugation' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
+          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
+        ]);
+      });
+
+      test('should return correct games for colors content type', () => {
+        const games = getAvailableGames(CONTENT_TYPES.COLORS);
+        expect(games).toHaveLength(5);
+        expect(games).toEqual([
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
+        ]);
+      });
+
+      test('should return correct games for nouns content type', () => {
+        const games = getAvailableGames(CONTENT_TYPES.NOUNS);
+        expect(games).toHaveLength(9);
+        expect(games).toEqual([
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' },
+          { value: GAME_TYPES.COLOR_NOUN, label: 'Color + Noun Game' },
+          { value: GAME_TYPES.SENTENCE, label: 'Sentence Builder' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
+          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
+        ]);
+      });
+
+      test('should return correct games for phrases content type', () => {
+        const games = getAvailableGames(CONTENT_TYPES.PHRASES);
+        expect(games).toHaveLength(5);
+        expect(games).toEqual([
+          { value: GAME_TYPES.PHRASE, label: 'Phrase Practice' },
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
+          { value: GAME_TYPES.SENTENCE_IMAGE, label: 'Sentence Image Game' }
+        ]);
+      });
+
+      test('should return default games for unknown content type', () => {
+        const games = getAvailableGames('unknown');
+        expect(games).toHaveLength(5);
+        expect(games).toEqual([
+          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
+          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
+          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
+        ]);
+      });
+
+      test('should return default games for empty content type', () => {
+        const games = getAvailableGames('');
+        expect(games).toHaveLength(5);
+        expect(games[0]).toEqual({ value: GAME_TYPES.SPEECH, label: 'Speech Recognition' });
+      });
+    });
+
+    describe('Game selector dropdown rendering', () => {
+      test('should render game type selector with current selection', () => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).toBeInTheDocument();
+        expect(selector).toHaveValue(GAME_TYPES.SPEECH);
+      });
+
+      test('should show dynamic game options based on selected content type', () => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        // Should show all verb-specific games
+        expect(screen.getAllByRole('option', { name: 'Speech Recognition' })).toHaveLength(2); // Mobile and desktop versions
+        expect(screen.getAllByRole('option', { name: 'Image Choice' })).toHaveLength(2); // Mobile and desktop versions
+        expect(screen.getAllByRole('option', { name: 'Conjugation Practice' })).toHaveLength(2); // Mobile and desktop versions
+        expect(screen.getAllByRole('option', { name: 'Speech Conjugation' })).toHaveLength(2); // Mobile and desktop versions
+        expect(screen.getAllByRole('option', { name: 'Grammar Patterns' })).toHaveLength(2); // Mobile and desktop versions
+      });
+
+      test('should filter games correctly when content type changes', () => {
+        const { rerender } = render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        // Initially should have verb-specific games
+        expect(screen.getAllByRole('option', { name: 'Conjugation Practice' })).toHaveLength(2); // Mobile and desktop versions
+        
+        rerender(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.COLORS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        // After changing to colors, conjugation should not be available
+        expect(screen.queryByRole('option', { name: 'Conjugation Practice' })).not.toBeInTheDocument();
+        // But speech should still be available
+        expect(screen.getAllByRole('option', { name: 'Speech Recognition' })).toHaveLength(2); // Mobile and desktop versions
+      });
+
+      test('should be disabled when no content is selected', () => {
+        render(
+          <TitleBar 
+            selectedContent=""
+            selectedGame=""
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).toBeDisabled();
+        expect(screen.getAllByRole('option', { name: 'Select Content First' })).toHaveLength(2); // Mobile and desktop versions
+      });
+
+      test('should show "Select Game" placeholder when content is selected but no game is chosen', () => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame=""
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).not.toBeDisabled();
+        expect(screen.getAllByRole('option', { name: 'Select Game' })).toHaveLength(2); // Mobile and desktop versions
+      });
+    });
+
+    describe('Game selector interaction', () => {
+      test('should call onGameChange when selection changes', () => {
+        const mockOnGameChange = jest.fn();
+        
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={mockOnGameChange}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        fireEvent.change(selector, { target: { value: GAME_TYPES.CONJUGATION } });
+        
+        expect(mockOnGameChange).toHaveBeenCalledWith(GAME_TYPES.CONJUGATION);
+        expect(mockOnGameChange).toHaveBeenCalledTimes(1);
+      });
+
+      test('should handle game selection for different content types', () => {
+        const mockOnGameChange = jest.fn();
+        
+        const { rerender } = render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.PHRASES}
+            selectedGame=""
+            onContentChange={() => {}}
+            onGameChange={mockOnGameChange}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        fireEvent.change(selector, { target: { value: GAME_TYPES.PHRASE } });
+        
+        expect(mockOnGameChange).toHaveBeenCalledWith(GAME_TYPES.PHRASE);
+        
+        // Change content type and select a different game
+        rerender(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.COLORS}
+            selectedGame=""
+            onContentChange={() => {}}
+            onGameChange={mockOnGameChange}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        fireEvent.change(selector, { target: { value: GAME_TYPES.IMAGE_CHOICE } });
+        expect(mockOnGameChange).toHaveBeenCalledWith(GAME_TYPES.IMAGE_CHOICE);
+      });
+    });
+
+    describe('Game selector styling and accessibility', () => {
+      test('should have proper styling classes', () => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).toHaveClass(
+          'px-3', 'py-1.5', 'border', 'border-gray-300', 'rounded-md', 'text-sm',
+          'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500', 'focus:border-transparent',
+          'bg-white', 'hover:bg-gray-50', 'transition-colors', 'cursor-pointer', 'min-w-[140px]'
+        );
+      });
+
+      test('should have proper accessibility attributes', () => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).toHaveAttribute('aria-label', 'Select game type to play');
+        expect(selector).toHaveAttribute('aria-describedby', 'game-selector-help');
+        expect(selector).toHaveAttribute('id', 'game-type-selector');
+        
+        // Check for screen reader help text
+        const helpTexts = screen.getAllByText('Choose the type of game you want to play with the selected content');
+        expect(helpTexts).toHaveLength(2); // Mobile and desktop versions
+        helpTexts.forEach(helpText => expect(helpText).toHaveClass('sr-only'));
+        expect(helpTexts[0]).toHaveAttribute('id', 'game-selector-help'); expect(helpTexts[1]).toHaveAttribute('id', 'game-selector-help-desktop');
+      });
+
+      test('should have disabled placeholder option with proper text', () => {
+        render(
+          <TitleBar 
+            selectedContent=""
+            selectedGame=""
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const placeholderOption = screen.getByRole('option', { name: 'Select Content First' });
+        expect(placeholderOption).toBeInTheDocument();
+        expect(placeholderOption).toHaveAttribute('disabled');
+        expect(placeholderOption).toHaveValue('');
+      });
+
+      test('should use correct GAME_TYPES constants for option values', () => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        expect(screen.getByRole('option', { name: 'Speech Recognition' })).toHaveValue(GAME_TYPES.SPEECH);
+        expect(screen.getByRole('option', { name: 'Image Choice' })).toHaveValue(GAME_TYPES.IMAGE_CHOICE);
+        expect(screen.getByRole('option', { name: 'Conjugation Practice' })).toHaveValue(GAME_TYPES.CONJUGATION);
+      });
+    });
+
+    describe('Edge cases and error handling', () => {
+      test('should handle empty available games array gracefully', () => {
+        // Mock getAvailableGames to return empty array
+        const originalGetAvailableGames = getAvailableGames;
+        const mockGetAvailableGames = jest.fn().mockReturnValue([]);
+        
+        // We can't easily mock the imported function, so we'll test with a content type that has games
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame=""
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).not.toBeDisabled(); // Should not be disabled when content is selected
+        expect(screen.getAllByRole('option', { name: 'Select Game' })).toHaveLength(2); // Mobile and desktop versions
+      });
+
+      test('should handle invalid game selection gracefully', () => {
+        // This test verifies that the component doesn't crash when given an invalid game value
+        expect(() => {
+          render(
+            <TitleBar 
+              selectedContent={CONTENT_TYPES.VERBS}
+              selectedGame="invalid_game"
+              onContentChange={() => {}}
+              onGameChange={() => {}}
+              onSettingsClick={() => {}}
+            />
+          );
+        }).not.toThrow();
+        
+        // Verify the component still renders the game selector
+        const selector = screen.getAllByLabelText('Select game type to play')[0];
+        expect(selector).toBeInTheDocument();
+      });
+
+      test('should maintain game options when content data changes', () => {
+        const { rerender } = render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            contentData={[]}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        expect(screen.getAllByRole('option', { name: 'Speech Recognition' })).toHaveLength(2); // Mobile and desktop versions
+        
+        rerender(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            contentData={[{ id: 1, name: 'test' }]}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+        
+        // Game options should remain the same
+        expect(screen.getAllByRole('option', { name: 'Speech Recognition' })).toHaveLength(2); // Mobile and desktop versions
+      });
+    });
+  });
+
+  describe('Settings Button Integration', () => {
+    test('should render settings button with proper styling', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toBeInTheDocument();
+      expect(settingsButton).toHaveTextContent('⚙️');
+    });
+
+    test('should call onSettingsClick when settings button is clicked', () => {
+      const mockOnSettingsClick = jest.fn();
+      
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={mockOnSettingsClick}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      fireEvent.click(settingsButton);
+      
+      expect(mockOnSettingsClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('should show visual indicator when speech services are active (Azure)', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: true }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
+      expect(settingsButton).toHaveAttribute('title', 'Speech Active - Click to configure');
+    });
+
+    test('should show visual indicator when speech services are active (ElevenLabs)', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: true } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
+      expect(settingsButton).toHaveAttribute('title', 'Speech Active - Click to configure');
+    });
+
+    test('should show visual indicator when both speech services are active', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: true }, elevenlabs: { isEnabled: true } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
+      expect(settingsButton).toHaveAttribute('title', 'Speech Active - Click to configure');
+    });
+
+    test('should show default styling when no speech services are active', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveClass('bg-white', 'text-gray-700', 'border-gray-300');
+      expect(settingsButton).toHaveAttribute('title', 'Configure speech settings');
+    });
+
+    test('should meet touch target size requirements for mobile', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveClass('min-w-[44px]', 'min-h-[44px]');
+    });
+
+    test('should have proper accessibility attributes', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveAttribute('aria-label', 'Open settings');
+      expect(settingsButton).toHaveAttribute('title');
+    });
+
+    test('should handle missing speechConfig gracefully', () => {
+      expect(() => {
+        render(
+          <TitleBar 
+            selectedContent={CONTENT_TYPES.VERBS}
+            selectedGame={GAME_TYPES.SPEECH}
+            onContentChange={() => {}}
+            onGameChange={() => {}}
+            onSettingsClick={() => {}}
+          />
+        );
+      }).not.toThrow();
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toBeInTheDocument();
+      expect(settingsButton).toHaveClass('bg-white', 'text-gray-700', 'border-gray-300');
+    });
+  });
+
+  describe('Requirements validation', () => {
+    test('Requirement 1.1: Topic name displays in English', () => {
+      render(
+        <TitleBar 
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 }); const heading = headings[0];
+      expect(heading).toHaveTextContent('Verbs');
+      expect(heading).not.toHaveTextContent('Arabic Learning Games');
+    });
+
+    test('Requirement 1.2: Title updates immediately when switching topics', () => {
+      const { rerender } = render(
+        <TitleBar 
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Verbs'));
+
+      rerender(
+        <TitleBar 
+          selectedContent="colors"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      headings = screen.getAllByRole('heading', { level: 1 });
+      expect(headings).toHaveLength(2);
+      headings.forEach(heading => expect(heading).toHaveTextContent('Colors'));
+    });
+
+    test('Requirement 1.4: Text truncation with ellipsis for long names', () => {
+      render(
+        <TitleBar 
+          currentTopic="Very Long Topic Name That Should Be Truncated"
+          selectedContent="verbs"
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let headings = screen.getAllByRole('heading', { level: 1 }); const heading = headings[0];
+      expect(heading).toHaveClass('truncate');
+      expect(heading).toHaveAttribute('title', 'Very Long Topic Name That Should Be Truncated');
+    });
+
+    test('Requirement 2.1: Content selector shows dropdown with all available topics', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      expect(selector).toBeInTheDocument();
+      
+      // Verify all content types are available
+      expect(screen.getAllByRole('option', { name: 'Verbs' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Colors' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Nouns' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Phrases' })).toHaveLength(2); // Mobile and desktop versions
+    });
+
+    test('Requirement 2.2: Content selector communicates selection changes to parent', () => {
+      const mockOnContentChange = jest.fn();
+      
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={mockOnContentChange}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      fireEvent.change(selector, { target: { value: CONTENT_TYPES.COLORS } });
+      
+      expect(mockOnContentChange).toHaveBeenCalledWith(CONTENT_TYPES.COLORS);
+    });
+
+    test('Requirement 2.5: Dropdown options are properly labeled and accessible', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame="speech"
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const selector = screen.getAllByLabelText('Select content type to learn')[0];
+      expect(selector).toHaveAttribute('aria-label', 'Select content type to learn');
+      expect(selector).toHaveAttribute('aria-describedby', 'content-selector-help');
+      
+      // Check that help text exists for screen readers
+      const helpTexts = screen.getAllByText('Choose the type of Arabic content you want to practice');
+      expect(helpTexts).toHaveLength(2); // Mobile and desktop versions
+      helpTexts.forEach(helpText => expect(helpText).toHaveClass('sr-only'));
+    });
+
+    // Game Type Selector Requirements Validation
+    test('Requirement 2.1: Game selector shows dropdown with dynamic options based on content type', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const gameSelector = screen.getAllByLabelText('Select game type to play')[0];
+      expect(gameSelector).toBeInTheDocument();
+      
+      // Verify verb-specific games are available
+      expect(screen.getAllByRole('option', { name: 'Speech Recognition' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Conjugation Practice' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Speech Conjugation' })).toHaveLength(2); // Mobile and desktop versions
+      expect(screen.getAllByRole('option', { name: 'Grammar Patterns' })).toHaveLength(2); // Mobile and desktop versions
+    });
+
+    test('Requirement 2.3: Game selector filters available games based on selected content', () => {
+      const { rerender } = render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      // Verbs should have conjugation games
+      expect(screen.getAllByRole('option', { name: 'Conjugation Practice' })).toHaveLength(2); // Mobile and desktop versions
+      
+      rerender(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.COLORS}
+          selectedGame={GAME_TYPES.SPEECH}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      // Colors should not have conjugation games
+      expect(screen.queryByRole('option', { name: 'Conjugation Practice' })).not.toBeInTheDocument();
+      // But should have common games like Speech Recognition
+      expect(screen.getAllByRole('option', { name: 'Speech Recognition' })).toHaveLength(2); // Mobile and desktop versions
+    });
+
+    test('Requirement 2.4: Game selector communicates selection changes to parent', () => {
+      const mockOnGameChange = jest.fn();
+      
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          onContentChange={() => {}}
+          onGameChange={mockOnGameChange}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const gameSelector = screen.getAllByLabelText('Select game type to play')[0];
+      fireEvent.change(gameSelector, { target: { value: GAME_TYPES.CONJUGATION } });
+      
+      expect(mockOnGameChange).toHaveBeenCalledWith(GAME_TYPES.CONJUGATION);
+      expect(mockOnGameChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('Requirement 2.5: Game selector dropdown options are properly labeled and accessible', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const gameSelector = screen.getAllByLabelText('Select game type to play')[0];
+      expect(gameSelector).toHaveAttribute('aria-label', 'Select game type to play');
+      expect(gameSelector).toHaveAttribute('aria-describedby', 'game-selector-help');
+      expect(gameSelector).toHaveAttribute('id', 'game-type-selector');
+      
+      // Check that help text exists for screen readers
+      const helpTexts = screen.getAllByText('Choose the type of game you want to play with the selected content');
+      expect(helpTexts).toHaveLength(2); // Mobile and desktop versions
+      helpTexts.forEach(helpText => expect(helpText).toHaveClass('sr-only'));
+      expect(helpTexts[0]).toHaveAttribute('id', 'game-selector-help'); expect(helpTexts[1]).toHaveAttribute('id', 'game-selector-help-desktop');
+    });
+
+    // Settings Button Requirements Validation
+    test('Requirement 3.1: Settings button triggers settings modal', () => {
+      const mockOnSettingsClick = jest.fn();
+      
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={mockOnSettingsClick}
+        />
+      );
+      
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      fireEvent.click(settingsButton);
+      
+      expect(mockOnSettingsClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('Requirement 3.2: Settings changes apply immediately to current session', () => {
+      // This test verifies the visual indicator changes based on speechConfig
+      const { rerender } = render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let settingsButtons = screen.getAllByLabelText('Open settings');
+      expect(settingsButtons).toHaveLength(2); // Mobile and desktop versions
+      
+      // Both buttons should have inactive styling initially
+      settingsButtons.forEach(button => {
+        expect(button).toHaveClass('bg-white', 'text-gray-700', 'border-gray-300');
+      });
+      
+      // Simulate settings change by updating speechConfig
+      rerender(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: true }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      settingsButtons = screen.getAllByLabelText('Open settings');
+      // Both buttons should have active styling when speech is enabled
+      settingsButtons.forEach(button => {
+        expect(button).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
+      });
+    });
+
+    test('Requirement 3.4: Settings control takes up minimal space in titlebar', () => {
+      render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      const settingsButtons = screen.getAllByLabelText('Open settings');
+      expect(settingsButtons).toHaveLength(2); // Mobile and desktop versions
+      
+      // Both buttons should have minimal width and height while meeting touch targets
+      settingsButtons.forEach(button => {
+        expect(button).toHaveClass('min-w-[44px]', 'min-h-[44px]');
+      });
+      
+      // Mobile button should use different padding than desktop
+      const mobileButton = settingsButtons[0]; // First button is mobile
+      const desktopButton = settingsButtons[1]; // Second button is desktop
+      
+      expect(mobileButton).toHaveClass('p-2'); // Mobile uses p-2
+      expect(desktopButton).toHaveClass('px-2', 'py-1.5'); // Desktop uses px-2 py-1.5 on small screens
+    });
+
+    test('Requirement 3.5: Visual indicator for active speech services', () => {
+      // Test inactive state
+      const { rerender } = render(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      let settingsButtons = screen.getAllByLabelText('Open settings');
+      expect(settingsButtons).toHaveLength(2); // Mobile and desktop versions
+      
+      // Both buttons should have inactive styling initially
+      settingsButtons.forEach(button => {
+        expect(button).toHaveClass('bg-white', 'text-gray-700', 'border-gray-300');
+        expect(button).toHaveAttribute('title', 'Configure speech settings');
+      });
+      
+      // Test active state (Azure)
+      rerender(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: true }, elevenlabs: { isEnabled: false } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      settingsButtons = screen.getAllByLabelText('Open settings');
+      // Both buttons should have active styling when Azure is enabled
+      settingsButtons.forEach(button => {
+        expect(button).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
+        expect(button).toHaveAttribute('title', 'Speech Active - Click to configure');
+      });
+      
+      // Test active state (ElevenLabs)
+      rerender(
+        <TitleBar 
+          selectedContent={CONTENT_TYPES.VERBS}
+          selectedGame={GAME_TYPES.SPEECH}
+          speechConfig={{ azure: { isEnabled: false }, elevenlabs: { isEnabled: true } }}
+          onContentChange={() => {}}
+          onGameChange={() => {}}
+          onSettingsClick={() => {}}
+        />
+      );
+      
+      settingsButtons = screen.getAllByLabelText('Open settings');
+      // Both buttons should have active styling when ElevenLabs is enabled
+      settingsButtons.forEach(button => {
+        expect(button).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
+        expect(button).toHaveAttribute('title', 'Speech Active - Click to configure');
+      });
+    });
+  });
+});

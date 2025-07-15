@@ -13,6 +13,7 @@ import SpeechConjugationGame from './SpeechConjugationGame';
 import PhraseGame from './PhraseGame';
 import SentenceImageGame from './SentenceImageGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
+import TitleBar from './TitleBar';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
 import { getAzureSpeechConfig } from './azureSpeechHelper';
@@ -63,6 +64,7 @@ const GameHub = () => {
   const [selectedContent, setSelectedContent] = useState(CONTENT_TYPES.VERBS);
   const [selectedGame, setSelectedGame] = useState(GAME_TYPES.SPEECH);
   const [contentData, setContentData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [showAzureConfig, setShowAzureConfig] = useState(false);
   const [speechConfig, setSpeechConfig] = useState({ 
     azure: { isEnabled: false, apiKey: '', region: 'eastus' },
@@ -166,10 +168,13 @@ const GameHub = () => {
 
   // Load content data based on selection
   useEffect(() => {
-    const loadContentData = () => {
-      let data = [];
+    const loadContentData = async () => {
+      setIsLoading(true);
       
-      if (selectedContent === CONTENT_TYPES.VERBS) {
+      try {
+        let data = [];
+        
+        if (selectedContent === CONTENT_TYPES.VERBS) {
         // Get verbs from logic.json that have media files available
         const allVerbs = logicData.items.filter(item => item.pos === 'verb');
         
@@ -262,6 +267,12 @@ const GameHub = () => {
       
       console.log(`Loaded ${data.length} ${selectedContent} items:`, data);
       setContentData(data);
+      } catch (error) {
+        console.error('Error loading content data:', error);
+        setContentData([]);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadContentData();
@@ -317,92 +328,17 @@ const GameHub = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with dropdowns */}
-      <div className="bg-white shadow-sm border-b border-gray-200 p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-800">
-              Arabic Learning Games
-            </h1>
-            
-            <div className="flex flex-col sm:flex-row gap-3">
-              {/* Content Type Selector */}
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Content:
-                </label>
-                <select
-                  value={selectedContent}
-                  onChange={(e) => setSelectedContent(e.target.value)}
-                  className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value={CONTENT_TYPES.VERBS}>Verbs</option>
-                  <option value={CONTENT_TYPES.COLORS}>Colors</option>
-                  <option value={CONTENT_TYPES.NOUNS}>Nouns</option>
-                  <option value={CONTENT_TYPES.PHRASES}>Phrases</option>
-                </select>
-              </div>
-
-              {/* Game Type Selector */}
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Game:
-                </label>
-                <select
-                  value={selectedGame}
-                  onChange={(e) => setSelectedGame(e.target.value)}
-                  className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  {getAvailableGames(selectedContent).map(game => (
-                    <option key={game.value} value={game.value}>
-                      {game.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Speech Configuration Button */}
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowAzureConfig(true)}
-                  className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
-                    speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled
-                      ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' 
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  🎤 {speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled ? 'Speech Active' : 'Speech Config'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Content info */}
-          <div className="mt-2 text-sm text-gray-600">
-            {contentData.length > 0 && (
-              <span>
-                {contentData.length} {selectedContent} with media files • 
-                Playing: {selectedGame.replace('_', ' ').replace('color noun', 'Color+Noun')}
-                {speechConfig.azure.isEnabled && (
-                  <span className="ml-2 text-green-600">
-                    • Azure Speech enabled
-                  </span>
-                )}
-                {speechConfig.elevenlabs.isEnabled && (
-                  <span className="ml-2 text-green-600">
-                    • ElevenLabs TTS enabled
-                  </span>
-                )}
-                {(selectedContent === CONTENT_TYPES.VERBS || selectedContent === CONTENT_TYPES.NOUNS) && (
-                  <span className="ml-2 text-blue-600">
-                    ({contentData.filter(item => item.hasVideo).length} with video)
-                  </span>
-                )}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
+      {/* TitleBar Navigation */}
+      <TitleBar
+        selectedContent={selectedContent}
+        selectedGame={selectedGame}
+        contentData={contentData}
+        isLoading={isLoading}
+        speechConfig={speechConfig}
+        onContentChange={setSelectedContent}
+        onGameChange={setSelectedGame}
+        onSettingsClick={() => setShowAzureConfig(true)}
+      />
 
       {/* Game content */}
       <div className="flex-1">
