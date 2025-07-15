@@ -5,12 +5,12 @@
       "arabic": "Hum yakallemoon ma3 3yaalhum",
       "chat": "Hum yakallemoon ma3 3yaalhum",
       "english": "They are talking with their children",
-      "audioPath": "/sounds/sentence_1752567730738_0.mp3",
+      "audioPath": "sounds/sentence_1752567730738_0.mp3",
       "images": [
-        "/pictures/sentence_1752567730738_0_1.png",
-        "/pictures/sentence_1752567730738_0_2.png",
-        "/pictures/sentence_1752567730738_0_3.png",
-        "/pictures/sentence_1752567730738_0_4.png"
+        "pictures/sentence_1752567730738_0_1.png",
+        "pictures/sentence_1752567730738_0_2.png",
+        "pictures/sentence_1752567730738_0_3.png",
+        "pictures/sentence_1752567730738_0_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T08:41:13.906Z"
@@ -20,12 +20,12 @@
       "arabic": "el kakaw mob zain",
       "chat": "el kakaw mob zain",
       "english": "The chocolate is not good",
-      "audioPath": "/sounds/sentence_1752567822896_1.mp3",
+      "audioPath": "sounds/sentence_1752567822896_1.mp3",
       "images": [
-        "/pictures/sentence_1752567822896_1_1.png",
-        "/pictures/sentence_1752567822896_1_2.png",
-        "/pictures/sentence_1752567822896_1_3.png",
-        "/pictures/sentence_1752567822896_1_4.png"
+        "pictures/sentence_1752567822896_1_1.png",
+        "pictures/sentence_1752567822896_1_2.png",
+        "pictures/sentence_1752567822896_1_3.png",
+        "pictures/sentence_1752567822896_1_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T08:41:13.907Z"
@@ -35,12 +35,12 @@
       "arabic": "ana 3endy sayyaarah, bas ma 3endy baizaat",
       "chat": "ana 3endy sayyaarah, bas ma 3endy baizaat",
       "english": "I have a car, but I don't have money",
-      "audioPath": "/sounds/sentence_3.mp3",
+      "audioPath": "sounds/sentence_3.mp3",
       "images": [
-        "/pictures/sentence_3_1.png",
-        "/pictures/sentence_3_2.png",
-        "/pictures/sentence_3_3.png",
-        "/pictures/sentence_3_4.png"
+        "pictures/sentence_3_1.png",
+        "pictures/sentence_3_2.png",
+        "pictures/sentence_3_3.png",
+        "pictures/sentence_3_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T08:41:13.907Z"
@@ -50,12 +50,12 @@
       "arabic": "ekhtee taakel el fawakeh el 7elwah",
       "chat": "ekhtee taakel el fawakeh el 7elwah",
       "english": "My sister eats the sweet fruit",
-      "audioPath": "/sounds/sentence_4.mp3",
+      "audioPath": "sounds/sentence_4.mp3",
       "images": [
-        "/pictures/sentence_4_1.png",
-        "/pictures/sentence_4_2.png",
-        "/pictures/sentence_4_3.png",
-        "/pictures/sentence_4_4.png"
+        "pictures/sentence_4_1.png",
+        "pictures/sentence_4_2.png",
+        "pictures/sentence_4_3.png",
+        "pictures/sentence_4_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T08:41:13.907Z"
@@ -65,12 +65,12 @@
       "arabic": "ukhooy yaakel el semach el asfar",
       "chat": "ukhooy yaakel el semach el asfar",
       "english": "My brother eats the yellow fish",
-      "audioPath": "/sounds/sentence_5.mp3",
+      "audioPath": "sounds/sentence_5.mp3",
       "images": [
-        "/pictures/sentence_5_1.png",
-        "/pictures/sentence_5_2.png",
-        "/pictures/sentence_5_3.png",
-        "/pictures/sentence_5_4.png"
+        "pictures/sentence_5_1.png",
+        "pictures/sentence_5_2.png",
+        "pictures/sentence_5_3.png",
+        "pictures/sentence_5_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T08:41:13.907Z"
@@ -80,12 +80,12 @@
       "arabic": "ana ashrab el chai el asfar",
       "chat": "ana ashrab el chai el asfar",
       "english": "I drink the yellow tea",
-      "audioPath": "/sounds/sentence_6.mp3",
+      "audioPath": "sounds/sentence_6.mp3",
       "images": [
-        "/pictures/sentence_6_1.png",
-        "/pictures/sentence_6_2.png",
-        "/pictures/sentence_6_3.png",
-        "/pictures/sentence_6_4.png"
+        "pictures/sentence_6_1.png",
+        "pictures/sentence_6_2.png",
+        "pictures/sentence_6_3.png",
+        "pictures/sentence_6_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:00:12.511Z"
@@ -95,12 +95,12 @@
       "arabic": "ekhtee 3endhaa kitaab azrag",
       "chat": "ekhtee 3endhaa kitaab azrag",
       "english": "My sister has a blue book",
-      "audioPath": "/sounds/sentence_7.mp3",
+      "audioPath": "sounds/sentence_7.mp3",
       "images": [
-        "/pictures/sentence_7_1.png",
-        "/pictures/sentence_7_2.png",
-        "/pictures/sentence_7_3.png",
-        "/pictures/sentence_7_4.png"
+        "pictures/sentence_7_1.png",
+        "pictures/sentence_7_2.png",
+        "pictures/sentence_7_3.png",
+        "pictures/sentence_7_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:00:12.519Z"
@@ -110,12 +110,12 @@
       "arabic": "ukhooy yasoog el sayyaarah el akhdhar",
       "chat": "ukhooy yasoog el sayyaarah el akhdhar",
       "english": "My brother drives the green car",
-      "audioPath": "/sounds/sentence_8.mp3",
+      "audioPath": "sounds/sentence_8.mp3",
       "images": [
-        "/pictures/sentence_8_1.png",
-        "/pictures/sentence_8_2.png",
-        "/pictures/sentence_8_3.png",
-        "/pictures/sentence_8_4.png"
+        "pictures/sentence_8_1.png",
+        "pictures/sentence_8_2.png",
+        "pictures/sentence_8_3.png",
+        "pictures/sentence_8_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:00:12.519Z"
@@ -125,12 +125,12 @@
       "arabic": "ana aroo7 el maktab bser3ah",
       "chat": "ana aroo7 el maktab bser3ah",
       "english": "I go to the office quickly",
-      "audioPath": "/sounds/sentence_9.mp3",
+      "audioPath": "sounds/sentence_9.mp3",
       "images": [
-        "/pictures/sentence_9_1.png",
-        "/pictures/sentence_9_2.png",
-        "/pictures/sentence_9_3.png",
-        "/pictures/sentence_9_4.png"
+        "pictures/sentence_9_1.png",
+        "pictures/sentence_9_2.png",
+        "pictures/sentence_9_3.png",
+        "pictures/sentence_9_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z"
@@ -140,12 +140,12 @@
       "arabic": "umm tashrab el mai el bared",
       "chat": "umm tashrab el mai el bared",
       "english": "Mom drinks the cold water",
-      "audioPath": "/sounds/sentence_10.mp3",
+      "audioPath": "sounds/sentence_10.mp3",
       "images": [
-        "/pictures/sentence_10_1.png",
-        "/pictures/sentence_10_2.png",
-        "/pictures/sentence_10_3.png",
-        "/pictures/sentence_10_4.png"
+        "pictures/sentence_10_1.png",
+        "pictures/sentence_10_2.png",
+        "pictures/sentence_10_3.png",
+        "pictures/sentence_10_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z"
@@ -155,12 +155,12 @@
       "arabic": "walad yal3ab ma3 el kurah el 7amra",
       "chat": "walad yal3ab ma3 el kurah el 7amra",
       "english": "The boy plays with the red ball",
-      "audioPath": "/sounds/sentence_11.mp3",
+      "audioPath": "sounds/sentence_11.mp3",
       "images": [
-        "/pictures/sentence_11_1.png",
-        "/pictures/sentence_11_2.png",
-        "/pictures/sentence_11_3.png",
-        "/pictures/sentence_11_4.png"
+        "pictures/sentence_11_1.png",
+        "pictures/sentence_11_2.png",
+        "pictures/sentence_11_3.png",
+        "pictures/sentence_11_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z"
@@ -170,12 +170,12 @@
       "arabic": "abu yashteree el la7am el taazaj",
       "chat": "abu yashteree el la7am el taazaj",
       "english": "Dad buys the fresh meat",
-      "audioPath": "/sounds/sentence_12.mp3",
+      "audioPath": "sounds/sentence_12.mp3",
       "images": [
-        "/pictures/sentence_12_1.png",
-        "/pictures/sentence_12_2.png",
-        "/pictures/sentence_12_3.png",
-        "/pictures/sentence_12_4.png"
+        "pictures/sentence_12_1.png",
+        "pictures/sentence_12_2.png",
+        "pictures/sentence_12_3.png",
+        "pictures/sentence_12_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z"
@@ -185,12 +185,12 @@
       "arabic": "bentee takteb el waajeb bser3ah",
       "chat": "bentee takteb el waajeb bser3ah",
       "english": "My daughter writes the homework quickly",
-      "audioPath": "/sounds/sentence_13.mp3",
+      "audioPath": "sounds/sentence_13.mp3",
       "images": [
-        "/pictures/sentence_13_1.png",
-        "/pictures/sentence_13_2.png",
-        "/pictures/sentence_13_3.png",
-        "/pictures/sentence_13_4.png"
+        "pictures/sentence_13_1.png",
+        "pictures/sentence_13_2.png",
+        "pictures/sentence_13_3.png",
+        "pictures/sentence_13_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z"
@@ -200,12 +200,12 @@
       "arabic": "ne7an naseer el bait el kebeer",
       "chat": "ne7an naseer el bait el kebeer",
       "english": "We go to the big house",
-      "audioPath": "/sounds/sentence_14.mp3",
+      "audioPath": "sounds/sentence_14.mp3",
       "images": [
-        "/pictures/sentence_14_1.png",
-        "/pictures/sentence_14_2.png",
-        "/pictures/sentence_14_3.png",
-        "/pictures/sentence_14_4.png"
+        "pictures/sentence_14_1.png",
+        "pictures/sentence_14_2.png",
+        "pictures/sentence_14_3.png",
+        "pictures/sentence_14_4.png"
       ],
       "correctImageIndex": 0,
       "createdAt": "2025-07-15T10:30:12.519Z"
