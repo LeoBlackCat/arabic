@@ -56,12 +56,12 @@ const SentenceImageGame = ({ onGameComplete }) => {
           arabic: 'Hum yakallemoon ma3 3yaalhum',
           chat: 'Hum yakallemoon ma3 3yaalhum',
           english: 'They are talking with their children',
-          audioPath: '/sounds/sentence_1752567730738_0.mp3',
+          audioPath: 'sounds/sentence_1752567730738_0.mp3',
           images: [
-            '/pictures/sentence_1752567730738_0_1.png',
-            '/pictures/sentence_1752567730738_0_2.png',
-            '/pictures/sentence_1752567730738_0_3.png',
-            '/pictures/sentence_1752567730738_0_4.png'
+            'pictures/sentence_1752567730738_0_1.png',
+            'pictures/sentence_1752567730738_0_2.png',
+            'pictures/sentence_1752567730738_0_3.png',
+            'pictures/sentence_1752567730738_0_4.png'
           ],
           correctImageIndex: 0
         },
@@ -70,12 +70,12 @@ const SentenceImageGame = ({ onGameComplete }) => {
           arabic: 'el kakaw mob zain',
           chat: 'el kakaw mob zain',
           english: 'The chocolate is not good',
-          audioPath: '/sounds/sentence_1752567822896_1.mp3',
+          audioPath: 'sounds/sentence_1752567822896_1.mp3',
           images: [
-            '/pictures/sentence_1752567822896_1_1.png',
-            '/pictures/sentence_1752567822896_1_2.png',
-            '/pictures/sentence_1752567822896_1_3.png',
-            '/pictures/sentence_1752567822896_1_4.png'
+            'pictures/sentence_1752567822896_1_1.png',
+            'pictures/sentence_1752567822896_1_2.png',
+            'pictures/sentence_1752567822896_1_3.png',
+            'pictures/sentence_1752567822896_1_4.png'
           ],
           correctImageIndex: 0
         }
@@ -333,7 +333,7 @@ const SentenceImageGame = ({ onGameComplete }) => {
               alt={`Option ${index + 1}`}
               className="w-full h-48 object-cover"
               onError={(e) => {
-                e.target.src = '/pictures/kitaab.png'; // Fallback image
+                e.target.src = 'pictures/kitaab.png'; // Fallback image
               }}
             />
             {showResult && (
