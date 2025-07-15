@@ -2790,9 +2790,9 @@
       "his": "عياله",
       "his_chat": "3yaalah",
       "her": "عيالها",
-      "her_chat": "3yaalaha",
+      "her_chat": "3yaalha",
       "their": "عيالهم",
-      "their_chat": "3yaalahum"
+      "their_chat": "3yaalhum"
     },
     {
       "id": 169,
@@ -2801,7 +2801,7 @@
       "eng": "watch",
       "pos": "noun",
       "colorful": true,
-      "gender": "m",
+      "gender": "f",
       "my": "ساعتي",
       "my_chat": "sa3aty",
       "your_m": "ساعتك",
@@ -3166,6 +3166,27 @@
       "id": 216,
       "ar": "جميلة",
       "alternate": 215
+    },
+    {
+      "chat": "ma3",
+      "eng": "with",
+      "pos": "preposition",
+      "id": 217,
+      "ar": "مع"
+    },
+    {
+      "chat": "hal",
+      "eng": "this",
+      "pos": "demonstrative pronoun",
+      "id": 218,
+      "ar": "هال"
+    },
+    {
+      "chat": "el",
+      "ar": "ال",
+      "eng": "the",
+      "pos": "article",
+      "id": 219
     }
   ],
   "numerals": [
