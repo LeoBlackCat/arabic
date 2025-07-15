@@ -11,6 +11,7 @@ import SpeedTranslationGame from './SpeedTranslationGame';
 import GrammarPatternGame from './GrammarPatternGame';
 import SpeechConjugationGame from './SpeechConjugationGame';
 import PhraseGame from './PhraseGame';
+import SentenceImageGame from './SentenceImageGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
@@ -37,7 +38,8 @@ const GAME_TYPES = {
   ARABIC_WRITING: 'arabic_writing',
   SPEED_TRANSLATION: 'speed_translation',
   GRAMMAR_PATTERN: 'grammar_pattern',
-  PHRASE: 'phrase'
+  PHRASE: 'phrase',
+  SENTENCE_IMAGE: 'sentence_image'
 };
 
 // Color mapping for HTML colors
@@ -139,7 +141,8 @@ const GameHub = () => {
           { value: GAME_TYPES.PHRASE, label: 'Phrase Practice' },
           { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
           { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
-          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
+          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
+          { value: GAME_TYPES.SENTENCE_IMAGE, label: 'Sentence Image Game' }
         ];
       default:
         return [
@@ -305,6 +308,8 @@ const GameHub = () => {
         return <GrammarPatternGame contentData={getAllGrammarData()} contentType={selectedContent} />;
       case GAME_TYPES.PHRASE:
         return <PhraseGame {...commonProps} />;
+      case GAME_TYPES.SENTENCE_IMAGE:
+        return <SentenceImageGame {...commonProps} />;
       default:
         return <App {...commonProps} />;
     }
