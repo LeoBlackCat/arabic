@@ -24,7 +24,7 @@ const createSentencesJson = () => {
         id: 'sentence_2',
         arabic: 'el kakaw mob zain',
         chat: 'el kakaw mob zain',
-        english: 'The coffee is not good',
+        english: 'The chocolate is not good',
         audioPath: '/sounds/sentence_1752567822896_1.mp3',
         images: [
           '/pictures/sentence_1752567822896_1_1.png',
@@ -39,7 +39,7 @@ const createSentencesJson = () => {
         id: 'sentence_3',
         arabic: 'ana 3endy sayyaarah, bas ma 3endy baizaat',
         chat: 'ana 3endy sayyaarah, bas ma 3endy baizaat',
-        english: 'I have a car, but I don\'t have eggs',
+        english: 'I have a car, but I don\'t have money',
         audioPath: '/sounds/sentence_3.mp3',
         images: [
           '/pictures/sentence_3_1.png',

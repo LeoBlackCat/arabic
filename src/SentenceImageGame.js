@@ -22,9 +22,30 @@ const SentenceImageGame = ({ onGameComplete }) => {
       const response = await fetch('/sentences.json');
       const data = await response.json();
       
-      setSentences(data.sentences);
-      if (data.sentences.length > 0) {
-        setCurrentSentence(data.sentences[0]);
+      // Randomize image order for each sentence
+      const randomizedSentences = data.sentences.map(sentence => {
+        const images = [...sentence.images];
+        const correctImage = images[sentence.correctImageIndex];
+        
+        // Shuffle the images array
+        for (let i = images.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [images[i], images[j]] = [images[j], images[i]];
+        }
+        
+        // Find the new position of the correct image
+        const newCorrectIndex = images.indexOf(correctImage);
+        
+        return {
+          ...sentence,
+          images: images,
+          correctImageIndex: newCorrectIndex
+        };
+      });
+      
+      setSentences(randomizedSentences);
+      if (randomizedSentences.length > 0) {
+        setCurrentSentence(randomizedSentences[0]);
       }
     } catch (error) {
       console.error('Error loading sentences data:', error);
@@ -48,7 +69,7 @@ const SentenceImageGame = ({ onGameComplete }) => {
           id: 'sentence_2',
           arabic: 'el kakaw mob zain',
           chat: 'el kakaw mob zain',
-          english: 'The coffee is not good',
+          english: 'The chocolate is not good',
           audioPath: '/sounds/sentence_1752567822896_1.mp3',
           images: [
             '/pictures/sentence_1752567822896_1_1.png',
@@ -60,9 +81,30 @@ const SentenceImageGame = ({ onGameComplete }) => {
         }
       ];
       
-      setSentences(mockSentences);
-      if (mockSentences.length > 0) {
-        setCurrentSentence(mockSentences[0]);
+      // Randomize mock sentences too
+      const randomizedMockSentences = mockSentences.map(sentence => {
+        const images = [...sentence.images];
+        const correctImage = images[sentence.correctImageIndex];
+        
+        // Shuffle the images array
+        for (let i = images.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [images[i], images[j]] = [images[j], images[i]];
+        }
+        
+        // Find the new position of the correct image
+        const newCorrectIndex = images.indexOf(correctImage);
+        
+        return {
+          ...sentence,
+          images: images,
+          correctImageIndex: newCorrectIndex
+        };
+      });
+      
+      setSentences(randomizedMockSentences);
+      if (randomizedMockSentences.length > 0) {
+        setCurrentSentence(randomizedMockSentences[0]);
       }
     }
   };
