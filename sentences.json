@@ -783,7 +783,263 @@
       "correctImageIndex": 0,
       "verb": "ajarreb",
       "createdAt": "2025-07-15T23:34:22.381Z"
+    },
+    {
+      "id": "sentence_50",
+      "arabic": "\"أنا أقدر أرسم الوردة الزريعة\"",
+      "chat": "\"ana agdar arsm el warda el zaree3a\" (I can draw the pink flower)",
+      "english": "\"I can draw the pink flower\"",
+      "audioPath": "sounds/sentence_50.mp3",
+      "images": [
+        "pictures/sentence_50_1.png",
+        "pictures/sentence_50_2.png",
+        "pictures/sentence_50_3.png",
+        "pictures/sentence_50_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "agdar",
+      "createdAt": "2025-07-16T05:25:18.348Z"
+    },
+    {
+      "id": "sentence_51",
+      "arabic": "\"أنا أيب الكتب الجديد للمدرسة\"",
+      "chat": "\"ana ayeeb el kotob el jadeed lil madrasa\" (I bring the new books to the school)",
+      "english": "\"I bring the new books to the school\"",
+      "audioPath": "sounds/sentence_51.mp3",
+      "images": [
+        "pictures/sentence_51_1.png",
+        "pictures/sentence_51_2.png",
+        "pictures/sentence_51_3.png",
+        "pictures/sentence_51_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ayeeb",
+      "createdAt": "2025-07-16T05:27:06.182Z"
+    },
+    {
+      "id": "sentence_52",
+      "arabic": "أنا أرقد على السرير الأزرق",
+      "chat": "\"ana arged 3ala elsarir el azraq\"",
+      "english": "\"I lay on the blue bed\"",
+      "audioPath": "sounds/sentence_52.mp3",
+      "images": [
+        "pictures/sentence_52_1.png",
+        "pictures/sentence_52_2.png",
+        "pictures/sentence_52_3.png",
+        "pictures/sentence_52_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "arged",
+      "createdAt": "2025-07-16T05:28:42.812Z"
+    },
+    {
+      "id": "sentence_53",
+      "arabic": "أنا أنام على السرير الأبيض",
+      "chat": "\"ana anaam 3la el sreeer el abyad\" (I sleep on the white bed)",
+      "english": "\"I sleep on the white bed\"",
+      "audioPath": "sounds/sentence_53.mp3",
+      "images": [
+        "pictures/sentence_53_1.png",
+        "pictures/sentence_53_2.png",
+        "pictures/sentence_53_3.png",
+        "pictures/sentence_53_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "anaam",
+      "createdAt": "2025-07-16T05:30:19.804Z"
+    },
+    {
+      "id": "sentence_54",
+      "arabic": "أنا أرسل الرسالة السهلة لأمي",
+      "chat": "\"ana atarresh el risala el sahla le ummi\" (I send the simple message to my mother)",
+      "english": "\"I send the simple message to my mother\"",
+      "audioPath": "sounds/sentence_54.mp3",
+      "images": [
+        "pictures/sentence_54_1.png",
+        "pictures/sentence_54_2.png",
+        "pictures/sentence_54_3.png",
+        "pictures/sentence_54_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "atarresh",
+      "createdAt": "2025-07-16T05:46:56.381Z"
+    },
+    {
+      "id": "sentence_55",
+      "arabic": "أنا أشتغل في المكتب الأبيض",
+      "chat": "\"ana ashteghil fi el maktab el abyad\" (I work in the white office)",
+      "english": "\"I work in the white office\"",
+      "audioPath": "sounds/sentence_55.mp3",
+      "images": [
+        "pictures/sentence_55_1.png",
+        "pictures/sentence_55_2.png",
+        "pictures/sentence_55_3.png",
+        "pictures/sentence_55_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ashteghil",
+      "createdAt": "2025-07-16T05:48:15.197Z"
+    },
+    {
+      "id": "sentence_56",
+      "arabic": "أنا أسكر الباب الأخضر",
+      "chat": "\"ana asakker el bab el akhdar\" (I close the green door)",
+      "english": "\"I close the green door\"",
+      "audioPath": "sounds/sentence_56.mp3",
+      "images": [
+        "pictures/sentence_56_1.png",
+        "pictures/sentence_56_2.png",
+        "pictures/sentence_56_3.png",
+        "pictures/sentence_56_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "asakker",
+      "createdAt": "2025-07-16T05:50:01.536Z"
+    },
+    {
+      "id": "sentence_57",
+      "arabic": "أنا أمسك الكتاب الأزرق",
+      "chat": "\"ana amsek el kitab el azraq\" (I hold the blue book)",
+      "english": "\"I hold the blue book\"",
+      "audioPath": "sounds/sentence_57.mp3",
+      "images": [
+        "pictures/sentence_57_1.png",
+        "pictures/sentence_57_2.png",
+        "pictures/sentence_57_3.png",
+        "pictures/sentence_57_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "amsek",
+      "createdAt": "2025-07-16T05:52:05.576Z"
+    },
+    {
+      "id": "sentence_58",
+      "arabic": "\"أنا أسمع الموسيقى الحلوة\"",
+      "chat": "\"ana asma3 el moseeka el hilo\" (I listen to the beautiful music)",
+      "english": "\"I listen to the beautiful music\"",
+      "audioPath": "sounds/sentence_58.mp3",
+      "images": [
+        "pictures/sentence_58_1.png",
+        "pictures/sentence_58_2.png",
+        "pictures/sentence_58_3.png",
+        "pictures/sentence_58_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "asma3",
+      "createdAt": "2025-07-16T06:01:18.583Z"
+    },
+    {
+      "id": "sentence_59",
+      "arabic": "\"أنا أقرأ الكتاب الأسود\"",
+      "chat": "\"ana agra el ketab el aswad\" (I read the black book)",
+      "english": "\"I read the black book\"",
+      "audioPath": "sounds/sentence_59.mp3",
+      "images": [
+        "pictures/sentence_59_1.png",
+        "pictures/sentence_59_2.png",
+        "pictures/sentence_59_3.png",
+        "pictures/sentence_59_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "agra",
+      "createdAt": "2025-07-16T06:03:21.565Z"
+    },
+    {
+      "id": "sentence_60",
+      "arabic": "أنا أدرس اللغة العربية كل يوم",
+      "chat": "\"ana adres el logha el arabeyya kull yom\" (I study the Arabic language every day)",
+      "english": "\"I study the Arabic language every day\"",
+      "audioPath": "sounds/sentence_60.mp3",
+      "images": [
+        "pictures/sentence_60_1.png",
+        "pictures/sentence_60_2.png",
+        "pictures/sentence_60_3.png",
+        "pictures/sentence_60_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "adres",
+      "createdAt": "2025-07-16T06:05:30.464Z"
+    },
+    {
+      "id": "sentence_61",
+      "arabic": "أنا أتحدث مع أمي بالعربية",
+      "chat": "\"ana armis ma3 ummi belarabi\" (I speak with my mother in Arabic)",
+      "english": "\"I speak with my mother in Arabic\"",
+      "audioPath": "sounds/sentence_61.mp3",
+      "images": [
+        "pictures/sentence_61_1.png",
+        "pictures/sentence_61_2.png",
+        "pictures/sentence_61_3.png",
+        "pictures/sentence_61_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "armis",
+      "createdAt": "2025-07-16T06:07:15.120Z"
+    },
+    {
+      "id": "sentence_62",
+      "arabic": "أنا أتكلم مع أخي باللغة العربية",
+      "chat": "\"ana atkallam m3a ukhooy bel logha el arabiya\" (I speak with my brother in the Arabic language)",
+      "english": "\"I speak with my brother in Arabic\"",
+      "audioPath": "sounds/sentence_62.mp3",
+      "images": [
+        "pictures/sentence_62_1.png",
+        "pictures/sentence_62_2.png",
+        "pictures/sentence_62_3.png",
+        "pictures/sentence_62_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "atkallam",
+      "createdAt": "2025-07-16T06:13:00.733Z"
+    },
+    {
+      "id": "sentence_63",
+      "arabic": "\"أنا آخذ الكتاب الأخضر\"",
+      "chat": "\"ana aakheth el kitab el akhdar\" (I take the green book)",
+      "english": "\"I take the green book\"",
+      "audioPath": "sounds/sentence_63.mp3",
+      "images": [
+        "pictures/sentence_63_1.png",
+        "pictures/sentence_63_2.png",
+        "pictures/sentence_63_3.png",
+        "pictures/sentence_63_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "aakheth",
+      "createdAt": "2025-07-16T06:14:33.263Z"
+    },
+    {
+      "id": "sentence_64",
+      "arabic": "أنا أصنع الطعام الأخضر لأمي",
+      "chat": "\"ana asawee el akl el zaree3 le umm\" (I make the green food for mom)",
+      "english": "\"I make the green food for mom\"",
+      "audioPath": "sounds/sentence_64.mp3",
+      "images": [
+        "pictures/sentence_64_1.png",
+        "pictures/sentence_64_2.png",
+        "pictures/sentence_64_3.png",
+        "pictures/sentence_64_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "asawee",
+      "createdAt": "2025-07-16T06:16:29.295Z"
+    },
+    {
+      "id": "sentence_65",
+      "arabic": "أنا ما أدري أين كتاب الماث",
+      "chat": "\"ana ma adree ayna kitab el math\" (I am not aware where is the math book)",
+      "english": "\"I don't know where the math book is\"",
+      "audioPath": "sounds/sentence_65.mp3",
+      "images": [
+        "pictures/sentence_65_1.png",
+        "pictures/sentence_65_2.png",
+        "pictures/sentence_65_3.png",
+        "pictures/sentence_65_4.png"
+      ],
+      "correctImageIndex": 0,
+      "verb": "ma adree",
+      "createdAt": "2025-07-16T06:18:08.067Z"
     }
   ],
-  "lastUpdated": "2025-07-15T23:34:22.399Z"
+  "lastUpdated": "2025-07-16T06:18:08.069Z"
 }

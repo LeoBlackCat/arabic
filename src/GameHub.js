@@ -13,7 +13,7 @@ import SpeechConjugationGame from './SpeechConjugationGame';
 import PhraseGame from './PhraseGame';
 import SentenceImageGame from './SentenceImageGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
-import TitleBar from './TitleBar';
+import TitleBar, { getAvailableGames } from './TitleBar';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
 import { getAzureSpeechConfig } from './azureSpeechHelper';
@@ -104,58 +104,7 @@ const GameHub = () => {
     return allData;
   };
 
-  // Get available games based on content type
-  const getAvailableGames = (contentType) => {
-    switch (contentType) {
-      case CONTENT_TYPES.VERBS:
-        return [
-          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
-          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
-          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
-          { value: GAME_TYPES.CONJUGATION, label: 'Conjugation Practice' },
-          { value: GAME_TYPES.SPEECH_CONJUGATION, label: 'Speech Conjugation' },
-          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
-          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
-          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
-        ];
-      case CONTENT_TYPES.COLORS:
-        return [
-          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
-          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
-          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
-          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
-          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
-        ];
-      case CONTENT_TYPES.NOUNS:
-        return [
-          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
-          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
-          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
-          { value: GAME_TYPES.POSSESSIVE, label: 'Possessive Practice' },
-          { value: GAME_TYPES.COLOR_NOUN, label: 'Color + Noun Game' },
-          { value: GAME_TYPES.SENTENCE, label: 'Sentence Builder' },
-          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
-          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
-          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
-        ];
-      case CONTENT_TYPES.PHRASES:
-        return [
-          { value: GAME_TYPES.PHRASE, label: 'Phrase Practice' },
-          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
-          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
-          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
-          { value: GAME_TYPES.SENTENCE_IMAGE, label: 'Sentence Image Game' }
-        ];
-      default:
-        return [
-          { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
-          { value: GAME_TYPES.IMAGE_CHOICE, label: 'Image Choice' },
-          { value: GAME_TYPES.PUZZLE, label: 'Puzzle Game' },
-          { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
-          { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' }
-        ];
-    }
-  };
+
 
   // Load speech configuration on mount
   useEffect(() => {
@@ -207,7 +156,7 @@ const GameHub = () => {
             };
           });
           
-        console.log(`[GameHub] Filtered ${allVerbs.length} verbs to ${data.length} (removed ${alternateVerbIds.size} alternates)`);
+
       } else if (selectedContent === CONTENT_TYPES.COLORS) {
         // Get colors from logic.json (always available via HTML colors)
         data = logicData.items
@@ -252,7 +201,7 @@ const GameHub = () => {
             };
           });
           
-        console.log(`[GameHub] Filtered ${allNouns.length} nouns to ${data.length} (removed ${alternateNounIds.size} alternates)`);
+
       } else if (selectedContent === CONTENT_TYPES.PHRASES) {
         // Get phrases from logic.json
         data = logicData.items
@@ -265,7 +214,6 @@ const GameHub = () => {
           }));
       }
       
-      console.log(`Loaded ${data.length} ${selectedContent} items:`, data);
       setContentData(data);
       } catch (error) {
         console.error('Error loading content data:', error);
@@ -362,7 +310,6 @@ const GameHub = () => {
         onClose={() => setShowAzureConfig(false)}
         onConfigChange={(config) => {
           setSpeechConfig(config);
-          console.log('Speech config updated:', config);
         }}
       />
     </div>

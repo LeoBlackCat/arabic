@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 // Error boundary component for dropdown interactions
 class DropdownErrorBoundary extends React.Component {
@@ -190,8 +190,10 @@ const isValidGameForContent = (gameType, contentType) => {
  * A mobile-inspired titlebar that displays the current topic name prominently
  * and provides compact controls for content/game selection and settings access.
  * Replaces the traditional multi-row header with a streamlined single-line interface.
+ * 
+ * Optimized with React.memo for performance and enhanced accessibility features.
  */
-const TitleBar = ({
+const TitleBar = React.memo(({
   currentTopic = null, // Deprecated - will be calculated dynamically
   selectedContent = '',
   selectedGame = '',
@@ -202,17 +204,32 @@ const TitleBar = ({
   onGameChange = () => {},
   onSettingsClick = () => {}
 }) => {
-  // Calculate the topic name dynamically based on selected content
-  const displayTopic = currentTopic || getTopicDisplayName(selectedContent, contentData, isLoading);
+  // Memoize the topic name calculation to prevent unnecessary recalculations
+  const displayTopic = useMemo(() => 
+    currentTopic || getTopicDisplayName(selectedContent, contentData, isLoading),
+    [currentTopic, selectedContent, contentData, isLoading]
+  );
   
-  // Get available games for the current content type
-  const availableGames = getAvailableGames(selectedContent);
+  // Memoize available games calculation
+  const availableGames = useMemo(() => 
+    getAvailableGames(selectedContent),
+    [selectedContent]
+  );
   
-  // Validate current game selection against available games
-  const isCurrentGameValid = isValidGameForContent(selectedGame, selectedContent);
+  // Memoize game validation
+  const isCurrentGameValid = useMemo(() => 
+    isValidGameForContent(selectedGame, selectedContent),
+    [selectedGame, selectedContent]
+  );
+
+  // Memoize speech service status for settings button styling
+  const isSpeechActive = useMemo(() => 
+    speechConfig?.azure?.isEnabled || speechConfig?.elevenlabs?.isEnabled,
+    [speechConfig?.azure?.isEnabled, speechConfig?.elevenlabs?.isEnabled]
+  );
   
-  // Handle invalid content/game combinations
-  const handleContentChange = (newContent) => {
+  // Memoized content change handler with useCallback to prevent unnecessary re-renders
+  const handleContentChange = useCallback((newContent) => {
     try {
       onContentChange(newContent);
       
@@ -226,10 +243,10 @@ const TitleBar = ({
     } catch (error) {
       console.error('Error handling content change:', error);
     }
-  };
+  }, [onContentChange, onGameChange, selectedGame]);
   
-  // Handle game change with validation
-  const handleGameChange = (newGame) => {
+  // Memoized game change handler with useCallback
+  const handleGameChange = useCallback((newGame) => {
     try {
       if (isValidGameForContent(newGame, selectedContent)) {
         onGameChange(newGame);
@@ -239,10 +256,27 @@ const TitleBar = ({
     } catch (error) {
       console.error('Error handling game change:', error);
     }
-  };
+  }, [onGameChange, selectedContent]);
+
+  // Keyboard navigation handler for enhanced accessibility
+  const handleKeyDown = useCallback((event, action) => {
+    // Handle Enter and Space key presses for button-like behavior
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      action();
+    }
+    // Handle Escape key to close dropdowns (native select behavior)
+    if (event.key === 'Escape') {
+      event.target.blur();
+    }
+  }, []);
 
   return (
-    <div className="bg-white shadow-sm border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4">
+    <div 
+      className="bg-white shadow-sm border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4"
+      role="banner"
+      aria-label="Navigation titlebar"
+    >
       <div className="max-w-4xl mx-auto">
         {/* Mobile Layout: Stacked elements for screens < 640px */}
         <div className="sm:hidden">
@@ -252,36 +286,48 @@ const TitleBar = ({
               <h1 
                 className="text-lg font-bold text-gray-800 truncate"
                 title={displayTopic}
+                aria-live="polite"
+                aria-atomic="true"
+                id="current-topic-mobile"
               >
                 {displayTopic}
               </h1>
             </div>
             <button
               onClick={onSettingsClick}
-              className={`ml-3 p-2 text-sm rounded-md border transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation ${
-                speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled
+              onKeyDown={(e) => handleKeyDown(e, onSettingsClick)}
+              className={`ml-3 p-2 text-sm rounded-md border transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                isSpeechActive
                   ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-700' 
                   : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 active:bg-gray-100'
               }`}
-              aria-label="Open settings"
-              title={speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled ? 'Speech Active - Click to configure' : 'Configure speech settings'}
+              aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
+              aria-describedby="settings-button-help-mobile"
+              title={isSpeechActive ? 'Speech Active - Click to configure' : 'Configure speech settings'}
+              type="button"
             >
-              ⚙️
+              <span aria-hidden="true">⚙️</span>
+              <span className="sr-only">Settings</span>
             </button>
+            <span id="settings-button-help-mobile" className="sr-only">
+              Configure speech recognition and text-to-speech settings for the learning games
+            </span>
           </div>
           
           {/* Bottom row: Selectors */}
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="group" aria-label="Content and game selection controls">
             <div className="flex-1">
               <DropdownErrorBoundary>
                 <select
                   value={selectedContent}
                   onChange={(e) => handleContentChange(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer touch-manipulation"
+                  onKeyDown={(e) => handleKeyDown(e, () => {})}
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer touch-manipulation"
                   aria-label="Select content type to learn"
                   aria-describedby="content-selector-help"
                   id="content-type-selector"
                   disabled={isLoading}
+                  aria-required="true"
                 >
                   <option value="" disabled>
                     {isLoading ? 'Loading...' : 'Content'}
@@ -299,11 +345,13 @@ const TitleBar = ({
                 <select
                   value={isCurrentGameValid ? selectedGame : ''}
                   onChange={(e) => handleGameChange(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer touch-manipulation"
+                  onKeyDown={(e) => handleKeyDown(e, () => {})}
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer touch-manipulation"
                   aria-label="Select game type to play"
                   aria-describedby="game-selector-help"
                   id="game-type-selector"
                   disabled={!selectedContent || availableGames.length === 0 || isLoading}
+                  aria-required="true"
                 >
                   <option value="" disabled>
                     {isLoading ? 'Loading...' : !selectedContent ? 'Content First' : availableGames.length === 0 ? 'No Games Available' : 'Game'}
@@ -320,38 +368,43 @@ const TitleBar = ({
           
           {/* Hidden helper text for screen readers */}
           <span id="content-selector-help" className="sr-only">
-            Choose the type of Arabic content you want to practice
+            Choose the type of Arabic content you want to practice. This selection will determine which games are available.
           </span>
           <span id="game-selector-help" className="sr-only">
-            Choose the type of game you want to play with the selected content
+            Choose the type of game you want to play with the selected content. Different content types offer different game options.
           </span>
         </div>
 
         {/* Tablet and Desktop Layout: Single row for screens ≥ 640px */}
-        <div className="hidden sm:flex items-center justify-between gap-3 md:gap-4">
+        <div className="hidden sm:flex items-center justify-between gap-3 md:gap-4" role="navigation" aria-label="Main navigation controls">
           {/* Topic Name Display */}
           <div className="flex-shrink-0 min-w-0 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[400px]">
             <h1 
               className="text-lg sm:text-xl font-bold text-gray-800 truncate"
               title={displayTopic}
+              aria-live="polite"
+              aria-atomic="true"
+              id="current-topic-desktop"
             >
               {displayTopic}
             </h1>
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0" role="group" aria-label="Content and game selection controls">
             {/* Content Type Selector */}
             <div className="flex items-center">
               <DropdownErrorBoundary>
                 <select
                   value={selectedContent}
                   onChange={(e) => handleContentChange(e.target.value)}
-                  className="px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer min-w-[100px] sm:min-w-[120px] md:min-w-[140px]"
+                  onKeyDown={(e) => handleKeyDown(e, () => {})}
+                  className="px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer min-w-[100px] sm:min-w-[120px] md:min-w-[140px]"
                   aria-label="Select content type to learn"
                   aria-describedby="content-selector-help-desktop"
                   id="content-type-selector-desktop"
                   disabled={isLoading}
+                  aria-required="true"
                 >
                   <option value="" disabled>
                     {isLoading ? 'Loading...' : 'Select Content'}
@@ -363,7 +416,7 @@ const TitleBar = ({
                 </select>
               </DropdownErrorBoundary>
               <span id="content-selector-help-desktop" className="sr-only">
-                Choose the type of Arabic content you want to practice
+                Choose the type of Arabic content you want to practice. This selection will determine which games are available.
               </span>
             </div>
 
@@ -373,11 +426,13 @@ const TitleBar = ({
                 <select
                   value={isCurrentGameValid ? selectedGame : ''}
                   onChange={(e) => handleGameChange(e.target.value)}
-                  className="px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer min-w-[120px] sm:min-w-[140px] md:min-w-[160px]"
+                  onKeyDown={(e) => handleKeyDown(e, () => {})}
+                  className="px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer min-w-[120px] sm:min-w-[140px] md:min-w-[160px]"
                   aria-label="Select game type to play"
                   aria-describedby="game-selector-help-desktop"
                   id="game-type-selector-desktop"
                   disabled={!selectedContent || availableGames.length === 0 || isLoading}
+                  aria-required="true"
                 >
                   <option value="" disabled>
                     {isLoading ? 'Loading...' : !selectedContent ? 'Select Content First' : availableGames.length === 0 ? 'No Games Available' : 'Select Game'}
@@ -390,7 +445,7 @@ const TitleBar = ({
                 </select>
               </DropdownErrorBoundary>
               <span id="game-selector-help-desktop" className="sr-only">
-                Choose the type of game you want to play with the selected content
+                Choose the type of game you want to play with the selected content. Different content types offer different game options.
               </span>
             </div>
 
@@ -398,23 +453,45 @@ const TitleBar = ({
             <div className="flex items-center">
               <button
                 onClick={onSettingsClick}
-                className={`px-2 py-1.5 sm:px-3 sm:py-2 text-sm rounded-md border transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
-                  speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled
+                onKeyDown={(e) => handleKeyDown(e, onSettingsClick)}
+                className={`px-2 py-1.5 sm:px-3 sm:py-2 text-sm rounded-md border transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  isSpeechActive
                     ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 focus:bg-blue-600' 
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 focus:bg-gray-50'
                 }`}
-                aria-label="Open settings"
-                title={speechConfig.azure.isEnabled || speechConfig.elevenlabs.isEnabled ? 'Speech Active - Click to configure' : 'Configure speech settings'}
+                aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
+                aria-describedby="settings-button-help-desktop"
+                title={isSpeechActive ? 'Speech Active - Click to configure' : 'Configure speech settings'}
+                type="button"
               >
-                ⚙️
+                <span aria-hidden="true">⚙️</span>
+                <span className="sr-only">Settings</span>
               </button>
+              <span id="settings-button-help-desktop" className="sr-only">
+                Configure speech recognition and text-to-speech settings for the learning games
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  // Custom comparison function for React.memo to optimize re-renders
+  // Only re-render if props that actually affect the component have changed
+  return (
+    prevProps.selectedContent === nextProps.selectedContent &&
+    prevProps.selectedGame === nextProps.selectedGame &&
+    prevProps.isLoading === nextProps.isLoading &&
+    prevProps.currentTopic === nextProps.currentTopic &&
+    prevProps.contentData?.length === nextProps.contentData?.length &&
+    prevProps.speechConfig?.azure?.isEnabled === nextProps.speechConfig?.azure?.isEnabled &&
+    prevProps.speechConfig?.elevenlabs?.isEnabled === nextProps.speechConfig?.elevenlabs?.isEnabled &&
+    prevProps.onContentChange === nextProps.onContentChange &&
+    prevProps.onGameChange === nextProps.onGameChange &&
+    prevProps.onSettingsClick === nextProps.onSettingsClick
+  );
+});
 
 export default TitleBar;
 export { 

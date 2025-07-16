@@ -740,7 +740,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toBeInTheDocument();
       expect(settingsButton).toHaveTextContent('⚙️');
     });
@@ -759,7 +759,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       fireEvent.click(settingsButton);
       
       expect(mockOnSettingsClick).toHaveBeenCalledTimes(1);
@@ -777,7 +777,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
       expect(settingsButton).toHaveAttribute('title', 'Speech Active - Click to configure');
     });
@@ -794,7 +794,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
       expect(settingsButton).toHaveAttribute('title', 'Speech Active - Click to configure');
     });
@@ -811,7 +811,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
       expect(settingsButton).toHaveAttribute('title', 'Speech Active - Click to configure');
     });
@@ -828,7 +828,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toHaveClass('bg-white', 'text-gray-700', 'border-gray-300');
       expect(settingsButton).toHaveAttribute('title', 'Configure speech settings');
     });
@@ -845,7 +845,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toHaveClass('min-w-[44px]', 'min-h-[44px]');
     });
 
@@ -861,8 +861,8 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
-      expect(settingsButton).toHaveAttribute('aria-label', expect.stringContaining('Open settings panel'));
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
+      expect(settingsButton).toHaveAttribute('aria-label', 'Open settings');
       expect(settingsButton).toHaveAttribute('title');
     });
 
@@ -879,7 +879,7 @@ describe('TitleBar Topic Name Display', () => {
         );
       }).not.toThrow();
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       expect(settingsButton).toBeInTheDocument();
       expect(settingsButton).toHaveClass('bg-white', 'text-gray-700', 'border-gray-300');
     });
@@ -1120,7 +1120,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButton = screen.getAllByRole('button', { name: /open settings panel/i })[0];
+      const settingsButton = screen.getAllByLabelText('Open settings')[0];
       fireEvent.click(settingsButton);
       
       expect(mockOnSettingsClick).toHaveBeenCalledTimes(1);
@@ -1139,7 +1139,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      let settingsButtons = screen.getAllByRole('button', { name: /open settings panel/i });
+      let settingsButtons = screen.getAllByLabelText('Open settings');
       expect(settingsButtons).toHaveLength(2); // Mobile and desktop versions
       
       // Both buttons should have inactive styling initially
@@ -1159,7 +1159,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      settingsButtons = screen.getAllByRole('button', { name: /open settings panel/i });
+      settingsButtons = screen.getAllByLabelText('Open settings');
       // Both buttons should have active styling when speech is enabled
       settingsButtons.forEach(button => {
         expect(button).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
@@ -1178,7 +1178,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      const settingsButtons = screen.getAllByRole('button', { name: /open settings panel/i });
+      const settingsButtons = screen.getAllByLabelText('Open settings');
       expect(settingsButtons).toHaveLength(2); // Mobile and desktop versions
       
       // Both buttons should have minimal width and height while meeting touch targets
@@ -1207,7 +1207,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      let settingsButtons = screen.getAllByRole('button', { name: /open settings panel/i });
+      let settingsButtons = screen.getAllByLabelText('Open settings');
       expect(settingsButtons).toHaveLength(2); // Mobile and desktop versions
       
       // Both buttons should have inactive styling initially
@@ -1228,7 +1228,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      settingsButtons = screen.getAllByRole('button', { name: /open settings panel/i });
+      settingsButtons = screen.getAllByLabelText('Open settings');
       // Both buttons should have active styling when Azure is enabled
       settingsButtons.forEach(button => {
         expect(button).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
@@ -1247,7 +1247,7 @@ describe('TitleBar Topic Name Display', () => {
         />
       );
       
-      settingsButtons = screen.getAllByRole('button', { name: /open settings panel/i });
+      settingsButtons = screen.getAllByLabelText('Open settings');
       // Both buttons should have active styling when ElevenLabs is enabled
       settingsButtons.forEach(button => {
         expect(button).toHaveClass('bg-blue-500', 'text-white', 'border-blue-500');
