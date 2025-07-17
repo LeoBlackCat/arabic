@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import SkipLink from './components/SkipLink.js';
+import LiveRegion from './components/LiveRegion.js';
+import FocusManager from './components/FocusManager.js';
+import { announceToScreenReader, prefersReducedMotion } from './utils/accessibilityUtils.js';
 
 // Toggle: if true, play pre-generated WAV files located in /sounds; otherwise use browser TTS
 const PLAY_AUDIO_FILES = true;
@@ -9,13 +13,18 @@ import MediaDisplay from './MediaDisplay';
 import { isElevenLabsAvailable, playElevenLabsSpeech } from './elevenLabsHelper';
 import { isFirebaseStorageAvailable, playAudioWithFirebaseCache } from './firebaseStorageHelper';
 import { getThemeClass, applyTheme } from './utils/themeUtils.js';
-import { animateElement, createParticleEffect, triggerCelebration } from './utils/animationUtils.js';
+import { animateElement, staggerAnimation, createParticleEffect, triggerCelebration } from './utils/animationUtils.js';
 import { recordAttempt, getLearningStats, getPendingNotifications } from './utils/progressUtils.js';
 import { AchievementBadge, FeedbackToast, StreakCounter, AnimatedScore } from './components/FeedbackSystem.js';
 import SwipeableContent from './components/SwipeableContent.js';
 import TouchOptimizedButton from './components/TouchOptimizedButton.js';
 import BottomSheet from './components/BottomSheet.js';
 import { handleOrientationChange, isTouchDevice } from './utils/touchUtils.js';
+import ThemeProvider from './components/ThemeProvider.js';
+import ThemedCard from './components/ThemedCard.js';
+import ThemedButton from './components/ThemedButton.js';
+import { SkeletonLoader, LoadingDots, Spinner, ProgressBar, CardSkeleton } from './components/LoadingStates.js';
+import PageTransition from './components/PageTransition.js';
 
 // Audio priming to unlock playback after first user gesture
 const primeAudio = () => {
@@ -635,39 +644,70 @@ const speakWord = useCallback(async (text, chatOverride) => {
   // Show loading state
   if (loadingState.isLoading || !currentImage) {
     return (
-      <div className={`container mx-auto p-6 text-center ${getThemeClass(contentType)}`}>
-        <div className="card-elevated animate-fade-in-up flex flex-col items-center p-8 max-w-md mx-auto">
-          <div className="text-2xl text-neutral-700 text-center mb-4 font-bold">
-            {loadingState.error ? 
-              `Error: ${loadingState.error}` : 
-              `Loading ${contentType}... (${loadingState.stage})`}
-          </div>
-          <div className="progress-bar w-full h-3 mb-4">
-            <div 
-              className="progress-bar-fill transition-all duration-500"
-              style={{ width: `${loadingState.progress}%` }}
-            />
-          </div>
-          {loadingState.itemsFound > 0 && (
-            <div className="text-base text-neutral-500 mb-4">
-              Found {loadingState.itemsFound} {contentType}
+      <ThemeProvider contentType={contentType}>
+        <div className={`container mx-auto p-6 text-center ${getThemeClass(contentType)}`}>
+          <ThemedCard variant="elevated" className="animate-fade-in-up flex flex-col items-center p-8 max-w-md mx-auto">
+            <div className="text-2xl text-neutral-700 text-center mb-4 font-bold">
+              {loadingState.error ? 
+                `Error: ${loadingState.error}` : 
+                `Loading ${contentType}...`}
             </div>
-          )}
-          {loadingState.error && (
-            <button 
-              onClick={() => window.location.reload()}
-              className="btn btn-primary mt-4"
-            >
-              Retry
-            </button>
-          )}
+            
+            {!loadingState.error && (
+              <>
+                <div className="flex items-center gap-3 mb-4">
+                  <Spinner size="medium" color="primary" />
+                  <span className="text-base text-neutral-600">{loadingState.stage}</span>
+                </div>
+                
+                <ProgressBar 
+                  progress={loadingState.progress}
+                  variant="themed"
+                  size="medium"
+                  showLabel={true}
+                  label="Loading Progress"
+                  className="w-full mb-4"
+                />
+                
+                {loadingState.itemsFound > 0 && (
+                  <div className="text-base text-neutral-500 mb-4 animate-fade-in">
+                    Found {loadingState.itemsFound} {contentType}
+                  </div>
+                )}
+              </>
+            )}
+            
+            {loadingState.error && (
+              <ThemedButton 
+                onClick={() => window.location.reload()}
+                variant="primary"
+                size="large"
+                className="mt-4"
+              >
+                Retry
+              </ThemedButton>
+            )}
+          </ThemedCard>
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 
   return (
-    <div ref={appContainerRef} className={`container mx-auto safe-area-all text-center ${getThemeClass(contentType)} ${orientation === 'landscape' ? 'landscape-layout' : 'portrait-layout'}`}>
+    <ThemeProvider contentType={contentType}>
+      <SkipLink href="#main-content" />
+      <LiveRegion 
+        message={feedbackToast.visible ? feedbackToast.message : ''} 
+        priority={feedbackToast.type === 'error' ? 'assertive' : 'polite'} 
+      />
+      
+      <main 
+        id="main-content"
+        ref={appContainerRef} 
+        className={`container mx-auto safe-area-all text-center ${getThemeClass(contentType)} ${orientation === 'landscape' ? 'landscape-layout' : 'portrait-layout'}`}
+        role="main"
+        aria-label={`Arabic learning app - ${contentType} practice`}
+      >
       {currentImage && (
         <SwipeableContent
           onSwipeLeft={nextImage}
@@ -789,15 +829,17 @@ const speakWord = useCallback(async (text, chatOverride) => {
                 }`}
                 disabled={!currentImage}
                 hapticFeedback={true}
+                ariaLabel={isRecording ? 'Stop recording speech' : 'Start recording speech'}
+                aria-describedby="recording-help"
               >
                 {isRecording ? (
                   <>
-                    <span className="animate-bounce">🎤</span> 
+                    <span className="animate-bounce" aria-hidden="true">🎤</span> 
                     Recording...
                   </>
                 ) : (
                   <>
-                    🎤 Start Recording
+                    <span aria-hidden="true">🎤</span> Start Recording
                   </>
                 )}
               </TouchOptimizedButton>
@@ -858,7 +900,8 @@ const speakWord = useCallback(async (text, chatOverride) => {
         type={feedbackToast.type}
         onClose={() => setFeedbackToast({ visible: false, message: '', type: 'info' })}
       />
-    </div>
+      </main>
+    </ThemeProvider>
   );
 };
 
