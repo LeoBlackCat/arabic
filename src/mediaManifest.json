@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2025-07-16T08:17:56.391Z",
+  "generatedAt": "2025-07-17T15:32:08.626Z",
   "totalMediaFiles": 360,
-  "itemsChecked": 66,
+  "itemsChecked": 132,
   "items": {
     "aba": {
       "id": 73,
@@ -848,6 +848,1022 @@
         "png"
       ]
     },
+    "sayyaarah": {
+      "id": 35,
+      "chat": "sayyaarah",
+      "ar": "سيارة",
+      "eng": "car",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "sayyaarah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "motar": {
+      "id": 36,
+      "chat": "motar",
+      "ar": "موتر",
+      "eng": "car",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "motar",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "bent": {
+      "id": 37,
+      "chat": "bent",
+      "ar": "بنت",
+      "eng": "girl/daughter",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "bent",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "7ermah": {
+      "id": 38,
+      "chat": "7ermah",
+      "ar": "حرمة",
+      "eng": "woman",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "7ermah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "walad": {
+      "id": 39,
+      "chat": "walad",
+      "ar": "ولد",
+      "eng": "boy/son",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "walad",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "rayyaal": {
+      "id": 40,
+      "chat": "rayyaal",
+      "ar": "ريال",
+      "eng": "man",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "rayyaal",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "kitaab": {
+      "id": 41,
+      "chat": "kitaab",
+      "ar": "كتاب",
+      "eng": "book",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "kitaab",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "sheqqah": {
+      "id": 42,
+      "chat": "sheqqah",
+      "ar": "شقة",
+      "eng": "flat",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "sheqqah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "baab": {
+      "id": 43,
+      "chat": "baab",
+      "ar": "باب",
+      "eng": "door",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "baab",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "kirsee": {
+      "id": 44,
+      "chat": "kirsee",
+      "ar": "كرسي",
+      "eng": "chair",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "kirsee",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "burj": {
+      "id": 45,
+      "chat": "burj",
+      "ar": "برج",
+      "eng": "tower",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "burj",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "bait": {
+      "id": 46,
+      "chat": "bait",
+      "ar": "بيت",
+      "eng": "house",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "bait",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "baizaat": {
+      "id": 47,
+      "chat": "baizaat",
+      "ar": "بيزات",
+      "eng": "money",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "baizaat",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "floos": {
+      "id": 48,
+      "chat": "floos",
+      "ar": "فلوس",
+      "eng": "money",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "floos",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "ism": {
+      "id": 49,
+      "chat": "ism",
+      "ar": "اسم",
+      "eng": "name",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ism",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "sheghel": {
+      "id": 50,
+      "chat": "sheghel",
+      "ar": "شغل",
+      "eng": "work",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "sheghel",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "dawaam": {
+      "id": 51,
+      "chat": "dawaam",
+      "ar": "دوام",
+      "eng": "workplace",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "dawaam",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "mai": {
+      "id": 139,
+      "chat": "mai",
+      "ar": "ماي",
+      "eng": "water",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "mai",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "chai": {
+      "id": 140,
+      "chat": "chai",
+      "ar": "جاي",
+      "eng": "tea",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "chai",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "gahwa": {
+      "id": 141,
+      "chat": "gahwa",
+      "ar": "قهوة",
+      "eng": "coffee",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "gahwa",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "semach": {
+      "id": 142,
+      "chat": "semach",
+      "ar": "سمج",
+      "eng": "fish",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "semach",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "salata": {
+      "id": 143,
+      "chat": "salata",
+      "ar": "سلطة",
+      "eng": "salad",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "salata",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "deyay": {
+      "id": 144,
+      "chat": "deyay",
+      "ar": "دياي",
+      "eng": "chicken",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "deyay",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "la7am": {
+      "id": 145,
+      "chat": "la7am",
+      "ar": "لحم",
+      "eng": "meat",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "la7am",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "3aseer": {
+      "id": 146,
+      "chat": "3aseer",
+      "ar": "عصير",
+      "eng": "juice",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "3aseer",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "7aleeb": {
+      "id": 147,
+      "chat": "7aleeb",
+      "ar": "حليب",
+      "eng": "milk",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "7aleeb",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "khebz": {
+      "id": 148,
+      "chat": "khebz",
+      "ar": "خبز",
+      "eng": "bread",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "khebz",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "3aish": {
+      "id": 149,
+      "chat": "3aish",
+      "ar": "عيش",
+      "eng": "rice",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "3aish",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "shorbah": {
+      "id": 150,
+      "chat": "shorbah",
+      "ar": "شوربة",
+      "eng": "soup",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "shorbah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "jebin": {
+      "id": 151,
+      "chat": "jebin",
+      "ar": "جبن",
+      "eng": "cheese",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "jebin",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "shaker": {
+      "id": 152,
+      "chat": "shaker",
+      "ar": "شكر",
+      "eng": "sugar",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "shaker",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "mel7": {
+      "id": 153,
+      "chat": "mel7",
+      "ar": "ملح",
+      "eng": "salt",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "mel7",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "fawakeh": {
+      "id": 154,
+      "chat": "fawakeh",
+      "ar": "فواكه",
+      "eng": "fruits",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "fawakeh",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "kakaw": {
+      "id": 155,
+      "chat": "kakaw",
+      "ar": "كاكاو",
+      "eng": "chocolate",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "kakaw",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "7alawah": {
+      "id": 156,
+      "chat": "7alawah",
+      "ar": "حلاوة",
+      "eng": "sweets",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "7alawah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "khedhrah": {
+      "id": 157,
+      "chat": "khedhrah",
+      "ar": "خضرة",
+      "eng": "vegetables",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "khedhrah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "shantah": {
+      "id": 158,
+      "chat": "shantah",
+      "ar": "شنطة",
+      "eng": "bag",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "shantah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "taawlah": {
+      "id": 182,
+      "chat": "taawlah",
+      "ar": "طاولة",
+      "eng": "table",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "taawlah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "umm": {
+      "id": 160,
+      "chat": "umm",
+      "ar": "أم",
+      "eng": "mother",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "umm",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "abo": {
+      "id": 161,
+      "chat": "abo",
+      "ar": "أبو",
+      "eng": "father",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "abo",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "ukho": {
+      "id": 162,
+      "chat": "ukho",
+      "ar": "أخو",
+      "eng": "brother",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ukho",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "ekht": {
+      "id": 163,
+      "chat": "ekht",
+      "ar": "إخت",
+      "eng": "sister",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ekht",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "zooj": {
+      "id": 164,
+      "chat": "zooj",
+      "ar": "زوج",
+      "eng": "husband",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "zooj",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "rayel": {
+      "id": 165,
+      "chat": "rayel",
+      "ar": "ريل",
+      "eng": "husband",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "rayel",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "zoojah": {
+      "id": 166,
+      "chat": "zoojah",
+      "ar": "زوجة",
+      "eng": "wife",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "zoojah",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "7erma": {
+      "id": 167,
+      "chat": "7erma",
+      "ar": "حرمة",
+      "eng": "wife",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "7erma",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "3yaal": {
+      "id": 168,
+      "chat": "3yaal",
+      "ar": "عيال",
+      "eng": "children",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "3yaal",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "sa3a": {
+      "id": 169,
+      "chat": "sa3a",
+      "ar": "ساعة",
+      "eng": "watch",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "sa3a",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "so'al": {
+      "id": 170,
+      "chat": "so'al",
+      "ar": "سؤال",
+      "eng": "question",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "so'al",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "maktab": {
+      "id": 172,
+      "chat": "maktab",
+      "ar": "مكتب",
+      "eng": "desk/office",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "maktab",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "howiya": {
+      "id": 173,
+      "chat": "howiya",
+      "ar": "هوية",
+      "eng": "identity",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "howiya",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "betaqa": {
+      "id": 174,
+      "chat": "betaqa",
+      "ar": "بطاقة",
+      "eng": "card",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "betaqa",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "binaya": {
+      "id": 175,
+      "chat": "binaya",
+      "ar": "بناية",
+      "eng": "building",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "binaya",
+      "hasVideo": false,
+      "hasImage": true,
+      "hasAnyMedia": true,
+      "availableFormats": [
+        "png"
+      ]
+    },
+    "ummee": {
+      "id": 188,
+      "chat": "ummee",
+      "ar": "أمي",
+      "eng": "my mother",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ummee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "ubooy": {
+      "id": 189,
+      "chat": "ubooy",
+      "ar": "أبوي",
+      "eng": "my father",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ubooy",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "ukhooy": {
+      "id": 190,
+      "chat": "ukhooy",
+      "ar": "أخوي",
+      "eng": "my brother",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ukhooy",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "ekhtee": {
+      "id": 191,
+      "chat": "ekhtee",
+      "ar": "أختي",
+      "eng": "my sister",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "ekhtee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "waladee": {
+      "id": 192,
+      "chat": "waladee",
+      "ar": "ولدي",
+      "eng": "my son",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "waladee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "bentee": {
+      "id": 193,
+      "chat": "bentee",
+      "ar": "بنتي",
+      "eng": "my daughter",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "bentee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "zoojee": {
+      "id": 194,
+      "chat": "zoojee",
+      "ar": "زوجي",
+      "eng": "my husband",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "zoojee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "rayylee": {
+      "id": 195,
+      "chat": "rayylee",
+      "ar": "راجلي",
+      "eng": "my husband",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "rayylee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "zoojtee": {
+      "id": 196,
+      "chat": "zoojtee",
+      "ar": "زوجتي",
+      "eng": "my wife",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "zoojtee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "7ermetee": {
+      "id": 197,
+      "chat": "7ermetee",
+      "ar": "حرمتي",
+      "eng": "my wife",
+      "type": "noun",
+      "isAlternate": true,
+      "baseVerbChat": null,
+      "mediaBasedOn": "7ermetee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "3yaalee": {
+      "id": 198,
+      "chat": "3yaalee",
+      "ar": "عيالي",
+      "eng": "my kids",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "3yaalee",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
+    "taweel": {
+      "id": 201,
+      "chat": "taweel",
+      "ar": "طويل",
+      "eng": "long tall",
+      "type": "noun",
+      "isAlternate": false,
+      "baseVerbChat": null,
+      "mediaBasedOn": "taweel",
+      "hasVideo": false,
+      "hasImage": false,
+      "hasAnyMedia": false,
+      "availableFormats": []
+    },
     "a7mar": {
       "id": 126,
       "chat": "a7mar",
@@ -1033,15 +2049,17 @@
   },
   "stats": {
     "hasVideo": 9,
-    "hasImage": 35,
+    "hasImage": 89,
     "hasBoth": 5,
-    "hasNeither": 4,
+    "hasNeither": 16,
     "colorsTotal": 13
   },
   "summary": {
     "verbsWithMedia": 49,
     "verbsWithoutMedia": 4,
+    "nounsWithMedia": 53,
+    "nounsWithoutMedia": 12,
     "colorsTotal": 13,
-    "recommendedForGames": 62
+    "recommendedForGames": 115
   }
 }

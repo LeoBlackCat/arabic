@@ -73,6 +73,34 @@ function getItemsNeedingMedia() {
     });
   }
 
+  // Process nouns that have media files
+  if (logicData.items) {
+    const nouns = logicData.items.filter(item => item.pos === 'noun');
+    
+    // Create lookup map for base nouns that have alternates
+    const baseNounsWithAlternates = new Map();
+    nouns.forEach(noun => {
+      if (noun.alternate) {
+        baseNounsWithAlternates.set(noun.alternate, noun);
+      }
+    });
+    
+    nouns.forEach(noun => {
+      const isAlternate = baseNounsWithAlternates.has(noun.id);
+      const baseNoun = isAlternate ? baseNounsWithAlternates.get(noun.id) : null;
+      
+      items.push({
+        id: noun.id,
+        chat: noun.chat,
+        ar: noun.ar,
+        eng: noun.eng,
+        type: 'noun',
+        isAlternate,
+        baseNounChat: baseNoun ? baseNoun.chat : null
+      });
+    });
+  }
+
   // Colors don't need media files (they use HTML colors)
   // But we can still track them for completeness
   if (logicData.items) {
@@ -159,11 +187,19 @@ function generateManifest() {
   const verbsWithoutMedia = Object.values(manifest.items)
     .filter(item => item.type === 'verb' && !item.hasAnyMedia);
 
+  const nounsWithMedia = Object.values(manifest.items)
+    .filter(item => item.type === 'noun' && item.hasAnyMedia);
+  
+  const nounsWithoutMedia = Object.values(manifest.items)
+    .filter(item => item.type === 'noun' && !item.hasAnyMedia);
+
   manifest.summary = {
     verbsWithMedia: verbsWithMedia.length,
     verbsWithoutMedia: verbsWithoutMedia.length,
+    nounsWithMedia: nounsWithMedia.length,
+    nounsWithoutMedia: nounsWithoutMedia.length,
     colorsTotal: manifest.stats.colorsTotal,
-    recommendedForGames: verbsWithMedia.length + manifest.stats.colorsTotal
+    recommendedForGames: verbsWithMedia.length + nounsWithMedia.length + manifest.stats.colorsTotal
   };
 
   return manifest;
