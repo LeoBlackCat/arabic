@@ -1,5 +1,7 @@
 /* Import Design Tokens */
 @import './design-tokens.css';
+@import './typography.css';
+@import './mobile.css';
 
 @tailwind base;
 @tailwind components;
@@ -19,19 +21,139 @@
     line-height: var(--leading-normal);
   }
 
-  /* Arabizi Text Styling */
+  /* Enhanced Arabizi Text Styling */
   .arabizi {
     font-family: var(--font-arabizi);
     font-weight: var(--font-medium);
-    letter-spacing: 0.025em;
+    letter-spacing: 0.05em;
+    line-height: var(--leading-relaxed);
+    font-variant-numeric: tabular-nums;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Arabic Text Styling */
+  /* Enhanced Arabic Text Styling */
   .arabic {
     font-family: var(--font-arabic);
     direction: rtl;
     text-align: right;
     font-weight: var(--font-medium);
+    line-height: var(--leading-relaxed);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    unicode-bidi: bidi-override;
+    font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
+  }
+
+  /* Arabic Text Size Variants */
+  .arabic-sm {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+
+  .arabic-base {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  .arabic-lg {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .arabic-xl {
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
+
+  .arabic-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+  }
+
+  .arabic-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .arabic-4xl {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+  }
+
+  .arabic-5xl {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-tight);
+  }
+
+  /* Arabizi Text Size Variants */
+  .arabizi-sm {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    letter-spacing: 0.03em;
+  }
+
+  .arabizi-base {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    letter-spacing: 0.05em;
+  }
+
+  .arabizi-lg {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    letter-spacing: 0.05em;
+  }
+
+  .arabizi-xl {
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    letter-spacing: 0.04em;
+  }
+
+  /* Mixed Text Layout Utilities */
+  .text-mixed-ltr {
+    direction: ltr;
+    text-align: left;
+  }
+
+  .text-mixed-rtl {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .text-mixed-center {
+    text-align: center;
+    direction: ltr;
+  }
+
+  /* Arabic Text with Enhanced Readability */
+  .arabic-enhanced {
+    font-family: var(--font-arabic);
+    direction: rtl;
+    text-align: right;
+    font-weight: var(--font-medium);
+    line-height: 1.8;
+    word-spacing: 0.1em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "liga" 1, "calt" 1, "kern" 1, "mark" 1, "mkmk" 1;
+  }
+
+  /* Arabizi with Enhanced Clarity */
+  .arabizi-enhanced {
+    font-family: var(--font-arabizi);
+    font-weight: var(--font-medium);
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    text-transform: lowercase;
+    font-variant-caps: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Focus Styles */

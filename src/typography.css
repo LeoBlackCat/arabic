@@ -1,0 +1,85 @@
+/* Typography Styles */
+
+/* Arabic Text Styles */
+.arabic {
+  font-family: 'Amiri', 'Noto Sans Arabic', 'Arial Unicode MS', serif;
+  font-weight: 400;
+  line-height: 1.6;
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: bidi-override;
+}
+
+.arabic.font-bold {
+  font-weight: 700;
+}
+
+.arabic.font-medium {
+  font-weight: 500;
+}
+
+.arabic.font-light {
+  font-weight: 300;
+}
+
+/* Arabizi (Romanized Arabic) Text Styles */
+.arabizi {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  direction: ltr;
+  text-align: left;
+}
+
+.arabizi.font-bold {
+  font-weight: 700;
+}
+
+.arabizi.font-medium {
+  font-weight: 500;
+}
+
+.arabizi.font-light {
+  font-weight: 300;
+}
+
+/* Typography Utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Reading Experience */
+.arabic p {
+  margin-bottom: 1rem;
+}
+
+.arabic h1, .arabic h2, .arabic h3, .arabic h4, .arabic h5, .arabic h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .arabic {
+    font-size: 1.1em;
+    line-height: 1.7;
+  }
+  
+  .arabizi {
+    font-size: 0.95em;
+    line-height: 1.6;
+  }
+}
+
+/* High DPI / Retina Display Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .arabic {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

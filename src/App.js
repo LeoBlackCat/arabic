@@ -8,6 +8,14 @@ import logicData from '../logic.json';
 import MediaDisplay from './MediaDisplay';
 import { isElevenLabsAvailable, playElevenLabsSpeech } from './elevenLabsHelper';
 import { isFirebaseStorageAvailable, playAudioWithFirebaseCache } from './firebaseStorageHelper';
+import { getThemeClass, applyTheme } from './utils/themeUtils.js';
+import { animateElement, createParticleEffect, triggerCelebration } from './utils/animationUtils.js';
+import { recordAttempt, getLearningStats, getPendingNotifications } from './utils/progressUtils.js';
+import { AchievementBadge, FeedbackToast, StreakCounter, AnimatedScore } from './components/FeedbackSystem.js';
+import SwipeableContent from './components/SwipeableContent.js';
+import TouchOptimizedButton from './components/TouchOptimizedButton.js';
+import BottomSheet from './components/BottomSheet.js';
+import { handleOrientationChange, isTouchDevice } from './utils/touchUtils.js';
 
 // Audio priming to unlock playback after first user gesture
 const primeAudio = () => {
@@ -40,6 +48,29 @@ const App = ({ contentData = [], contentType = 'verbs', colorMap = {} }) => {
   const [elevenLabsEnabled, setElevenLabsEnabled] = useState(false);
   const [firebaseEnabled, setFirebaseEnabled] = useState(false);
   const nextImageTimeoutRef = useRef(null);
+  
+  // Refs for animations and theming
+  const appContainerRef = useRef(null);
+  const mediaCardRef = useRef(null);
+  const resultCardRef = useRef(null);
+  const controlsRef = useRef(null);
+
+  // Enhanced feedback and progress state
+  const [learningStats, setLearningStats] = useState({
+    wordsLearned: 0,
+    accuracy: 0,
+    currentStreak: 0,
+    maxStreak: 0
+  });
+  const [achievements, setAchievements] = useState([]);
+  const [feedbackToast, setFeedbackToast] = useState({ visible: false, message: '', type: 'info' });
+  const [showAchievement, setShowAchievement] = useState(false);
+  const [currentAchievement, setCurrentAchievement] = useState(null);
+
+  // Mobile-specific state
+  const [orientation, setOrientation] = useState('portrait');
+  const [isTouch, setIsTouch] = useState(false);
+  const [showSettingsSheet, setShowSettingsSheet] = useState(false);
 
   // Initialize voices and check ElevenLabs availability
   useEffect(() => {
@@ -356,6 +387,45 @@ const speakWord = useCallback(async (text, chatOverride) => {
           
           console.log('Is correct?', isCorrect, 'Match type:', matchType);
 
+          // Record attempt and update progress
+          const progressUpdate = recordAttempt(currentImage.id, isCorrect, contentType);
+          
+          // Update learning stats
+          setLearningStats({
+            wordsLearned: progressUpdate.progressData ? Object.keys(progressUpdate.progressData.wordsLearned).length : 0,
+            accuracy: progressUpdate.accuracy,
+            currentStreak: progressUpdate.streakData.currentStreak,
+            maxStreak: progressUpdate.streakData.maxStreak
+          });
+
+          // Handle new achievements
+          if (progressUpdate.newAchievements && progressUpdate.newAchievements.length > 0) {
+            const achievement = progressUpdate.newAchievements[0];
+            setCurrentAchievement(achievement);
+            setShowAchievement(true);
+          }
+
+          // Show feedback toast
+          if (isCorrect) {
+            setFeedbackToast({
+              visible: true,
+              message: result.matchType === 'alternate' ? 'Excellent! Alternative pronunciation!' : 'Perfect!',
+              type: 'success'
+            });
+          } else if (isPartialMatch) {
+            setFeedbackToast({
+              visible: true,
+              message: 'Close! Different form of the same word',
+              type: 'info'
+            });
+          } else {
+            setFeedbackToast({
+              visible: true,
+              message: 'Try again - you can do it!',
+              type: 'warning'
+            });
+          }
+
           // Play feedback sound
           if (isCorrect) {
             new Audio('./sounds/success.wav').play().catch(() => {});
@@ -511,6 +581,36 @@ const speakWord = useCallback(async (text, chatOverride) => {
     console.log('🖼️ currentImage changed to:', currentImage?.chat || 'null');
   }, [currentImage]);
 
+  // Apply theme to app container when content type changes
+  useEffect(() => {
+    if (appContainerRef.current && contentType) {
+      applyTheme(appContainerRef.current, contentType);
+    }
+  }, [contentType]);
+
+  // Animate media card when current image changes
+  useEffect(() => {
+    if (mediaCardRef.current && currentImage && !loadingState.isLoading) {
+      animateElement(mediaCardRef.current, 'fadeInUp', { duration: 400 });
+    }
+  }, [currentImage, loadingState.isLoading]);
+
+  // Animate result card when result appears
+  useEffect(() => {
+    if (resultCardRef.current && result) {
+      animateElement(resultCardRef.current, 'scaleIn', { duration: 300 });
+      
+      // Trigger celebration animation for correct answers
+      if (result.isCorrect && mediaCardRef.current) {
+        triggerCelebration(mediaCardRef.current, 'celebration');
+        createParticleEffect(appContainerRef.current, {
+          particleCount: 15,
+          colors: ['var(--theme-primary)', 'var(--theme-accent)', 'var(--success-500)']
+        });
+      }
+    }
+  }, [result]);
+
   // Audio priming effect (must be inside component)
   useEffect(() => {
     const handler = () => {
@@ -520,31 +620,43 @@ const speakWord = useCallback(async (text, chatOverride) => {
     return () => window.removeEventListener('pointerdown', handler);
   }, []);
 
+  // Mobile initialization
+  useEffect(() => {
+    setIsTouch(isTouchDevice());
+    
+    const cleanupOrientation = handleOrientationChange((newOrientation, dimensions) => {
+      setOrientation(newOrientation);
+      console.log('Orientation changed:', newOrientation, dimensions);
+    });
+
+    return cleanupOrientation;
+  }, []);
+
   // Show loading state
   if (loadingState.isLoading || !currentImage) {
     return (
-      <div className="max-w-3xl mx-auto p-8 text-center font-sans">
-        <div className="flex flex-col items-center my-8 p-6 bg-gray-100 rounded-md">
-          <div className="text-2xl text-gray-600 text-center my-2 font-bold">
+      <div className={`container mx-auto p-6 text-center ${getThemeClass(contentType)}`}>
+        <div className="card-elevated animate-fade-in-up flex flex-col items-center p-8 max-w-md mx-auto">
+          <div className="text-2xl text-neutral-700 text-center mb-4 font-bold">
             {loadingState.error ? 
               `Error: ${loadingState.error}` : 
               `Loading ${contentType}... (${loadingState.stage})`}
           </div>
-          <div className="w-4/5 h-2 bg-gray-300 rounded my-2 overflow-hidden">
+          <div className="progress-bar w-full h-3 mb-4">
             <div 
-              className="h-full bg-green-500 transition-all duration-300"
+              className="progress-bar-fill transition-all duration-500"
               style={{ width: `${loadingState.progress}%` }}
             />
           </div>
           {loadingState.itemsFound > 0 && (
-            <div className="text-base text-gray-500 my-2">
+            <div className="text-base text-neutral-500 mb-4">
               Found {loadingState.itemsFound} {contentType}
             </div>
           )}
           {loadingState.error && (
             <button 
               onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-600 text-white rounded mt-4 text-lg hover:bg-blue-700 transition"
+              className="btn btn-primary mt-4"
             >
               Retry
             </button>
@@ -555,78 +667,197 @@ const speakWord = useCallback(async (text, chatOverride) => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-8 text-center font-sans">
+    <div ref={appContainerRef} className={`container mx-auto safe-area-all text-center ${getThemeClass(contentType)} ${orientation === 'landscape' ? 'landscape-layout' : 'portrait-layout'}`}>
       {currentImage && (
-        <div className="mb-6 flex flex-col items-center px-2 sm:px-4">
-          <div className="w-full flex justify-center">
-            <MediaDisplay
-              key={`${currentImage.id}-${currentImage.chat}`}
-              item={currentImage}
-              contentType={contentType}
-              className="max-w-[90vw] w-full h-auto mb-3"
-              onClick={() => speakWord(currentImage.ar, currentImage.chat)}
-              autoPlay={true}
-              loop={true}
-              muted={true}
-            />
-          </div>
-          {result && (
-            <>
-              <p className="text-lg sm:text-xl md:text-2xl text-gray-800 my-2 font-bold">{currentImage.eng}</p>
-              <p className="text-2xl sm:text-3xl md:text-4xl text-blue-900 font-bold mb-1 cursor-pointer rtl font-sans" style={{direction: 'rtl'}} onClick={() => speakWord(currentImage.ar, currentImage.chat)}>{currentImage.ar}</p>
-              <p className="text-base sm:text-lg text-gray-500 italic mb-4">({currentImage.chat})</p>
-            </>
-          )}
-          {result ? (
-            <button
-              onClick={() => speakWord(currentImage.ar, currentImage.chat)}
-              className="px-3 py-1.5 sm:px-4 sm:py-2 bg-green-600 text-white rounded mb-4 inline-flex items-center gap-2 hover:bg-green-700 transition text-sm sm:text-base"
-            >
-              <span role="img" aria-label="pronounce">🔊</span> Pronounce
-            </button>
-          ) : (
-            <p className="text-sm text-gray-500 italic mb-4">Tap the picture to hear pronunciation</p>
-          )}
-          {result && (
-            <div className="mt-6 p-4 rounded-lg bg-gray-50">
-              <p>You said: <span className="font-bold text-gray-800 rtl inline-block" style={{direction: 'rtl'}}>{result.transcript}</span></p>
-              <p className={
-                result.isCorrect
-                  ? "text-green-600 font-bold text-xl my-2"
-                  : result.isPartialMatch
-                  ? "text-blue-500 font-bold text-xl my-2"
-                  : "text-red-600 font-bold text-xl my-2"
-              }>
-                {result.isCorrect ? 
-                  (result.matchType === 'alternate' ? 
-                    '✅ Correct! (Alternate pronunciation)' : 
-                    '✅ Correct!') : 
-                 result.isPartialMatch ? '🔵 Close! Different form of the same word' : 
-                 '❌ Try again'}
-              </p>
-              {result.isCorrect && result.matchType === 'alternate' && result.matchedItem && (
-                <p className="text-sm text-gray-600 mt-2">
-                  You said: <span className="font-semibold rtl" style={{direction: 'rtl'}}>{result.matchedItem.ar}</span> ({result.matchedItem.eng})
+        <SwipeableContent
+          onSwipeLeft={nextImage}
+          onSwipeRight={() => {
+            // Go to previous image
+            const currentIndex = images.findIndex(img => 
+              img && currentImage && 
+              img.id === currentImage.id && 
+              img.chat === currentImage.chat
+            );
+            const prevIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+            setCurrentImage(images[prevIndex]);
+            setResult(null);
+          }}
+          enableSwipe={!isRecording}
+          className="max-w-4xl mx-auto space-y-6"
+        >
+          {/* Media Card */}
+          <div ref={mediaCardRef} className="card-elevated p-4 sm:p-6 hover-lift touch-feedback">
+            <div className="flex justify-center mb-4">
+              <MediaDisplay
+                key={`${currentImage.id}-${currentImage.chat}`}
+                item={currentImage}
+                contentType={contentType}
+                className="max-w-sm w-full h-auto rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
+                onClick={() => speakWord(currentImage.ar, currentImage.chat)}
+                autoPlay={true}
+                loop={true}
+                muted={true}
+              />
+            </div>
+            
+            {/* Content Information */}
+            {result && (
+              <div className="space-y-3 animate-fade-in-up">
+                <h2 className="text-xl sm:text-2xl md:text-3xl text-neutral-800 font-bold">
+                  {currentImage.eng}
+                </h2>
+                <div 
+                  className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 cursor-pointer arabic text-primary hover:text-accent transition-colors duration-300" 
+                  style={{direction: 'rtl'}} 
+                  onClick={() => speakWord(currentImage.ar, currentImage.chat)}
+                >
+                  {currentImage.ar}
+                </div>
+                <p className="text-lg text-neutral-500 arabizi font-medium">
+                  ({currentImage.chat})
                 </p>
-              )}
+              </div>
+            )}
+            
+            {/* Pronunciation Button or Hint */}
+            {result ? (
+              <button
+                onClick={() => speakWord(currentImage.ar, currentImage.chat)}
+                className="btn btn-success mt-4 hover:scale-105 transition-transform duration-200"
+              >
+                <span role="img" aria-label="pronounce">🔊</span> 
+                Pronounce Again
+              </button>
+            ) : (
+              <p className="text-sm text-neutral-500 italic mt-4 animate-pulse">
+                Tap the image to hear pronunciation
+              </p>
+            )}
+          </div>
+
+          {/* Result Card */}
+          {result && (
+            <div ref={resultCardRef} className="card p-6 animate-scale-in">
+              <div className="space-y-4">
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-sm text-neutral-600">You said:</span>
+                  <span className="font-bold text-neutral-800 arabic text-lg" style={{direction: 'rtl'}}>
+                    {result.transcript}
+                  </span>
+                </div>
+                
+                <div className={`text-center p-4 rounded-xl font-bold text-xl transition-all duration-300 ${
+                  result.isCorrect
+                    ? "bg-success-50 text-success-700 border border-success-200"
+                    : result.isPartialMatch
+                    ? "bg-info-50 text-info-700 border border-info-200"
+                    : "bg-error-50 text-error-700 border border-error-200"
+                }`}>
+                  {result.isCorrect ? 
+                    (result.matchType === 'alternate' ? 
+                      '✅ Excellent! (Alternative pronunciation)' : 
+                      '✅ Perfect!') : 
+                   result.isPartialMatch ? 
+                     '🔵 Close! Different form of the same word' : 
+                     '❌ Try again - you can do it!'}
+                </div>
+                
+                {result.isCorrect && result.matchType === 'alternate' && result.matchedItem && (
+                  <div className="bg-neutral-50 p-3 rounded-lg">
+                    <p className="text-sm text-neutral-600">
+                      You said: 
+                      <span className="font-semibold arabic ml-2" style={{direction: 'rtl'}}>
+                        {result.matchedItem.ar}
+                      </span> 
+                      <span className="text-neutral-500">({result.matchedItem.eng})</span>
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
-        </div>
+
+          {/* Controls Card */}
+          <div ref={controlsRef} className="card p-6">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 w-full">
+              <TouchOptimizedButton 
+                onClick={toggleRecording}
+                variant={isRecording ? 'danger' : 'primary'}
+                size="large"
+                className={`flex-1 sm:flex-none sm:min-w-48 text-lg font-semibold ${
+                  isRecording ? 'animate-pulse' : ''
+                }`}
+                disabled={!currentImage}
+                hapticFeedback={true}
+              >
+                {isRecording ? (
+                  <>
+                    <span className="animate-bounce">🎤</span> 
+                    Recording...
+                  </>
+                ) : (
+                  <>
+                    🎤 Start Recording
+                  </>
+                )}
+              </TouchOptimizedButton>
+              
+              <TouchOptimizedButton 
+                onClick={nextImage}
+                variant="secondary"
+                size="large"
+                className="flex-1 sm:flex-none sm:min-w-48 text-lg font-semibold"
+                hapticFeedback={true}
+              >
+                ⏭️ Skip to Next
+              </TouchOptimizedButton>
+            </div>
+          </div>
+
+          {/* Progress Stats Card */}
+          <div className="card p-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-4">
+                <AnimatedScore 
+                  score={learningStats.wordsLearned} 
+                  label="Words Learned"
+                  size="small"
+                />
+                <AnimatedScore 
+                  score={learningStats.accuracy} 
+                  label="Accuracy %"
+                  size="small"
+                />
+              </div>
+              <StreakCounter 
+                streak={learningStats.currentStreak}
+                maxStreak={learningStats.maxStreak}
+              />
+            </div>
+          </div>
+        </SwipeableContent>
       )}
-      <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 w-full px-2">
-        <button 
-          onClick={toggleRecording}
-          className={`w-full sm:w-auto px-4 py-2 text-base sm:text-lg rounded font-semibold transition-all duration-300 focus:outline-none ${isRecording ? 'bg-red-600 animate-pulse' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
-        >
-          {isRecording ? '🎤 Recording...' : 'Start Recording'}
-        </button>
-        <button 
-          onClick={nextImage}
-          className="w-full sm:w-auto px-4 py-2 text-base sm:text-lg rounded font-semibold transition-all duration-300 focus:outline-none bg-gray-600 hover:bg-gray-700 text-white"
-        >
-          ⏭️ Skip to Next
-        </button>
-      </div>
+
+      {/* Achievement Badge */}
+      <AchievementBadge
+        visible={showAchievement}
+        title={currentAchievement?.title}
+        description={currentAchievement?.description}
+        icon={currentAchievement?.icon}
+        type="celebration"
+        onClose={() => {
+          setShowAchievement(false);
+          setCurrentAchievement(null);
+        }}
+      />
+
+      {/* Feedback Toast */}
+      <FeedbackToast
+        visible={feedbackToast.visible}
+        message={feedbackToast.message}
+        type={feedbackToast.type}
+        onClose={() => setFeedbackToast({ visible: false, message: '', type: 'info' })}
+      />
     </div>
   );
 };

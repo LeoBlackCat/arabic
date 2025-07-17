@@ -446,3 +446,51 @@ export const createRippleEffect = (element, event) => {
     }
   });
 };
+
+/**
+ * Trigger a celebration animation with particles and effects
+ * @param {HTMLElement} element - The element to celebrate on
+ * @param {string} type - The type of celebration ('success', 'achievement', 'streak')
+ * @param {Object} options - Additional options for the celebration
+ */
+export const triggerCelebration = (element, type = 'success', options = {}) => {
+  if (!element || prefersReducedMotion()) return;
+  
+  const celebrationConfig = {
+    success: {
+      particles: { count: 20, colors: ['#10b981', '#34d399', '#6ee7b7'] },
+      scale: { from: 1, to: 1.1 },
+      duration: 800
+    },
+    achievement: {
+      particles: { count: 30, colors: ['#f59e0b', '#fbbf24', '#fde047'] },
+      scale: { from: 1, to: 1.2 },
+      duration: 1000
+    },
+    streak: {
+      particles: { count: 15, colors: ['#8b5cf6', '#a78bfa', '#c4b5fd'] },
+      scale: { from: 1, to: 1.15 },
+      duration: 600
+    }
+  };
+  
+  const config = celebrationConfig[type] || celebrationConfig.success;
+  
+  // Create particle effect
+  createParticleEffect(element, {
+    ...config.particles,
+    ...options.particles
+  });
+  
+  // Scale animation
+  const scaleAnimation = element.animate([
+    { transform: 'scale(1)' },
+    { transform: `scale(${config.scale.to})` },
+    { transform: 'scale(1)' }
+  ], {
+    duration: config.duration,
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+  });
+  
+  return scaleAnimation;
+};

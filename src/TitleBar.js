@@ -1,6 +1,10 @@
-import React, { useCallback, useMemo, useEffect, useRef } from 'react';
+import React, { useCallback, useMemo, useEffect, useRef, useState } from 'react';
 import { getThemeClass, applyTheme, createTransition } from './utils/themeUtils.js';
 import { animateElement, staggerAnimation } from './utils/animationUtils.js';
+import { ArabicText, ArabiziText } from './components/LanguageText.js';
+import TouchOptimizedButton from './components/TouchOptimizedButton.js';
+import BottomSheet from './components/BottomSheet.js';
+import { isTouchDevice } from './utils/touchUtils.js';
 
 // Error boundary component for dropdown interactions
 class DropdownErrorBoundary extends React.Component {
@@ -206,6 +210,9 @@ const TitleBar = React.memo(({
   onGameChange = () => {},
   onSettingsClick = () => {}
 }) => {
+  // Mobile-specific state
+  const [showMobileSettings, setShowMobileSettings] = useState(false);
+  const [isTouch] = useState(isTouchDevice());
   // Memoize the topic name calculation to prevent unnecessary recalculations
   const displayTopic = useMemo(() => 
     currentTopic || getTopicDisplayName(selectedContent, contentData, isLoading),
@@ -330,22 +337,18 @@ const TitleBar = React.memo(({
                 {displayTopic}
               </h1>
             </div>
-            <button
-              onClick={onSettingsClick}
-              onKeyDown={(e) => handleKeyDown(e, onSettingsClick)}
-              className={`ml-3 p-2 text-sm rounded-lg border transition-all duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 hover:scale-105 ${
-                isSpeechActive
-                  ? 'btn-primary shadow-primary' 
-                  : 'btn-ghost hover:shadow-md'
-              }`}
+            <TouchOptimizedButton
+              onClick={isTouch ? () => setShowMobileSettings(true) : onSettingsClick}
+              variant={isSpeechActive ? 'primary' : 'ghost'}
+              size="medium"
+              className="ml-3"
               aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
               aria-describedby="settings-button-help-mobile"
-              title={isSpeechActive ? 'Speech Active - Click to configure' : 'Configure speech settings'}
-              type="button"
+              hapticFeedback={true}
             >
               <span aria-hidden="true">⚙️</span>
               <span className="sr-only">Settings</span>
-            </button>
+            </TouchOptimizedButton>
             <span id="settings-button-help-mobile" className="sr-only">
               Configure speech recognition and text-to-speech settings for the learning games
             </span>
@@ -511,6 +514,60 @@ const TitleBar = React.memo(({
           </div>
         </div>
       </div>
+
+      {/* Mobile Settings Bottom Sheet */}
+      <BottomSheet
+        isOpen={showMobileSettings}
+        onClose={() => setShowMobileSettings(false)}
+        title="Settings"
+        height="auto"
+        maxHeight="80vh"
+        showHandle={true}
+        closeOnBackdrop={true}
+        closeOnSwipeDown={true}
+      >
+        <div className="p-6 space-y-4">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              Speech Settings
+            </h3>
+            <p className="text-sm text-neutral-600 mb-4">
+              Configure your speech recognition and text-to-speech preferences
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+              <div>
+                <span className="font-medium text-neutral-800">Azure Speech</span>
+                <p className="text-xs text-neutral-600">Microsoft speech services</p>
+              </div>
+              <div className={`w-3 h-3 rounded-full ${speechConfig?.azure?.isEnabled ? 'bg-green-500' : 'bg-neutral-300'}`} />
+            </div>
+            
+            <div className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+              <div>
+                <span className="font-medium text-neutral-800">ElevenLabs</span>
+                <p className="text-xs text-neutral-600">AI voice synthesis</p>
+              </div>
+              <div className={`w-3 h-3 rounded-full ${speechConfig?.elevenlabs?.isEnabled ? 'bg-green-500' : 'bg-neutral-300'}`} />
+            </div>
+          </div>
+          
+          <TouchOptimizedButton
+            onClick={() => {
+              setShowMobileSettings(false);
+              onSettingsClick();
+            }}
+            variant="primary"
+            size="large"
+            className="w-full mt-6"
+            hapticFeedback={true}
+          >
+            Open Full Settings
+          </TouchOptimizedButton>
+        </div>
+      </BottomSheet>
     </div>
   );
 }, (prevProps, nextProps) => {
