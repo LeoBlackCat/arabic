@@ -937,6 +937,7 @@ const speakWord = useCallback(async (text, chatOverride) => {
       />
       </main>
     </ThemeProvider>
+    </CompatibilityChecker>
   );
 };
 

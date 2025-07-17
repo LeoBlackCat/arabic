@@ -580,10 +580,23 @@ export const crossPlatformOptimizer = {
     
     // Intersection Observer fallback
     if (!features.intersectionObserver) {
-      // Load polyfill
-      import('intersection-observer').catch(() => {
-        console.warn('Failed to load Intersection Observer polyfill');
-      });
+      // Add a basic polyfill placeholder
+      if (typeof window !== 'undefined' && !window.IntersectionObserver) {
+        window.IntersectionObserver = class IntersectionObserver {
+          constructor(callback) {
+            this.callback = callback;
+          }
+          observe() {
+            // Basic fallback - immediately trigger callback
+            if (this.callback) {
+              this.callback([{ isIntersecting: true }]);
+            }
+          }
+          unobserve() {}
+          disconnect() {}
+        };
+      }
+      console.warn('Using basic Intersection Observer fallback');
     }
     
     // WebP fallback

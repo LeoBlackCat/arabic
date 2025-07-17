@@ -103,7 +103,13 @@
 
 /* WebP fallback */
 .no-webp img[src$=".webp"] {
-  content: url(attr(data-fallback));
+  /* Use JavaScript to handle WebP fallback instead of CSS attr() */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.no-webp img[src$=".webp"].fallback-loaded {
+  opacity: 1;
 }
 
 /* ===== DEVICE-SPECIFIC OPTIMIZATIONS ===== */
