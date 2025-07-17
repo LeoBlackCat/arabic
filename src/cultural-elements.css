@@ -1,0 +1,365 @@
+/**
+ * Cultural Design Elements
+ * Emirati-inspired geometric patterns and cultural design elements
+ */
+
+/* ===== GEOMETRIC PATTERNS INSPIRED BY EMIRATI CULTURE ===== */
+
+/* Traditional Islamic geometric patterns */
+.pattern-islamic-star {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M30 0l7.5 22.5L60 30l-22.5 7.5L30 60l-7.5-22.5L0 30l22.5-7.5z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+.pattern-arabic-lattice {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1' stroke-opacity='0.05'%3E%3Cpath d='M0 40h80M40 0v80M20 20l40 40M60 20L20 60'/%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+.pattern-desert-dunes {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='40' viewBox='0 0 100 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20c20-10 30 10 50 0s30-10 50 0v20H0z' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 100px 40px;
+}
+
+.pattern-palm-fronds {
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M60 60L30 30Q45 45 60 30Q75 45 90 30L60 60L90 90Q75 75 60 90Q45 75 30 90z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+.pattern-falcon-wings {
+  background-image: url("data:image/svg+xml,%3Csvg width='140' height='70' viewBox='0 0 140 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M70 35C50 15 20 25 0 35c20 10 50 0 70-20 20 20 50 30 70 20-20-10-50 0-70 20z' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 140px 70px;
+}
+
+/* ===== CULTURAL COLOR GRADIENTS ===== */
+
+/* UAE Flag inspired gradients */
+.gradient-uae-flag {
+  background: linear-gradient(90deg, #00732F 0%, #FFFFFF 33%, #000000 66%, #FF0000 100%);
+}
+
+.gradient-uae-subtle {
+  background: linear-gradient(135deg, 
+    rgba(0, 115, 47, 0.1) 0%, 
+    rgba(255, 255, 255, 0.1) 33%, 
+    rgba(0, 0, 0, 0.05) 66%, 
+    rgba(255, 0, 0, 0.1) 100%);
+}
+
+/* Desert sunset gradients */
+.gradient-desert-sunset {
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #FFD23F 50%, #06FFA5 75%, #4ECDC4 100%);
+}
+
+.gradient-desert-dawn {
+  background: linear-gradient(135deg, #FF9A8B 0%, #A8E6CF 50%, #FFD3A5 100%);
+}
+
+/* Ocean and pearl gradients */
+.gradient-arabian-gulf {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-pearl-shimmer {
+  background: linear-gradient(135deg, #f093fb 0%, #f5f7fa 25%, #c3cfe2 50%, #f093fb 75%, #f5f7fa 100%);
+  background-size: 200% 200%;
+  animation: pearl-shimmer 4s ease-in-out infinite;
+}
+
+@keyframes pearl-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ===== CULTURAL TYPOGRAPHY ENHANCEMENTS ===== */
+
+/* Arabic calligraphy inspired text shadows */
+.text-calligraphy-shadow {
+  text-shadow: 
+    1px 1px 0px rgba(0, 0, 0, 0.1),
+    2px 2px 0px rgba(0, 0, 0, 0.05),
+    3px 3px 0px rgba(0, 0, 0, 0.025);
+}
+
+/* Golden text effect inspired by Islamic art */
+.text-golden {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Pearl text effect */
+.text-pearl {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 25%, #f8f9fa 50%, #e9ecef 75%, #f8f9fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 100%;
+  animation: pearl-text 3s ease-in-out infinite;
+}
+
+@keyframes pearl-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ===== CULTURAL BORDERS AND FRAMES ===== */
+
+/* Islamic geometric border */
+.border-islamic {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700) border-box;
+  position: relative;
+}
+
+.border-islamic::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+}
+
+/* Arabesque corner decorations */
+.corner-arabesque {
+  position: relative;
+}
+
+.corner-arabesque::before,
+.corner-arabesque::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0Q10 0 10 10Q10 0 20 0Q20 10 10 10Q20 10 20 20Q10 20 10 10Q10 20 0 20Q0 10 10 10Q0 10 0 0z' fill='%23FFD700' fill-opacity='0.6'/%3E%3C/svg%3E");
+}
+
+.corner-arabesque::before {
+  top: -10px;
+  left: -10px;
+}
+
+.corner-arabesque::after {
+  bottom: -10px;
+  right: -10px;
+  transform: rotate(180deg);
+}
+
+/* ===== CULTURAL ANIMATIONS ===== */
+
+/* Desert wind animation */
+@keyframes desert-wind {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(2px) rotate(0.5deg); }
+  50% { transform: translateX(-1px) rotate(-0.3deg); }
+  75% { transform: translateX(1px) rotate(0.2deg); }
+}
+
+.animate-desert-wind {
+  animation: desert-wind 6s ease-in-out infinite;
+}
+
+/* Falcon soar animation */
+@keyframes falcon-soar {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.02); }
+}
+
+.animate-falcon-soar {
+  animation: falcon-soar 4s ease-in-out infinite;
+}
+
+/* Pearl glow animation */
+@keyframes pearl-glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(248, 249, 250, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(248, 249, 250, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+.animate-pearl-glow {
+  animation: pearl-glow 3s ease-in-out infinite;
+}
+
+/* ===== CULTURAL COMPONENTS ===== */
+
+/* Traditional card with Islamic border */
+.card-traditional {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card-traditional::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+}
+
+/* Majlis-inspired seating layout */
+.layout-majlis {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.layout-majlis .header {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+.layout-majlis .sidebar-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout-majlis .main-content {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: center;
+}
+
+.layout-majlis .sidebar-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.layout-majlis .footer {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+/* ===== RESPONSIVE CULTURAL ELEMENTS ===== */
+
+@media (max-width: 768px) {
+  /* Simplify patterns on mobile */
+  .pattern-islamic-star,
+  .pattern-arabic-lattice,
+  .pattern-palm-fronds {
+    background-size: 30px 30px;
+  }
+  
+  .pattern-desert-dunes {
+    background-size: 50px 20px;
+  }
+  
+  .pattern-falcon-wings {
+    background-size: 70px 35px;
+  }
+  
+  /* Adjust majlis layout for mobile */
+  .layout-majlis {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+  }
+  
+  .layout-majlis .sidebar-left,
+  .layout-majlis .main-content,
+  .layout-majlis .sidebar-right {
+    grid-column: 1;
+  }
+  
+  .layout-majlis .sidebar-left {
+    grid-row: 2;
+  }
+  
+  .layout-majlis .main-content {
+    grid-row: 3;
+  }
+  
+  .layout-majlis .sidebar-right {
+    grid-row: 4;
+  }
+  
+  .layout-majlis .footer {
+    grid-row: 5;
+  }
+}
+
+/* ===== CULTURAL ACCESSIBILITY ===== */
+
+/* High contrast cultural elements */
+@media (prefers-contrast: high) {
+  .text-golden {
+    background: #000000;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .border-islamic {
+    border: 2px solid #000000;
+    background: white;
+  }
+  
+  .pattern-islamic-star,
+  .pattern-arabic-lattice,
+  .pattern-desert-dunes,
+  .pattern-palm-fronds,
+  .pattern-falcon-wings {
+    background-image: none;
+  }
+}
+
+/* Reduced motion cultural elements */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-pearl-shimmer,
+  .text-pearl {
+    animation: none;
+    background-position: 0% 50%;
+  }
+  
+  .animate-desert-wind,
+  .animate-falcon-soar,
+  .animate-pearl-glow {
+    animation: none;
+  }
+}
+
+/* ===== PRINT CULTURAL ELEMENTS ===== */
+
+@media print {
+  /* Simplify cultural elements for print */
+  .pattern-islamic-star,
+  .pattern-arabic-lattice,
+  .pattern-desert-dunes,
+  .pattern-palm-fronds,
+  .pattern-falcon-wings {
+    background-image: none;
+  }
+  
+  .gradient-uae-flag,
+  .gradient-desert-sunset,
+  .gradient-arabian-gulf {
+    background: #f8f9fa;
+  }
+  
+  .text-golden,
+  .text-pearl {
+    color: #000000;
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+}

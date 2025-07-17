@@ -1,0 +1,417 @@
+/**
+ * Content-Aware Theming System
+ * Dynamic themes inspired by UAE culture and landscapes
+ */
+
+/* ===== THEME VARIABLES ===== */
+:root {
+  /* Default theme (UAE Flag colors) */
+  --theme-default-primary: #00732F;
+  --theme-default-secondary: #FF0000;
+  --theme-default-accent: #000000;
+  --theme-default-gradient: linear-gradient(135deg, #00732F 0%, #FF0000 50%, #000000 100%);
+  
+  /* Verbs theme - Desert Sunset */
+  --theme-verbs-primary: #E97451;
+  --theme-verbs-secondary: #2D5AA0;
+  --theme-verbs-accent: #F4A261;
+  --theme-verbs-gradient: linear-gradient(135deg, #E97451 0%, #F4A261 50%, #2D5AA0 100%);
+  
+  /* Colors theme - Oasis Garden */
+  --theme-colors-primary: #2A9D8F;
+  --theme-colors-secondary: #264653;
+  --theme-colors-accent: #E9C46A;
+  --theme-colors-gradient: linear-gradient(135deg, #2A9D8F 0%, #E9C46A 50%, #264653 100%);
+  
+  /* Nouns theme - Pearl Diver */
+  --theme-nouns-primary: #0077BE;
+  --theme-nouns-secondary: #003F5C;
+  --theme-nouns-accent: #F8F9FA;
+  --theme-nouns-gradient: linear-gradient(135deg, #0077BE 0%, #F8F9FA 50%, #003F5C 100%);
+  
+  /* Phrases theme - Spice Market */
+  --theme-phrases-primary: #6A4C93;
+  --theme-phrases-secondary: #8B5A2B;
+  --theme-phrases-accent: #FFD700;
+  --theme-phrases-gradient: linear-gradient(135deg, #6A4C93 0%, #FFD700 50%, #8B5A2B 100%);
+}
+
+/* ===== THEME CLASSES ===== */
+.theme-default {
+  --theme-primary: var(--theme-default-primary);
+  --theme-secondary: var(--theme-default-secondary);
+  --theme-accent: var(--theme-default-accent);
+  --theme-gradient: var(--theme-default-gradient);
+}
+
+.theme-verbs {
+  --theme-primary: var(--theme-verbs-primary);
+  --theme-secondary: var(--theme-verbs-secondary);
+  --theme-accent: var(--theme-verbs-accent);
+  --theme-gradient: var(--theme-verbs-gradient);
+}
+
+.theme-colors {
+  --theme-primary: var(--theme-colors-primary);
+  --theme-secondary: var(--theme-colors-secondary);
+  --theme-accent: var(--theme-colors-accent);
+  --theme-gradient: var(--theme-colors-gradient);
+}
+
+.theme-nouns {
+  --theme-primary: var(--theme-nouns-primary);
+  --theme-secondary: var(--theme-nouns-secondary);
+  --theme-accent: var(--theme-nouns-accent);
+  --theme-gradient: var(--theme-nouns-gradient);
+}
+
+.theme-phrases {
+  --theme-primary: var(--theme-phrases-primary);
+  --theme-secondary: var(--theme-phrases-secondary);
+  --theme-accent: var(--theme-phrases-accent);
+  --theme-gradient: var(--theme-phrases-gradient);
+}
+
+/* ===== THEME TRANSITIONS ===== */
+.theme-transition {
+  transition: 
+    background-color 0.3s ease-out,
+    border-color 0.3s ease-out,
+    color 0.3s ease-out,
+    box-shadow 0.3s ease-out;
+}
+
+.theme-transition-fast {
+  transition: 
+    background-color 0.15s ease-out,
+    border-color 0.15s ease-out,
+    color 0.15s ease-out,
+    box-shadow 0.15s ease-out;
+}
+
+.theme-transition-slow {
+  transition: 
+    background-color 0.6s ease-out,
+    border-color 0.6s ease-out,
+    color 0.6s ease-out,
+    box-shadow 0.6s ease-out;
+}
+
+/* ===== CULTURAL PATTERNS ===== */
+.pattern-geometric-waves {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+.pattern-flowing-water {
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0 5.5 4.5 10 10 10s10-4.5 10-10-4.5-10-10-10-10 4.5-10 10z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
+.pattern-pearl-waves {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3Ccircle cx='0' cy='40' r='20'/%3E%3Ccircle cx='80' cy='40' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+.pattern-arabesque {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M50 50c0-13.807-11.193-25-25-25S0 36.193 0 50s11.193 25 25 25 25-11.193 25-25zm25 0c0 13.807 11.193 25 25 25s25-11.193 25-25-11.193-25-25-25-25 11.193-25 25z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100px 100px;
+}
+
+/* ===== THEMED COMPONENTS ===== */
+
+/* Buttons with theme awareness */
+.btn-themed {
+  background: var(--theme-primary);
+  color: white;
+  border: 1px solid var(--theme-primary);
+  transition: all 0.3s ease-out;
+}
+
+.btn-themed:hover {
+  background: var(--theme-secondary);
+  border-color: var(--theme-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-themed:active {
+  background: var(--theme-accent);
+  border-color: var(--theme-accent);
+  transform: translateY(0);
+}
+
+.btn-themed-outline {
+  background: transparent;
+  color: var(--theme-primary);
+  border: 2px solid var(--theme-primary);
+  transition: all 0.3s ease-out;
+}
+
+.btn-themed-outline:hover {
+  background: var(--theme-primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Cards with theme awareness */
+.card-themed {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-themed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--theme-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.card-themed:hover::before {
+  opacity: 1;
+}
+
+.card-themed:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: var(--theme-primary);
+}
+
+/* Text with theme awareness */
+.text-themed-primary {
+  color: var(--theme-primary);
+  transition: color 0.3s ease-out;
+}
+
+.text-themed-secondary {
+  color: var(--theme-secondary);
+  transition: color 0.3s ease-out;
+}
+
+.text-themed-accent {
+  color: var(--theme-accent);
+  transition: color 0.3s ease-out;
+}
+
+.text-themed-gradient {
+  background: var(--theme-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease-out;
+}
+
+/* Backgrounds with theme awareness */
+.bg-themed-primary {
+  background-color: var(--theme-primary);
+  transition: background-color 0.3s ease-out;
+}
+
+.bg-themed-secondary {
+  background-color: var(--theme-secondary);
+  transition: background-color 0.3s ease-out;
+}
+
+.bg-themed-accent {
+  background-color: var(--theme-accent);
+  transition: background-color 0.3s ease-out;
+}
+
+.bg-themed-gradient {
+  background: var(--theme-gradient);
+  transition: background 0.3s ease-out;
+}
+
+.bg-themed-subtle {
+  background: linear-gradient(135deg, 
+    rgba(var(--theme-primary-rgb), 0.05) 0%, 
+    rgba(var(--theme-accent-rgb), 0.05) 100%);
+  transition: background 0.3s ease-out;
+}
+
+/* Borders with theme awareness */
+.border-themed-primary {
+  border-color: var(--theme-primary);
+  transition: border-color 0.3s ease-out;
+}
+
+.border-themed-secondary {
+  border-color: var(--theme-secondary);
+  transition: border-color 0.3s ease-out;
+}
+
+.border-themed-accent {
+  border-color: var(--theme-accent);
+  transition: border-color 0.3s ease-out;
+}
+
+/* Shadows with theme awareness */
+.shadow-themed {
+  box-shadow: 0 4px 6px rgba(var(--theme-primary-rgb), 0.1);
+  transition: box-shadow 0.3s ease-out;
+}
+
+.shadow-themed:hover {
+  box-shadow: 0 8px 25px rgba(var(--theme-primary-rgb), 0.15);
+}
+
+.shadow-themed-lg {
+  box-shadow: 0 10px 15px rgba(var(--theme-primary-rgb), 0.1);
+  transition: box-shadow 0.3s ease-out;
+}
+
+.shadow-themed-lg:hover {
+  box-shadow: 0 20px 40px rgba(var(--theme-primary-rgb), 0.2);
+}
+
+/* ===== THEME-SPECIFIC ENHANCEMENTS ===== */
+
+/* Verbs theme - Desert Sunset enhancements */
+.theme-verbs .card-themed {
+  background: linear-gradient(135deg, rgba(233, 116, 81, 0.02) 0%, rgba(244, 162, 97, 0.02) 100%);
+}
+
+.theme-verbs .pattern-geometric-waves {
+  background-blend-mode: multiply;
+}
+
+/* Colors theme - Oasis Garden enhancements */
+.theme-colors .card-themed {
+  background: linear-gradient(135deg, rgba(42, 157, 143, 0.02) 0%, rgba(233, 196, 106, 0.02) 100%);
+}
+
+.theme-colors .pattern-flowing-water {
+  background-blend-mode: overlay;
+}
+
+/* Nouns theme - Pearl Diver enhancements */
+.theme-nouns .card-themed {
+  background: linear-gradient(135deg, rgba(0, 119, 190, 0.02) 0%, rgba(248, 249, 250, 0.02) 100%);
+}
+
+.theme-nouns .pattern-pearl-waves {
+  background-blend-mode: soft-light;
+}
+
+/* Phrases theme - Spice Market enhancements */
+.theme-phrases .card-themed {
+  background: linear-gradient(135deg, rgba(106, 76, 147, 0.02) 0%, rgba(255, 215, 0, 0.02) 100%);
+}
+
+.theme-phrases .pattern-arabesque {
+  background-blend-mode: multiply;
+}
+
+/* ===== ANIMATION ENHANCEMENTS ===== */
+.theme-change-animation {
+  animation: themeChange 0.6s ease-out;
+}
+
+@keyframes themeChange {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.theme-pulse {
+  animation: themePulse 2s ease-in-out infinite;
+}
+
+@keyframes themePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(var(--theme-primary-rgb), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(var(--theme-primary-rgb), 0);
+  }
+}
+
+/* ===== RESPONSIVE THEME ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .card-themed {
+    border-radius: var(--radius-lg);
+  }
+  
+  .pattern-geometric-waves,
+  .pattern-flowing-water,
+  .pattern-pearl-waves,
+  .pattern-arabesque {
+    background-size: 30px 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition-fast,
+  .theme-transition-slow,
+  .btn-themed,
+  .btn-themed-outline,
+  .card-themed,
+  .text-themed-primary,
+  .text-themed-secondary,
+  .text-themed-accent,
+  .text-themed-gradient {
+    transition: none !important;
+  }
+  
+  .theme-change-animation,
+  .theme-pulse {
+    animation: none !important;
+  }
+}
+
+/* ===== HIGH CONTRAST THEME SUPPORT ===== */
+@media (prefers-contrast: high) {
+  .theme-verbs {
+    --theme-primary: #D2691E;
+    --theme-secondary: #1E3A8A;
+    --theme-accent: #F59E0B;
+  }
+  
+  .theme-colors {
+    --theme-primary: #059669;
+    --theme-secondary: #1F2937;
+    --theme-accent: #F59E0B;
+  }
+  
+  .theme-nouns {
+    --theme-primary: #0369A1;
+    --theme-secondary: #1F2937;
+    --theme-accent: #F3F4F6;
+  }
+  
+  .theme-phrases {
+    --theme-primary: #7C3AED;
+    --theme-secondary: #92400E;
+    --theme-accent: #FCD34D;
+  }
+  
+  .card-themed {
+    border: 2px solid var(--theme-primary);
+  }
+  
+  .btn-themed {
+    border: 2px solid var(--theme-primary);
+    font-weight: var(--font-semibold);
+  }
+}

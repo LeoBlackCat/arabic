@@ -14,6 +14,10 @@ import { isElevenLabsAvailable, playElevenLabsSpeech } from './elevenLabsHelper'
 import { isFirebaseStorageAvailable, playAudioWithFirebaseCache } from './firebaseStorageHelper';
 import { getThemeClass, applyTheme } from './utils/themeUtils.js';
 import { animateElement, staggerAnimation, createParticleEffect, triggerCelebration } from './utils/animationUtils.js';
+import PerformanceMonitor from './components/PerformanceMonitor.js';
+import { memoryManager } from './utils/performanceUtils.js';
+import { initializeFonts } from './utils/fontLoader.js';
+import CompatibilityChecker from './components/CompatibilityChecker.js';
 import { recordAttempt, getLearningStats, getPendingNotifications } from './utils/progressUtils.js';
 import { AchievementBadge, FeedbackToast, StreakCounter, AnimatedScore } from './components/FeedbackSystem.js';
 import SwipeableContent from './components/SwipeableContent.js';
@@ -641,6 +645,27 @@ const speakWord = useCallback(async (text, chatOverride) => {
     return cleanupOrientation;
   }, []);
 
+  // Performance and font initialization
+  useEffect(() => {
+    // Initialize fonts for better performance
+    initializeFonts().then(result => {
+      console.log('Font initialization complete:', result);
+    }).catch(error => {
+      console.error('Font initialization failed:', error);
+    });
+
+    // Setup memory management
+    const debouncedResize = memoryManager.debounce(() => {
+      console.log('Window resized, checking performance');
+    }, 250);
+
+    window.addEventListener('resize', debouncedResize);
+
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+    };
+  }, []);
+
   // Show loading state
   if (loadingState.isLoading || !currentImage) {
     return (
@@ -694,12 +719,22 @@ const speakWord = useCallback(async (text, chatOverride) => {
   }
 
   return (
-    <ThemeProvider contentType={contentType}>
-      <SkipLink href="#main-content" />
-      <LiveRegion 
-        message={feedbackToast.visible ? feedbackToast.message : ''} 
-        priority={feedbackToast.type === 'error' ? 'assertive' : 'polite'} 
-      />
+    <CompatibilityChecker 
+      autoRun={true}
+      showResults={process.env.NODE_ENV === 'development'}
+      onResults={(results) => {
+        // Handle compatibility results
+        if (results.overall.score < 60) {
+          console.warn('Poor compatibility detected:', results);
+        }
+      }}
+    >
+      <ThemeProvider contentType={contentType}>
+        <SkipLink href="#main-content" />
+        <LiveRegion 
+          message={feedbackToast.visible ? feedbackToast.message : ''} 
+          priority={feedbackToast.type === 'error' ? 'assertive' : 'polite'} 
+        />
       
       <main 
         id="main-content"

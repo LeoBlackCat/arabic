@@ -2,6 +2,11 @@
 @import './design-tokens.css';
 @import './typography.css';
 @import './mobile.css';
+@import './accessibility.css';
+@import './themes.css';
+@import './animations.css';
+@import './cross-browser.css';
+@import './cultural-elements.css';
 
 @tailwind base;
 @tailwind components;
