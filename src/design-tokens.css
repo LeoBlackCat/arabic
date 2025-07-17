@@ -1,0 +1,419 @@
+/* Modern UI Design System - Desert Sunset & Ocean Breeze Theme */
+/* Inspired by UAE landscapes and contemporary design */
+
+:root {
+  /* ===== PRIMARY COLORS - Ocean Breeze ===== */
+  --primary-50: #f0f9ff;    /* Light sky blue */
+  --primary-100: #e0f2fe;   /* Soft blue */
+  --primary-200: #bae6fd;   /* Light ocean */
+  --primary-300: #7dd3fc;   /* Medium ocean */
+  --primary-400: #38bdf8;   /* Bright ocean */
+  --primary-500: #0ea5e9;   /* Ocean blue */
+  --primary-600: #0284c7;   /* Deep ocean */
+  --primary-700: #0369a1;   /* Navy blue */
+  --primary-800: #075985;   /* Dark navy */
+  --primary-900: #0c4a6e;   /* Deepest navy */
+
+  /* ===== SECONDARY COLORS - Desert Warmth ===== */
+  --secondary-50: #fefce8;   /* Warm cream */
+  --secondary-100: #fef3c7;  /* Light gold */
+  --secondary-200: #fde68a;  /* Soft gold */
+  --secondary-300: #fcd34d;  /* Medium gold */
+  --secondary-400: #fbbf24;  /* Desert gold */
+  --secondary-500: #f59e0b;  /* Rich amber */
+  --secondary-600: #d97706;  /* Deep amber */
+  --secondary-700: #b45309;  /* Bronze */
+  --secondary-800: #92400e;  /* Dark bronze */
+  --secondary-900: #78350f;  /* Deepest bronze */
+
+  /* ===== ACCENT COLORS - Cultural Richness ===== */
+  --accent-emerald-50: #ecfdf5;
+  --accent-emerald-100: #d1fae5;
+  --accent-emerald-500: #10b981;  /* Oasis green */
+  --accent-emerald-600: #059669;
+  --accent-emerald-700: #047857;
+
+  --accent-purple-50: #faf5ff;
+  --accent-purple-100: #f3e8ff;
+  --accent-purple-500: #8b5cf6;   /* Royal purple */
+  --accent-purple-600: #7c3aed;
+  --accent-purple-700: #6d28d9;
+
+  --accent-rose-50: #fdf2f8;
+  --accent-rose-100: #fce7f3;
+  --accent-rose-500: #f43f5e;     /* Gentle coral */
+  --accent-rose-600: #e11d48;
+  --accent-rose-700: #be185d;
+
+  /* ===== NEUTRAL COLORS - Modern Sophistication ===== */
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+
+  /* ===== SEMANTIC COLORS ===== */
+  --success-50: var(--accent-emerald-50);
+  --success-500: var(--accent-emerald-500);
+  --success-600: var(--accent-emerald-600);
+  --success-700: var(--accent-emerald-700);
+
+  --warning-50: var(--secondary-50);
+  --warning-500: var(--secondary-500);
+  --warning-600: var(--secondary-600);
+  --warning-700: var(--secondary-700);
+
+  --error-50: var(--accent-rose-50);
+  --error-500: var(--accent-rose-500);
+  --error-600: var(--accent-rose-600);
+  --error-700: var(--accent-rose-700);
+
+  --info-50: var(--primary-50);
+  --info-500: var(--primary-500);
+  --info-600: var(--primary-600);
+  --info-700: var(--primary-700);
+
+  /* ===== TYPOGRAPHY SYSTEM ===== */
+  /* Font Families */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-arabizi: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  --font-arabic: 'Noto Sans Arabic', 'Arabic UI Text', 'Geeza Pro', serif;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+  --text-6xl: 3.75rem;     /* 60px */
+
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Font Weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* ===== SPACING SYSTEM ===== */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;   /* 2px */
+  --space-1: 0.25rem;      /* 4px */
+  --space-1-5: 0.375rem;   /* 6px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-2-5: 0.625rem;   /* 10px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-3-5: 0.875rem;   /* 14px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px */
+  --space-6: 1.5rem;       /* 24px */
+  --space-7: 1.75rem;      /* 28px */
+  --space-8: 2rem;         /* 32px */
+  --space-9: 2.25rem;      /* 36px */
+  --space-10: 2.5rem;      /* 40px */
+  --space-11: 2.75rem;     /* 44px */
+  --space-12: 3rem;        /* 48px */
+  --space-14: 3.5rem;      /* 56px */
+  --space-16: 4rem;        /* 64px */
+  --space-20: 5rem;        /* 80px */
+  --space-24: 6rem;        /* 96px */
+  --space-28: 7rem;        /* 112px */
+  --space-32: 8rem;        /* 128px */
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;    /* 2px */
+  --radius-base: 0.25rem;   /* 4px */
+  --radius-md: 0.375rem;    /* 6px */
+  --radius-lg: 0.5rem;      /* 8px */
+  --radius-xl: 0.75rem;     /* 12px */
+  --radius-2xl: 1rem;       /* 16px */
+  --radius-3xl: 1.5rem;     /* 24px */
+  --radius-full: 9999px;
+
+  /* ===== SHADOWS ===== */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+
+  /* Colored Shadows */
+  --shadow-primary: 0 10px 15px -3px rgb(14 165 233 / 0.1), 0 4px 6px -4px rgb(14 165 233 / 0.1);
+  --shadow-secondary: 0 10px 15px -3px rgb(245 158 11 / 0.1), 0 4px 6px -4px rgb(245 158 11 / 0.1);
+  --shadow-success: 0 10px 15px -3px rgb(16 185 129 / 0.1), 0 4px 6px -4px rgb(16 185 129 / 0.1);
+
+  /* ===== ANIMATION SYSTEM ===== */
+  /* Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Duration Scale */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+
+  /* Common Durations */
+  --duration-fast: var(--duration-150);
+  --duration-normal: var(--duration-300);
+  --duration-slow: var(--duration-500);
+  --duration-slower: var(--duration-700);
+
+  /* ===== GLASSMORPHISM EFFECTS ===== */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg-strong: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --glass-backdrop: blur(8px);
+  --glass-backdrop-strong: blur(16px);
+
+  /* ===== CONTENT TYPE THEMES ===== */
+  /* Verbs Theme - Ocean Blue */
+  --theme-verbs-primary: var(--primary-500);
+  --theme-verbs-secondary: var(--primary-100);
+  --theme-verbs-accent: var(--accent-emerald-500);
+  --theme-verbs-gradient: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+
+  /* Colors Theme - Desert Gold */
+  --theme-colors-primary: var(--secondary-500);
+  --theme-colors-secondary: var(--secondary-100);
+  --theme-colors-accent: var(--accent-purple-500);
+  --theme-colors-gradient: linear-gradient(135deg, var(--secondary-500) 0%, var(--secondary-600) 100%);
+
+  /* Nouns Theme - Emerald Green */
+  --theme-nouns-primary: var(--accent-emerald-500);
+  --theme-nouns-secondary: var(--accent-emerald-100);
+  --theme-nouns-accent: var(--primary-500);
+  --theme-nouns-gradient: linear-gradient(135deg, var(--accent-emerald-500) 0%, var(--accent-emerald-600) 100%);
+
+  /* Phrases Theme - Royal Purple */
+  --theme-phrases-primary: var(--accent-purple-500);
+  --theme-phrases-secondary: var(--accent-purple-100);
+  --theme-phrases-accent: var(--secondary-500);
+  --theme-phrases-gradient: linear-gradient(135deg, var(--accent-purple-500) 0%, var(--accent-purple-600) 100%);
+
+  /* ===== Z-INDEX SCALE ===== */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-auto: auto;
+
+  /* Component Z-Index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+
+  /* ===== BREAKPOINTS (for reference in JS) ===== */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ===== ANIMATION KEYFRAMES ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(var(--space-4)); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fadeInDown {
+  from { 
+    opacity: 0; 
+    transform: translateY(calc(-1 * var(--space-4))); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes scaleOut {
+  from { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  to { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(var(--space-8)); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(calc(-1 * var(--space-8))); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(calc(-1 * var(--space-2))); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.5; 
+  }
+}
+
+@keyframes spin {
+  from { 
+    transform: rotate(0deg); 
+  }
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+@keyframes celebration {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+  }
+  25% { 
+    transform: scale(1.05) rotate(-2deg); 
+  }
+  75% { 
+    transform: scale(1.05) rotate(2deg); 
+  }
+}
+
+@keyframes shake {
+  0%, 100% { 
+    transform: translateX(0); 
+  }
+  25% { 
+    transform: translateX(calc(-1 * var(--space-1))); 
+  }
+  75% { 
+    transform: translateX(var(--space-1)); 
+  }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px currentColor; 
+  }
+  50% { 
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor; 
+  }
+}
+
+/* ===== REDUCED MOTION PREFERENCES ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== FONT LOADING OPTIMIZATION ===== */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+}
+
+@font-face {
+  font-family: 'Noto Sans Arabic';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap');
+}

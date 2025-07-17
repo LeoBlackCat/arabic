@@ -330,7 +330,7 @@ async function analyzeAndGenerateVerb() {
   const newSentence = {
     id: `sentence_${nextId}`,
     arabic: arabicSentence,
-    chat: arabiziSentence,
+    chat: arabiziSentence.replace(/"/g, '').replace(/\s*\([^)]*\)\s*$/, '').trim(), // Clean chat field
     english: englishSentence,
     audioPath: `sounds/sentence_${nextId}.mp3`,
     images: imagePaths,

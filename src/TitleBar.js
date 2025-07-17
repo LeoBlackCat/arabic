@@ -1,4 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect, useRef } from 'react';
+import { getThemeClass, applyTheme, createTransition } from './utils/themeUtils.js';
+import { animateElement, staggerAnimation } from './utils/animationUtils.js';
 
 // Error boundary component for dropdown interactions
 class DropdownErrorBoundary extends React.Component {
@@ -228,6 +230,39 @@ const TitleBar = React.memo(({
     [speechConfig?.azure?.isEnabled, speechConfig?.elevenlabs?.isEnabled]
   );
   
+  // Refs for animation and theming
+  const titleBarRef = useRef(null);
+  const topicRef = useRef(null);
+  const controlsRef = useRef(null);
+  
+  // Memoize theme class for content-aware styling
+  const themeClass = useMemo(() => 
+    getThemeClass(selectedContent),
+    [selectedContent]
+  );
+  
+  // Apply theme to titlebar when content changes
+  useEffect(() => {
+    if (titleBarRef.current && selectedContent) {
+      applyTheme(titleBarRef.current, selectedContent);
+    }
+  }, [selectedContent]);
+  
+  // Animate topic name when it changes
+  useEffect(() => {
+    if (topicRef.current && displayTopic && !isLoading) {
+      animateElement(topicRef.current, 'fadeInUp', { duration: 300 });
+    }
+  }, [displayTopic, isLoading]);
+  
+  // Animate controls when they become available
+  useEffect(() => {
+    if (controlsRef.current && selectedContent && !isLoading) {
+      const controls = controlsRef.current.querySelectorAll('select, button');
+      staggerAnimation(controls, 'fadeInUp', 50, { duration: 200 });
+    }
+  }, [selectedContent, isLoading]);
+  
   // Memoized content change handler with useCallback to prevent unnecessary re-renders
   const handleContentChange = useCallback((newContent) => {
     try {
@@ -273,7 +308,8 @@ const TitleBar = React.memo(({
 
   return (
     <div 
-      className="bg-white shadow-sm border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4"
+      ref={titleBarRef}
+      className={`nav-bar glass transition-all duration-300 px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 ${themeClass}`}
       role="banner"
       aria-label="Navigation titlebar"
     >
@@ -284,7 +320,8 @@ const TitleBar = React.memo(({
           <div className="flex items-center justify-between mb-2">
             <div className="flex-1 min-w-0">
               <h1 
-                className="text-lg font-bold text-gray-800 truncate"
+                ref={topicRef}
+                className="text-lg font-bold text-neutral-800 truncate text-gradient"
                 title={displayTopic}
                 aria-live="polite"
                 aria-atomic="true"
@@ -296,10 +333,10 @@ const TitleBar = React.memo(({
             <button
               onClick={onSettingsClick}
               onKeyDown={(e) => handleKeyDown(e, onSettingsClick)}
-              className={`ml-3 p-2 text-sm rounded-md border transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+              className={`ml-3 p-2 text-sm rounded-lg border transition-all duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 hover:scale-105 ${
                 isSpeechActive
-                  ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-700' 
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 active:bg-gray-100'
+                  ? 'btn-primary shadow-primary' 
+                  : 'btn-ghost hover:shadow-md'
               }`}
               aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
               aria-describedby="settings-button-help-mobile"
@@ -315,14 +352,14 @@ const TitleBar = React.memo(({
           </div>
           
           {/* Bottom row: Selectors */}
-          <div className="flex gap-2" role="group" aria-label="Content and game selection controls">
+          <div ref={controlsRef} className="flex gap-2" role="group" aria-label="Content and game selection controls">
             <div className="flex-1">
               <DropdownErrorBoundary>
                 <select
                   value={selectedContent}
                   onChange={(e) => handleContentChange(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, () => {})}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer touch-manipulation"
+                  className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-neutral-50 transition-all cursor-pointer touch-manipulation hover:shadow-md"
                   aria-label="Select content type to learn"
                   aria-describedby="content-selector-help"
                   id="content-type-selector"
@@ -346,7 +383,7 @@ const TitleBar = React.memo(({
                   value={isCurrentGameValid ? selectedGame : ''}
                   onChange={(e) => handleGameChange(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, () => {})}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer touch-manipulation"
+                  className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-neutral-50 transition-all cursor-pointer touch-manipulation hover:shadow-md"
                   aria-label="Select game type to play"
                   aria-describedby="game-selector-help"
                   id="game-type-selector"
@@ -380,7 +417,7 @@ const TitleBar = React.memo(({
           {/* Topic Name Display */}
           <div className="flex-shrink-0 min-w-0 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[400px]">
             <h1 
-              className="text-lg sm:text-xl font-bold text-gray-800 truncate"
+              className="text-lg sm:text-xl font-bold text-neutral-800 truncate text-gradient"
               title={displayTopic}
               aria-live="polite"
               aria-atomic="true"
@@ -399,7 +436,7 @@ const TitleBar = React.memo(({
                   value={selectedContent}
                   onChange={(e) => handleContentChange(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, () => {})}
-                  className="px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer min-w-[100px] sm:min-w-[120px] md:min-w-[140px]"
+                  className="select px-2 py-1.5 sm:px-3 sm:py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-neutral-50 transition-all cursor-pointer min-w-[100px] sm:min-w-[120px] md:min-w-[140px] hover:shadow-md"
                   aria-label="Select content type to learn"
                   aria-describedby="content-selector-help-desktop"
                   id="content-type-selector-desktop"
@@ -427,7 +464,7 @@ const TitleBar = React.memo(({
                   value={isCurrentGameValid ? selectedGame : ''}
                   onChange={(e) => handleGameChange(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, () => {})}
-                  className="px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-gray-50 transition-colors cursor-pointer min-w-[120px] sm:min-w-[140px] md:min-w-[160px]"
+                  className="select px-2 py-1.5 sm:px-3 sm:py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 focus:border-transparent bg-white hover:bg-neutral-50 transition-all cursor-pointer min-w-[120px] sm:min-w-[140px] md:min-w-[160px] hover:shadow-md"
                   aria-label="Select game type to play"
                   aria-describedby="game-selector-help-desktop"
                   id="game-type-selector-desktop"
@@ -454,10 +491,10 @@ const TitleBar = React.memo(({
               <button
                 onClick={onSettingsClick}
                 onKeyDown={(e) => handleKeyDown(e, onSettingsClick)}
-                className={`px-2 py-1.5 sm:px-3 sm:py-2 text-sm rounded-md border transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                className={`px-2 py-1.5 sm:px-3 sm:py-2 text-sm rounded-lg border transition-all duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 hover:scale-105 ${
                   isSpeechActive
-                    ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 focus:bg-blue-600' 
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 focus:bg-gray-50'
+                    ? 'btn-primary shadow-primary' 
+                    : 'btn-ghost hover:shadow-md'
                 }`}
                 aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
                 aria-describedby="settings-button-help-desktop"
