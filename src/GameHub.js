@@ -14,6 +14,7 @@ import PhraseGame from './PhraseGame';
 import SentenceImageGame from './SentenceImageGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import TitleBar, { getAvailableGames } from './TitleBar';
+import OnboardingSplash from './components/OnboardingSplash.js';
 import logicData from '../logic.json';
 import mediaManifest from './mediaManifest.json';
 import { getAzureSpeechConfig } from './azureSpeechHelper';
@@ -66,6 +67,7 @@ const GameHub = () => {
   const [contentData, setContentData] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [showAzureConfig, setShowAzureConfig] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [speechConfig, setSpeechConfig] = useState({ 
     azure: { isEnabled: false, apiKey: '', region: 'eastus' },
     elevenlabs: { isEnabled: false, apiKey: '', voiceId: 'DANw8bnAVbjDEHwZIoYa' }
@@ -113,6 +115,12 @@ const GameHub = () => {
       ...prev,
       azure: azureConfig
     }));
+
+    // Check if user has seen onboarding
+    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+    }
   }, []);
 
   // Load content data based on selection
@@ -234,6 +242,19 @@ const GameHub = () => {
     }
   }, [selectedContent, selectedGame]);
 
+  // Handle onboarding content selection
+  const handleOnboardingContentSelect = (contentType) => {
+    setSelectedContent(contentType);
+    setShowOnboarding(false);
+    localStorage.setItem('hasSeenOnboarding', 'true');
+  };
+
+  // Handle onboarding skip
+  const handleOnboardingSkip = () => {
+    setShowOnboarding(false);
+    localStorage.setItem('hasSeenOnboarding', 'true');
+  };
+
   // Render the selected game component
   const renderGame = () => {
     const commonProps = {
@@ -273,6 +294,16 @@ const GameHub = () => {
         return <App {...commonProps} />;
     }
   };
+
+  // Show onboarding splash if user hasn't seen it yet
+  if (showOnboarding) {
+    return (
+      <OnboardingSplash
+        onSelectContent={handleOnboardingContentSelect}
+        onSkip={handleOnboardingSkip}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
