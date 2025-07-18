@@ -26,7 +26,7 @@ const SentenceImageGame = ({ onGameComplete }) => {
       const data = await response.json();
       
       // Randomize image order for each sentence
-      const randomizedSentences = data.sentences.map(sentence => {
+      const processedSentences = data.sentences.map(sentence => {
         const images = [...sentence.images];
         const correctImage = images[sentence.correctImageIndex];
         
@@ -45,6 +45,13 @@ const SentenceImageGame = ({ onGameComplete }) => {
           correctImageIndex: newCorrectIndex
         };
       });
+      
+      // Randomize the sentence order as well
+      const randomizedSentences = [...processedSentences];
+      for (let i = randomizedSentences.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [randomizedSentences[i], randomizedSentences[j]] = [randomizedSentences[j], randomizedSentences[i]];
+      }
       
       setSentences(randomizedSentences);
       if (randomizedSentences.length > 0) {
@@ -85,7 +92,7 @@ const SentenceImageGame = ({ onGameComplete }) => {
       ];
       
       // Randomize mock sentences too
-      const randomizedMockSentences = mockSentences.map(sentence => {
+      const processedMockSentences = mockSentences.map(sentence => {
         const images = [...sentence.images];
         const correctImage = images[sentence.correctImageIndex];
         
@@ -104,6 +111,13 @@ const SentenceImageGame = ({ onGameComplete }) => {
           correctImageIndex: newCorrectIndex
         };
       });
+      
+      // Randomize the mock sentence order as well
+      const randomizedMockSentences = [...processedMockSentences];
+      for (let i = randomizedMockSentences.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [randomizedMockSentences[i], randomizedMockSentences[j]] = [randomizedMockSentences[j], randomizedMockSentences[i]];
+      }
       
       setSentences(randomizedMockSentences);
       if (randomizedMockSentences.length > 0) {

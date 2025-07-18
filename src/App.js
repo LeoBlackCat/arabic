@@ -721,7 +721,7 @@ const speakWord = useCallback(async (text, chatOverride) => {
   return (
     <CompatibilityChecker 
       autoRun={true}
-      showResults={process.env.NODE_ENV === 'development'}
+      showResults={false}
       onResults={(results) => {
         // Handle compatibility results
         if (results.overall.score < 60) {

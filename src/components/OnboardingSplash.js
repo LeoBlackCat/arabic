@@ -66,18 +66,14 @@ const OnboardingSplash = ({ onSelectContent, onSkip }) => {
           return;
         }
 
-        // Generate new images if no cache
-        console.log('Generating new onboarding images...');
-        const newImages = await generateOnboardingImages();
-        
-        // Cache the generated images
-        cacheImages(newImages);
-        setImages(newImages);
+        // Skip OpenAI image generation and use fallback design
+        console.log('Using fallback images for onboarding...');
+        setImages(null); // No images generated, will use fallback UI
         setIsLoading(false);
         
       } catch (err) {
         console.error('Failed to load onboarding images:', err);
-        setError('Failed to load images. You can still use the app!');
+        setError('Using fallback design. You can still use the app!');
         setIsLoading(false);
       }
     };

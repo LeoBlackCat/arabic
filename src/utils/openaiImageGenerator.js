@@ -3,7 +3,8 @@
  * Generates images using OpenAI DALL-E API for the Arabic learning app
  */
 
-const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
+// Disable OpenAI image generation to avoid process.env browser compatibility issues
+const OPENAI_API_KEY = null;
 const OPENAI_API_URL = 'https://api.openai.com/v1/images/generations';
 
 /**
