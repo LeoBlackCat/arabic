@@ -1,0 +1,104 @@
+today
+el youm
+yesterday
+ams/elbar7a
+tomorrow
+baacher/bukra
+before
+gabel
+after
+ba3ad
+day before yesterday
+gabel ams
+day after tomorrow
+ba3ad baacher
+tonight
+fee el lail\fil lail
+morning
+elsob7
+evening
+elmasa
+friend (m.)
+sadeeq
+friend (f.)
+sadeeqa
+every morning
+kil sob7
+to
+li
+week
+esboo3
+month
+shahar
+year
+sana 
+11th month
+shahar e7dash
+birthday
+3eed milaady
+coming
+elyaay/elyaaya
+next week
+elesboo3 elyaay
+next month
+elshahar elyaay
+next year
+elsana elyaiya
+next time
+elmarra elyaiya
+last
+elle taaf/tafaat
+last week
+elesboo3 elle taaf
+last month
+elshahar elle taaf
+last time
+elmarra elle tafat
+last year
+elsana elle tafat
+last class
+elclass elle taaf
+holiday
+ijaza
+last holiday
+ijaza elle tafat
+where
+wain
+where's he
+wainik
+where's she
+wainich
+who
+emnoo
+with you 
+weyaak/weyaach
+with you
+ma3aak/ma3aach
+which
+ay
+anything
+ay shai
+how
+kaif
+how was
+kaif kaan
+hot
+7aar
+cold
+baard
+Sunday
+el a7ad
+Monday
+el ethnain
+Tuesday
+el thalatha
+Wednesday
+el arba3a
+Thursday
+el khemees
+Friday
+el jum3ah
+Saturday
+el sabt
+
+
