@@ -14,6 +14,8 @@ const VerbQuestionGame = () => {
     
     const recognitionRef = useRef(null);
     const synthRef = useRef(window.speechSynthesis);
+    const currentChallengeRef = useRef(null);
+    const challengesRef = useRef([]);
 
     // Question words from logic data
     const questionWords = logicData.items.filter(item => item.type === 'question');
@@ -102,6 +104,7 @@ const VerbQuestionGame = () => {
         }
 
         setChallenges(generatedChallenges);
+        challengesRef.current = generatedChallenges;
         selectRandomChallenge(generatedChallenges, new Set());
     }, [gameMode]);
 
@@ -121,11 +124,19 @@ const VerbQuestionGame = () => {
             };
 
             recognitionRef.current.onresult = (event) => {
-                const result = event.results[event.resultIndex];
-                if (result.isFinal) {
-                    const transcript = result[0].transcript.trim();
-                    setIsListening(false);
-                    processAnswer(transcript);
+                for (let i = 0; i < event.results.length; i++) {
+                    const result = event.results[i];
+                    
+                    if (result.isFinal) {
+                        const transcript = result[0].transcript.trim();
+                        const challengeAtTime = currentChallengeRef.current;
+                        setIsListening(false);
+                        
+                        if (challengeAtTime) {
+                            processAnswerWithChallenge(transcript, challengeAtTime);
+                        }
+                        return;
+                    }
                 }
             };
 
@@ -152,6 +163,7 @@ const VerbQuestionGame = () => {
         const randomIndex = Math.floor(Math.random() * available.length);
         const challenge = available[randomIndex];
         setCurrentChallenge(challenge);
+        currentChallengeRef.current = challenge;
         
         // Present the challenge
         setTimeout(() => {
@@ -180,23 +192,21 @@ const VerbQuestionGame = () => {
         synthRef.current.speak(utterance);
     };
 
-    const processAnswer = (userInput) => {
-        if (!currentChallenge) return;
-
+    const processAnswerWithChallenge = (userInput, challenge) => {
         const normalizedInput = normalizeArabic(userInput.toLowerCase());
-        const expectedText = currentChallenge.expectedArabic;
+        const expectedText = challenge.expectedArabic;
         const normalizedExpected = normalizeArabic(expectedText.toLowerCase());
         
         // Check if the answer contains the verb and context (if applicable)
-        const verbArabic = normalizeArabic(currentChallenge.verb.ar.toLowerCase());
+        const verbArabic = normalizeArabic(challenge.verb.ar.toLowerCase());
         const containsVerb = normalizedInput.includes(verbArabic);
         
         let containsContext = true;
-        if (currentChallenge.location) {
-            const locationArabic = normalizeArabic(currentChallenge.location.toLowerCase());
+        if (challenge.location) {
+            const locationArabic = normalizeArabic(challenge.location.toLowerCase());
             containsContext = normalizedInput.includes(locationArabic);
-        } else if (currentChallenge.timeExpression) {
-            const timeArabic = normalizeArabic(currentChallenge.timeExpression.ar.toLowerCase());
+        } else if (challenge.timeExpression) {
+            const timeArabic = normalizeArabic(challenge.timeExpression.ar.toLowerCase());
             containsContext = normalizedInput.includes(timeArabic);
         }
 
@@ -205,28 +215,43 @@ const VerbQuestionGame = () => {
                          normalizedExpected.includes(normalizedInput);
 
         if (isCorrect) {
+            console.log('✅ CORRECT answer - playing audio:', 'جواب ممتاز');
             setScore(score + 1);
             setFeedback('❓ Perfect answer! Great question response!');
             speak('جواب ممتاز'); // Excellent answer
             
-            setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
-            setTimeout(() => selectRandomChallenge(), 2000);
+            setUsedChallenges(prev => {
+                const newUsedChallenges = new Set([...prev, challenge.id]);
+                setTimeout(() => selectRandomChallenge(challengesRef.current, newUsedChallenges), 2000);
+                return newUsedChallenges;
+            });
         } else {
+            console.log('❌ INCORRECT answer - playing audio:', expectedText);
             setFeedback(`❌ Try again. Expected: "${expectedText}"`);
             speak(expectedText);
         }
     };
 
+    const processAnswer = (userInput) => {
+        if (!currentChallenge) return;
+        processAnswerWithChallenge(userInput, currentChallenge);
+    };
+
     const startListening = () => {
         if (recognitionRef.current && !isListening && currentChallenge) {
-            recognitionRef.current.start();
+            try {
+                recognitionRef.current.start();
+            } catch (error) {
+                console.error('Error starting recognition:', error);
+                setFeedback(`❌ Error starting recognition: ${error.message}`);
+            }
         }
     };
 
     const skipChallenge = () => {
         if (currentChallenge) {
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
-            selectRandomChallenge();
+            selectRandomChallenge(challengesRef.current, usedChallenges);
         }
     };
 
@@ -234,7 +259,7 @@ const VerbQuestionGame = () => {
         setUsedChallenges(new Set());
         setScore(0);
         setFeedback('');
-        selectRandomChallenge(challenges, new Set());
+        selectRandomChallenge(challengesRef.current, new Set());
     };
 
     const repeatChallenge = () => {

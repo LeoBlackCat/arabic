@@ -56,8 +56,9 @@ async function generateAudio(text, outputPath) {
         text: text,
         model_id: 'eleven_flash_v2_5',
         voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.8
+          stability: 1,
+          similarity_boost: 1,
+          speed: 0.7
         }
       })
     });

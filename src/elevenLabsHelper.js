@@ -10,7 +10,7 @@ import { logElevenLabsRequest, logUsageStats } from './firebaseLogger';
  */
 export const getElevenLabsConfig = () => {
   const apiKey = localStorage.getItem('elevenlabs-key');
-  const voiceId = localStorage.getItem('elevenlabs-voice-id') || 'DANw8bnAVbjDEHwZIoYa';
+  const voiceId = localStorage.getItem('elevenlabs-voice-id') || 'jAAHNNqlbAX9iWjJPEtE';
   const isEnabled = localStorage.getItem('elevenlabs-enabled') === 'true';
   
   return {

@@ -18,8 +18,8 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 // TODO: Replace this with your preferred ElevenLabs voice ID
-//const voiceId = 'jAAHNNqlbAX9iWjJPEtE';
-const voiceId = 'DANw8bnAVbjDEHwZIoYa';
+const voiceId = 'jAAHNNqlbAX9iWjJPEtE';
+
 
 const soundsDir = path.join(__dirname, 'sounds');
 const logic = require('./logic.json');

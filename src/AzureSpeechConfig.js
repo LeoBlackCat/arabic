@@ -9,7 +9,7 @@ const AzureSpeechConfig = ({ isOpen, onClose, onConfigChange }) => {
   const [region, setRegion] = useState('eastus');
   const [isEnabled, setIsEnabled] = useState(false);
   const [elevenLabsKey, setElevenLabsKey] = useState('');
-  const [elevenLabsVoiceId, setElevenLabsVoiceId] = useState('DANw8bnAVbjDEHwZIoYa');
+  const [elevenLabsVoiceId, setElevenLabsVoiceId] = useState('jAAHNNqlbAX9iWjJPEtE');
   const [elevenLabsEnabled, setElevenLabsEnabled] = useState(false);
   const [firebaseProjectId, setFirebaseProjectId] = useState('');
   const [firebaseBucket, setFirebaseBucket] = useState('');

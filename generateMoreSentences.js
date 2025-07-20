@@ -78,8 +78,9 @@ const generateMoreSentences = async () => {
           text: sentence.arabic,
           model_id: 'eleven_flash_v2_5',
           voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.5
+            stability: 1,
+            similarity_boost: 1,
+            speed: 0.7
           }
         })
       });

@@ -13,6 +13,8 @@ const TimeGame = () => {
     
     const recognitionRef = useRef(null);
     const synthRef = useRef(window.speechSynthesis);
+    const currentPhraseRef = useRef(null);
+    const timeDataRef = useRef([]);
 
     // Filter time-related content
     useEffect(() => {
@@ -38,7 +40,9 @@ const TimeGame = () => {
                 item.eng.includes('last')
             ))
         );
+        
         setTimeData(timeItems);
+        timeDataRef.current = timeItems;
         selectRandomPhrase(timeItems, new Set());
     }, [gameMode]);
 
@@ -58,11 +62,19 @@ const TimeGame = () => {
             };
 
             recognitionRef.current.onresult = (event) => {
-                const result = event.results[event.resultIndex];
-                if (result.isFinal) {
-                    const transcript = result[0].transcript.trim();
-                    setIsListening(false);
-                    processAnswer(transcript);
+                for (let i = 0; i < event.results.length; i++) {
+                    const result = event.results[i];
+                    
+                    if (result.isFinal) {
+                        const transcript = result[0].transcript.trim();
+                        const phraseAtTime = currentPhraseRef.current;
+                        setIsListening(false);
+                        
+                        if (phraseAtTime) {
+                            processAnswerWithPhrase(transcript, phraseAtTime);
+                        }
+                        return;
+                    }
                 }
             };
 
@@ -90,6 +102,7 @@ const TimeGame = () => {
         
         if (availableItems.length === 0) {
             setCurrentPhrase(null);
+            currentPhraseRef.current = null;
             setFeedback('🎉 Excellent! You completed all time expressions!');
             return;
         }
@@ -97,6 +110,7 @@ const TimeGame = () => {
         const randomIndex = Math.floor(Math.random() * availableItems.length);
         const phrase = availableItems[randomIndex];
         setCurrentPhrase(phrase);
+        currentPhraseRef.current = phrase;
         
         // Present the phrase based on game mode
         setTimeout(() => {
@@ -130,40 +144,55 @@ const TimeGame = () => {
         synthRef.current.speak(utterance);
     };
 
-    const processAnswer = (userInput) => {
-        if (!currentPhrase) return;
-
+    const processAnswerWithPhrase = (userInput, phrase) => {
         const normalizedInput = normalizeArabic(userInput.toLowerCase());
         let isCorrect = false;
         let expectedText = '';
 
         if (gameMode === 'listening') {
-            expectedText = currentPhrase.eng;
+            expectedText = phrase.eng;
             isCorrect = userInput.toLowerCase().includes(expectedText.toLowerCase()) ||
                        expectedText.toLowerCase().includes(userInput.toLowerCase());
         } else {
-            expectedText = currentPhrase.ar;
+            expectedText = phrase.ar;
             const normalizedExpected = normalizeArabic(expectedText.toLowerCase());
             isCorrect = normalizedInput.includes(normalizedExpected) || 
                        normalizedExpected.includes(normalizedInput);
         }
 
         if (isCorrect) {
+            console.log('✅ CORRECT answer - playing audio:', expectedText);
             setScore(score + 1);
             setFeedback('✅ Perfect! Well done!');
-            speak('أحسنت');
+            speak(expectedText);
             
-            setUsedItems(prev => new Set([...prev, currentPhrase.id]));
-            setTimeout(() => selectRandomPhrase(), 2000);
+            setUsedItems(prev => {
+                const newUsedItems = new Set([...prev, phrase.id]);
+                setTimeout(() => selectRandomPhrase(timeDataRef.current, newUsedItems), 2000);
+                return newUsedItems;
+            });
         } else {
+            console.log('❌ INCORRECT answer - playing audio:', expectedText);
             setFeedback(`❌ Try again. Expected: "${expectedText}"`);
             speak(expectedText);
         }
     };
 
+    const processAnswer = (userInput) => {
+        if (!currentPhrase) {
+            return;
+        }
+        processAnswerWithPhrase(userInput, currentPhrase);
+    };
+
     const startListening = () => {
         if (recognitionRef.current && !isListening && currentPhrase) {
-            recognitionRef.current.start();
+            try {
+                recognitionRef.current.start();
+            } catch (error) {
+                console.error('🎤 TimeGame: Error starting recognition:', error);
+                setFeedback(`❌ Error starting recognition: ${error.message}`);
+            }
         }
     };
 

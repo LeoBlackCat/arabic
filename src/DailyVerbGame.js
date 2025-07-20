@@ -14,6 +14,8 @@ const DailyVerbGame = () => {
     
     const recognitionRef = useRef(null);
     const synthRef = useRef(window.speechSynthesis);
+    const currentActivityRef = useRef(null);
+    const activitiesRef = useRef([]);
 
     // Daily routine patterns and phrases
     const dailyPatterns = {
@@ -142,6 +144,7 @@ const DailyVerbGame = () => {
         }
 
         setActivities(generatedActivities);
+        activitiesRef.current = generatedActivities;
         selectRandomActivity(generatedActivities, new Set());
     }, [gameMode]);
 
@@ -161,11 +164,19 @@ const DailyVerbGame = () => {
             };
 
             recognitionRef.current.onresult = (event) => {
-                const result = event.results[event.resultIndex];
-                if (result.isFinal) {
-                    const transcript = result[0].transcript.trim();
-                    setIsListening(false);
-                    processAnswer(transcript);
+                for (let i = 0; i < event.results.length; i++) {
+                    const result = event.results[i];
+                    
+                    if (result.isFinal) {
+                        const transcript = result[0].transcript.trim();
+                        const activityAtTime = currentActivityRef.current;
+                        setIsListening(false);
+                        
+                        if (activityAtTime) {
+                            processAnswerWithActivity(transcript, activityAtTime);
+                        }
+                        return;
+                    }
                 }
             };
 
@@ -192,6 +203,7 @@ const DailyVerbGame = () => {
         const randomIndex = Math.floor(Math.random() * available.length);
         const activity = available[randomIndex];
         setCurrentActivity(activity);
+        currentActivityRef.current = activity;
         
         // Present the activity
         setTimeout(() => {
@@ -220,22 +232,20 @@ const DailyVerbGame = () => {
         synthRef.current.speak(utterance);
     };
 
-    const processAnswer = (userInput) => {
-        if (!currentActivity) return;
-
+    const processAnswerWithActivity = (userInput, activity) => {
         const normalizedInput = normalizeArabic(userInput.toLowerCase());
-        const expectedText = currentActivity.expectedArabic;
+        const expectedText = activity.expectedArabic;
         const normalizedExpected = normalizeArabic(expectedText.toLowerCase());
         
         // For daily routine, check if verb and key components are present
         let isCorrect = false;
         
-        if (currentActivity.verb) {
-            const verbArabic = normalizeArabic(currentActivity.verb.ar.toLowerCase());
+        if (activity.verb) {
+            const verbArabic = normalizeArabic(activity.verb.ar.toLowerCase());
             const containsVerb = normalizedInput.includes(verbArabic);
             
-            if (currentActivity.complement) {
-                const complementArabic = normalizeArabic(currentActivity.complement.toLowerCase());
+            if (activity.complement) {
+                const complementArabic = normalizeArabic(activity.complement.toLowerCase());
                 const containsComplement = normalizedInput.includes(complementArabic);
                 isCorrect = containsVerb && containsComplement;
             } else {
@@ -248,28 +258,43 @@ const DailyVerbGame = () => {
         }
 
         if (isCorrect) {
+            console.log('✅ CORRECT answer - playing audio:', 'روتين ممتاز');
             setScore(score + 1);
             setFeedback('📅 Excellent daily routine! Perfect activity!');
             speak('روتين ممتاز'); // Excellent routine
             
-            setUsedActivities(prev => new Set([...prev, currentActivity.id]));
-            setTimeout(() => selectRandomActivity(), 2000);
+            setUsedActivities(prev => {
+                const newUsedActivities = new Set([...prev, activity.id]);
+                setTimeout(() => selectRandomActivity(activitiesRef.current, newUsedActivities), 2000);
+                return newUsedActivities;
+            });
         } else {
+            console.log('❌ INCORRECT answer - playing audio:', expectedText);
             setFeedback(`❌ Try again. Expected: "${expectedText}"`);
             speak(expectedText);
         }
     };
 
+    const processAnswer = (userInput) => {
+        if (!currentActivity) return;
+        processAnswerWithActivity(userInput, currentActivity);
+    };
+
     const startListening = () => {
         if (recognitionRef.current && !isListening && currentActivity) {
-            recognitionRef.current.start();
+            try {
+                recognitionRef.current.start();
+            } catch (error) {
+                console.error('Error starting recognition:', error);
+                setFeedback(`❌ Error starting recognition: ${error.message}`);
+            }
         }
     };
 
     const skipActivity = () => {
         if (currentActivity) {
             setUsedActivities(prev => new Set([...prev, currentActivity.id]));
-            selectRandomActivity();
+            selectRandomActivity(activitiesRef.current, usedActivities);
         }
     };
 
@@ -277,7 +302,7 @@ const DailyVerbGame = () => {
         setUsedActivities(new Set());
         setScore(0);
         setFeedback('');
-        selectRandomActivity(activities, new Set());
+        selectRandomActivity(activitiesRef.current, new Set());
     };
 
     const repeatActivity = () => {
