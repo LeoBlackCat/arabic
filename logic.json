@@ -3187,6 +3187,706 @@
       "eng": "the",
       "pos": "article",
       "id": 219
+    },
+    {
+      "id": 220,
+      "ar": "اليوم",
+      "chat": "el youm",
+      "eng": "today",
+      "type": "time"
+    },
+    {
+      "id": 221,
+      "ar": "أمس",
+      "chat": "ams/elbar7a",
+      "eng": "yesterday",
+      "type": "time"
+    },
+    {
+      "id": 222,
+      "ar": "باكر",
+      "chat": "baacher/bukra",
+      "eng": "tomorrow",
+      "type": "time"
+    },
+    {
+      "id": 223,
+      "ar": "قبل",
+      "chat": "gabel",
+      "eng": "before",
+      "type": "time"
+    },
+    {
+      "id": 224,
+      "ar": "بعد",
+      "chat": "ba3ad",
+      "eng": "after",
+      "type": "time"
+    },
+    {
+      "id": 225,
+      "ar": "في الليل",
+      "chat": "fee el lail/fil lail",
+      "eng": "tonight",
+      "type": "time"
+    },
+    {
+      "id": 226,
+      "ar": "الصبح",
+      "chat": "elsob7",
+      "eng": "morning",
+      "type": "time"
+    },
+    {
+      "id": 227,
+      "ar": "المسا",
+      "chat": "elmasa",
+      "eng": "evening",
+      "type": "time"
+    },
+    {
+      "id": 228,
+      "ar": "كل صبح",
+      "chat": "kil sob7",
+      "eng": "every morning",
+      "type": "time"
+    },
+    {
+      "id": 229,
+      "ar": "أسبوع",
+      "chat": "esboo3",
+      "eng": "week",
+      "type": "time"
+    },
+    {
+      "id": 230,
+      "ar": "شهر",
+      "chat": "shahar",
+      "eng": "month",
+      "type": "time"
+    },
+    {
+      "id": 231,
+      "ar": "سنة",
+      "chat": "sana",
+      "eng": "year",
+      "type": "time"
+    },
+    {
+      "id": 232,
+      "ar": "عيد ميلادي",
+      "chat": "3eed milaady",
+      "eng": "birthday",
+      "type": "time"
+    },
+    {
+      "id": 233,
+      "ar": "الأسبوع الجاي",
+      "chat": "elesboo3 elyaay",
+      "eng": "next week",
+      "type": "time"
+    },
+    {
+      "id": 234,
+      "ar": "الشهر الجاي",
+      "chat": "elshahar elyaay",
+      "eng": "next month",
+      "type": "time"
+    },
+    {
+      "id": 235,
+      "ar": "السنة الجاية",
+      "chat": "elsana elyaiya",
+      "eng": "next year",
+      "type": "time"
+    },
+    {
+      "id": 236,
+      "ar": "المرة الجاية",
+      "chat": "elmarra elyaiya",
+      "eng": "next time",
+      "type": "time"
+    },
+    {
+      "id": 237,
+      "ar": "الأسبوع اللي طاف",
+      "chat": "elesboo3 elle taaf",
+      "eng": "last week",
+      "type": "time"
+    },
+    {
+      "id": 238,
+      "ar": "الشهر اللي طاف",
+      "chat": "elshahar elle taaf",
+      "eng": "last month",
+      "type": "time"
+    },
+    {
+      "id": 239,
+      "ar": "السنة اللي طافت",
+      "chat": "elsana elle tafat",
+      "eng": "last year",
+      "type": "time"
+    },
+    {
+      "id": 240,
+      "ar": "إجازة",
+      "chat": "ijaza",
+      "eng": "holiday",
+      "type": "time"
+    },
+    {
+      "id": 241,
+      "ar": "الأحد",
+      "chat": "el a7ad",
+      "eng": "Sunday",
+      "type": "time"
+    },
+    {
+      "id": 242,
+      "ar": "الاثنين",
+      "chat": "el ethnain",
+      "eng": "Monday",
+      "type": "time"
+    },
+    {
+      "id": 243,
+      "ar": "الثلاثا",
+      "chat": "el thalatha",
+      "eng": "Tuesday",
+      "type": "time"
+    },
+    {
+      "id": 244,
+      "ar": "الأربعا",
+      "chat": "el arba3a",
+      "eng": "Wednesday",
+      "type": "time"
+    },
+    {
+      "id": 245,
+      "ar": "الخميس",
+      "chat": "el khemees",
+      "eng": "Thursday",
+      "type": "time"
+    },
+    {
+      "id": 246,
+      "ar": "الجمعة",
+      "chat": "el jum3ah",
+      "eng": "Friday",
+      "type": "time"
+    },
+    {
+      "id": 247,
+      "ar": "السبت",
+      "chat": "el sabt",
+      "eng": "Saturday",
+      "type": "time"
+    },
+    {
+      "id": 248,
+      "ar": "وين",
+      "chat": "wain",
+      "eng": "where",
+      "type": "question"
+    },
+    {
+      "id": 249,
+      "ar": "وينك",
+      "chat": "wainik",
+      "eng": "where are you (m)",
+      "type": "question"
+    },
+    {
+      "id": 250,
+      "ar": "وينج",
+      "chat": "wainich",
+      "eng": "where are you (f)",
+      "type": "question"
+    },
+    {
+      "id": 251,
+      "ar": "منو",
+      "chat": "emnoo",
+      "eng": "who",
+      "type": "question"
+    },
+    {
+      "id": 252,
+      "ar": "أي",
+      "chat": "ay",
+      "eng": "which",
+      "type": "question"
+    },
+    {
+      "id": 253,
+      "ar": "أي شي",
+      "chat": "ay shai",
+      "eng": "anything",
+      "type": "question"
+    },
+    {
+      "id": 254,
+      "ar": "كيف",
+      "chat": "kaif",
+      "eng": "how",
+      "type": "question"
+    },
+    {
+      "id": 255,
+      "ar": "كيف كان",
+      "chat": "kaif kaan",
+      "eng": "how was",
+      "type": "question"
+    },
+    {
+      "id": 256,
+      "ar": "حار",
+      "chat": "7aar",
+      "eng": "hot",
+      "type": "weather"
+    },
+    {
+      "id": 257,
+      "ar": "بارد",
+      "chat": "baard",
+      "eng": "cold",
+      "type": "weather"
+    },
+    {
+      "id": 258,
+      "ar": "صديق",
+      "chat": "sadeeq",
+      "eng": "friend (m.)",
+      "type": "family"
+    },
+    {
+      "id": 259,
+      "ar": "صديقة",
+      "chat": "sadeeqa",
+      "eng": "friend (f.)",
+      "type": "family"
+    },
+    {
+      "id": 260,
+      "ar": "أبا أشوف صديقتي في الليل",
+      "chat": "aba shoof sadeeqaty filail",
+      "eng": "i want to see my friend tonight",
+      "type": "phrase"
+    },
+    {
+      "id": 261,
+      "ar": "أشرب قهوة الصبح",
+      "chat": "ashrab gahwa elsob7",
+      "eng": "i drink coffee in the morning",
+      "type": "phrase"
+    },
+    {
+      "id": 262,
+      "ar": "كل مسا أحب أسوي",
+      "chat": "kil mesa a7eb asawee",
+      "eng": "i like to do ... every evening",
+      "type": "phrase"
+    },
+    {
+      "id": 263,
+      "ar": "كل صبح أسير أمشي مع صديقي",
+      "chat": "kil sob7 aseer amshee ma3a sadeeqy",
+      "eng": "i go to walk with my friend every morning",
+      "type": "phrase"
+    },
+    {
+      "id": 264,
+      "ar": "ما أحب أسوي شي المسا",
+      "chat": "ma a7eb asawee shai elmasa",
+      "eng": "i don't like to do anything in the evening",
+      "type": "phrase"
+    },
+    {
+      "id": 265,
+      "ar": "أحب أرتاح المسا",
+      "chat": "a7eb artaa7 elmasa",
+      "eng": "i like to rest in the evening",
+      "type": "phrase"
+    },
+    {
+      "id": 266,
+      "ar": "أنا أسوق لي بو ظبي",
+      "chat": "ana asoog li bu dhabi",
+      "eng": "i drive to abu dhabi",
+      "type": "phrase"
+    },
+    {
+      "id": 267,
+      "ar": "أروح البحر",
+      "chat": "arooh el ba7ar",
+      "eng": "go to a beach",
+      "type": "phrase"
+    },
+    {
+      "id": 268,
+      "ar": "اليوم تسعطعش سبعة",
+      "chat": "el youm tesa3ta3sh sab3a",
+      "eng": "today is July 19th",
+      "type": "phrase"
+    },
+    {
+      "id": 269,
+      "ar": "تسعة وعشرين مارس",
+      "chat": "tessa wa thalatheen thalatha",
+      "eng": "29th of March",
+      "type": "phrase"
+    },
+    {
+      "id": 270,
+      "ar": "كل عام وإنت بخير",
+      "chat": "kil 3am wa enta bekhair",
+      "eng": "may you be well every year",
+      "type": "phrase"
+    },
+    {
+      "id": 271,
+      "ar": "وإنت بخير",
+      "chat": "wa enta bekhair",
+      "eng": "and you good",
+      "type": "phrase"
+    },
+    {
+      "id": 272,
+      "ar": "كيف أقول",
+      "chat": "kef agoul",
+      "eng": "how do I say",
+      "type": "phrase"
+    },
+    {
+      "id": 273,
+      "ar": "أبا أشتري بيت السنة الجاية",
+      "chat": "aba ashtree bayt elsana elyaiya",
+      "eng": "i want to buy a house next year",
+      "type": "phrase"
+    },
+    {
+      "id": 274,
+      "ar": "أبا أسير اليابان الشهر الجاي",
+      "chat": "aba aseer elyabaan elshahar elyaay",
+      "eng": "i want to go to japan next month",
+      "type": "phrase"
+    },
+    {
+      "id": 275,
+      "ar": "عندي وايد شغل الأسبوع الجاي",
+      "chat": "3endy wayed sheghil elesboo3 elyaay",
+      "eng": "i have a lot of work next week",
+      "type": "phrase"
+    },
+    {
+      "id": 276,
+      "ar": "الله يبارك فيك",
+      "chat": "Allah yebarik feek",
+      "eng": "may Allah bless you (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 277,
+      "ar": "الله يبارك فيج",
+      "chat": "Allah yebarik feech",
+      "eng": "may Allah bless you (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 278,
+      "ar": "صحة صحة",
+      "chat": "se7a se7a",
+      "eng": "health",
+      "type": "phrase"
+    },
+    {
+      "id": 279,
+      "ar": "على قلبك",
+      "chat": "3ala galbik/galbich",
+      "eng": "to your heart",
+      "type": "phrase"
+    },
+    {
+      "id": 280,
+      "ar": "يرحمك الله",
+      "chat": "yer7amk Allah",
+      "eng": "God bless you (when someone sneezes)",
+      "type": "phrase"
+    },
+    {
+      "id": 281,
+      "ar": "وين بيتكم",
+      "chat": "wain baitkum",
+      "eng": "where's your house (pl)",
+      "type": "phrase"
+    },
+    {
+      "id": 282,
+      "ar": "وين أحمد",
+      "chat": "wain A7med",
+      "eng": "where's Ahmed",
+      "type": "phrase"
+    },
+    {
+      "id": 283,
+      "ar": "وين المطعم",
+      "chat": "wain el mat3am",
+      "eng": "where's the restaurant",
+      "type": "phrase"
+    },
+    {
+      "id": 284,
+      "ar": "وين دوامك",
+      "chat": "wain dawaamek",
+      "eng": "where's your work (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 285,
+      "ar": "وين الفلوس",
+      "chat": "wain el baizaat",
+      "eng": "where's the money?",
+      "type": "phrase"
+    },
+    {
+      "id": 286,
+      "ar": "وين بيته",
+      "chat": "wain baitah",
+      "eng": "where's his house",
+      "type": "phrase"
+    },
+    {
+      "id": 287,
+      "ar": "وين بيتهم",
+      "chat": "wain baithum",
+      "eng": "where's their house",
+      "type": "phrase"
+    },
+    {
+      "id": 288,
+      "ar": "وين الحمام",
+      "chat": "wain el7ammam",
+      "eng": "where's the bathroom",
+      "type": "phrase"
+    },
+    {
+      "id": 289,
+      "ar": "وين البوابة",
+      "chat": "wain elbawwaba",
+      "eng": "where's the gate",
+      "type": "phrase"
+    },
+    {
+      "id": 290,
+      "ar": "منو معاي",
+      "chat": "emnoo ma3aay/wiyaay?",
+      "eng": "who is this (directly)?",
+      "type": "phrase"
+    },
+    {
+      "id": 291,
+      "ar": "منو أحمد",
+      "chat": "emnoo A7med",
+      "eng": "who is Ahmed?",
+      "type": "phrase"
+    },
+    {
+      "id": 292,
+      "ar": "منو هذا",
+      "chat": "emnoo hadha",
+      "eng": "who is this (m)?",
+      "type": "phrase"
+    },
+    {
+      "id": 293,
+      "ar": "منو هذي",
+      "chat": "emnoo hadhee",
+      "eng": "who is this (f)?",
+      "type": "phrase"
+    },
+    {
+      "id": 294,
+      "ar": "منو في السيارة",
+      "chat": "emnoo fee el sayyarah",
+      "eng": "who is in the car",
+      "type": "phrase"
+    },
+    {
+      "id": 295,
+      "ar": "منو يسوق هالسيارة",
+      "chat": "emnoo yasoog hel sayyarah",
+      "eng": "who drives this car",
+      "type": "phrase"
+    },
+    {
+      "id": 296,
+      "ar": "منو يبا",
+      "chat": "emnoo yaba",
+      "eng": "who wants",
+      "type": "phrase"
+    },
+    {
+      "id": 297,
+      "ar": "أي واحد",
+      "chat": "ay wa7ed",
+      "eng": "which one?",
+      "type": "phrase"
+    },
+    {
+      "id": 298,
+      "ar": "أي لون",
+      "chat": "ay loan",
+      "eng": "which color?",
+      "type": "phrase"
+    },
+    {
+      "id": 299,
+      "ar": "أي جهة",
+      "chat": "ay soob",
+      "eng": "which side?",
+      "type": "phrase"
+    },
+    {
+      "id": 300,
+      "ar": "أي يوم",
+      "chat": "ay youm",
+      "eng": "which day?",
+      "type": "phrase"
+    },
+    {
+      "id": 301,
+      "ar": "أي اجتماع",
+      "chat": "ay ejtimaa3",
+      "eng": "which meeting?",
+      "type": "phrase"
+    },
+    {
+      "id": 302,
+      "ar": "كيف الإجازة",
+      "chat": "keif el ejaazah",
+      "eng": "how is the holiday?",
+      "type": "phrase"
+    },
+    {
+      "id": 303,
+      "ar": "كيف الجو",
+      "chat": "keif el jaw",
+      "eng": "how is the weather?",
+      "type": "phrase"
+    },
+    {
+      "id": 304,
+      "ar": "كيف كان الكلاس",
+      "chat": "keif kaan el class",
+      "eng": "how was the class?",
+      "type": "phrase"
+    },
+    {
+      "id": 305,
+      "ar": "كيف أتعلم عربي",
+      "chat": "keif at3allam 3arabi?",
+      "eng": "how do I learn Arabic?",
+      "type": "phrase"
+    },
+    {
+      "id": 306,
+      "ar": "كيف أقول بالعربي",
+      "chat": "keif agool ... bil 3arabi?",
+      "eng": "how I say ... in Arabic?",
+      "type": "phrase"
+    },
+    {
+      "id": 307,
+      "ar": "الجو حار",
+      "chat": "eljaw 7aar",
+      "eng": "the weather is hot",
+      "type": "phrase"
+    },
+    {
+      "id": 308,
+      "ar": "الجو بارد",
+      "chat": "eljaw baard",
+      "eng": "the weather is cold",
+      "type": "phrase"
+    },
+    {
+      "id": 309,
+      "ar": "الجو حلو",
+      "chat": "eljaw 7elo",
+      "eng": "the weather is nice",
+      "type": "phrase"
+    },
+    {
+      "id": 310,
+      "ar": "الجو مو حلو",
+      "chat": "eljaw mob 7elo",
+      "eng": "the weather is unpleasant",
+      "type": "phrase"
+    },
+    {
+      "id": 311,
+      "ar": "كيف كان الأسبوع اللي طاف",
+      "chat": "kaif kaan elesboo3 elle taaf",
+      "eng": "how was last week",
+      "type": "phrase"
+    },
+    {
+      "id": 312,
+      "ar": "كيف كان الجو الشهر اللي طاف",
+      "chat": "kaif kaan el jaw el shahar elle taaf",
+      "eng": "how was the weather last month",
+      "type": "phrase"
+    },
+    {
+      "id": 313,
+      "ar": "اليوم شو؟ اليوم الأربعا",
+      "chat": "el youm sho? el youm el arba3a",
+      "eng": "What day is today? Today is Wednesday",
+      "type": "phrase"
+    },
+    {
+      "id": 314,
+      "ar": "ما أقدر أسير الدوام باكر",
+      "chat": "ma agdar aseer el dawaam baacher",
+      "eng": "I can't go to work tomorrow.",
+      "type": "phrase"
+    },
+    {
+      "id": 315,
+      "ar": "الشهر الجاي أنا إجازة",
+      "chat": "el shahar el yaay ana ejaazah",
+      "eng": "Next month, I'm on vacation.",
+      "type": "phrase"
+    },
+    {
+      "id": 316,
+      "ar": "أبا أسير المول اليوم",
+      "chat": "aba aseer el mall el youm",
+      "eng": "I want to go to the mall today.",
+      "type": "phrase"
+    },
+    {
+      "id": 317,
+      "ar": "أنا مشغولة كل اثنين",
+      "chat": "ana mashgoolah kil ethnain",
+      "eng": "I'm busy every Monday.",
+      "type": "phrase"
+    },
+    {
+      "id": 318,
+      "ar": "عندي اجتماع باكر الصبح",
+      "chat": "3endee ejtimaa3 baacher el sob7",
+      "eng": "I have a meeting tomorrow morning.",
+      "type": "phrase"
+    },
+    {
+      "id": 319,
+      "ar": "ما عندي أي شي أسبوع الجاي",
+      "chat": "ma 3endee ay shai esboo3 el yaay",
+      "eng": "I don't have anything next week.",
+      "type": "phrase"
     }
   ],
   "numerals": [

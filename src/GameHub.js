@@ -12,6 +12,14 @@ import GrammarPatternGame from './GrammarPatternGame';
 import SpeechConjugationGame from './SpeechConjugationGame';
 import PhraseGame from './PhraseGame';
 import SentenceImageGame from './SentenceImageGame';
+import TimeGame from './TimeGame';
+import WeatherGame from './WeatherGame';
+import QuestionGame from './QuestionGame';
+import DailyRoutineGame from './DailyRoutineGame';
+import VerbTenseGame from './VerbTenseGame';
+import VerbScenarioGame from './VerbScenarioGame';
+import VerbQuestionGame from './VerbQuestionGame';
+import DailyVerbGame from './DailyVerbGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import TitleBar, { getAvailableGames } from './TitleBar';
 import OnboardingSplash from './components/OnboardingSplash.js';
@@ -41,7 +49,15 @@ const GAME_TYPES = {
   SPEED_TRANSLATION: 'speed_translation',
   GRAMMAR_PATTERN: 'grammar_pattern',
   PHRASE: 'phrase',
-  SENTENCE_IMAGE: 'sentence_image'
+  SENTENCE_IMAGE: 'sentence_image',
+  TIME: 'time',
+  WEATHER: 'weather',
+  QUESTION: 'question',
+  DAILY_ROUTINE: 'daily_routine',
+  VERB_TENSE: 'verb_tense',
+  VERB_SCENARIO: 'verb_scenario',
+  VERB_QUESTION: 'verb_question',
+  DAILY_VERB: 'daily_verb'
 };
 
 // Color mapping for HTML colors
@@ -290,6 +306,22 @@ const GameHub = () => {
         return <PhraseGame {...commonProps} />;
       case GAME_TYPES.SENTENCE_IMAGE:
         return <SentenceImageGame {...commonProps} />;
+      case GAME_TYPES.TIME:
+        return <TimeGame />;
+      case GAME_TYPES.WEATHER:
+        return <WeatherGame />;
+      case GAME_TYPES.QUESTION:
+        return <QuestionGame />;
+      case GAME_TYPES.DAILY_ROUTINE:
+        return <DailyRoutineGame />;
+      case GAME_TYPES.VERB_TENSE:
+        return <VerbTenseGame />;
+      case GAME_TYPES.VERB_SCENARIO:
+        return <VerbScenarioGame />;
+      case GAME_TYPES.VERB_QUESTION:
+        return <VerbQuestionGame />;
+      case GAME_TYPES.DAILY_VERB:
+        return <DailyVerbGame />;
       default:
         return <App {...commonProps} />;
     }

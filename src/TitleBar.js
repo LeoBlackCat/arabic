@@ -56,7 +56,15 @@ const GAME_TYPES = {
   SPEED_TRANSLATION: 'speed_translation',
   GRAMMAR_PATTERN: 'grammar_pattern',
   PHRASE: 'phrase',
-  SENTENCE_IMAGE: 'sentence_image'
+  SENTENCE_IMAGE: 'sentence_image',
+  TIME: 'time',
+  WEATHER: 'weather',
+  QUESTION: 'question',
+  DAILY_ROUTINE: 'daily_routine',
+  VERB_TENSE: 'verb_tense',
+  VERB_SCENARIO: 'verb_scenario',
+  VERB_QUESTION: 'verb_question',
+  DAILY_VERB: 'daily_verb'
 };
 
 // Topic name mapping from content types to display names
@@ -127,7 +135,11 @@ const getAvailableGames = (contentType) => {
           { value: GAME_TYPES.SPEECH_CONJUGATION, label: 'Speech Conjugation' },
           { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
           { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
-          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' }
+          { value: GAME_TYPES.GRAMMAR_PATTERN, label: 'Grammar Patterns' },
+          { value: GAME_TYPES.VERB_TENSE, label: '⏰ Verb Tenses' },
+          { value: GAME_TYPES.VERB_SCENARIO, label: '🎭 Verb Scenarios' },
+          { value: GAME_TYPES.VERB_QUESTION, label: '❓ Verb Q&A' },
+          { value: GAME_TYPES.DAILY_VERB, label: '📅 Daily Verbs' }
         ];
       case CONTENT_TYPES.COLORS:
         return [
@@ -155,7 +167,11 @@ const getAvailableGames = (contentType) => {
           { value: GAME_TYPES.SPEECH, label: 'Speech Recognition' },
           { value: GAME_TYPES.ARABIC_WRITING, label: 'Arabic Writing' },
           { value: GAME_TYPES.SPEED_TRANSLATION, label: 'Speed Translation' },
-          { value: GAME_TYPES.SENTENCE_IMAGE, label: 'Sentence Image Game' }
+          { value: GAME_TYPES.SENTENCE_IMAGE, label: 'Sentence Image Game' },
+          { value: GAME_TYPES.TIME, label: '⏰ Time & Dates' },
+          { value: GAME_TYPES.WEATHER, label: '🌤️ Weather Talk' },
+          { value: GAME_TYPES.QUESTION, label: '❓ Question Practice' },
+          { value: GAME_TYPES.DAILY_ROUTINE, label: '📅 Daily Routine' }
         ];
       default:
         // Fallback games for unknown content types
