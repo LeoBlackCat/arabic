@@ -176,11 +176,38 @@ const DailyRoutineGame = () => {
         }, 500);
     };
 
-    const speak = (text) => {
+    const speak = async (text) => {
+        const isArabic = /[\u0600-\u06FF]/.test(text);
+        
+        // Try to play WAV file first for Arabic text
+        if (isArabic) {
+            // Build a map from Arabic to chat representation
+            const arToChatMap = {};
+            logicData.items.forEach(item => {
+                if (item.ar && item.chat) {
+                    arToChatMap[item.ar] = item.chat;
+                }
+            });
+            
+            const chat = arToChatMap[text];
+            if (chat) {
+                const fileName = `${chat}.wav`;
+                const audio = new Audio(`./sounds/${encodeURIComponent(fileName)}`);
+                
+                try {
+                    await audio.play();
+                    console.log('🎵 Played WAV file:', fileName);
+                    return;
+                } catch (error) {
+                    console.log('⚠️ WAV file not found, falling back to TTS:', fileName);
+                }
+            }
+        }
+        
+        // Fallback to browser TTS
         synthRef.current.cancel();
         
         const utterance = new SpeechSynthesisUtterance(text);
-        const isArabic = /[\u0600-\u06FF]/.test(text);
         utterance.lang = isArabic ? 'ar-SA' : 'en-US';
         utterance.rate = 0.8;
         utterance.pitch = 1;
@@ -194,6 +221,7 @@ const DailyRoutineGame = () => {
         }
 
         synthRef.current.speak(utterance);
+        console.log('🔊 Using browser TTS for:', text);
     };
 
     const processAnswer = (userInput) => {
