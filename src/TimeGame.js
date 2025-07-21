@@ -54,7 +54,8 @@ const TimeGame = () => {
             
             recognitionRef.current.continuous = false;
             recognitionRef.current.interimResults = true;
-            recognitionRef.current.lang = 'ar-SA';
+            // Set language based on game mode: English for listening practice, Arabic for others
+            recognitionRef.current.lang = gameMode === 'listening' ? 'en-US' : 'ar-SA';
 
             recognitionRef.current.onstart = () => {
                 setIsListening(true);
@@ -87,7 +88,7 @@ const TimeGame = () => {
                 setIsListening(false);
             };
         }
-    }, []);
+    }, [gameMode]); // Reinitialize when game mode changes
 
     const selectRandomPhrase = (items = timeData, used = usedItems) => {
         let availableItems = items;
@@ -178,14 +179,35 @@ const TimeGame = () => {
         let expectedText = '';
 
         if (gameMode === 'listening') {
+            // LISTENING PRACTICE MODE: User speaks English, we check against English text
             expectedText = phrase.eng;
-            isCorrect = userInput.toLowerCase().includes(expectedText.toLowerCase()) ||
-                       expectedText.toLowerCase().includes(userInput.toLowerCase());
+            const userInputLower = userInput.toLowerCase().trim();
+            const expectedLower = expectedText.toLowerCase().trim();
+            
+            console.log('🎧 LISTENING PRACTICE MODE:');
+            console.log('  - Arabic played:', phrase.ar);
+            console.log('  - Expected English:', expectedText);
+            console.log('  - User said (English):', userInput);
+            console.log('  - User input normalized:', userInputLower);
+            console.log('  - Expected normalized:', expectedLower);
+            
+            // Check if user's English response matches expected English
+            isCorrect = userInputLower.includes(expectedLower) ||
+                       expectedLower.includes(userInputLower) ||
+                       userInputLower === expectedLower;
+                       
+            console.log('  - Match result:', isCorrect);
         } else {
+            // VOCABULARY/PHRASES MODE: User speaks Arabic, we check against Arabic text
             expectedText = phrase.ar;
             const normalizedExpected = normalizeArabic(expectedText.toLowerCase());
             isCorrect = normalizedInput.includes(normalizedExpected) || 
                        normalizedExpected.includes(normalizedInput);
+            
+            console.log('🗣️ ARABIC PRACTICE MODE:');
+            console.log('  - Expected Arabic:', expectedText);
+            console.log('  - User said (Arabic):', userInput);
+            console.log('  - Match result:', isCorrect);
         }
 
         if (isCorrect) {
