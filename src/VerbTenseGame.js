@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { verbs } from './verbs-data';
 import logicData from '../logic.json';
 import { normalizeArabic, checkPronunciation } from './arabicUtils';
+import { getAzureSpeechConfig, startAzureSpeechRecognition } from './azureSpeechHelper';
 
 const VerbTenseGame = () => {
     const [currentChallenge, setCurrentChallenge] = useState(null);
@@ -45,6 +46,31 @@ const VerbTenseGame = () => {
             case 'present':
             default:
                 return { ar: baseAr, chat: baseChat, eng: verb.eng };
+        }
+    };
+
+    // Convert verb to correct English form based on pronoun
+    const getEnglishVerb = (verb, pronoun) => {
+        const baseVerb = verb.eng.replace(/^i\s+/i, ''); // Remove "I " from beginning
+        
+        switch (pronoun) {
+            case 'i':
+            case 'you':
+            case 'we':
+            case 'they':
+                return baseVerb; // "sleep", "play", "read", etc.
+            case 'he':
+            case 'she':
+                // Add 's' for third person singular
+                if (baseVerb.endsWith('y')) {
+                    return baseVerb.replace(/y$/, 'ies'); // "study" -> "studies"
+                } else if (baseVerb.endsWith('s') || baseVerb.endsWith('sh') || baseVerb.endsWith('ch') || baseVerb.endsWith('x') || baseVerb.endsWith('z')) {
+                    return baseVerb + 'es'; // "wash" -> "washes"
+                } else {
+                    return baseVerb + 's'; // "sleep" -> "sleeps"
+                }
+            default:
+                return baseVerb;
         }
     };
 
@@ -107,7 +133,7 @@ const VerbTenseGame = () => {
                         verb: verb,
                         tense: 'present',
                         timeExpression: timeExp,
-                        prompt: `Say "${verb.eng}" with "${timeExp.eng}"`,
+                        prompt: `Say "I ${getEnglishVerb(verb, 'i')}" with "${timeExp.eng}"`,
                         expectedArabic: `${verb.ar} ${timeExp.ar}`,
                         expectedChat: `${verb.chat} ${timeExp.chat}`,
                         type: 'present_context'
@@ -139,75 +165,75 @@ const VerbTenseGame = () => {
                 const contextualScenarios = [
                     // First person (I) - أنا
                     {
-                        question: `What do you do every morning? (use: ${verb.eng})`,
+                        question: `What do you do every morning? (answer: I ${getEnglishVerb(verb, 'i')})`,
                         expectedArabic: `${verb.ar} كل صبح`,
                         expectedChat: `${verb.chat} kil sob7`,
                         timeKey: 'morning_i'
                     },
                     {
-                        question: `What do you do every evening? (use: ${verb.eng})`,
+                        question: `What do you do every evening? (answer: I ${getEnglishVerb(verb, 'i')})`,
                         expectedArabic: `${verb.ar} كل مسا`,
                         expectedChat: `${verb.chat} kil masa`,
                         timeKey: 'evening_i'
                     },
                     {
-                        question: `What do you do on Sundays? (use: ${verb.eng})`,
+                        question: `What do you do on Sundays? (answer: I ${getEnglishVerb(verb, 'i')})`,
                         expectedArabic: `${verb.ar} يوم الأحد`,
                         expectedChat: `${verb.chat} youm el a7ad`,
                         timeKey: 'sunday_i'
                     },
                     // He - هو
                     {
-                        question: `What does he do every morning? (use: ${verb.eng})`,
+                        question: `What does he do every morning? (answer: he ${getEnglishVerb(verb, 'he')})`,
                         expectedArabic: `${verb.he} كل صبح`,
                         expectedChat: `${verb.he_chat} kil sob7`,
                         timeKey: 'morning_he'
                     },
                     // Plural (they) - هم
                     {
-                        question: `What do they do on weekends? (use: ${verb.eng})`,
+                        question: `What do they do on weekends? (answer: they ${getEnglishVerb(verb, 'they')})`,
                         expectedArabic: `${verb.they} نهاية الأسبوع`,
                         expectedChat: `${verb.they_chat} nihayat el-esboo3`,
                         timeKey: 'weekend_they'
                     },
                     // We - نحن
                     {
-                        question: `What do we do every Friday? (use: ${verb.eng})`,
+                        question: `What do we do every Friday? (answer: we ${getEnglishVerb(verb, 'we')})`,
                         expectedArabic: `${verb.we} كل جمعة`,
                         expectedChat: `${verb.we_chat} kil jum3a`,
                         timeKey: 'friday_we'
                     },
                     // Monday
                     {
-                        question: `What do you do on Mondays? (use: ${verb.eng})`,
+                        question: `What do you do on Mondays? (answer: I ${getEnglishVerb(verb, 'i')})`,
                         expectedArabic: `${verb.ar} يوم الاثنين`,
                         expectedChat: `${verb.chat} youm el ethnain`,
                         timeKey: 'monday_i'
                     },
                     // Tuesday
                     {
-                        question: `What does he do on Tuesdays? (use: ${verb.eng})`,
+                        question: `What does he do on Tuesdays? (answer: he ${getEnglishVerb(verb, 'he')})`,
                         expectedArabic: `${verb.he} يوم الثلاثاء`,
                         expectedChat: `${verb.he_chat} youm el thalatha`,
                         timeKey: 'tuesday_he'
                     },
                     // Wednesday
                     {
-                        question: `What do they do on Wednesdays? (use: ${verb.eng})`,
+                        question: `What do they do on Wednesdays? (answer: they ${getEnglishVerb(verb, 'they')})`,
                         expectedArabic: `${verb.they} يوم الأربعاء`,
                         expectedChat: `${verb.they_chat} youm el arba3a`,
                         timeKey: 'wednesday_they'
                     },
                     // Thursday
                     {
-                        question: `What does she do on Thursdays? (use: ${verb.eng})`,
+                        question: `What does she do on Thursdays? (answer: she ${getEnglishVerb(verb, 'she')})`,
                         expectedArabic: `${verb.she} يوم الخميس`,
                         expectedChat: `${verb.she_chat} youm el khemees`,
                         timeKey: 'thursday_she'
                     },
                     // Saturday
                     {
-                        question: `What do we do on Saturdays? (use: ${verb.eng})`,
+                        question: `What do we do on Saturdays? (answer: we ${getEnglishVerb(verb, 'we')})`,
                         expectedArabic: `${verb.we} يوم السبت`,
                         expectedChat: `${verb.we_chat} youm el sabt`,
                         timeKey: 'saturday_we'
@@ -240,8 +266,34 @@ const VerbTenseGame = () => {
 
     // Initialize speech recognition
     useEffect(() => {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const azureConfig = getAzureSpeechConfig();
+        
+        if (azureConfig.isEnabled) {
+            console.log('🎤 SPEECH-TO-TEXT ENGINE INFO:');
+            console.log('  - Engine: Azure Speech Service');
+            console.log('  - Region:', azureConfig.region);
+            console.log('  - Language: ar-SA (Arabic Saudi Arabia)');
+            console.log('  - API Key configured:', azureConfig.apiKey ? 'Yes' : 'No');
+            console.log('  - Status: Azure Speech Service will be used for recognition');
+            
+            // Azure Speech Service will be initialized when needed in startListening()
+        } else if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            // Log which speech recognition engine is being used
+            const engineName = window.SpeechRecognition ? 'SpeechRecognition' : 'webkitSpeechRecognition';
+            const browser = navigator.userAgent.includes('Chrome') ? 'Chrome' : 
+                           navigator.userAgent.includes('Safari') ? 'Safari' :
+                           navigator.userAgent.includes('Firefox') ? 'Firefox' :
+                           navigator.userAgent.includes('Edge') ? 'Edge' : 'Unknown';
+            
+            console.log('🎤 SPEECH-TO-TEXT ENGINE INFO:');
+            console.log('  - Engine:', engineName, '(Browser Native)');
+            console.log('  - Browser:', browser);
+            console.log('  - Language:', 'ar-SA (Arabic Saudi Arabia)');
+            console.log('  - Platform:', navigator.platform);
+            console.log('  - Status: Using browser speech recognition (Azure not configured)');
+            
             recognitionRef.current = new SpeechRecognition();
             
             recognitionRef.current.continuous = false;
@@ -429,14 +481,43 @@ const VerbTenseGame = () => {
         processAnswerWithChallenge(userInput, currentChallenge);
     };
 
-    const startListening = () => {
-        if (recognitionRef.current && !isListening && currentChallenge) {
+    const startListening = async () => {
+        if (!currentChallenge || isListening) return;
+        
+        const azureConfig = getAzureSpeechConfig();
+        
+        if (azureConfig.isEnabled) {
+            console.log('🎤 Using Azure Speech Service for recognition...');
+            setIsListening(true);
+            setFeedback('🎤 Listening... (Azure)');
+            
+            try {
+                const result = await startAzureSpeechRecognition();
+                setIsListening(false);
+                
+                if (result.success && result.text) {
+                    const challengeAtTime = currentChallengeRef.current;
+                    if (challengeAtTime) {
+                        processAnswerWithChallenge(result.text, challengeAtTime);
+                    }
+                } else {
+                    setFeedback('❌ No speech detected. Try again.');
+                }
+            } catch (error) {
+                console.error('Azure Speech error:', error);
+                setIsListening(false);
+                setFeedback(`❌ Speech recognition error: ${error.message}`);
+            }
+        } else if (recognitionRef.current) {
+            console.log('🎤 Using browser speech recognition...');
             try {
                 recognitionRef.current.start();
             } catch (error) {
                 console.error('Error starting recognition:', error);
                 setFeedback(`❌ Error starting recognition: ${error.message}`);
             }
+        } else {
+            setFeedback('❌ Speech recognition not available');
         }
     };
 

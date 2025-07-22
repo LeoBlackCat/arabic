@@ -337,41 +337,29 @@ const TitleBar = React.memo(({
       aria-label="Navigation titlebar"
     >
       <div className="max-w-4xl mx-auto">
-        {/* Mobile Layout: Stacked elements for screens < 640px */}
+        {/* Mobile Layout: Single row with all controls */}
         <div className="sm:hidden">
-          {/* Top row: Topic name and settings */}
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex-1 min-w-0">
-              <h1 
-                ref={topicRef}
-                className="text-lg font-bold text-neutral-800 truncate text-gradient"
-                title={displayTopic}
-                aria-live="polite"
-                aria-atomic="true"
-                id="current-topic-mobile"
+          {/* Single row: Engine icons, selectors, and settings */}
+          <div ref={controlsRef} className="flex items-center gap-2" role="group" aria-label="Content and game selection controls">
+            
+            {/* STT/TTS Engine Icons */}
+            <div className="flex items-center gap-1 mr-1">
+              {/* Speech-to-Text Engine Icon */}
+              <div 
+                className="w-6 h-6 flex items-center justify-center text-xs rounded bg-gray-100 border"
+                title={`Speech-to-Text: ${speechConfig?.azure?.isEnabled ? 'Azure' : 'Browser'}`}
               >
-                {displayTopic}
-              </h1>
+                {speechConfig?.azure?.isEnabled ? '🅰️' : '🌐'}
+              </div>
+              
+              {/* Text-to-Speech Engine Icon */}
+              <div 
+                className="w-6 h-6 flex items-center justify-center text-xs rounded bg-gray-100 border"
+                title={`Text-to-Speech: ${speechConfig?.elevenlabs?.isEnabled ? 'ElevenLabs' : 'Browser'}`}
+              >
+                {speechConfig?.elevenlabs?.isEnabled ? '11' : '🔊'}
+              </div>
             </div>
-            <TouchOptimizedButton
-              onClick={isTouch ? () => setShowMobileSettings(true) : onSettingsClick}
-              variant={isSpeechActive ? 'primary' : 'ghost'}
-              size="medium"
-              className="ml-3"
-              aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
-              aria-describedby="settings-button-help-mobile"
-              hapticFeedback={true}
-            >
-              <span aria-hidden="true">⚙️</span>
-              <span className="sr-only">Settings</span>
-            </TouchOptimizedButton>
-            <span id="settings-button-help-mobile" className="sr-only">
-              Configure speech recognition and text-to-speech settings for the learning games
-            </span>
-          </div>
-          
-          {/* Bottom row: Selectors */}
-          <div ref={controlsRef} className="flex gap-2" role="group" aria-label="Content and game selection controls">
             <div className="flex-1">
               <DropdownErrorBoundary>
                 <select
@@ -420,6 +408,22 @@ const TitleBar = React.memo(({
                 </select>
               </DropdownErrorBoundary>
             </div>
+            
+            {/* Settings Button */}
+            <TouchOptimizedButton
+              onClick={isTouch ? () => setShowMobileSettings(true) : onSettingsClick}
+              variant={isSpeechActive ? 'primary' : 'ghost'}
+              size="medium"
+              aria-label={`Open settings panel. Speech services are currently ${isSpeechActive ? 'active' : 'inactive'}`}
+              aria-describedby="settings-button-help-mobile"
+              hapticFeedback={true}
+            >
+              <span aria-hidden="true">⚙️</span>
+              <span className="sr-only">Settings</span>
+            </TouchOptimizedButton>
+            <span id="settings-button-help-mobile" className="sr-only">
+              Configure speech recognition and text-to-speech settings for the learning games
+            </span>
           </div>
           
           {/* Hidden helper text for screen readers */}
