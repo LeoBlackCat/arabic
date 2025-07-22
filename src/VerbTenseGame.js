@@ -48,11 +48,38 @@ const VerbTenseGame = () => {
         }
     };
 
+    // Get verbs with both conjugations and images
+    const getVerbsWithConjugations = () => {
+        const verbsWithImages = [];
+        
+        // Start with verbs that have images from verbs-data
+        verbs.forEach(verbWithImage => {
+            // Find the corresponding verb in logic.json to get conjugations
+            const logicVerb = logicData.items.find(item => 
+                item.pos === 'verb' && 
+                item.chat === verbWithImage.chat &&
+                item.we_chat // Has conjugation data
+            );
+            
+            if (logicVerb) {
+                // Combine image data from verbs-data with conjugation data from logic.json
+                verbsWithImages.push({
+                    ...logicVerb, // conjugations from logic.json
+                    url: verbWithImage.url, // image from verbs-data  
+                    path: verbWithImage.path // path from verbs-data
+                });
+            }
+        });
+        
+        return verbsWithImages.slice(0, 15); // Limit for manageable practice
+    };
+
     // Generate challenges combining verbs with time expressions
     useEffect(() => {
         const generatedChallenges = [];
+        const verbsWithConjugations = getVerbsWithConjugations();
         
-        verbs.forEach(verb => {
+        verbsWithConjugations.forEach(verb => {
             if (gameMode === 'past_present' || gameMode === 'mixed') {
                 // Past tense with yesterday/last week
                 timeExpressions.filter(time => 
@@ -113,55 +140,78 @@ const VerbTenseGame = () => {
                     // First person (I) - أنا
                     {
                         question: `What do you do every morning? (use: ${verb.eng})`,
-                        expectedArabic: `أنا ${verb.ar} كل صبح`,
-                        expectedChat: `ana ${verb.chat} kil sob7`,
+                        expectedArabic: `${verb.ar} كل صبح`,
+                        expectedChat: `${verb.chat} kil sob7`,
                         timeKey: 'morning_i'
                     },
                     {
                         question: `What do you do every evening? (use: ${verb.eng})`,
-                        expectedArabic: `أنا ${verb.ar} كل مسا`,
-                        expectedChat: `ana ${verb.chat} kil masa`,
+                        expectedArabic: `${verb.ar} كل مسا`,
+                        expectedChat: `${verb.chat} kil masa`,
                         timeKey: 'evening_i'
                     },
                     {
                         question: `What do you do on Sundays? (use: ${verb.eng})`,
-                        expectedArabic: `أنا ${verb.ar} يوم الأحد`,
-                        expectedChat: `ana ${verb.chat} youm el a7ad`,
+                        expectedArabic: `${verb.ar} يوم الأحد`,
+                        expectedChat: `${verb.chat} youm el a7ad`,
                         timeKey: 'sunday_i'
                     },
-                    // Second person masculine (you m) - أنت
+                    // He - هو
                     {
                         question: `What does he do every morning? (use: ${verb.eng})`,
-                        expectedArabic: `هو ${verb.ar} كل صبح`,
-                        expectedChat: `huwa ${verb.chat} kil sob7`,
+                        expectedArabic: `${verb.he} كل صبح`,
+                        expectedChat: `${verb.he_chat} kil sob7`,
                         timeKey: 'morning_he'
-                    },
-                    {
-                        question: `What does she do every afternoon? (use: ${verb.eng})`,
-                        expectedArabic: `هي ${verb.ar} كل بعد الظهر`,
-                        expectedChat: `hiya ${verb.chat} kil ba3ad edh-dhuhr`,
-                        timeKey: 'afternoon_she'
                     },
                     // Plural (they) - هم
                     {
                         question: `What do they do on weekends? (use: ${verb.eng})`,
-                        expectedArabic: `هم ${verb.ar} نهاية الأسبوع`,
-                        expectedChat: `hum ${verb.chat} nihayat el-esboo3`,
+                        expectedArabic: `${verb.they} نهاية الأسبوع`,
+                        expectedChat: `${verb.they_chat} nihayat el-esboo3`,
                         timeKey: 'weekend_they'
                     },
                     // We - نحن
                     {
                         question: `What do we do every Friday? (use: ${verb.eng})`,
-                        expectedArabic: `نحن ${verb.ar} كل جمعة`,
-                        expectedChat: `na7nu ${verb.chat} kil jum3a`,
+                        expectedArabic: `${verb.we} كل جمعة`,
+                        expectedChat: `${verb.we_chat} kil jum3a`,
                         timeKey: 'friday_we'
                     },
+                    // Monday
                     {
-                        question: `What do we do in winter? (use: ${verb.eng})`,
-                        expectedArabic: `نحن ${verb.ar} في الشتاء`,
-                        expectedChat: `na7nu ${verb.chat} fi al-shita`,
-                        timeKey: 'winter_we'
-                    }
+                        question: `What do you do on Mondays? (use: ${verb.eng})`,
+                        expectedArabic: `${verb.ar} يوم الاثنين`,
+                        expectedChat: `${verb.chat} youm el ethnain`,
+                        timeKey: 'monday_i'
+                    },
+                    // Tuesday
+                    {
+                        question: `What does he do on Tuesdays? (use: ${verb.eng})`,
+                        expectedArabic: `${verb.he} يوم الثلاثاء`,
+                        expectedChat: `${verb.he_chat} youm el thalatha`,
+                        timeKey: 'tuesday_he'
+                    },
+                    // Wednesday
+                    {
+                        question: `What do they do on Wednesdays? (use: ${verb.eng})`,
+                        expectedArabic: `${verb.they} يوم الأربعاء`,
+                        expectedChat: `${verb.they_chat} youm el arba3a`,
+                        timeKey: 'wednesday_they'
+                    },
+                    // Thursday
+                    {
+                        question: `What does she do on Thursdays? (use: ${verb.eng})`,
+                        expectedArabic: `${verb.she} يوم الخميس`,
+                        expectedChat: `${verb.she_chat} youm el khemees`,
+                        timeKey: 'thursday_she'
+                    },
+                    // Saturday
+                    {
+                        question: `What do we do on Saturdays? (use: ${verb.eng})`,
+                        expectedArabic: `${verb.we} يوم السبت`,
+                        expectedChat: `${verb.we_chat} youm el sabt`,
+                        timeKey: 'saturday_we'
+                    },
                 ];
                 
                 // Add 2-3 random scenarios per verb to keep it varied
@@ -473,7 +523,7 @@ const VerbTenseGame = () => {
                                 <img 
                                     src={currentChallenge.verb.url} 
                                     alt={currentChallenge.verb.eng}
-                                    className="w-20 h-20 mx-auto rounded-lg object-cover"
+                                    className="w-48 h-48 mx-auto rounded-lg object-cover"
                                 />
                                 <div className="text-sm text-gray-300 mt-2">
                                     {currentChallenge.verb.eng}
