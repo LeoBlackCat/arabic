@@ -830,8 +830,25 @@
   .text-gradient {
     background: var(--theme-gradient, linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%));
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Fallback for browsers that don't support background-clip: text */
+    color: var(--primary-600);
+  }
+  
+  /* Ensure gradient works properly */
+  @supports (-webkit-background-clip: text) {
+    .text-gradient {
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  
+  /* Fallback for browsers without support */
+  @supports not (-webkit-background-clip: text) {
+    .text-gradient {
+      color: var(--primary-600) !important;
+      background: none;
+    }
   }
 
   /* Interactive States */

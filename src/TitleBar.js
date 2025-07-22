@@ -76,13 +76,14 @@ const TOPIC_DISPLAY_NAMES = {
 };
 
 /**
- * Calculate the topic name to display based on selected content
+ * Calculate the topic name to display based on selected content and game
  * @param {string} selectedContent - The currently selected content type
  * @param {Array} contentData - Array of content items (optional, for future enhancements)
  * @param {boolean} isLoading - Whether content is currently being loaded
+ * @param {string} selectedGame - The currently selected game type
  * @returns {string} The display name for the topic
  */
-const getTopicDisplayName = (selectedContent, contentData = [], isLoading = false) => {
+const getTopicDisplayName = (selectedContent, contentData = [], isLoading = false, selectedGame = null) => {
   // Handle loading state
   if (isLoading) {
     return 'Loading...';
@@ -96,6 +97,28 @@ const getTopicDisplayName = (selectedContent, contentData = [], isLoading = fals
   // Handle empty content data after loading
   if (Array.isArray(contentData) && contentData.length === 0 && selectedContent) {
     return `No ${TOPIC_DISPLAY_NAMES[selectedContent] || selectedContent} Available`;
+  }
+
+  // Show specific game titles for special games
+  if (selectedGame) {
+    switch (selectedGame) {
+      case GAME_TYPES.VERB_TENSE:
+        return 'Verb Tenses';
+      case GAME_TYPES.TIME:
+        return 'Time & Dates';
+      case GAME_TYPES.WEATHER:
+        return 'Weather Talk';
+      case GAME_TYPES.QUESTION:
+        return 'Question Practice';
+      case GAME_TYPES.DAILY_ROUTINE:
+        return 'Daily Routine';
+      case GAME_TYPES.VERB_SCENARIO:
+        return 'Verb Scenarios';
+      case GAME_TYPES.VERB_QUESTION:
+        return 'Verb Q&A';
+      case GAME_TYPES.DAILY_VERB:
+        return 'Daily Verbs';
+    }
   }
 
   // Get display name from mapping
@@ -231,8 +254,8 @@ const TitleBar = React.memo(({
   const [isTouch] = useState(isTouchDevice());
   // Memoize the topic name calculation to prevent unnecessary recalculations
   const displayTopic = useMemo(() => 
-    currentTopic || getTopicDisplayName(selectedContent, contentData, isLoading),
-    [currentTopic, selectedContent, contentData, isLoading]
+    currentTopic || getTopicDisplayName(selectedContent, contentData, isLoading, selectedGame),
+    [currentTopic, selectedContent, contentData, isLoading, selectedGame]
   );
   
   // Memoize available games calculation
@@ -342,24 +365,13 @@ const TitleBar = React.memo(({
           {/* Single row: Engine icons, selectors, and settings */}
           <div ref={controlsRef} className="flex items-center gap-2" role="group" aria-label="Content and game selection controls">
             
-            {/* STT/TTS Engine Icons */}
-            <div className="flex items-center gap-1 mr-1">
-              {/* Speech-to-Text Engine Icon */}
-              <div 
-                className="w-6 h-6 flex items-center justify-center text-xs rounded bg-gray-100 border"
-                title={`Speech-to-Text: ${speechConfig?.azure?.isEnabled ? 'Azure' : 'Browser'}`}
-              >
-                {speechConfig?.azure?.isEnabled ? '🅰️' : '🌐'}
-              </div>
-              
-              {/* Text-to-Speech Engine Icon */}
-              <div 
-                className="w-6 h-6 flex items-center justify-center text-xs rounded bg-gray-100 border"
-                title={`Text-to-Speech: ${speechConfig?.elevenlabs?.isEnabled ? 'ElevenLabs' : 'Browser'}`}
-              >
-                {speechConfig?.elevenlabs?.isEnabled ? '11' : '🔊'}
-              </div>
-            </div>
+            <h1 
+              className="text-lg sm:text-xl font-bold truncate text-gradient"
+              title={displayTopic}
+              id="current-topic-desktop"
+            >
+              {displayTopic}
+            </h1>
             <div className="flex-1">
               <DropdownErrorBoundary>
                 <select
@@ -440,10 +452,8 @@ const TitleBar = React.memo(({
           {/* Topic Name Display */}
           <div className="flex-shrink-0 min-w-0 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[400px]">
             <h1 
-              className="text-lg sm:text-xl font-bold text-neutral-800 truncate text-gradient"
+              className="text-lg sm:text-xl font-bold truncate text-gradient"
               title={displayTopic}
-              aria-live="polite"
-              aria-atomic="true"
               id="current-topic-desktop"
             >
               {displayTopic}

@@ -564,9 +564,7 @@ const VerbTenseGame = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 text-white p-6">
-            <div className="max-w-md mx-auto">
-                <h1 className="text-3xl font-bold text-center mb-8">⏰ Verb Tenses</h1>
-                
+            <div className="max-w-md mx-auto">                
                 {/* Game Mode Selection */}
                 <div className="mb-6">
                     <label className="block text-sm font-medium mb-2">Tense Mode:</label>
@@ -602,7 +600,7 @@ const VerbTenseGame = () => {
                         {currentChallenge.verb && (
                             <div className="mb-4">
                                 <img 
-                                    src={currentChallenge.verb.url} 
+                                    src={`./pictures/${currentChallenge.verb.chat.toLowerCase()}.png`} 
                                     alt={currentChallenge.verb.eng}
                                     className="w-48 h-48 mx-auto rounded-lg object-cover"
                                 />
