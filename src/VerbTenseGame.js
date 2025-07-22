@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { verbs } from './verbs-data';
 import logicData from '../logic.json';
-import { normalizeArabic } from './arabicUtils';
+import { normalizeArabic, checkPronunciation } from './arabicUtils';
 
 const VerbTenseGame = () => {
     const [currentChallenge, setCurrentChallenge] = useState(null);
@@ -14,6 +14,8 @@ const VerbTenseGame = () => {
     
     const recognitionRef = useRef(null);
     const synthRef = useRef(window.speechSynthesis);
+    const currentChallengeRef = useRef(null);
+    const challengesRef = useRef([]);
 
     // Get time expressions from logic data
     const timeExpressions = logicData.items.filter(item => item.type === 'time');
@@ -106,20 +108,83 @@ const VerbTenseGame = () => {
             }
 
             if (gameMode === 'contextual' || gameMode === 'mixed') {
-                // Contextual scenarios
-                generatedChallenges.push({
-                    id: `context_${verb.chat}_morning`,
-                    verb: verb,
-                    tense: 'present',
-                    scenario: `What do you do every morning? (use: ${verb.eng})`,
-                    expectedArabic: `${verb.ar} كل صبح`,
-                    expectedChat: `${verb.chat} kil sob7`,
-                    type: 'contextual'
+                // Diverse contextual scenarios with different pronouns and times
+                const contextualScenarios = [
+                    // First person (I) - أنا
+                    {
+                        question: `What do you do every morning? (use: ${verb.eng})`,
+                        expectedArabic: `أنا ${verb.ar} كل صبح`,
+                        expectedChat: `ana ${verb.chat} kil sob7`,
+                        timeKey: 'morning_i'
+                    },
+                    {
+                        question: `What do you do every evening? (use: ${verb.eng})`,
+                        expectedArabic: `أنا ${verb.ar} كل مسا`,
+                        expectedChat: `ana ${verb.chat} kil masa`,
+                        timeKey: 'evening_i'
+                    },
+                    {
+                        question: `What do you do on Sundays? (use: ${verb.eng})`,
+                        expectedArabic: `أنا ${verb.ar} يوم الأحد`,
+                        expectedChat: `ana ${verb.chat} youm el a7ad`,
+                        timeKey: 'sunday_i'
+                    },
+                    // Second person masculine (you m) - أنت
+                    {
+                        question: `What does he do every morning? (use: ${verb.eng})`,
+                        expectedArabic: `هو ${verb.ar} كل صبح`,
+                        expectedChat: `huwa ${verb.chat} kil sob7`,
+                        timeKey: 'morning_he'
+                    },
+                    {
+                        question: `What does she do every afternoon? (use: ${verb.eng})`,
+                        expectedArabic: `هي ${verb.ar} كل بعد الظهر`,
+                        expectedChat: `hiya ${verb.chat} kil ba3ad edh-dhuhr`,
+                        timeKey: 'afternoon_she'
+                    },
+                    // Plural (they) - هم
+                    {
+                        question: `What do they do on weekends? (use: ${verb.eng})`,
+                        expectedArabic: `هم ${verb.ar} نهاية الأسبوع`,
+                        expectedChat: `hum ${verb.chat} nihayat el-esboo3`,
+                        timeKey: 'weekend_they'
+                    },
+                    // We - نحن
+                    {
+                        question: `What do we do every Friday? (use: ${verb.eng})`,
+                        expectedArabic: `نحن ${verb.ar} كل جمعة`,
+                        expectedChat: `na7nu ${verb.chat} kil jum3a`,
+                        timeKey: 'friday_we'
+                    },
+                    {
+                        question: `What do we do in winter? (use: ${verb.eng})`,
+                        expectedArabic: `نحن ${verb.ar} في الشتاء`,
+                        expectedChat: `na7nu ${verb.chat} fi al-shita`,
+                        timeKey: 'winter_we'
+                    }
+                ];
+                
+                // Add 2-3 random scenarios per verb to keep it varied
+                const selectedScenarios = contextualScenarios
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                
+                selectedScenarios.forEach((scenario, index) => {
+                    generatedChallenges.push({
+                        id: `context_${verb.chat}_${scenario.timeKey}_${index}`,
+                        verb: verb,
+                        tense: 'present',
+                        scenario: scenario.question,
+                        expectedArabic: scenario.expectedArabic,
+                        expectedChat: scenario.expectedChat,
+                        type: 'contextual'
+                    });
                 });
             }
         });
 
         setChallenges(generatedChallenges);
+        challengesRef.current = generatedChallenges;
         selectRandomChallenge(generatedChallenges, new Set());
     }, [gameMode]);
 
@@ -139,11 +204,19 @@ const VerbTenseGame = () => {
             };
 
             recognitionRef.current.onresult = (event) => {
-                const result = event.results[event.resultIndex];
-                if (result.isFinal) {
-                    const transcript = result[0].transcript.trim();
-                    setIsListening(false);
-                    processAnswer(transcript);
+                for (let i = 0; i < event.results.length; i++) {
+                    const result = event.results[i];
+                    
+                    if (result.isFinal) {
+                        const transcript = result[0].transcript.trim();
+                        const challengeAtTime = currentChallengeRef.current;
+                        setIsListening(false);
+                        
+                        if (challengeAtTime) {
+                            processAnswerWithChallenge(transcript, challengeAtTime);
+                        }
+                        return;
+                    }
                 }
             };
 
@@ -170,6 +243,7 @@ const VerbTenseGame = () => {
         const randomIndex = Math.floor(Math.random() * available.length);
         const challenge = available[randomIndex];
         setCurrentChallenge(challenge);
+        currentChallengeRef.current = challenge;
         
         // Present the challenge
         setTimeout(() => {
@@ -198,7 +272,9 @@ const VerbTenseGame = () => {
             
             const chat = arToChatMap[text];
             if (chat) {
-                const fileName = `${chat}.wav`;
+                // Sanitize filename: replace illegal characters with dash (same as audio generation script)
+                const sanitizedChat = chat.replace(/[\\/:"*?<>|]/g, '-').trim();
+                const fileName = `${sanitizedChat}.wav`;
                 const audio = new Audio(`./sounds/${encodeURIComponent(fileName)}`);
                 
                 try {
@@ -231,40 +307,93 @@ const VerbTenseGame = () => {
         console.log('🔊 Using browser TTS for:', text);
     };
 
+    const processAnswerWithChallenge = (userInput, challenge) => {
+        const expectedText = challenge.expectedArabic;
+        
+        console.log('🎤 VERB TENSE GAME:');
+        console.log('  - Challenge type:', challenge.type || challenge.tense);
+        console.log('  - Prompt:', challenge.prompt || challenge.scenario);
+        console.log('  - Expected Arabic:', expectedText);
+        console.log('  - User said:', userInput);
+        
+        // Create a mock item for checkPronunciation function
+        const mockItem = {
+            ar: expectedText,
+            eng: challenge.prompt || challenge.scenario
+        };
+        
+        // Use checkPronunciation for similarity matching (70% threshold)
+        const result = checkPronunciation(userInput, mockItem, [], 0.7);
+        
+        console.log('  - Similarity:', Math.round(result.similarity * 100) + '%');
+        console.log('  - Match type:', result.matchType);
+        console.log('  - Match result:', result.isCorrect);
+
+        if (result.isCorrect) {
+            const percentMatch = Math.round(result.similarity * 100);
+            console.log(`✅ CORRECT answer (${percentMatch}% match) - playing audio:`, expectedText);
+            
+            setScore(score + 1);
+            let feedbackMsg = '⏰ Perfect timing! Great verb conjugation!';
+            
+            // Give different feedback based on match quality
+            if (result.similarity >= 0.95) {
+                feedbackMsg = '⏰ Perfect pronunciation! Excellent verb conjugation!';
+            } else if (result.similarity >= 0.8) {
+                feedbackMsg = `⏰ Very good! ${percentMatch}% match - Great verb conjugation!`;
+            } else {
+                feedbackMsg = `⏰ Good effort! ${percentMatch}% match - Nice verb conjugation!`;
+            }
+            
+            setFeedback(feedbackMsg);
+            speak(expectedText);
+            
+            setUsedChallenges(prev => {
+                const newUsedChallenges = new Set([...prev, challenge.id]);
+                setTimeout(() => selectRandomChallenge(challengesRef.current, newUsedChallenges), 2000);
+                return newUsedChallenges;
+            });
+        } else {
+            const percentMatch = Math.round(result.similarity * 100);
+            console.log(`❌ INCORRECT answer (${percentMatch}% match) - playing audio:`, expectedText);
+            
+            let feedbackMsg = `❌ Try again. Expected: "${expectedText}"`;
+            if (result.similarity >= 0.5) {
+                feedbackMsg = `❌ Close! ${percentMatch}% match. Expected: "${expectedText}"`;
+            }
+            
+            setFeedback(feedbackMsg);
+            speak(expectedText);
+            
+            // Move to next challenge even if incorrect
+            setUsedChallenges(prev => {
+                const newUsedChallenges = new Set([...prev, challenge.id]);
+                setTimeout(() => selectRandomChallenge(challengesRef.current, newUsedChallenges), 3000); // 3 seconds to hear the correct answer
+                return newUsedChallenges;
+            });
+        }
+    };
+
     const processAnswer = (userInput) => {
         if (!currentChallenge) return;
-
-        const normalizedInput = normalizeArabic(userInput.toLowerCase());
-        const expectedText = currentChallenge.expectedArabic;
-        const normalizedExpected = normalizeArabic(expectedText.toLowerCase());
-        
-        // Check if input contains expected conjugated verb and time expression
-        const isCorrect = normalizedInput.includes(normalizedExpected) || 
-                         normalizedExpected.includes(normalizedInput);
-
-        if (isCorrect) {
-            setScore(score + 1);
-            setFeedback('⏰ Perfect timing! Great verb conjugation!');
-            speak('ممتاز جداً');
-            
-            setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
-            setTimeout(() => selectRandomChallenge(), 2000);
-        } else {
-            setFeedback(`❌ Try again. Expected: "${expectedText}"`);
-            speak(expectedText);
-        }
+        processAnswerWithChallenge(userInput, currentChallenge);
     };
 
     const startListening = () => {
         if (recognitionRef.current && !isListening && currentChallenge) {
-            recognitionRef.current.start();
+            try {
+                recognitionRef.current.start();
+            } catch (error) {
+                console.error('Error starting recognition:', error);
+                setFeedback(`❌ Error starting recognition: ${error.message}`);
+            }
         }
     };
 
     const skipChallenge = () => {
         if (currentChallenge) {
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
-            selectRandomChallenge();
+            selectRandomChallenge(challengesRef.current, usedChallenges);
         }
     };
 
@@ -272,7 +401,7 @@ const VerbTenseGame = () => {
         setUsedChallenges(new Set());
         setScore(0);
         setFeedback('');
-        selectRandomChallenge(challenges, new Set());
+        selectRandomChallenge(challengesRef.current, new Set());
     };
 
     const repeatChallenge = () => {

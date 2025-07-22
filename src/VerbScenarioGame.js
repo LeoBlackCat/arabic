@@ -227,7 +227,9 @@ const VerbScenarioGame = () => {
             
             const chat = arToChatMap[text];
             if (chat) {
-                const fileName = `${chat}.wav`;
+                // Sanitize filename: replace illegal characters with dash (same as audio generation script)
+                const sanitizedChat = chat.replace(/[\\/:"*?<>|]/g, '-').trim();
+                const fileName = `${sanitizedChat}.wav`;
                 const audio = new Audio(`./sounds/${encodeURIComponent(fileName)}`);
                 
                 try {

@@ -78,8 +78,26 @@ const COLOR_MAP = {
 };
 
 const GameHub = () => {
-  const [selectedContent, setSelectedContent] = useState(CONTENT_TYPES.VERBS);
-  const [selectedGame, setSelectedGame] = useState(GAME_TYPES.SPEECH);
+  // Remember last selected content and game from localStorage
+  const [selectedContent, setSelectedContent] = useState(() => {
+    const saved = localStorage.getItem('lastSelectedContent');
+    return saved && Object.values(CONTENT_TYPES).includes(saved) ? saved : CONTENT_TYPES.VERBS;
+  });
+  
+  const [selectedGame, setSelectedGame] = useState(() => {
+    const savedContent = localStorage.getItem('lastSelectedContent');
+    const savedGame = localStorage.getItem('lastSelectedGame');
+    
+    // Validate that the saved game is valid for the saved content
+    if (savedContent && savedGame && Object.values(GAME_TYPES).includes(savedGame)) {
+      const availableGames = getAvailableGames(savedContent);
+      if (availableGames.find(game => game.value === savedGame)) {
+        return savedGame;
+      }
+    }
+    
+    return GAME_TYPES.SPEECH;
+  });
   const [contentData, setContentData] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [showAzureConfig, setShowAzureConfig] = useState(false);
@@ -123,6 +141,16 @@ const GameHub = () => {
   };
 
 
+
+  // Save selected content to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('lastSelectedContent', selectedContent);
+  }, [selectedContent]);
+
+  // Save selected game to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('lastSelectedGame', selectedGame);
+  }, [selectedGame]);
 
   // Load speech configuration on mount
   useEffect(() => {

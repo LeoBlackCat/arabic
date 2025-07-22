@@ -140,7 +140,9 @@ const TimeGame = () => {
             
             const chat = arToChatMap[text];
             if (chat) {
-                const fileName = `${chat}.wav`;
+                // Sanitize filename: replace illegal characters with dash (same as audio generation script)
+                const sanitizedChat = chat.replace(/[\\/:"*?<>|]/g, '-').trim();
+                const fileName = `${sanitizedChat}.wav`;
                 const audio = new Audio(`./sounds/${encodeURIComponent(fileName)}`);
                 
                 try {
@@ -182,19 +184,21 @@ const TimeGame = () => {
             // LISTENING PRACTICE MODE: User speaks English, we check against English text
             expectedText = phrase.eng;
             const userInputLower = userInput.toLowerCase().trim();
-            const expectedLower = expectedText.toLowerCase().trim();
+            
+            // Clean expected text: remove text in parentheses like "(response)" 
+            const expectedCleaned = expectedText.replace(/\s*\([^)]*\)/g, '').toLowerCase().trim();
             
             console.log('🎧 LISTENING PRACTICE MODE:');
             console.log('  - Arabic played:', phrase.ar);
-            console.log('  - Expected English:', expectedText);
+            console.log('  - Expected English (original):', expectedText);
+            console.log('  - Expected English (cleaned):', expectedCleaned);
             console.log('  - User said (English):', userInput);
             console.log('  - User input normalized:', userInputLower);
-            console.log('  - Expected normalized:', expectedLower);
             
-            // Check if user's English response matches expected English
-            isCorrect = userInputLower.includes(expectedLower) ||
-                       expectedLower.includes(userInputLower) ||
-                       userInputLower === expectedLower;
+            // Check if user's English response matches expected English (cleaned)
+            isCorrect = userInputLower.includes(expectedCleaned) ||
+                       expectedCleaned.includes(userInputLower) ||
+                       userInputLower === expectedCleaned;
                        
             console.log('  - Match result:', isCorrect);
         } else {
