@@ -12,7 +12,7 @@ const VerbTenseGame = () => {
     const [isListening, setIsListening] = useState(false);
     const [challenges, setChallenges] = useState([]);
     const [usedChallenges, setUsedChallenges] = useState(new Set());
-    
+
     const recognitionRef = useRef(null);
     const synthRef = useRef(window.speechSynthesis);
     const currentChallengeRef = useRef(null);
@@ -25,7 +25,7 @@ const VerbTenseGame = () => {
     const conjugateVerb = (verb, tense, timeContext = null) => {
         const baseChat = verb.chat;
         const baseAr = verb.ar;
-        
+
         switch (tense) {
             case 'past':
                 // Convert "I verb" to "I verbed" 
@@ -38,11 +38,11 @@ const VerbTenseGame = () => {
                 if (baseChat === 'al3ab') return { ar: 'لعبت', chat: 'la3abt', eng: 'I played' };
                 // Default pattern: remove "a" prefix, add "t" suffix
                 return { ar: baseAr + 'ت', chat: baseChat.replace(/^a/, '') + 't', eng: verb.eng.replace('I ', 'I ') + 'ed' };
-                
+
             case 'future':
                 // Add "ba" prefix for future
                 return { ar: 'با' + baseAr, chat: 'ba' + baseChat, eng: 'I will ' + verb.eng.replace('I ', '') };
-                
+
             case 'present':
             default:
                 return { ar: baseAr, chat: baseChat, eng: verb.eng };
@@ -52,7 +52,7 @@ const VerbTenseGame = () => {
     // Convert verb to correct English form based on pronoun
     const getEnglishVerb = (verb, pronoun) => {
         const baseVerb = verb.eng.replace(/^i\s+/i, ''); // Remove "I " from beginning
-        
+
         switch (pronoun) {
             case 'i':
             case 'you':
@@ -77,16 +77,16 @@ const VerbTenseGame = () => {
     // Get verbs with both conjugations and images
     const getVerbsWithConjugations = () => {
         const verbsWithImages = [];
-        
+
         // Start with verbs that have images from verbs-data
         verbs.forEach(verbWithImage => {
             // Find the corresponding verb in logic.json to get conjugations
-            const logicVerb = logicData.items.find(item => 
-                item.pos === 'verb' && 
+            const logicVerb = logicData.items.find(item =>
+                item.pos === 'verb' &&
                 item.chat === verbWithImage.chat &&
                 item.we_chat // Has conjugation data
             );
-            
+
             if (logicVerb) {
                 // Combine image data from verbs-data with conjugation data from logic.json
                 verbsWithImages.push({
@@ -96,7 +96,7 @@ const VerbTenseGame = () => {
                 });
             }
         });
-        
+
         return verbsWithImages.slice(0, 15); // Limit for manageable practice
     };
 
@@ -104,11 +104,11 @@ const VerbTenseGame = () => {
     useEffect(() => {
         const generatedChallenges = [];
         const verbsWithConjugations = getVerbsWithConjugations();
-        
+
         verbsWithConjugations.forEach(verb => {
             if (gameMode === 'past_present' || gameMode === 'mixed') {
                 // Past tense with yesterday/last week
-                timeExpressions.filter(time => 
+                timeExpressions.filter(time =>
                     time.eng.includes('yesterday') || time.eng.includes('last')
                 ).forEach(timeExp => {
                     const pastVerb = conjugateVerb(verb, 'past');
@@ -125,7 +125,7 @@ const VerbTenseGame = () => {
                 });
 
                 // Present tense with today/every day
-                timeExpressions.filter(time => 
+                timeExpressions.filter(time =>
                     time.eng.includes('today') || time.eng.includes('every') || time.eng.includes('morning') || time.eng.includes('evening')
                 ).forEach(timeExp => {
                     generatedChallenges.push({
@@ -143,7 +143,7 @@ const VerbTenseGame = () => {
 
             if (gameMode === 'future' || gameMode === 'mixed') {
                 // Future tense with tomorrow/next week
-                timeExpressions.filter(time => 
+                timeExpressions.filter(time =>
                     time.eng.includes('tomorrow') || time.eng.includes('next')
                 ).forEach(timeExp => {
                     const futureVerb = conjugateVerb(verb, 'future');
@@ -239,12 +239,12 @@ const VerbTenseGame = () => {
                         timeKey: 'saturday_we'
                     },
                 ];
-                
+
                 // Add 2-3 random scenarios per verb to keep it varied
                 const selectedScenarios = contextualScenarios
                     .sort(() => 0.5 - Math.random())
                     .slice(0, 3);
-                
+
                 selectedScenarios.forEach((scenario, index) => {
                     generatedChallenges.push({
                         id: `context_${verb.chat}_${scenario.timeKey}_${index}`,
@@ -267,7 +267,7 @@ const VerbTenseGame = () => {
     // Initialize speech recognition
     useEffect(() => {
         const azureConfig = getAzureSpeechConfig();
-        
+
         if (azureConfig.isEnabled) {
             console.log('🎤 SPEECH-TO-TEXT ENGINE INFO:');
             console.log('  - Engine: Azure Speech Service');
@@ -275,27 +275,27 @@ const VerbTenseGame = () => {
             console.log('  - Language: ar-SA (Arabic Saudi Arabia)');
             console.log('  - API Key configured:', azureConfig.apiKey ? 'Yes' : 'No');
             console.log('  - Status: Azure Speech Service will be used for recognition');
-            
+
             // Azure Speech Service will be initialized when needed in startListening()
         } else if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
+
             // Log which speech recognition engine is being used
             const engineName = window.SpeechRecognition ? 'SpeechRecognition' : 'webkitSpeechRecognition';
-            const browser = navigator.userAgent.includes('Chrome') ? 'Chrome' : 
-                           navigator.userAgent.includes('Safari') ? 'Safari' :
-                           navigator.userAgent.includes('Firefox') ? 'Firefox' :
-                           navigator.userAgent.includes('Edge') ? 'Edge' : 'Unknown';
-            
+            const browser = navigator.userAgent.includes('Chrome') ? 'Chrome' :
+                navigator.userAgent.includes('Safari') ? 'Safari' :
+                    navigator.userAgent.includes('Firefox') ? 'Firefox' :
+                        navigator.userAgent.includes('Edge') ? 'Edge' : 'Unknown';
+
             console.log('🎤 SPEECH-TO-TEXT ENGINE INFO:');
             console.log('  - Engine:', engineName, '(Browser Native)');
             console.log('  - Browser:', browser);
             console.log('  - Language:', 'ar-SA (Arabic Saudi Arabia)');
             console.log('  - Platform:', navigator.platform);
             console.log('  - Status: Using browser speech recognition (Azure not configured)');
-            
+
             recognitionRef.current = new SpeechRecognition();
-            
+
             recognitionRef.current.continuous = false;
             recognitionRef.current.interimResults = true;
             recognitionRef.current.lang = 'ar-SA';
@@ -308,12 +308,12 @@ const VerbTenseGame = () => {
             recognitionRef.current.onresult = (event) => {
                 for (let i = 0; i < event.results.length; i++) {
                     const result = event.results[i];
-                    
+
                     if (result.isFinal) {
                         const transcript = result[0].transcript.trim();
                         const challengeAtTime = currentChallengeRef.current;
                         setIsListening(false);
-                        
+
                         if (challengeAtTime) {
                             processAnswerWithChallenge(transcript, challengeAtTime);
                         }
@@ -335,18 +335,18 @@ const VerbTenseGame = () => {
 
     const selectRandomChallenge = (challengeList = challenges, used = usedChallenges) => {
         const available = challengeList.filter(challenge => !used.has(challenge.id));
-        
+
         if (available.length === 0) {
             setCurrentChallenge(null);
             setFeedback('🎉 Excellent! You mastered verb tenses with time!');
             return;
         }
-        
+
         const randomIndex = Math.floor(Math.random() * available.length);
         const challenge = available[randomIndex];
         setCurrentChallenge(challenge);
         currentChallengeRef.current = challenge;
-        
+
         // Present the challenge
         setTimeout(() => {
             if (challenge.scenario) {
@@ -361,7 +361,7 @@ const VerbTenseGame = () => {
 
     const speak = async (text) => {
         const isArabic = /[\u0600-\u06FF]/.test(text);
-        
+
         // Try to play WAV file first for Arabic text
         if (isArabic) {
             // Build a map from Arabic to chat representation
@@ -371,14 +371,14 @@ const VerbTenseGame = () => {
                     arToChatMap[item.ar] = item.chat;
                 }
             });
-            
+
             const chat = arToChatMap[text];
             if (chat) {
                 // Sanitize filename: replace illegal characters with dash (same as audio generation script)
                 const sanitizedChat = chat.replace(/[\\/:"*?<>|]/g, '-').trim();
                 const fileName = `${sanitizedChat}.wav`;
                 const audio = new Audio(`./sounds/${encodeURIComponent(fileName)}`);
-                
+
                 try {
                     await audio.play();
                     console.log('🎵 Played WAV file:', fileName);
@@ -388,10 +388,10 @@ const VerbTenseGame = () => {
                 }
             }
         }
-        
+
         // Fallback to browser TTS
         synthRef.current.cancel();
-        
+
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = isArabic ? 'ar-SA' : 'en-US';
         utterance.rate = 0.8;
@@ -399,7 +399,7 @@ const VerbTenseGame = () => {
 
         const voices = synthRef.current.getVoices();
         if (isArabic) {
-            const arabicVoice = voices.find(voice => 
+            const arabicVoice = voices.find(voice =>
                 voice.lang.includes('ar') || voice.name.includes('Arabic')
             );
             if (arabicVoice) utterance.voice = arabicVoice;
@@ -411,22 +411,22 @@ const VerbTenseGame = () => {
 
     const processAnswerWithChallenge = (userInput, challenge) => {
         const expectedText = challenge.expectedArabic;
-        
+
         console.log('🎤 VERB TENSE GAME:');
         console.log('  - Challenge type:', challenge.type || challenge.tense);
         console.log('  - Prompt:', challenge.prompt || challenge.scenario);
         console.log('  - Expected Arabic:', expectedText);
         console.log('  - User said:', userInput);
-        
+
         // Create a mock item for checkPronunciation function
         const mockItem = {
             ar: expectedText,
             eng: challenge.prompt || challenge.scenario
         };
-        
+
         // Use checkPronunciation for similarity matching (70% threshold)
         const result = checkPronunciation(userInput, mockItem, [], 0.7);
-        
+
         console.log('  - Similarity:', Math.round(result.similarity * 100) + '%');
         console.log('  - Match type:', result.matchType);
         console.log('  - Match result:', result.isCorrect);
@@ -434,10 +434,10 @@ const VerbTenseGame = () => {
         if (result.isCorrect) {
             const percentMatch = Math.round(result.similarity * 100);
             console.log(`✅ CORRECT answer (${percentMatch}% match) - playing audio:`, expectedText);
-            
+
             setScore(score + 1);
             let feedbackMsg = '⏰ Perfect timing! Great verb conjugation!';
-            
+
             // Give different feedback based on match quality
             if (result.similarity >= 0.95) {
                 feedbackMsg = '⏰ Perfect pronunciation! Excellent verb conjugation!';
@@ -446,10 +446,10 @@ const VerbTenseGame = () => {
             } else {
                 feedbackMsg = `⏰ Good effort! ${percentMatch}% match - Nice verb conjugation!`;
             }
-            
+
             setFeedback(feedbackMsg);
             speak(expectedText);
-            
+
             setUsedChallenges(prev => {
                 const newUsedChallenges = new Set([...prev, challenge.id]);
                 setTimeout(() => selectRandomChallenge(challengesRef.current, newUsedChallenges), 2000);
@@ -458,15 +458,15 @@ const VerbTenseGame = () => {
         } else {
             const percentMatch = Math.round(result.similarity * 100);
             console.log(`❌ INCORRECT answer (${percentMatch}% match) - playing audio:`, expectedText);
-            
+
             let feedbackMsg = `❌ Try again. Expected: "${expectedText}"`;
             if (result.similarity >= 0.5) {
                 feedbackMsg = `❌ Close! ${percentMatch}% match. Expected: "${expectedText}"`;
             }
-            
+
             setFeedback(feedbackMsg);
             speak(expectedText);
-            
+
             // Move to next challenge even if incorrect
             setUsedChallenges(prev => {
                 const newUsedChallenges = new Set([...prev, challenge.id]);
@@ -483,18 +483,18 @@ const VerbTenseGame = () => {
 
     const startListening = async () => {
         if (!currentChallenge || isListening) return;
-        
+
         const azureConfig = getAzureSpeechConfig();
-        
+
         if (azureConfig.isEnabled) {
             console.log('🎤 Using Azure Speech Service for recognition...');
             setIsListening(true);
             setFeedback('🎤 Listening... (Azure)');
-            
+
             try {
                 const result = await startAzureSpeechRecognition();
                 setIsListening(false);
-                
+
                 if (result.success && result.text) {
                     const challengeAtTime = currentChallengeRef.current;
                     if (challengeAtTime) {
@@ -564,12 +564,12 @@ const VerbTenseGame = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 text-white p-6">
-            <div className="max-w-md mx-auto">                
+            <div className="max-w-md mx-auto">
                 {/* Game Mode Selection */}
                 <div className="mb-6">
                     <label className="block text-sm font-medium mb-2">Tense Mode:</label>
-                    <select 
-                        value={gameMode} 
+                    <select
+                        value={gameMode}
                         onChange={(e) => setGameMode(e.target.value)}
                         className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg"
                     >
@@ -595,12 +595,12 @@ const VerbTenseGame = () => {
                         <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mb-4 ${getTenseColor()}`}>
                             {getTenseIcon()} {currentChallenge.tense.toUpperCase()}
                         </div>
-                        
+
                         {/* Verb Image */}
                         {currentChallenge.verb && (
                             <div className="mb-4">
-                                <img 
-                                    src={`./pictures/${currentChallenge.verb.chat.toLowerCase()}.png`} 
+                                <img
+                                    src={`./pictures/${currentChallenge.verb.chat.toLowerCase()}.png`}
                                     alt={currentChallenge.verb.eng}
                                     className="w-48 h-48 mx-auto rounded-lg object-cover"
                                 />
@@ -609,19 +609,19 @@ const VerbTenseGame = () => {
                                 </div>
                             </div>
                         )}
-                        
+
                         {/* Challenge Text */}
                         <div className="text-lg mb-4">
                             {currentChallenge.scenario || currentChallenge.prompt}
                         </div>
-                        
+
                         {/* Time Expression Context */}
                         {currentChallenge.timeExpression && (
                             <div className="text-sm text-blue-300 mb-2">
                                 Time: {currentChallenge.timeExpression.eng}
                             </div>
                         )}
-                        
+
                         <div className="text-sm text-gray-400">
                             Expected: {currentChallenge.expectedChat}
                         </div>
@@ -638,11 +638,10 @@ const VerbTenseGame = () => {
                     <button
                         onClick={startListening}
                         disabled={!currentChallenge || isListening}
-                        className={`w-full p-4 rounded-lg font-bold text-lg ${
-                            isListening 
-                                ? 'bg-yellow-600' 
+                        className={`w-full p-4 rounded-lg font-bold text-lg ${isListening
+                                ? 'bg-yellow-600'
                                 : 'bg-green-600 hover:bg-green-700'
-                        } disabled:bg-gray-600 disabled:cursor-not-allowed`}
+                            } disabled:bg-gray-600 disabled:cursor-not-allowed`}
                     >
                         {isListening ? '🎤 Listening...' : '🎤 Conjugate Verb'}
                     </button>
@@ -655,7 +654,7 @@ const VerbTenseGame = () => {
                         >
                             ⏭️ Skip
                         </button>
-                        
+
                         <button
                             onClick={repeatChallenge}
                             disabled={!currentChallenge}
@@ -663,7 +662,7 @@ const VerbTenseGame = () => {
                         >
                             🔄 Repeat
                         </button>
-                        
+
                         <button
                             onClick={resetGame}
                             className="flex-1 p-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium"

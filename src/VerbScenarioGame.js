@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { verbs } from './verbs-data';
 import logicData from '../logic.json';
-import { normalizeArabic } from './arabicUtils';
+import { normalizeArabic, checkPronunciation } from './arabicUtils';
+import { getAzureSpeechConfig, startAzureSpeechRecognition } from './azureSpeechHelper';
 
 const VerbScenarioGame = () => {
     const [currentScenario, setCurrentScenario] = useState(null);
@@ -14,6 +15,8 @@ const VerbScenarioGame = () => {
     
     const recognitionRef = useRef(null);
     const synthRef = useRef(window.speechSynthesis);
+    const currentScenarioRef = useRef(null);
+    const scenariosRef = useRef([]);
 
     // Weather and time context data
     const weatherItems = logicData.items.filter(item => item.type === 'weather');
@@ -24,45 +27,52 @@ const VerbScenarioGame = () => {
         const generatedScenarios = [];
         
         if (gameMode === 'weather_activities' || gameMode === 'mixed') {
-            // Weather-based scenarios
+            // Weather-based scenarios using actual weather phrases from logic.json
+            const weatherPhrases = logicData.items.filter(item => 
+                item.type === 'phrase' && 
+                item.eng && 
+                (item.eng.includes('weather is hot') || 
+                 item.eng.includes('weather is cold') || 
+                 item.eng.includes('weather is nice'))
+            );
+
             const weatherScenarios = [
                 {
-                    weather: 'hot',
+                    weatherPhrase: weatherPhrases.find(p => p.eng.includes('hot')),
                     activities: ['ashrab', 'anaam', 'agra'], // drink, sleep, read
-                    situation: 'It\'s very hot today',
-                    arabicWeather: 'الجو حار اليوم'
+                    icon: '☀️'
                 },
                 {
-                    weather: 'cold', 
+                    weatherPhrase: weatherPhrases.find(p => p.eng.includes('cold')),
                     activities: ['ashrab', 'atbakh', 'anaam'], // drink (hot), cook, sleep
-                    situation: 'It\'s cold outside',
-                    arabicWeather: 'الجو بارد'
+                    icon: '❄️'
                 },
                 {
-                    weather: 'nice',
+                    weatherPhrase: weatherPhrases.find(p => p.eng.includes('nice')),
                     activities: ['aseer', 'al3ab', 'ashoof'], // go, play, see
-                    situation: 'The weather is nice',
-                    arabicWeather: 'الجو حلو'
+                    icon: '🌤️'
                 }
             ];
 
             weatherScenarios.forEach(weatherScenario => {
-                weatherScenario.activities.forEach(activityChat => {
-                    const verb = verbs.find(v => v.chat === activityChat);
-                    if (verb) {
-                        generatedScenarios.push({
-                            id: `weather_${weatherScenario.weather}_${verb.chat}`,
-                            type: 'weather_context',
-                            situation: weatherScenario.situation,
-                            arabicContext: weatherScenario.arabicWeather,
-                            verb: verb,
-                            prompt: `${weatherScenario.situation}. What do you do? (use: ${verb.eng})`,
-                            expectedArabic: `${weatherScenario.arabicWeather}، ${verb.ar}`,
-                            expectedChat: `eljaw ${weatherScenario.weather}, ${verb.chat}`,
-                            icon: weatherScenario.weather === 'hot' ? '☀️' : weatherScenario.weather === 'cold' ? '❄️' : '🌤️'
-                        });
-                    }
-                });
+                if (weatherScenario.weatherPhrase) {
+                    weatherScenario.activities.forEach(activityChat => {
+                        const verb = verbs.find(v => v.chat === activityChat);
+                        if (verb) {
+                            generatedScenarios.push({
+                                id: `weather_${weatherScenario.weatherPhrase.chat}_${verb.chat}`,
+                                type: 'weather_context',
+                                situation: weatherScenario.weatherPhrase.eng,
+                                arabicContext: weatherScenario.weatherPhrase.ar,
+                                verb: verb,
+                                prompt: `${weatherScenario.weatherPhrase.eng}. What do you do? (use: ${verb.eng})`,
+                                expectedArabic: `${weatherScenario.weatherPhrase.ar}، ${verb.ar}`,
+                                expectedChat: `${weatherScenario.weatherPhrase.chat}, ${verb.chat}`,
+                                icon: weatherScenario.icon
+                            });
+                        }
+                    });
+                }
             });
         }
 
@@ -154,13 +164,40 @@ const VerbScenarioGame = () => {
         }
 
         setScenarios(generatedScenarios);
+        scenariosRef.current = generatedScenarios;
         selectRandomScenario(generatedScenarios, new Set());
     }, [gameMode]);
 
     // Initialize speech recognition
     useEffect(() => {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const azureConfig = getAzureSpeechConfig();
+        
+        if (azureConfig.isEnabled) {
+            console.log('🎤 SPEECH-TO-TEXT ENGINE INFO:');
+            console.log('  - Engine: Azure Speech Service');
+            console.log('  - Region:', azureConfig.region);
+            console.log('  - Language: ar-SA (Arabic Saudi Arabia)');
+            console.log('  - API Key configured:', azureConfig.apiKey ? 'Yes' : 'No');
+            console.log('  - Status: Azure Speech Service will be used for recognition');
+            
+            // Azure Speech Service will be initialized when needed in startListening()
+        } else if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            // Log which speech recognition engine is being used
+            const engineName = window.SpeechRecognition ? 'SpeechRecognition' : 'webkitSpeechRecognition';
+            const browser = navigator.userAgent.includes('Chrome') ? 'Chrome' : 
+                           navigator.userAgent.includes('Safari') ? 'Safari' :
+                           navigator.userAgent.includes('Firefox') ? 'Firefox' :
+                           navigator.userAgent.includes('Edge') ? 'Edge' : 'Unknown';
+            
+            console.log('🎤 SPEECH-TO-TEXT ENGINE INFO:');
+            console.log('  - Engine:', engineName, '(Browser Native)');
+            console.log('  - Browser:', browser);
+            console.log('  - Language:', 'ar-SA (Arabic Saudi Arabia)');
+            console.log('  - Platform:', navigator.platform);
+            console.log('  - Status: Using browser speech recognition (Azure not configured)');
+            
             recognitionRef.current = new SpeechRecognition();
             
             recognitionRef.current.continuous = false;
@@ -173,11 +210,19 @@ const VerbScenarioGame = () => {
             };
 
             recognitionRef.current.onresult = (event) => {
-                const result = event.results[event.resultIndex];
-                if (result.isFinal) {
-                    const transcript = result[0].transcript.trim();
-                    setIsListening(false);
-                    processAnswer(transcript);
+                for (let i = 0; i < event.results.length; i++) {
+                    const result = event.results[i];
+                    
+                    if (result.isFinal) {
+                        const transcript = result[0].transcript.trim();
+                        const scenarioAtTime = currentScenarioRef.current;
+                        setIsListening(false);
+                        
+                        if (scenarioAtTime) {
+                            processAnswerWithScenario(transcript, scenarioAtTime);
+                        }
+                        return;
+                    }
                 }
             };
 
@@ -204,6 +249,7 @@ const VerbScenarioGame = () => {
         const randomIndex = Math.floor(Math.random() * available.length);
         const scenario = available[randomIndex];
         setCurrentScenario(scenario);
+        currentScenarioRef.current = scenario;
         
         // Present the scenario
         setTimeout(() => {
@@ -262,35 +308,115 @@ const VerbScenarioGame = () => {
         console.log('🔊 Using browser TTS for:', text);
     };
 
-    const processAnswer = (userInput) => {
-        if (!currentScenario) return;
-
-        const normalizedInput = normalizeArabic(userInput.toLowerCase());
-        const expectedText = currentScenario.expectedArabic;
-        const normalizedExpected = normalizeArabic(expectedText.toLowerCase());
+    const processAnswerWithScenario = (userInput, scenario) => {
+        const expectedText = scenario.expectedArabic;
         
-        // Check if the verb is mentioned correctly in context
-        const verbArabic = normalizeArabic(currentScenario.verb.ar.toLowerCase());
-        const containsVerb = normalizedInput.includes(verbArabic);
-        const matchesExpected = normalizedInput.includes(normalizedExpected) || 
-                               normalizedExpected.includes(normalizedInput);
+        console.log('🎤 VERB SCENARIO GAME:');
+        console.log('  - Scenario type:', scenario.type);
+        console.log('  - Prompt:', scenario.prompt);
+        console.log('  - Expected Arabic:', expectedText, `(${scenario.expectedChat})`);
+        console.log('  - User said:', userInput);
+        
+        // Create a mock item for checkPronunciation function
+        const mockItem = {
+            ar: expectedText,
+            eng: scenario.prompt
+        };
+        
+        // Use checkPronunciation for similarity matching (70% threshold)
+        const result = checkPronunciation(userInput, mockItem, [], 0.7);
+        
+        console.log('  - Similarity:', Math.round(result.similarity * 100) + '%');
+        console.log('  - Match type:', result.matchType);
+        console.log('  - Match result:', result.isCorrect);
 
-        if (containsVerb || matchesExpected) {
-            setScore(score + 1);
-            setFeedback('🎯 Perfect context! Great situational response!');
-            speak('إجابة ممتازة'); // Excellent answer
+        if (result.isCorrect) {
+            const percentMatch = Math.round(result.similarity * 100);
+            console.log(`✅ CORRECT answer (${percentMatch}% match) - playing audio:`, expectedText);
             
-            setUsedScenarios(prev => new Set([...prev, currentScenario.id]));
-            setTimeout(() => selectRandomScenario(), 2000);
-        } else {
-            setFeedback(`❌ Try again. Expected: "${expectedText}"`);
+            setScore(score + 1);
+            let feedbackMsg = '🎯 Perfect context! Great situational response!';
+            
+            // Give different feedback based on match quality
+            if (result.similarity >= 0.95) {
+                feedbackMsg = '🎯 Perfect pronunciation! Excellent contextual response!';
+            } else if (result.similarity >= 0.8) {
+                feedbackMsg = `🎯 Very good! ${percentMatch}% match - Great contextual response!`;
+            } else {
+                feedbackMsg = `🎯 Good effort! ${percentMatch}% match - Nice contextual response!`;
+            }
+            
+            setFeedback(feedbackMsg);
             speak(expectedText);
+            
+            setUsedScenarios(prev => {
+                const newUsedScenarios = new Set([...prev, scenario.id]);
+                setTimeout(() => selectRandomScenario(scenariosRef.current, newUsedScenarios), 2000);
+                return newUsedScenarios;
+            });
+        } else {
+            const percentMatch = Math.round(result.similarity * 100);
+            console.log(`❌ INCORRECT answer (${percentMatch}% match) - playing audio:`, expectedText);
+            
+            let feedbackMsg = `❌ Try again. Expected: "${expectedText}"`;
+            if (result.similarity >= 0.5) {
+                feedbackMsg = `❌ Close! ${percentMatch}% match. Expected: "${expectedText}"`;
+            }
+            
+            setFeedback(feedbackMsg);
+            speak(expectedText);
+            
+            // Move to next scenario even if incorrect
+            setUsedScenarios(prev => {
+                const newUsedScenarios = new Set([...prev, scenario.id]);
+                setTimeout(() => selectRandomScenario(scenariosRef.current, newUsedScenarios), 3000); // 3 seconds to hear the correct answer
+                return newUsedScenarios;
+            });
         }
     };
 
-    const startListening = () => {
-        if (recognitionRef.current && !isListening && currentScenario) {
-            recognitionRef.current.start();
+    const processAnswer = (userInput) => {
+        if (!currentScenario) return;
+        processAnswerWithScenario(userInput, currentScenario);
+    };
+
+    const startListening = async () => {
+        if (!currentScenario || isListening) return;
+        
+        const azureConfig = getAzureSpeechConfig();
+        
+        if (azureConfig.isEnabled) {
+            console.log('🎤 Using Azure Speech Service for recognition...');
+            setIsListening(true);
+            setFeedback('🎤 Listening... (Azure)');
+            
+            try {
+                const result = await startAzureSpeechRecognition();
+                setIsListening(false);
+                
+                if (result.success && result.text) {
+                    const scenarioAtTime = currentScenarioRef.current;
+                    if (scenarioAtTime) {
+                        processAnswerWithScenario(result.text, scenarioAtTime);
+                    }
+                } else {
+                    setFeedback('❌ No speech detected. Try again.');
+                }
+            } catch (error) {
+                console.error('Azure Speech error:', error);
+                setIsListening(false);
+                setFeedback(`❌ Speech recognition error: ${error.message}`);
+            }
+        } else if (recognitionRef.current) {
+            console.log('🎤 Using browser speech recognition...');
+            try {
+                recognitionRef.current.start();
+            } catch (error) {
+                console.error('Error starting recognition:', error);
+                setFeedback(`❌ Error starting recognition: ${error.message}`);
+            }
+        } else {
+            setFeedback('❌ Speech recognition not available');
         }
     };
 
@@ -327,8 +453,6 @@ const VerbScenarioGame = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-emerald-800 to-teal-900 text-white p-6">
             <div className="max-w-md mx-auto">
-                <h1 className="text-3xl font-bold text-center mb-8">🎭 Verb Scenarios</h1>
-                
                 {/* Game Mode Selection */}
                 <div className="mb-6">
                     <label className="block text-sm font-medium mb-2">Scenario Type:</label>
