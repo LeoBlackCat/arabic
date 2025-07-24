@@ -170,6 +170,8 @@ const GrammarPatternPuzzleGame = () => {
         const isCorrect = selectedCategoryKey === currentVerb.correctCategory;
         
         if (isCorrect) {
+            // Play success sound
+            new Audio('./sounds/success.wav').play().catch(() => {});
             setScore(score + 1);
             setFeedback('✅ Excellent! You understood the pattern correctly!');
             
@@ -186,6 +188,8 @@ const GrammarPatternPuzzleGame = () => {
                 selectRandomVerb();
             }, 3000);
         } else {
+            // Play error sound
+            new Audio('./sounds/error.wav').play().catch(() => {});
             setFeedback('❌ Not quite right. Let me show you the logic...');
             setShowLogicTree(true);
         }

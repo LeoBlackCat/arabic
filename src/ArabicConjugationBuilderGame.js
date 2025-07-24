@@ -220,6 +220,7 @@ const ArabicConjugationBuilderGame = () => {
 
         if (hasAllCorrect && !hasWrongPieces && selectedIds.length === correctIds.length) {
             // Correct!
+            new Audio('./sounds/success.wav').play().catch(() => {});
             setScore(score + 1);
             setFeedback('✅ Perfect! Your sentence is grammatically correct!');
             setGamePhase('complete');
@@ -232,6 +233,7 @@ const ArabicConjugationBuilderGame = () => {
             }, 3000);
         } else {
             // Incorrect
+            new Audio('./sounds/error.wav').play().catch(() => {});
             setFeedback('❌ Not quite right. Check your construction!');
             setGamePhase('checking');
             setShowHint(true);

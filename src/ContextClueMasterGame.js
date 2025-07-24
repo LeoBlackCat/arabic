@@ -193,6 +193,8 @@ const ContextClueMasterGame = () => {
         const isCorrect = selectedOption.type === currentScenario.correct;
         
         if (isCorrect) {
+            // Play success sound
+            new Audio('./sounds/success.wav').play().catch(() => {});
             setScore(score + 1);
             setStreak(streak + 1);
             if (streak + 1 > bestStreak) {
@@ -202,6 +204,8 @@ const ContextClueMasterGame = () => {
             setUsedScenarios(prev => new Set([...prev, currentScenario.id]));
             setTimeout(() => selectRandomScenario(), 2000);
         } else {
+            // Play error sound
+            new Audio('./sounds/error.wav').play().catch(() => {});
             setStreak(0);
             setFeedback('❌ Not quite right. Let me explain the context...');
             setShowExplanation(true);

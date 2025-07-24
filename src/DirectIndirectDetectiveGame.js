@@ -184,11 +184,15 @@ const DirectIndirectDetectiveGame = () => {
         const isCorrect = selectedType === currentChallenge.correct;
         
         if (isCorrect) {
+            // Play success sound
+            new Audio('./sounds/success.wav').play().catch(() => {});
             setScore(score + 1);
             setFeedback('✅ Correct! Great detective work!');
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
             setTimeout(() => selectRandomChallenge(), 1500);
         } else {
+            // Play error sound
+            new Audio('./sounds/error.wav').play().catch(() => {});
             setLives(lives - 1);
             setFeedback('❌ Not quite right. Let me explain...');
             setShowExplanation(true);
