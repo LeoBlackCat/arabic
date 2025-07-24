@@ -9,6 +9,7 @@ const GrammarPatternPuzzleGame = () => {
     const [showLogicTree, setShowLogicTree] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [achievements, setAchievements] = useState(new Set());
+    const [animationState, setAnimationState] = useState(''); // 'success', 'error', or ''
 
     // Verb categorization data based on the grammar conversation
     const verbCategories = {
@@ -170,8 +171,9 @@ const GrammarPatternPuzzleGame = () => {
         const isCorrect = selectedCategoryKey === currentVerb.correctCategory;
         
         if (isCorrect) {
-            // Play success sound
+            // Play success sound and show animation
             new Audio('./sounds/success.wav').play().catch(() => {});
+            setAnimationState('success');
             setScore(score + 1);
             setFeedback('✅ Excellent! You understood the pattern correctly!');
             
@@ -184,14 +186,17 @@ const GrammarPatternPuzzleGame = () => {
             
             setUsedVerbs(prev => new Set([...prev, currentVerb.verb]));
             setTimeout(() => {
+                setAnimationState('');
                 setRound(round + 1);
                 selectRandomVerb();
             }, 3000);
         } else {
-            // Play error sound
+            // Play error sound and show animation
             new Audio('./sounds/error.wav').play().catch(() => {});
+            setAnimationState('error');
             setFeedback('❌ Not quite right. Let me show you the logic...');
             setShowLogicTree(true);
+            setTimeout(() => setAnimationState(''), 800);
         }
     };
 
@@ -247,7 +252,10 @@ const GrammarPatternPuzzleGame = () => {
 
                 {/* Current Verb Challenge */}
                 {currentVerb && (
-                    <div className="bg-white/10 backdrop-blur p-6 rounded-lg mb-6">
+                    <div className={`bg-white/10 backdrop-blur p-6 rounded-lg mb-6 transition-all duration-500 ${
+                        animationState === 'success' ? 'animate-pulse bg-green-500/30 scale-105' :
+                        animationState === 'error' ? 'animate-bounce bg-red-500/30' : ''
+                    }`}>
                         <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold mb-2">{currentVerb.verb}</h2>
                             <p className="text-xl text-gray-300 mb-4">{currentVerb.english}</p>

@@ -8,6 +8,7 @@ const DirectIndirectDetectiveGame = () => {
     const [usedChallenges, setUsedChallenges] = useState(new Set());
     const [showExplanation, setShowExplanation] = useState(false);
     const [level, setLevel] = useState(1);
+    const [animationState, setAnimationState] = useState(''); // 'success', 'error', or ''
 
     // Challenge data based on the grammar conversation
     const challenges = [
@@ -24,35 +25,46 @@ const DirectIndirectDetectiveGame = () => {
             level: 1
         },
         {
-            id: 'hear_you',
-            english: 'I hear you',
-            verbStem: 'asma3',
+            id: 'she_hears_him',
+            english: 'She hears him',
+            verbStem: 'tisma3',
             correct: 'direct',
-            directForm: 'asma3ik',
-            indirectForm: 'asma3 lik',
-            explanation: 'You hear the person directly - the sound comes from them',
+            directForm: 'tisma3ah',
+            indirectForm: 'tisma3 lah',
+            explanation: 'She hears him directly - the sound comes from him to her',
             category: 'perception',
             level: 1
         },
         {
-            id: 'know_them',
-            english: 'I know them',
-            verbStem: 'a3aref',
+            id: 'we_know_you',
+            english: 'We know you',
+            verbStem: 'na3aref',
             correct: 'direct',
-            directForm: 'a3arefhum',
-            indirectForm: 'a3aref lihum',
-            explanation: 'You know the people directly - knowledge about them',
+            directForm: 'na3arefik',
+            indirectForm: 'na3aref lik',
+            explanation: 'We know you directly - knowledge about the person',
             category: 'basic',
             level: 1
         },
         {
-            id: 'want_you',
-            english: 'I want you',
-            verbStem: 'aba',
+            id: 'they_want_her',
+            english: 'They want her',
+            verbStem: 'yaboon',
             correct: 'direct',
-            directForm: 'abak',
-            indirectForm: 'aba lik',
-            explanation: 'You want the person directly - not doing something for them',
+            directForm: 'yaboonha',
+            indirectForm: 'yaboon laha',
+            explanation: 'They want her directly - desire is directed at the person',
+            category: 'basic',
+            level: 1
+        },
+        {
+            id: 'he_forgets_us',
+            english: 'He forgets us',
+            verbStem: 'yansa',
+            correct: 'direct',
+            directForm: 'yansana',
+            indirectForm: 'yansa lana',
+            explanation: 'He forgets us directly from his memory',
             category: 'basic',
             level: 2
         },
@@ -66,6 +78,28 @@ const DirectIndirectDetectiveGame = () => {
             directForm: 'asaweek',
             indirectForm: 'asawee lik gahwa',
             explanation: 'You\'re making coffee FOR them, not making them into coffee!',
+            category: 'action',
+            level: 1
+        },
+        {
+            id: 'she_sends_message',
+            english: 'She sends us a message',
+            verbStem: 'tresh',
+            correct: 'indirect',
+            directForm: 'treshna',
+            indirectForm: 'tresh lana risala',
+            explanation: 'She sends TO us - communication verbs need prepositions',
+            category: 'communication',
+            level: 1
+        },
+        {
+            id: 'they_cook_dinner',
+            english: 'They cook dinner for him',
+            verbStem: 'ytbakhoon',
+            correct: 'indirect',
+            directForm: 'ytbakhoonah',
+            indirectForm: 'ytbakhoon lah akil',
+            explanation: 'They cook FOR him, not cooking the person!',
             category: 'action',
             level: 1
         },
@@ -92,35 +126,35 @@ const DirectIndirectDetectiveGame = () => {
             level: 1
         },
         {
-            id: 'say_to_you',
-            english: 'I say to you',
-            verbStem: 'agoul',
+            id: 'you_say_to_her',
+            english: 'You say to her',
+            verbStem: 'tgool',
             correct: 'indirect',
-            directForm: 'agoulik',
-            indirectForm: 'agoul lik',
-            explanation: 'You say TO them - communication verb needs preposition',
+            directForm: 'tgoolinha',
+            indirectForm: 'tgool laha',
+            explanation: 'You speak TO her - communication verbs use prepositions',
             category: 'communication',
             level: 1
         },
         {
-            id: 'buy_gift',
-            english: 'I buy you a gift',
-            verbStem: 'ashteree',
+            id: 'he_buys_gift',
+            english: 'He buys a gift for us',
+            verbStem: 'yashteree',
             correct: 'indirect',
-            directForm: 'ashtereek',
-            indirectForm: 'ashteree lik hadhiya',
-            explanation: 'You buy FOR them, not buying the person literally!',
-            category: 'action',
+            directForm: 'yashtereena',
+            indirectForm: 'yashteree lana hadhiya',
+            explanation: 'He buys FOR us, not buying us as people!',
+            category: 'transaction',
             level: 2
         },
         {
-            id: 'pour_coffee',
-            english: 'I pour coffee for you',
-            verbStem: 'aseb',
+            id: 'we_pour_tea',
+            english: 'We pour tea for you',
+            verbStem: 'naseb',
             correct: 'indirect',
-            directForm: 'asebik',
-            indirectForm: 'aseb lik gahwa',
-            explanation: 'You pour FOR them, not pouring the person like a drink!',
+            directForm: 'nasebik',
+            indirectForm: 'naseb lik chai',
+            explanation: 'We pour FOR you, not pouring you like a drink!',
             category: 'action',
             level: 2
         },
@@ -184,19 +218,26 @@ const DirectIndirectDetectiveGame = () => {
         const isCorrect = selectedType === currentChallenge.correct;
         
         if (isCorrect) {
-            // Play success sound
+            // Play success sound and show animation
             new Audio('./sounds/success.wav').play().catch(() => {});
+            setAnimationState('success');
             setScore(score + 1);
             setFeedback('✅ Correct! Great detective work!');
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
-            setTimeout(() => selectRandomChallenge(), 1500);
+            setTimeout(() => {
+                setAnimationState('');
+                selectRandomChallenge();
+            }, 1500);
         } else {
-            // Play error sound
+            // Play error sound and show animation
             new Audio('./sounds/error.wav').play().catch(() => {});
+            setAnimationState('error');
             setLives(lives - 1);
             setFeedback('❌ Not quite right. Let me explain...');
             setShowExplanation(true);
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
+            
+            setTimeout(() => setAnimationState(''), 800);
             
             if (lives <= 1) {
                 setTimeout(() => {
@@ -237,7 +278,10 @@ const DirectIndirectDetectiveGame = () => {
 
                 {/* Current Challenge */}
                 {currentChallenge && (
-                    <div className="bg-white/10 backdrop-blur p-6 rounded-lg mb-6 text-center">
+                    <div className={`bg-white/10 backdrop-blur p-6 rounded-lg mb-6 text-center transition-all duration-500 ${
+                        animationState === 'success' ? 'animate-pulse bg-green-500/30 scale-105' :
+                        animationState === 'error' ? 'animate-bounce bg-red-500/30' : ''
+                    }`}>
                         <div className="mb-4">
                             <div className="text-2xl font-bold mb-2">{currentChallenge.english}</div>
                             <div className="text-lg text-gray-300">Verb stem: <span className="text-yellow-300">{currentChallenge.verbStem}</span></div>

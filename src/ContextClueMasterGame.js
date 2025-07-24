@@ -8,6 +8,7 @@ const ContextClueMasterGame = () => {
     const [feedback, setFeedback] = useState('');
     const [usedScenarios, setUsedScenarios] = useState(new Set());
     const [showExplanation, setShowExplanation] = useState(false);
+    const [animationState, setAnimationState] = useState(''); // 'success', 'error', or ''
     const [category, setCategory] = useState('all');
 
     // Realistic scenarios based on the grammar conversation
@@ -193,8 +194,9 @@ const ContextClueMasterGame = () => {
         const isCorrect = selectedOption.type === currentScenario.correct;
         
         if (isCorrect) {
-            // Play success sound
+            // Play success sound and show animation
             new Audio('./sounds/success.wav').play().catch(() => {});
+            setAnimationState('success');
             setScore(score + 1);
             setStreak(streak + 1);
             if (streak + 1 > bestStreak) {
@@ -202,13 +204,18 @@ const ContextClueMasterGame = () => {
             }
             setFeedback('✅ Excellent! You understood the context perfectly!');
             setUsedScenarios(prev => new Set([...prev, currentScenario.id]));
-            setTimeout(() => selectRandomScenario(), 2000);
+            setTimeout(() => {
+                setAnimationState('');
+                selectRandomScenario();
+            }, 2000);
         } else {
-            // Play error sound
+            // Play error sound and show animation
             new Audio('./sounds/error.wav').play().catch(() => {});
+            setAnimationState('error');
             setStreak(0);
             setFeedback('❌ Not quite right. Let me explain the context...');
             setShowExplanation(true);
+            setTimeout(() => setAnimationState(''), 800);
         }
     };
 
@@ -257,7 +264,10 @@ const ContextClueMasterGame = () => {
 
                 {/* Current Scenario */}
                 {currentScenario && (
-                    <div className="bg-white/10 backdrop-blur p-6 rounded-lg mb-6">
+                    <div className={`bg-white/10 backdrop-blur p-6 rounded-lg mb-6 transition-all duration-500 ${
+                        animationState === 'success' ? 'animate-pulse bg-green-500/30 scale-105' :
+                        animationState === 'error' ? 'animate-bounce bg-red-500/30' : ''
+                    }`}>
                         {/* Situation */}
                         <div className="mb-6 p-4 bg-blue-900/30 rounded-lg">
                             <h3 className="font-bold mb-2">📖 Situation:</h3>

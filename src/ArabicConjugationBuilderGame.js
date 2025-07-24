@@ -9,6 +9,7 @@ const ArabicConjugationBuilderGame = () => {
     const [usedChallenges, setUsedChallenges] = useState(new Set());
     const [showHint, setShowHint] = useState(false);
     const [gamePhase, setGamePhase] = useState('building'); // 'building', 'checking', 'complete'
+    const [animationState, setAnimationState] = useState(''); // 'success', 'error', or ''
 
     // Drag and drop challenges with piece components
     const challenges = [
@@ -221,6 +222,7 @@ const ArabicConjugationBuilderGame = () => {
         if (hasAllCorrect && !hasWrongPieces && selectedIds.length === correctIds.length) {
             // Correct!
             new Audio('./sounds/success.wav').play().catch(() => {});
+            setAnimationState('success');
             setScore(score + 1);
             setFeedback('✅ Perfect! Your sentence is grammatically correct!');
             setGamePhase('complete');
@@ -228,15 +230,18 @@ const ArabicConjugationBuilderGame = () => {
             
             // Auto-advance after delay
             setTimeout(() => {
+                setAnimationState('');
                 setRound(round + 1);
                 selectRandomChallenge();
             }, 3000);
         } else {
             // Incorrect
             new Audio('./sounds/error.wav').play().catch(() => {});
+            setAnimationState('error');
             setFeedback('❌ Not quite right. Check your construction!');
             setGamePhase('checking');
             setShowHint(true);
+            setTimeout(() => setAnimationState(''), 800);
         }
     };
 
@@ -273,7 +278,10 @@ const ArabicConjugationBuilderGame = () => {
 
                 {/* Current Challenge */}
                 {currentChallenge && (
-                    <div className="bg-white/10 backdrop-blur p-6 rounded-lg mb-6">
+                    <div className={`bg-white/10 backdrop-blur p-6 rounded-lg mb-6 transition-all duration-500 ${
+                        animationState === 'success' ? 'animate-pulse bg-green-500/30 scale-105' :
+                        animationState === 'error' ? 'animate-bounce bg-red-500/30' : ''
+                    }`}>
                         <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold mb-2">{currentChallenge.english}</h2>
                             <p className="text-lg text-gray-300 mb-4">Target: {currentChallenge.arabic}</p>
