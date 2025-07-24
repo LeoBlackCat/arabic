@@ -48,6 +48,29 @@ const ArabicConjugationBuilderGame = () => {
             category: 'knowledge'
         },
 
+        {
+            id: 'she_sees_him',
+            english: 'She sees him',
+            arabic: 'تشوفه',
+            type: 'direct',
+            correctPieces: ['tshoof', 'ah'],
+            wrongPieces: ['lah', 'lik', 'laha'],
+            hint: 'She sees him directly - no preposition needed!',
+            explanation: 'Vision is direct perception, so we connect the verb directly to the object.',
+            category: 'perception'
+        },
+        {
+            id: 'we_know_you',
+            english: 'We know you',
+            arabic: 'نعرفك',
+            type: 'direct',
+            correctPieces: ['na3aref', 'ik'],
+            wrongPieces: ['lik', 'laha', 'lihum'],
+            hint: 'We know you directly - knowledge about the person!',
+            explanation: 'Knowledge verbs take direct objects because we know the person directly.',
+            category: 'knowledge'
+        },
+
         // Indirect object challenges
         {
             id: 'make_coffee',
@@ -70,6 +93,17 @@ const ArabicConjugationBuilderGame = () => {
             hint: 'Communication verbs always need prepositions - you send TO someone!',
             explanation: 'Communication verbs use prepositions because you communicate TO people.',
             category: 'communication'
+        },
+        {
+            id: 'she_makes_coffee',
+            english: 'She makes coffee for him',
+            arabic: 'تسوي له قهوة',
+            type: 'indirect',
+            correctPieces: ['tsawee', 'lah', 'gahwa'],
+            wrongPieces: ['tsaweeh', 'ik', 'laha'],
+            hint: 'She makes coffee FOR him, not making him into coffee!',
+            explanation: 'Making things requires prepositions because you create something for someone\'s benefit.',
+            category: 'creation'
         },
         {
             id: 'call_mom',
@@ -134,9 +168,12 @@ const ArabicConjugationBuilderGame = () => {
     const availablePieces = [
         // Verb stems
         { id: 'ashoof', text: 'أشوف', type: 'verb', meaning: 'I see' },
+        { id: 'tshoof', text: 'تشوف', type: 'verb', meaning: 'she sees' },
         { id: 'asma3', text: 'أسمع', type: 'verb', meaning: 'I hear' },
         { id: 'a3aref', text: 'أعرف', type: 'verb', meaning: 'I know' },
+        { id: 'na3aref', text: 'نعرف', type: 'verb', meaning: 'we know' },
         { id: 'asawee', text: 'أسوي', type: 'verb', meaning: 'I make' },
+        { id: 'tsawee', text: 'تسوي', type: 'verb', meaning: 'she makes' },
         { id: 'ataresh', text: 'أترش', type: 'verb', meaning: 'I send' },
         { id: 'atesel', text: 'أتصل', type: 'verb', meaning: 'I call' },
         { id: 'atbakh', text: 'أطبخ', type: 'verb', meaning: 'I cook' },

@@ -53,6 +53,19 @@ const ContextClueMasterGame = () => {
             culturalNote: 'Cooking for family is showing love and care - you do it FOR them!',
             level: 'basic'
         },
+        {
+            id: 'she_makes_dinner',
+            category: 'kitchen',
+            situation: 'Your sister is cooking for the whole family tonight.',
+            question: 'How do you say "She cooks for us"?',
+            options: [
+                { text: 'ttbakhna', type: 'direct', explanation: 'This sounds like she\'s cooking us as food!' },
+                { text: 'ttbakh lana', type: 'indirect', explanation: 'Perfect! She\'s cooking FOR us, the family.' }
+            ],
+            correct: 'indirect',
+            culturalNote: 'Family members often cook for each other - it\'s an act of service!',
+            level: 'basic'
+        },
         
         // Communication scenarios
         {
@@ -66,6 +79,19 @@ const ContextClueMasterGame = () => {
             ],
             correct: 'indirect',
             culturalNote: 'Communication verbs always need prepositions - you communicate TO people!',
+            level: 'basic'
+        },
+        {
+            id: 'they_call_us',
+            category: 'communication',
+            situation: 'Your parents are traveling abroad and want to check on you and your siblings.',
+            question: 'How do you say "They call us"?',
+            options: [
+                { text: 'yeteselona', type: 'direct', explanation: 'This doesn\'t work - they call TO us, not ON us!' },
+                { text: 'yetesel lana', type: 'indirect', explanation: 'Correct! They call TO us through the phone.' }
+            ],
+            correct: 'indirect',
+            culturalNote: 'Parents staying in touch shows care - they communicate TO their children!',
             level: 'basic'
         },
         {
