@@ -64,7 +64,11 @@ const GAME_TYPES = {
   VERB_TENSE: 'verb_tense',
   VERB_SCENARIO: 'verb_scenario',
   VERB_QUESTION: 'verb_question',
-  DAILY_VERB: 'daily_verb'
+  DAILY_VERB: 'daily_verb',
+  DIRECT_INDIRECT_DETECTIVE: 'direct_indirect_detective',
+  CONTEXT_CLUE_MASTER: 'context_clue_master',
+  GRAMMAR_PATTERN_PUZZLE: 'grammar_pattern_puzzle',
+  ARABIC_CONJUGATION_BUILDER: 'arabic_conjugation_builder'
 };
 
 // Topic name mapping from content types to display names
@@ -118,6 +122,14 @@ const getTopicDisplayName = (selectedContent, contentData = [], isLoading = fals
         return 'Verb Q&A';
       case GAME_TYPES.DAILY_VERB:
         return 'Daily Verbs';
+      case GAME_TYPES.DIRECT_INDIRECT_DETECTIVE:
+        return 'Direct vs Indirect Detective';
+      case GAME_TYPES.CONTEXT_CLUE_MASTER:
+        return 'Context Clue Master';
+      case GAME_TYPES.GRAMMAR_PATTERN_PUZZLE:
+        return 'Grammar Pattern Puzzle';
+      case GAME_TYPES.ARABIC_CONJUGATION_BUILDER:
+        return 'Arabic Conjugation Builder';
     }
   }
 
@@ -194,7 +206,11 @@ const getAvailableGames = (contentType) => {
           { value: GAME_TYPES.TIME, label: '⏰ Time & Dates' },
           { value: GAME_TYPES.WEATHER, label: '🌤️ Weather Talk' },
           { value: GAME_TYPES.QUESTION, label: '❓ Question Practice' },
-          { value: GAME_TYPES.DAILY_ROUTINE, label: '📅 Daily Routine' }
+          { value: GAME_TYPES.DAILY_ROUTINE, label: '📅 Daily Routine' },
+          { value: GAME_TYPES.DIRECT_INDIRECT_DETECTIVE, label: '🕵️ Direct vs Indirect Detective' },
+          { value: GAME_TYPES.CONTEXT_CLUE_MASTER, label: '🎯 Context Clue Master' },
+          { value: GAME_TYPES.GRAMMAR_PATTERN_PUZZLE, label: '🧩 Grammar Pattern Puzzle' },
+          { value: GAME_TYPES.ARABIC_CONJUGATION_BUILDER, label: '🏗️ Arabic Conjugation Builder' }
         ];
       default:
         // Fallback games for unknown content types

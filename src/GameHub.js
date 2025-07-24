@@ -20,6 +20,10 @@ import VerbTenseGame from './VerbTenseGame';
 import VerbScenarioGame from './VerbScenarioGame';
 import VerbQuestionGame from './VerbQuestionGame';
 import DailyVerbGame from './DailyVerbGame';
+import DirectIndirectDetectiveGame from './DirectIndirectDetectiveGame';
+import ContextClueMasterGame from './ContextClueMasterGame';
+import GrammarPatternPuzzleGame from './GrammarPatternPuzzleGame';
+import ArabicConjugationBuilderGame from './ArabicConjugationBuilderGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import TitleBar, { getAvailableGames } from './TitleBar';
 import OnboardingSplash from './components/OnboardingSplash.js';
@@ -57,7 +61,11 @@ const GAME_TYPES = {
   VERB_TENSE: 'verb_tense',
   VERB_SCENARIO: 'verb_scenario',
   VERB_QUESTION: 'verb_question',
-  DAILY_VERB: 'daily_verb'
+  DAILY_VERB: 'daily_verb',
+  DIRECT_INDIRECT_DETECTIVE: 'direct_indirect_detective',
+  CONTEXT_CLUE_MASTER: 'context_clue_master',
+  GRAMMAR_PATTERN_PUZZLE: 'grammar_pattern_puzzle',
+  ARABIC_CONJUGATION_BUILDER: 'arabic_conjugation_builder'
 };
 
 // Color mapping for HTML colors
@@ -350,6 +358,14 @@ const GameHub = () => {
         return <VerbQuestionGame />;
       case GAME_TYPES.DAILY_VERB:
         return <DailyVerbGame />;
+      case GAME_TYPES.DIRECT_INDIRECT_DETECTIVE:
+        return <DirectIndirectDetectiveGame />;
+      case GAME_TYPES.CONTEXT_CLUE_MASTER:
+        return <ContextClueMasterGame />;
+      case GAME_TYPES.GRAMMAR_PATTERN_PUZZLE:
+        return <GrammarPatternPuzzleGame />;
+      case GAME_TYPES.ARABIC_CONJUGATION_BUILDER:
+        return <ArabicConjugationBuilderGame />;
       default:
         return <App {...commonProps} />;
     }
