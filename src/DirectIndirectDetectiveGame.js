@@ -192,6 +192,7 @@ const DirectIndirectDetectiveGame = () => {
             setLives(lives - 1);
             setFeedback('❌ Not quite right. Let me explain...');
             setShowExplanation(true);
+            setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
             
             if (lives <= 1) {
                 setTimeout(() => {
