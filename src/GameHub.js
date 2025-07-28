@@ -24,6 +24,10 @@ import DirectIndirectDetectiveGame from './DirectIndirectDetectiveGame';
 import ContextClueMasterGame from './ContextClueMasterGame';
 import GrammarPatternPuzzleGame from './GrammarPatternPuzzleGame';
 import ArabicConjugationBuilderGame from './ArabicConjugationBuilderGame';
+import QuestionWordMatchGame from './QuestionWordMatchGame';
+import WhatsWhereGame from './WhatsWhereGame';
+import WhatsKaifGame from './WhatsKaifGame';
+import QuestionWordPuzzleGame from './QuestionWordPuzzleGame';
 import AzureSpeechConfig from './AzureSpeechConfig';
 import TitleBar, { getAvailableGames } from './TitleBar';
 import OnboardingSplash from './components/OnboardingSplash.js';
@@ -36,7 +40,8 @@ const CONTENT_TYPES = {
   VERBS: 'verbs',
   COLORS: 'colors',
   NOUNS: 'nouns',
-  PHRASES: 'phrases'
+  PHRASES: 'phrases',
+  QUESTION_WORDS: 'question_words'
 };
 
 // Game types (excluding anime conversation game)
@@ -65,7 +70,11 @@ const GAME_TYPES = {
   DIRECT_INDIRECT_DETECTIVE: 'direct_indirect_detective',
   CONTEXT_CLUE_MASTER: 'context_clue_master',
   GRAMMAR_PATTERN_PUZZLE: 'grammar_pattern_puzzle',
-  ARABIC_CONJUGATION_BUILDER: 'arabic_conjugation_builder'
+  ARABIC_CONJUGATION_BUILDER: 'arabic_conjugation_builder',
+  QUESTION_WORD_MATCH: 'question_word_match',
+  WHATS_WHERE: 'whats_where',
+  WHATS_KAIF: 'whats_kaif',
+  QUESTION_WORD_PUZZLE: 'question_word_puzzle'
 };
 
 // Color mapping for HTML colors
@@ -272,6 +281,23 @@ const GameHub = () => {
             hasVideo: false,
             availableFormats: ['text']
           }));
+      } else if (selectedContent === CONTENT_TYPES.QUESTION_WORDS) {
+        // Question words content - static data for now
+        data = [
+          { id: 'qw_1', ar: 'وين', chat: 'wain', eng: 'where', type: 'question_word' },
+          { id: 'qw_2', ar: 'إمنو', chat: 'emnoo', eng: 'who', type: 'question_word' },
+          { id: 'qw_3', ar: 'كيف', chat: 'kaif', eng: 'how', type: 'question_word' },
+          { id: 'qw_4', ar: 'ليش', chat: 'laish', eng: 'why', type: 'question_word' },
+          { id: 'qw_5', ar: 'شو', chat: 'shoo', eng: 'what', type: 'question_word' },
+          { id: 'qw_6', ar: 'متى', chat: 'meta', eng: 'when', type: 'question_word' },
+          { id: 'qw_7', ar: 'كم', chat: 'kam', eng: 'how many/much', type: 'question_word' },
+          { id: 'qw_8', ar: 'أي', chat: 'ay', eng: 'which', type: 'question_word' }
+        ].map(item => ({
+          ...item,
+          hasImage: false,
+          hasVideo: false,
+          availableFormats: ['text']
+        }));
       }
       
       setContentData(data);
@@ -366,6 +392,14 @@ const GameHub = () => {
         return <GrammarPatternPuzzleGame />;
       case GAME_TYPES.ARABIC_CONJUGATION_BUILDER:
         return <ArabicConjugationBuilderGame />;
+      case GAME_TYPES.QUESTION_WORD_MATCH:
+        return <QuestionWordMatchGame />;
+      case GAME_TYPES.WHATS_WHERE:
+        return <WhatsWhereGame />;
+      case GAME_TYPES.WHATS_KAIF:
+        return <WhatsKaifGame />;
+      case GAME_TYPES.QUESTION_WORD_PUZZLE:
+        return <QuestionWordPuzzleGame />;
       default:
         return <App {...commonProps} />;
     }

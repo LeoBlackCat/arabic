@@ -39,7 +39,8 @@ const CONTENT_TYPES = {
   VERBS: 'verbs',
   COLORS: 'colors',
   NOUNS: 'nouns',
-  PHRASES: 'phrases'
+  PHRASES: 'phrases',
+  QUESTION_WORDS: 'question_words'
 };
 
 // Game types constants (should match GameHub.js)
@@ -68,7 +69,11 @@ const GAME_TYPES = {
   DIRECT_INDIRECT_DETECTIVE: 'direct_indirect_detective',
   CONTEXT_CLUE_MASTER: 'context_clue_master',
   GRAMMAR_PATTERN_PUZZLE: 'grammar_pattern_puzzle',
-  ARABIC_CONJUGATION_BUILDER: 'arabic_conjugation_builder'
+  ARABIC_CONJUGATION_BUILDER: 'arabic_conjugation_builder',
+  QUESTION_WORD_MATCH: 'question_word_match',
+  WHATS_WHERE: 'whats_where',
+  WHATS_KAIF: 'whats_kaif',
+  QUESTION_WORD_PUZZLE: 'question_word_puzzle'
 };
 
 // Topic name mapping from content types to display names
@@ -76,7 +81,8 @@ const TOPIC_DISPLAY_NAMES = {
   [CONTENT_TYPES.VERBS]: 'Verbs',
   [CONTENT_TYPES.COLORS]: 'Colors',
   [CONTENT_TYPES.NOUNS]: 'Nouns',
-  [CONTENT_TYPES.PHRASES]: 'Phrases'
+  [CONTENT_TYPES.PHRASES]: 'Phrases',
+  [CONTENT_TYPES.QUESTION_WORDS]: 'Question Words'
 };
 
 /**
@@ -130,6 +136,14 @@ const getTopicDisplayName = (selectedContent, contentData = [], isLoading = fals
         return 'Grammar Pattern Puzzle';
       case GAME_TYPES.ARABIC_CONJUGATION_BUILDER:
         return 'Arabic Conjugation Builder';
+      case GAME_TYPES.QUESTION_WORD_MATCH:
+        return 'Question Word Match';
+      case GAME_TYPES.WHATS_WHERE:
+        return 'What\'s Where?';
+      case GAME_TYPES.WHATS_KAIF:
+        return 'What\'s Kaif?';
+      case GAME_TYPES.QUESTION_WORD_PUZZLE:
+        return 'Question Word Puzzle';
     }
   }
 
@@ -211,6 +225,15 @@ const getAvailableGames = (contentType) => {
           { value: GAME_TYPES.CONTEXT_CLUE_MASTER, label: '🎯 Context Clue Master' },
           { value: GAME_TYPES.GRAMMAR_PATTERN_PUZZLE, label: '🧩 Grammar Pattern Puzzle' },
           { value: GAME_TYPES.ARABIC_CONJUGATION_BUILDER, label: '🏗️ Arabic Conjugation Builder' }
+        ];
+      case CONTENT_TYPES.QUESTION_WORDS:
+        return [
+          { value: GAME_TYPES.QUESTION_WORD_MATCH, label: '🔤 Question Word Match' },
+          { value: GAME_TYPES.WHATS_WHERE, label: '📍 What\'s Where?' },
+          { value: GAME_TYPES.WHATS_KAIF, label: '🤔 What\'s Kaif?' },
+          { value: GAME_TYPES.QUESTION_WORD_PUZZLE, label: '🧩 Question Word Puzzle' },
+          { value: GAME_TYPES.SPEECH, label: '🎤 Speech Recognition' },
+          { value: GAME_TYPES.ARABIC_WRITING, label: '✍️ Arabic Writing' }
         ];
       default:
         // Fallback games for unknown content types
