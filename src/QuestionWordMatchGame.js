@@ -194,6 +194,238 @@ const QuestionWordMatchGame = () => {
             options: ['kam', 'shoo', 'meta', 'kaif'],
             explanation: 'kam = how many/much (asking about price/quantity)',
             category: 'quantity'
+        },
+
+        // Additional WAIN (Where) questions
+        {
+            id: 'where_car',
+            question: 'wain sayyartik',
+            english: 'Where is your car?',
+            correctAnswer: 'wain',
+            options: ['wain', 'emnoo', 'kaif', 'shoo'],
+            explanation: 'wain = where (asking about location)',
+            category: 'location'
+        },
+        {
+            id: 'where_office',
+            question: 'wain el maktab',
+            english: 'Where is the office?',
+            correctAnswer: 'wain',
+            options: ['meta', 'wain', 'laish', 'kam'],
+            explanation: 'wain = where (asking about location)',
+            category: 'location'
+        },
+        {
+            id: 'where_bathroom',
+            question: 'wain el 7ammam',
+            english: 'Where is the bathroom?',
+            correctAnswer: 'wain',
+            options: ['wain', 'shoo', 'emnoo', 'kaif'],
+            explanation: 'wain = where (asking about location)',
+            category: 'location'
+        },
+
+        // Additional EMNOO (Who) questions
+        {
+            id: 'who_teacher',
+            question: 'emnoo el mudarres',
+            english: 'Who is the teacher?',
+            correctAnswer: 'emnoo',
+            options: ['emnoo', 'wain', 'meta', 'kam'],
+            explanation: 'emnoo = who (asking about people)',
+            category: 'people'
+        },
+        {
+            id: 'who_calling',
+            question: 'emnoo yetesel',
+            english: 'Who is calling?',
+            correctAnswer: 'emnoo',
+            options: ['kaif', 'emnoo', 'shoo', 'laish'],
+            explanation: 'emnoo = who (asking about people)',
+            category: 'people'
+        },
+        {
+            id: 'who_friend',
+            question: 'emnoo sadeeqik',
+            english: 'Who is your friend?',
+            correctAnswer: 'emnoo',
+            options: ['emnoo', 'wain', 'ay', 'meta'],
+            explanation: 'emnoo = who (asking about people)',
+            category: 'people'
+        },
+
+        // Additional KAIF (How) questions
+        {
+            id: 'how_health',
+            question: 'kaif sa7tik',
+            english: 'How is your health?',
+            correctAnswer: 'kaif',
+            options: ['kaif', 'wain', 'shoo', 'kam'],
+            explanation: 'kaif = how (asking about condition/manner)',
+            category: 'condition'
+        },
+        {
+            id: 'how_weather',
+            question: 'kaif el jaw',
+            english: 'How is the weather?',
+            correctAnswer: 'kaif',
+            options: ['meta', 'kaif', 'emnoo', 'laish'],
+            explanation: 'kaif = how (asking about condition/manner)',
+            category: 'condition'
+        },
+        {
+            id: 'how_family',
+            question: 'kaif el 3a2ila',
+            english: 'How is your family?',
+            correctAnswer: 'kaif',
+            options: ['kaif', 'shoo', 'wain', 'ay'],
+            explanation: 'kaif = how (asking about condition/manner)',
+            category: 'condition'
+        },
+
+        // Additional LAISH (Why) questions
+        {
+            id: 'why_tired',
+            question: 'laish ta3ban',
+            english: 'Why are you tired?',
+            correctAnswer: 'laish',
+            options: ['laish', 'kaif', 'wain', 'kam'],
+            explanation: 'laish = why (asking for reason)',
+            category: 'reason'
+        },
+        {
+            id: 'why_busy',
+            question: 'laish mashghool',
+            english: 'Why are you busy?',
+            correctAnswer: 'laish',
+            options: ['emnoo', 'laish', 'meta', 'shoo'],
+            explanation: 'laish = why (asking for reason)',
+            category: 'reason'
+        },
+        {
+            id: 'why_expensive',
+            question: 'laish ghali',
+            english: 'Why is it expensive?',
+            correctAnswer: 'laish',
+            options: ['laish', 'wain', 'kaif', 'ay'],
+            explanation: 'laish = why (asking for reason)',
+            category: 'reason'
+        },
+
+        // Additional SHOO (What) questions
+        {
+            id: 'what_job',
+            question: 'shoo sheghelik',
+            english: 'What is your job?',
+            correctAnswer: 'shoo',
+            options: ['shoo', 'emnoo', 'wain', 'kam'],
+            explanation: 'shoo = what (asking about things/information)',
+            category: 'information'
+        },
+        {
+            id: 'what_time',
+            question: 'shoo el waqt',
+            english: 'What time is it?',
+            correctAnswer: 'shoo',
+            options: ['meta', 'shoo', 'kaif', 'laish'],
+            explanation: 'shoo = what (asking about things/information)',
+            category: 'information'
+        },
+        {
+            id: 'what_problem',
+            question: 'shoo el mushkila',
+            english: 'What is the problem?',
+            correctAnswer: 'shoo',
+            options: ['shoo', 'wain', 'emnoo', 'ay'],
+            explanation: 'shoo = what (asking about things/information)',
+            category: 'information'
+        },
+
+        // Additional META (When) questions
+        {
+            id: 'when_meeting_new',
+            question: 'meta el ejtima3',
+            english: 'When is the meeting?',
+            correctAnswer: 'meta',
+            options: ['meta', 'shoo', 'kaif', 'kam'],
+            explanation: 'meta = when (asking about time)',
+            category: 'time'
+        },
+        {
+            id: 'when_vacation',
+            question: 'meta ijaztak',
+            english: 'When is your vacation?',
+            correctAnswer: 'meta',
+            options: ['wain', 'meta', 'emnoo', 'laish'],
+            explanation: 'meta = when (asking about time)',
+            category: 'time'
+        },
+        {
+            id: 'when_wedding',
+            question: 'meta el 3urs',
+            english: 'When is the wedding?',
+            correctAnswer: 'meta',
+            options: ['meta', 'shoo', 'wain', 'kaif'],
+            explanation: 'meta = when (asking about time)',
+            category: 'time'
+        },
+
+        // Additional KAM (How many/much) questions
+        {
+            id: 'how_many_children',
+            question: 'kam walad 3indik',
+            english: 'How many children do you have?',
+            correctAnswer: 'kam',
+            options: ['kam', 'kaif', 'meta', 'ay'],
+            explanation: 'kam = how many/much (asking about quantity)',
+            category: 'quantity'
+        },
+        {
+            id: 'how_much_cost',
+            question: 'kam yeswa',
+            english: 'How much does it cost?',
+            correctAnswer: 'kam',
+            options: ['shoo', 'kam', 'wain', 'emnoo'],
+            explanation: 'kam = how many/much (asking about price/quantity)',
+            category: 'quantity'
+        },
+        {
+            id: 'how_many_hours',
+            question: 'kam sa3a',
+            english: 'How many hours?',
+            correctAnswer: 'kam',
+            options: ['kam', 'meta', 'laish', 'kaif'],
+            explanation: 'kam = how many/much (asking about quantity)',
+            category: 'quantity'
+        },
+
+        // Additional AY (Which) questions
+        {
+            id: 'which_color',
+            question: 'ay loan t7eb',
+            english: 'Which color do you like?',
+            correctAnswer: 'ay',
+            options: ['ay', 'shoo', 'wain', 'kam'],
+            explanation: 'ay = which (asking about choice/selection)',
+            category: 'choice'
+        },
+        {
+            id: 'which_car',
+            question: 'ay sayyara maltak',
+            english: 'Which car is yours?',
+            correctAnswer: 'ay',
+            options: ['emnoo', 'ay', 'kaif', 'meta'],
+            explanation: 'ay = which (asking about choice/selection)',
+            category: 'choice'
+        },
+        {
+            id: 'which_day',
+            question: 'ay youm yenasibik',
+            english: 'Which day works for you?',
+            correctAnswer: 'ay',
+            options: ['ay', 'wain', 'laish', 'shoo'],
+            explanation: 'ay = which (asking about choice/selection)',
+            category: 'choice'
         }
     ];
 
