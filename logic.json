@@ -3887,6 +3887,1140 @@
       "chat": "ma 3endee ay shai esboo3 el yaay",
       "eng": "I don't have anything next week.",
       "type": "phrase"
+    },
+    {
+      "id": 320,
+      "ar": "",
+      "chat": "mashee el7al",
+      "eng": "it's alright",
+      "type": "word"
+    },
+    {
+      "id": 321,
+      "ar": "",
+      "chat": "mudeer",
+      "eng": "boss/manager",
+      "type": "word"
+    },
+    {
+      "id": 322,
+      "ar": "",
+      "chat": "laish",
+      "eng": "why",
+      "type": "word"
+    },
+    {
+      "id": 323,
+      "ar": "",
+      "chat": "laish la",
+      "eng": "why not",
+      "type": "word"
+    },
+    {
+      "id": 324,
+      "ar": "",
+      "chat": "laish chee",
+      "eng": "why like this/why so",
+      "type": "word"
+    },
+    {
+      "id": 325,
+      "ar": "",
+      "chat": "bas chee",
+      "eng": "just because",
+      "type": "word"
+    },
+    {
+      "id": 326,
+      "ar": "",
+      "chat": "dayman",
+      "eng": "always",
+      "type": "word"
+    },
+    {
+      "id": 327,
+      "ar": "",
+      "chat": "mat3am",
+      "eng": "restaurant",
+      "type": "word"
+    },
+    {
+      "id": 328,
+      "ar": "",
+      "chat": "za7ma",
+      "eng": "crowded/busy",
+      "type": "word"
+    },
+    {
+      "id": 329,
+      "ar": "",
+      "chat": "mistaanes",
+      "eng": "happy (m)",
+      "type": "word"
+    },
+    {
+      "id": 330,
+      "ar": "",
+      "chat": "mistaanesah",
+      "eng": "happy (f)",
+      "type": "word"
+    },
+    {
+      "id": 331,
+      "ar": "",
+      "chat": "met'akher",
+      "eng": "late (m)",
+      "type": "word"
+    },
+    {
+      "id": 332,
+      "ar": "",
+      "chat": "met'akherah",
+      "eng": "late (f)",
+      "type": "word"
+    },
+    {
+      "id": 333,
+      "ar": "",
+      "chat": "dayman met'akher",
+      "eng": "always late",
+      "type": "word"
+    },
+    {
+      "id": 334,
+      "ar": "",
+      "chat": "3aks",
+      "eng": "opposite",
+      "type": "word"
+    },
+    {
+      "id": 335,
+      "ar": "",
+      "chat": "za3laan",
+      "eng": "upset (m)",
+      "type": "word"
+    },
+    {
+      "id": 336,
+      "ar": "",
+      "chat": "za3laanah",
+      "eng": "upset (f)",
+      "type": "word"
+    },
+    {
+      "id": 337,
+      "ar": "",
+      "chat": "shoo",
+      "eng": "what",
+      "type": "word"
+    },
+    {
+      "id": 338,
+      "ar": "",
+      "chat": "meta",
+      "eng": "when",
+      "type": "word"
+    },
+    {
+      "id": 339,
+      "ar": "",
+      "chat": "elreyoog",
+      "eng": "breakfast",
+      "type": "word"
+    },
+    {
+      "id": 340,
+      "ar": "",
+      "chat": "elghada",
+      "eng": "lunch",
+      "type": "word"
+    },
+    {
+      "id": 341,
+      "ar": "",
+      "chat": "el3asha",
+      "eng": "dinner",
+      "type": "word"
+    },
+    {
+      "id": 342,
+      "ar": "",
+      "chat": "atrayyag",
+      "eng": "to have breakfast",
+      "type": "word"
+    },
+    {
+      "id": 343,
+      "ar": "",
+      "chat": "atghadda",
+      "eng": "to have lunch",
+      "type": "word"
+    },
+    {
+      "id": 344,
+      "ar": "",
+      "chat": "at3asha",
+      "eng": "to have dinner",
+      "type": "word"
+    },
+    {
+      "id": 345,
+      "ar": "",
+      "chat": "ejaazah",
+      "eng": "holiday",
+      "type": "word"
+    },
+    {
+      "id": 346,
+      "ar": "",
+      "chat": "ejtimaa3",
+      "eng": "meeting",
+      "type": "word"
+    },
+    {
+      "id": 347,
+      "ar": "",
+      "chat": "weya/ma3a",
+      "eng": "with",
+      "type": "word"
+    },
+    {
+      "id": 348,
+      "ar": "",
+      "chat": "weyay",
+      "eng": "with me",
+      "type": "word"
+    },
+    {
+      "id": 349,
+      "ar": "",
+      "chat": "weyak",
+      "eng": "with you (m)",
+      "type": "word"
+    },
+    {
+      "id": 350,
+      "ar": "",
+      "chat": "weyach",
+      "eng": "with you (f)",
+      "type": "word"
+    },
+    {
+      "id": 351,
+      "ar": "",
+      "chat": "my age",
+      "eng": "how much/how many",
+      "type": "word"
+    },
+    {
+      "id": 352,
+      "ar": "",
+      "chat": "number",
+      "eng": "3umry",
+      "type": "word"
+    },
+    {
+      "id": 353,
+      "ar": "",
+      "chat": "Friend (m)",
+      "eng": "raqam",
+      "type": "word"
+    },
+    {
+      "id": 354,
+      "ar": "",
+      "chat": "Friend (m) pure emirati dialect",
+      "eng": "sadeeq",
+      "type": "word"
+    },
+    {
+      "id": 355,
+      "ar": "",
+      "chat": "Friend (f)",
+      "eng": "irbee3",
+      "type": "word"
+    },
+    {
+      "id": 356,
+      "ar": "",
+      "chat": "Friend (f) pure emirati dialect",
+      "eng": "sadeeqah",
+      "type": "word"
+    },
+    {
+      "id": 357,
+      "ar": "",
+      "chat": "Should/must",
+      "eng": "irbee3ah",
+      "type": "word"
+    },
+    {
+      "id": 358,
+      "ar": "",
+      "chat": "Language",
+      "eng": "laazim",
+      "type": "word"
+    },
+    {
+      "id": 359,
+      "ar": "",
+      "chat": "Dialect",
+      "eng": "lughah",
+      "type": "word"
+    },
+    {
+      "id": 360,
+      "ar": "",
+      "chat": "Easy",
+      "eng": "lahjah",
+      "type": "word"
+    },
+    {
+      "id": 361,
+      "ar": "",
+      "chat": "Difficult",
+      "eng": "sehel",
+      "type": "word"
+    },
+    {
+      "id": 362,
+      "ar": "",
+      "chat": "Word",
+      "eng": "se3b",
+      "type": "word"
+    },
+    {
+      "id": 363,
+      "ar": "",
+      "chat": "Meaning",
+      "eng": "kelmah",
+      "type": "word"
+    },
+    {
+      "id": 364,
+      "ar": "",
+      "chat": "I can",
+      "eng": "ma3na/ya3ni",
+      "type": "word"
+    },
+    {
+      "id": 365,
+      "ar": "",
+      "chat": "I can (pure emirati dialect)",
+      "eng": "agdar",
+      "type": "word"
+    },
+    {
+      "id": 366,
+      "ar": "",
+      "chat": "I try",
+      "eng": "aroom",
+      "type": "word"
+    },
+    {
+      "id": 367,
+      "ar": "",
+      "chat": "I forget",
+      "eng": "a7aawil",
+      "type": "word"
+    },
+    {
+      "id": 368,
+      "ar": "",
+      "chat": "i need",
+      "eng": "ansa",
+      "type": "word"
+    },
+    {
+      "id": 369,
+      "ar": "",
+      "chat": "kaif el sheghel",
+      "eng": "how is the work",
+      "type": "phrase"
+    },
+    {
+      "id": 370,
+      "ar": "",
+      "chat": "kaif kaan el sheghel",
+      "eng": "how was the work",
+      "type": "phrase"
+    },
+    {
+      "id": 371,
+      "ar": "",
+      "chat": "kaif el youm",
+      "eng": "how is the day",
+      "type": "phrase"
+    },
+    {
+      "id": 372,
+      "ar": "",
+      "chat": "kaif kaan el youm",
+      "eng": "how was the day",
+      "type": "phrase"
+    },
+    {
+      "id": 373,
+      "ar": "",
+      "chat": "kaif youmik",
+      "eng": "how is your day",
+      "type": "phrase"
+    },
+    {
+      "id": 374,
+      "ar": "",
+      "chat": "emnoo el rayyal",
+      "eng": "who's the man",
+      "type": "phrase"
+    },
+    {
+      "id": 375,
+      "ar": "",
+      "chat": "emnoo hatha",
+      "eng": "who's this (asking about the other person)",
+      "type": "phrase"
+    },
+    {
+      "id": 376,
+      "ar": "",
+      "chat": "emnoo wiyaay",
+      "eng": "who's this (directly)",
+      "type": "phrase"
+    },
+    {
+      "id": 377,
+      "ar": "",
+      "chat": "emnoo el mudeer",
+      "eng": "who's the boss",
+      "type": "phrase"
+    },
+    {
+      "id": 378,
+      "ar": "",
+      "chat": "laish za7mah?",
+      "eng": "why is it crowded",
+      "type": "phrase"
+    },
+    {
+      "id": 379,
+      "ar": "",
+      "chat": "laish mistaanes?",
+      "eng": "Why are you happy? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 380,
+      "ar": "",
+      "chat": "laish mistaanesah?",
+      "eng": "Why are you happy? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 381,
+      "ar": "",
+      "chat": "laish met'akher?",
+      "eng": "Why are you late? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 382,
+      "ar": "",
+      "chat": "laish met'akherah?",
+      "eng": "Why are you late? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 383,
+      "ar": "",
+      "chat": "laish za3laan?",
+      "eng": "Why are you upset? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 384,
+      "ar": "",
+      "chat": "laish za3laanah?",
+      "eng": "Why are you upset? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 385,
+      "ar": "",
+      "chat": "laish ghali?",
+      "eng": "Why is it expensive? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 386,
+      "ar": "",
+      "chat": "Dubai mall dayman za7ma",
+      "eng": "Dubai mall is always crowded",
+      "type": "phrase"
+    },
+    {
+      "id": 387,
+      "ar": "",
+      "chat": "hatha elmat3am dayman zahma",
+      "eng": "This restaurant is always crowded",
+      "type": "phrase"
+    },
+    {
+      "id": 388,
+      "ar": "",
+      "chat": "laish fee za7ma?",
+      "eng": "why so busy here",
+      "type": "phrase"
+    },
+    {
+      "id": 389,
+      "ar": "",
+      "chat": "fee wayed za7ma?",
+      "eng": "why so much traffic",
+      "type": "phrase"
+    },
+    {
+      "id": 390,
+      "ar": "",
+      "chat": "ana mob mistaanesah",
+      "eng": "i'm not happy (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 391,
+      "ar": "",
+      "chat": "ana wayed mistaanes",
+      "eng": "i'm very happy (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 392,
+      "ar": "",
+      "chat": "laish A7med mistaanes",
+      "eng": "why does Ahmed happy",
+      "type": "phrase"
+    },
+    {
+      "id": 393,
+      "ar": "",
+      "chat": "laish met'akher dayman",
+      "eng": "why are you always late",
+      "type": "phrase"
+    },
+    {
+      "id": 394,
+      "ar": "",
+      "chat": "A7med yenaam met'akher",
+      "eng": "Ahmed sleeps late",
+      "type": "phrase"
+    },
+    {
+      "id": 395,
+      "ar": "",
+      "chat": "Noora tseer met'akher",
+      "eng": "Noora comes late",
+      "type": "phrase"
+    },
+    {
+      "id": 396,
+      "ar": "",
+      "chat": "ma aba ayee met'akher",
+      "eng": "I don't want to come late",
+      "type": "phrase"
+    },
+    {
+      "id": 397,
+      "ar": "",
+      "chat": "noora tyee met'akher",
+      "eng": "Noora comes late",
+      "type": "phrase"
+    },
+    {
+      "id": 398,
+      "ar": "",
+      "chat": "laish waladich za3laan",
+      "eng": "why is your son upset?",
+      "type": "phrase"
+    },
+    {
+      "id": 399,
+      "ar": "",
+      "chat": "laish bentich za3laanah",
+      "eng": "why is your daughter upset?",
+      "type": "phrase"
+    },
+    {
+      "id": 400,
+      "ar": "",
+      "chat": "benty mob za3laanah",
+      "eng": "my daughter is not upset",
+      "type": "phrase"
+    },
+    {
+      "id": 401,
+      "ar": "",
+      "chat": "laish ghali che",
+      "eng": "why is it expensive like this?",
+      "type": "phrase"
+    },
+    {
+      "id": 402,
+      "ar": "",
+      "chat": "laish kil shai ghali",
+      "eng": "why is everything expensive",
+      "type": "phrase"
+    },
+    {
+      "id": 403,
+      "ar": "",
+      "chat": "shoo ismek?",
+      "eng": "What is your name? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 404,
+      "ar": "",
+      "chat": "shoo ismech?",
+      "eng": "What is your name? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 405,
+      "ar": "",
+      "chat": "shoo ism el mat3am?",
+      "eng": "What the name of the restaurant?",
+      "type": "phrase"
+    },
+    {
+      "id": 406,
+      "ar": "",
+      "chat": "shoo el salfah?",
+      "eng": "What is going on?",
+      "type": "phrase"
+    },
+    {
+      "id": 407,
+      "ar": "",
+      "chat": "shoo el ghada?",
+      "eng": "What is for lunch?",
+      "type": "phrase"
+    },
+    {
+      "id": 408,
+      "ar": "",
+      "chat": "shoo hadha?",
+      "eng": "What is this?",
+      "type": "phrase"
+    },
+    {
+      "id": 409,
+      "ar": "",
+      "chat": "shoo esmah?",
+      "eng": "what is his name?",
+      "type": "phrase"
+    },
+    {
+      "id": 410,
+      "ar": "",
+      "chat": "shoo esmha?",
+      "eng": "what is her name?",
+      "type": "phrase"
+    },
+    {
+      "id": 411,
+      "ar": "",
+      "chat": "shoo esmah?",
+      "eng": "what is it called?",
+      "type": "phrase"
+    },
+    {
+      "id": 412,
+      "ar": "",
+      "chat": "aba agoul lik/lich salfah",
+      "eng": "i wanna tell you a story/gossip",
+      "type": "phrase"
+    },
+    {
+      "id": 413,
+      "ar": "",
+      "chat": "meta el 3asha?",
+      "eng": "When is the dinner?",
+      "type": "phrase"
+    },
+    {
+      "id": 414,
+      "ar": "",
+      "chat": "meta 3eed milaadek?",
+      "eng": "When is your birthday? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 415,
+      "ar": "",
+      "chat": "meta el riyoog?",
+      "eng": "When is the breakfast?",
+      "type": "phrase"
+    },
+    {
+      "id": 416,
+      "ar": "",
+      "chat": "meta el ejaazah?",
+      "eng": "When is the holiday?",
+      "type": "phrase"
+    },
+    {
+      "id": 417,
+      "ar": "",
+      "chat": "meta el ejtimaa3?",
+      "eng": "When is the meeting?",
+      "type": "phrase"
+    },
+    {
+      "id": 418,
+      "ar": "",
+      "chat": "ana atrayyag fee el dawaam",
+      "eng": "I have my breakfast at work",
+      "type": "phrase"
+    },
+    {
+      "id": 419,
+      "ar": "",
+      "chat": "ana atrayyag wiya ummy",
+      "eng": "I have a breakfast with my mom",
+      "type": "phrase"
+    },
+    {
+      "id": 420,
+      "ar": "",
+      "chat": "atghadda salata",
+      "eng": "I have a salad for lunch",
+      "type": "phrase"
+    },
+    {
+      "id": 421,
+      "ar": "",
+      "chat": "ana a7eb at3asha ma3a ahli",
+      "eng": "I like to have a dinner with my family",
+      "type": "phrase"
+    },
+    {
+      "id": 422,
+      "ar": "",
+      "chat": "3eed milaady el youm",
+      "eng": "today is my birthday",
+      "type": "phrase"
+    },
+    {
+      "id": 423,
+      "ar": "",
+      "chat": "3eed milaady baacher",
+      "eng": "tomorrow will be my birthday",
+      "type": "phrase"
+    },
+    {
+      "id": 424,
+      "ar": "",
+      "chat": "3eed milaady ams",
+      "eng": "yesterday was my birthday",
+      "type": "phrase"
+    },
+    {
+      "id": 425,
+      "ar": "",
+      "chat": "ana ijaza",
+      "eng": "i'm off",
+      "type": "phrase"
+    },
+    {
+      "id": 426,
+      "ar": "",
+      "chat": "3endy ijaza",
+      "eng": "i have holiday",
+      "type": "phrase"
+    },
+    {
+      "id": 427,
+      "ar": "",
+      "chat": "ana fee ijaza",
+      "eng": "i'm on vacation",
+      "type": "phrase"
+    },
+    {
+      "id": 428,
+      "ar": "",
+      "chat": "elyoum ijaza",
+      "eng": "today is a day off",
+      "type": "phrase"
+    },
+    {
+      "id": 429,
+      "ar": "",
+      "chat": "baacher ijaza",
+      "eng": "tomorrow is a day off",
+      "type": "phrase"
+    },
+    {
+      "id": 430,
+      "ar": "",
+      "chat": "3endy ejtimaa3 elyoum",
+      "eng": "i have a meeting today",
+      "type": "phrase"
+    },
+    {
+      "id": 431,
+      "ar": "",
+      "chat": "3endy ejtimaa3 wiya Rashid",
+      "eng": "i have a meeting with Rashid",
+      "type": "phrase"
+    },
+    {
+      "id": 432,
+      "ar": "",
+      "chat": "kam 3omrek?",
+      "eng": "How old are you? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 433,
+      "ar": "",
+      "chat": "kam 3omrech?",
+      "eng": "How old are you? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 434,
+      "ar": "",
+      "chat": "kam telifoon 3endek?",
+      "eng": "How many phones do you have? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 435,
+      "ar": "",
+      "chat": "kam raqam telifoonek?",
+      "eng": "What is your phone number? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 436,
+      "ar": "",
+      "chat": "kam raqmik",
+      "eng": "what's your number?",
+      "type": "phrase"
+    },
+    {
+      "id": 437,
+      "ar": "",
+      "chat": "kam el raqam?",
+      "eng": "what's the number?",
+      "type": "phrase"
+    },
+    {
+      "id": 438,
+      "ar": "",
+      "chat": "kam walad 3endech?",
+      "eng": "How many sons do you have? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 439,
+      "ar": "",
+      "chat": "kam tuba?",
+      "eng": "How many do you want? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 440,
+      "ar": "",
+      "chat": "kam tabeen?",
+      "eng": "how many do you want? (f)",
+      "type": "phrase"
+    },
+    {
+      "id": 441,
+      "ar": "",
+      "chat": "ibkam hadha?",
+      "eng": "How much is this?",
+      "type": "phrase"
+    },
+    {
+      "id": 442,
+      "ar": "",
+      "chat": "3umry thalatheen",
+      "eng": "I'm 30",
+      "type": "phrase"
+    },
+    {
+      "id": 443,
+      "ar": "",
+      "chat": "kam 3umrah",
+      "eng": "how old is he",
+      "type": "phrase"
+    },
+    {
+      "id": 444,
+      "ar": "",
+      "chat": "kam 3umrha",
+      "eng": "how old is she",
+      "type": "phrase"
+    },
+    {
+      "id": 445,
+      "ar": "",
+      "chat": "kam 3endik",
+      "eng": "how many (m) do you have",
+      "type": "phrase"
+    },
+    {
+      "id": 446,
+      "ar": "",
+      "chat": "kam 3endich",
+      "eng": "how many (f) do you have",
+      "type": "phrase"
+    },
+    {
+      "id": 447,
+      "ar": "",
+      "chat": "3endik 3yaal?",
+      "eng": "Do you have children? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 448,
+      "ar": "",
+      "chat": "wain bentik",
+      "eng": "Where is your daughter? (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 449,
+      "ar": "",
+      "chat": "ma a3ref emnoo waladik",
+      "eng": "I don’t know who your son is (m)",
+      "type": "phrase"
+    },
+    {
+      "id": 450,
+      "ar": "",
+      "chat": "hathee ekhtik?",
+      "eng": "Is this your sister?",
+      "type": "phrase"
+    },
+    {
+      "id": 451,
+      "ar": "",
+      "chat": "haih hathee ekhty",
+      "eng": "Yes, this is my sister",
+      "type": "phrase"
+    },
+    {
+      "id": 452,
+      "ar": "",
+      "chat": "kam walad 3endik",
+      "eng": "How many sons do you have?",
+      "type": "phrase"
+    },
+    {
+      "id": 453,
+      "ar": "",
+      "chat": "ma a3ref esm zawjtik",
+      "eng": "I don’t know your wife’s name",
+      "type": "phrase"
+    },
+    {
+      "id": 454,
+      "ar": "",
+      "chat": "ma a3ref wain bayt Maryam",
+      "eng": "I don't know where's Maryam house",
+      "type": "phrase"
+    },
+    {
+      "id": 455,
+      "ar": "",
+      "chat": "sho esm bentik",
+      "eng": "What is your daughter’s name?",
+      "type": "phrase"
+    },
+    {
+      "id": 456,
+      "ar": "",
+      "chat": "esm zawjty sarah",
+      "eng": "My wife’s name is Sarah",
+      "type": "phrase"
+    },
+    {
+      "id": 457,
+      "ar": "",
+      "chat": "esm zawjy A7mad",
+      "eng": "My husband’s name is Ahmed",
+      "type": "phrase"
+    },
+    {
+      "id": 458,
+      "ar": "",
+      "chat": "a7taaj gahwa",
+      "eng": "I need coffee",
+      "type": "phrase"
+    },
+    {
+      "id": 459,
+      "ar": "",
+      "chat": "laazim ashrab gahwa",
+      "eng": "I NEED TO drink coffee",
+      "type": "phrase"
+    },
+    {
+      "id": 460,
+      "ar": "",
+      "chat": "laazim asawee ejtimaa3",
+      "eng": "i need to do a meeting",
+      "type": "phrase"
+    },
+    {
+      "id": 461,
+      "ar": "",
+      "chat": "lazim akhalles",
+      "eng": "i need to finish",
+      "type": "phrase"
+    },
+    {
+      "id": 462,
+      "ar": "",
+      "chat": "lazim tejarreb hatha elmat3am",
+      "eng": "you should try this restaurant",
+      "type": "phrase"
+    },
+    {
+      "id": 463,
+      "ar": "",
+      "chat": "lazim nesaafer elshahar elyaay",
+      "eng": "we should travel next month",
+      "type": "phrase"
+    },
+    {
+      "id": 464,
+      "ar": "",
+      "chat": "shoo ya3nee",
+      "eng": "what's the meaning of ... (also for intention)",
+      "type": "phrase"
+    },
+    {
+      "id": 465,
+      "ar": "",
+      "chat": "shoo ma3na ...",
+      "eng": "what's the meaning of ... (formal)",
+      "type": "phrase"
+    },
+    {
+      "id": 466,
+      "ar": "",
+      "chat": "shoo ya3nee hathee elkilma",
+      "eng": "what's the meaning of this word",
+      "type": "phrase"
+    },
+    {
+      "id": 467,
+      "ar": "",
+      "chat": "shoo ma3an hathee elkilma",
+      "eng": "what's the meaning of this word (formal)",
+      "type": "phrase"
+    },
+    {
+      "id": 468,
+      "ar": "",
+      "chat": "a7eb hathee elkilma",
+      "eng": "i like this word",
+      "type": "phrase"
+    },
+    {
+      "id": 469,
+      "ar": "",
+      "chat": "aba at3allam hathee el lughah",
+      "eng": "i want to learn this language",
+      "type": "phrase"
+    },
+    {
+      "id": 470,
+      "ar": "",
+      "chat": "kam lughah tetkallem",
+      "eng": "how many languages do you speak",
+      "type": "phrase"
+    },
+    {
+      "id": 471,
+      "ar": "",
+      "chat": "el lughah el3arabiya",
+      "eng": "the arabic language",
+      "type": "phrase"
+    },
+    {
+      "id": 472,
+      "ar": "",
+      "chat": "agdar atkallam 3araby",
+      "eng": "i can speak the arabic language",
+      "type": "phrase"
+    },
+    {
+      "id": 473,
+      "ar": "",
+      "chat": "ma 3endy sadeeq emarati",
+      "eng": "i don't have an Emirati friend",
+      "type": "phrase"
+    },
+    {
+      "id": 474,
+      "ar": "",
+      "chat": "el lughah el3arabiya sahla",
+      "eng": "the arabic language is easy",
+      "type": "phrase"
+    },
+    {
+      "id": 475,
+      "ar": "",
+      "chat": "enta lazim tat3allam 3araby el shahar elyaay",
+      "eng": "you should learn arabic next month",
+      "type": "phrase"
+    },
+    {
+      "id": 476,
+      "ar": "",
+      "chat": "a7aawil at3allam kilma wa7da kil youm",
+      "eng": "i'm trying to learn one word every day",
+      "type": "phrase"
+    },
+    {
+      "id": 477,
+      "ar": "",
+      "chat": "sho ya3nee hathee elkilma",
+      "eng": "what does this word mean",
+      "type": "phrase"
+    },
+    {
+      "id": 478,
+      "ar": "",
+      "chat": "a7eb sadeeqty fatma wayed",
+      "eng": "i love my friend Fatma a lot",
+      "type": "phrase"
+    },
+    {
+      "id": 479,
+      "ar": "",
+      "chat": "hathee elkilma sahla",
+      "eng": "this is an easy word",
+      "type": "phrase"
+    },
+    {
+      "id": 480,
+      "ar": "",
+      "chat": "esm sadeeqty Aisha",
+      "eng": "my friend's name is Aisha",
+      "type": "phrase"
+    },
+    {
+      "id": 481,
+      "ar": "",
+      "chat": "a7aawil ma ansa 3eed milaadek",
+      "eng": "i'm trying not to forget your birthday",
+      "type": "phrase"
     }
   ],
   "numerals": [
