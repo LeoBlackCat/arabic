@@ -7,6 +7,7 @@ const QuestionWordMatchGame = () => {
     const [feedback, setFeedback] = useState('');
     const [usedChallenges, setUsedChallenges] = useState(new Set());
     const [animationState, setAnimationState] = useState(''); // 'success', 'error', or ''
+    const [showExplanation, setShowExplanation] = useState(false);
 
     // Question word challenges based on new files
     const challenges = [
@@ -209,6 +210,7 @@ const QuestionWordMatchGame = () => {
         const randomChallenge = availableChallenges[Math.floor(Math.random() * availableChallenges.length)];
         setCurrentChallenge(randomChallenge);
         setFeedback('');
+        setShowExplanation(false);
     };
 
     // Handle answer selection
@@ -223,12 +225,9 @@ const QuestionWordMatchGame = () => {
             setAnimationState('success');
             setScore(score + 1);
             setFeedback('✅ Correct! You chose the right Arabizi question word!');
+            setShowExplanation(true);
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
-            setTimeout(() => {
-                setAnimationState('');
-                setRound(round + 1);
-                selectRandomChallenge();
-            }, 2000);
+            setTimeout(() => setAnimationState(''), 1000);
         } else {
             // Play error sound and show animation
             new Audio('./sounds/error.wav').play().catch(() => {});
@@ -238,11 +237,19 @@ const QuestionWordMatchGame = () => {
         }
     };
 
+    // Handle next button
+    const handleNext = () => {
+        setShowExplanation(false);
+        setRound(round + 1);
+        selectRandomChallenge();
+    };
+
     // Start new game
     const startNewGame = () => {
         setScore(0);
         setRound(1);
         setUsedChallenges(new Set());
+        setShowExplanation(false);
         selectRandomChallenge();
     };
 
@@ -289,11 +296,19 @@ const QuestionWordMatchGame = () => {
                         </div>
 
                         {/* Explanation */}
-                        {feedback.includes('Correct') && (
+                        {showExplanation && (
                             <div className="mt-4 p-4 bg-green-600/20 border border-green-400 rounded-lg">
                                 <div className="font-bold mb-2">💡 Explanation:</div>
                                 <div className="text-sm mb-2">{currentChallenge.explanation}</div>
-                                <div className="text-lg font-bold text-yellow-300">"{currentChallenge.question}"</div>
+                                <div className="text-lg font-bold text-yellow-300 mb-4">"{currentChallenge.question}"</div>
+                                <div className="text-center">
+                                    <button
+                                        onClick={handleNext}
+                                        className="px-6 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-bold text-lg transition-all transform hover:scale-105"
+                                    >
+                                        Next ➡️
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
