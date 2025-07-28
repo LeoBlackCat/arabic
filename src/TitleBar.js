@@ -431,6 +431,7 @@ const TitleBar = React.memo(({
                   <option value={CONTENT_TYPES.COLORS}>Colors</option>
                   <option value={CONTENT_TYPES.NOUNS}>Nouns</option>
                   <option value={CONTENT_TYPES.PHRASES}>Phrases</option>
+                  <option value={CONTENT_TYPES.QUESTION_WORDS}>Question Words</option>
                 </select>
               </DropdownErrorBoundary>
             </div>
@@ -522,6 +523,7 @@ const TitleBar = React.memo(({
                   <option value={CONTENT_TYPES.COLORS}>Colors</option>
                   <option value={CONTENT_TYPES.NOUNS}>Nouns</option>
                   <option value={CONTENT_TYPES.PHRASES}>Phrases</option>
+                  <option value={CONTENT_TYPES.QUESTION_WORDS}>Question Words</option>
                 </select>
               </DropdownErrorBoundary>
               <span id="content-selector-help-desktop" className="sr-only">
