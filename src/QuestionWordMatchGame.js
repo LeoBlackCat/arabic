@@ -222,7 +222,7 @@ const QuestionWordMatchGame = () => {
             new Audio('./sounds/success.wav').play().catch(() => {});
             setAnimationState('success');
             setScore(score + 1);
-            setFeedback('✅ Correct! You identified the question word perfectly!');
+            setFeedback('✅ Correct! You chose the right Arabizi question word!');
             setUsedChallenges(prev => new Set([...prev, currentChallenge.id]));
             setTimeout(() => {
                 setAnimationState('');
@@ -255,7 +255,7 @@ const QuestionWordMatchGame = () => {
         <div className="min-h-screen bg-gradient-to-br from-orange-900 to-yellow-900 text-white p-6">
             <div className="max-w-2xl mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-2">🔤 Question Word Match</h1>
-                <p className="text-center text-orange-200 mb-6">Identify the question word in each Arabizi phrase!</p>
+                <p className="text-center text-orange-200 mb-6">Given an English question, choose the correct Arabizi question word!</p>
 
                 {/* Stats */}
                 <div className="flex justify-between items-center mb-6 bg-white/10 backdrop-blur p-4 rounded-lg">
@@ -271,9 +271,8 @@ const QuestionWordMatchGame = () => {
                         animationState === 'error' ? 'animate-bounce bg-red-500/30' : ''
                     }`}>
                         <div className="text-center mb-6">
-                            <div className="text-3xl font-bold mb-3">{currentChallenge.question}</div>
-                            <div className="text-lg text-gray-300 mb-4">{currentChallenge.english}</div>
-                            <div className="text-sm text-orange-200">Which question word is used here?</div>
+                            <div className="text-3xl font-bold mb-3">"{currentChallenge.english}"</div>
+                            <div className="text-sm text-orange-200">Which Arabizi question word should you use?</div>
                         </div>
 
                         {/* Answer Options */}
@@ -293,7 +292,8 @@ const QuestionWordMatchGame = () => {
                         {feedback.includes('Correct') && (
                             <div className="mt-4 p-4 bg-green-600/20 border border-green-400 rounded-lg">
                                 <div className="font-bold mb-2">💡 Explanation:</div>
-                                <div className="text-sm">{currentChallenge.explanation}</div>
+                                <div className="text-sm mb-2">{currentChallenge.explanation}</div>
+                                <div className="text-lg font-bold text-yellow-300">"{currentChallenge.question}"</div>
                             </div>
                         )}
                     </div>
@@ -301,7 +301,7 @@ const QuestionWordMatchGame = () => {
 
                 {/* Feedback */}
                 <div className="bg-gray-800/50 p-4 rounded-lg mb-6 text-center min-h-[60px] flex items-center justify-center">
-                    <div className="text-lg">{feedback || 'Choose the correct question word!'}</div>
+                    <div className="text-lg">{feedback || 'Read the English question and choose the correct Arabizi question word!'}</div>
                 </div>
 
                 {/* New Game Button */}
