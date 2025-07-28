@@ -114,3 +114,113 @@ i'm off
 ana ijaza
 i have holiday
 3endy ijaza
+i'm on vacation
+ana fee ijaza
+today is a day off
+elyoum ijaza 
+tomorrow is a day off
+baacher ijaza
+i have a meeting today
+3endy ejtimaa3 elyoum
+i have a meeting with Rashid
+3endy ejtimaa3 wiya Rashid
+How old are you? (m)
+kam 3omrek?
+How old are you? (f)
+kam 3omrech?
+How many phones do you have? (m)
+kam telifoon 3endek?
+What is your phone number? (m)
+kam raqam telifoonek?
+what's your number?
+kam raqmik
+what's the number?
+kam el raqam?
+How many sons do you have? (f)
+kam walad 3endech?
+How many do you want? (m)
+kam tuba?
+how many do you want? (f)
+kam tabeen?
+How much is this?
+ibkam hadha?
+I'm 30
+3umry thalatheen
+how old is he
+kam 3umrah
+how old is she
+kam 3umrha
+how many (m) do you have
+kam 3endik
+how many (f) do you have
+kam 3endich
+Do you have children? (m)
+3endik 3yaal?
+Where is your daughter? (m)
+wain bentik
+I don’t know who your son is (m)
+ma a3ref emnoo waladik
+Is this your sister?
+hathee ekhtik?
+Yes, this is my sister
+haih hathee ekhty
+How many sons do you have?
+kam walad 3endik 
+I don’t know your wife’s name
+ma a3ref esm zawjtik
+I don't know where's Maryam house
+ma a3ref wain bayt Maryam
+What is your daughter’s name?
+sho esm bentik
+My wife’s name is Sarah
+esm zawjty sarah
+My husband’s name is Ahmed
+esm zawjy A7mad
+I need coffee
+a7taaj gahwa
+I NEED TO drink coffee
+laazim ashrab gahwa
+i need to do a meeting
+laazim asawee ejtimaa3
+i need to finish
+lazim akhalles
+you should try this restaurant
+lazim tejarreb hatha elmat3am
+we should travel next month
+lazim nesaafer elshahar elyaay
+what's the meaning of ... (also for intention)
+shoo ya3nee
+what's the meaning of ... (formal)
+shoo ma3na ...
+what's the meaning of this word
+shoo ya3nee hathee elkilma
+what's the meaning of this word (formal)
+shoo ma3an hathee elkilma
+i like this word
+a7eb hathee elkilma
+i want to learn this language
+aba at3allam hathee el lughah
+how many languages do you speak
+kam lughah tetkallem
+the arabic language
+el lughah el3arabiya
+i can speak the arabic language
+agdar atkallam 3araby
+i don't have an Emirati friend
+ma 3endy sadeeq emarati
+the arabic language is easy
+el lughah el3arabiya sahla
+you should learn arabic next month
+enta lazim tat3allam 3araby el shahar elyaay
+i'm trying to learn one word every day
+a7aawil at3allam kilma wa7da kil youm
+what does this word mean
+sho ya3nee hathee elkilma
+i love my friend Fatma a lot
+a7eb sadeeqty fatma wayed
+this is an easy word
+hathee elkilma sahla
+my friend's name is Aisha
+esm sadeeqty Aisha
+i'm trying not to forget your birthday
+a7aawil ma ansa 3eed milaadek
